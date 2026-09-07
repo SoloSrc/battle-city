@@ -60,3 +60,21 @@ A proof-of-concept game built in **Godot**, released under the
 
 - Both AI collaborators share Blender and Godot MCP servers. Godot needs one
   port per host: 6505 for Codex, 6506 for Claude.
+
+## Repository layout and branching
+
+- Remote: https://github.com/SoloSrc/battle-city (default branch `main`).
+- Each AI collaborator works in its own git worktree on its own branch, so
+  the two sessions never share a working directory:
+
+  | Collaborator | Worktree path | Branch |
+  | --- | --- | --- |
+  | human | `Workspace/battle-city` | `main` |
+  | claude-fable | `Workspace/battle-city-claude-fable` | `claude-fable` |
+  | gpt-astra | `Workspace/battle-city-gpt-astra` | `gpt-astra` |
+
+- Work flows from the collaborator branches into `main` through pull
+  requests reviewed by the director. After a merge, each collaborator
+  rebases or merges `main` into their branch before continuing.
+- Do not create additional worktrees on a branch that is already checked
+  out elsewhere; git will refuse.
