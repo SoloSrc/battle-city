@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="900" height="640" fill="#f6f4ee"/>
+  <text x="20" y="30" font-size="20" font-weight="bold" fill="#222">03 · Duel staging in the overworld</text>
+  <text x="20" y="50" fill="#555">No arena. Duelists stand where they met. Played cards float as holograms in front of each duelist.</text>
+
+  <!-- top view -->
+  <g transform="translate(40,80)">
+    <text x="0" y="0" font-weight="bold" fill="#222">Top view</text>
+    <rect x="0" y="15" width="400" height="230" fill="#c9c9c9" stroke="#333"/>
+    <!-- player -->
+    <g transform="translate(60,130)">
+      <circle r="12" fill="#4a6fb5" stroke="#333"/>
+      <polygon points="12,0 22,-5 22,5" fill="#333"/>
+    </g>
+    <text x="30" y="165" fill="#333">player</text>
+    <!-- opponent -->
+    <g transform="translate(340,130)">
+      <circle r="12" fill="#c0392b" stroke="#333"/>
+      <polygon points="-12,0 -22,-5 -22,5" fill="#333"/>
+    </g>
+    <text x="318" y="165" fill="#333">opponent</text>
+    <!-- player zones: two rows of 5 -->
+    <g fill="#8fd3ff" stroke="#2a7fb5" opacity="0.9">
+      <rect x="120" y="80" width="14" height="20" rx="2"/><rect x="120" y="104" width="14" height="20" rx="2"/><rect x="120" y="128" width="14" height="20" rx="2"/><rect x="120" y="152" width="14" height="20" rx="2"/><rect x="120" y="176" width="14" height="20" rx="2"/>
+      <rect x="98" y="80" width="14" height="20" rx="2"/><rect x="98" y="104" width="14" height="20" rx="2"/><rect x="98" y="128" width="14" height="20" rx="2"/><rect x="98" y="152" width="14" height="20" rx="2"/><rect x="98" y="176" width="14" height="20" rx="2"/>
+    </g>
+    <g fill="#ffb3a7" stroke="#b5432a" opacity="0.9">
+      <rect x="266" y="80" width="14" height="20" rx="2"/><rect x="266" y="104" width="14" height="20" rx="2"/><rect x="266" y="128" width="14" height="20" rx="2"/><rect x="266" y="152" width="14" height="20" rx="2"/><rect x="266" y="176" width="14" height="20" rx="2"/>
+      <rect x="288" y="80" width="14" height="20" rx="2"/><rect x="288" y="104" width="14" height="20" rx="2"/><rect x="288" y="128" width="14" height="20" rx="2"/><rect x="288" y="152" width="14" height="20" rx="2"/><rect x="288" y="176" width="14" height="20" rx="2"/>
+    </g>
+    <text x="92" y="72" fill="#2a7fb5" font-size="11">S/T · monsters</text>
+    <text x="260" y="72" fill="#b5432a" font-size="11">monsters · S/T</text>
+    <line x1="72" y1="215" x2="328" y2="215" stroke="#333" marker-end="url(#a)"/>
+    <text x="150" y="232" fill="#333">≈ 6–8 m between duelists</text>
+    <line x1="72" y1="60" x2="98" y2="60" stroke="#333"/>
+    <text x="60" y="52" fill="#333" font-size="11">≈ 1 m</text>
+  </g>
+
+  <!-- side/ camera view -->
+  <g transform="translate(480,80)">
+    <text x="0" y="0" font-weight="bold" fill="#222">Duel camera</text>
+    <rect x="0" y="15" width="380" height="214" fill="#dfe6d3" stroke="#333"/>
+    <!-- ground line -->
+    <rect x="0" y="150" width="380" height="79" fill="#c9c9c9"/>
+    <!-- player from behind, lower left, large -->
+    <g transform="translate(70,150)" stroke="#333">
+      <circle cx="0" cy="-104" r="16" fill="#3b2f3d"/>
+      <rect x="-22" y="-88" width="44" height="60" rx="6" fill="#4a6fb5"/>
+      <rect x="-18" y="-28" width="14" height="70" fill="#3a3f5c"/>
+      <rect x="4" y="-28" width="14" height="70" fill="#3a3f5c"/>
+      <!-- duel disk on left arm, raised -->
+      <polygon points="18,-70 70,-90 78,-78 26,-58" fill="#e6e6e6"/>
+    </g>
+    <!-- opponent, far, centre-right, small -->
+    <g transform="translate(300,150)" stroke="#333">
+      <circle cx="0" cy="-58" r="8" fill="#3b2f3d"/>
+      <rect x="-10" y="-50" width="20" height="30" rx="3" fill="#c0392b"/>
+      <rect x="-8" y="-20" width="7" height="30" fill="#3a3f5c"/>
+      <rect x="1" y="-20" width="7" height="30" fill="#3a3f5c"/>
+    </g>
+    <!-- player's floating cards -->
+    <g fill="#8fd3ff" stroke="#2a7fb5" opacity="0.85">
+      <rect x="120" y="86" width="22" height="32" rx="2" transform="rotate(-8 131 102)"/>
+      <rect x="150" y="82" width="22" height="32" rx="2" transform="rotate(-4 161 98)"/>
+      <rect x="180" y="80" width="22" height="32" rx="2"/>
+    </g>
+    <!-- opponent's floating cards -->
+    <g fill="#ffb3a7" stroke="#b5432a" opacity="0.85">
+      <rect x="252" y="70" width="12" height="18" rx="1"/>
+      <rect x="268" y="69" width="12" height="18" rx="1"/>
+    </g>
+    <!-- HUD -->
+    <rect x="8" y="22" width="90" height="18" rx="4" fill="#fff" stroke="#333"/>
+    <text x="14" y="35" font-size="11" fill="#333">LP 8000</text>
+    <rect x="282" y="22" width="90" height="18" rx="4" fill="#fff" stroke="#333"/>
+    <text x="288" y="35" font-size="11" fill="#333">LP 8000</text>
+    <!-- hand -->
+    <g fill="#fff" stroke="#333">
+      <rect x="120" y="190" width="26" height="36" rx="2" transform="rotate(-10 133 208)"/>
+      <rect x="152" y="186" width="26" height="36" rx="2" transform="rotate(-5 165 204)"/>
+      <rect x="184" y="184" width="26" height="36" rx="2"/>
+      <rect x="216" y="186" width="26" height="36" rx="2" transform="rotate(5 229 204)"/>
+      <rect x="248" y="190" width="26" height="36" rx="2" transform="rotate(10 261 208)"/>
+    </g>
+    <text x="8" y="250" fill="#555">Over-the-shoulder behind the player, low and wide.</text>
+    <text x="8" y="266" fill="#555">Opponent framed upper-right. Hand fanned at the bottom edge.</text>
+    <text x="8" y="282" fill="#555">Holographic cards: emissive edge, slight hover bob, additive glow.</text>
+    <text x="8" y="298" fill="#555">Camera cuts to a close-up on summon and on direct attacks.</text>
+  </g>
+
+  <g transform="translate(40,420)" fill="#333">
+    <text x="0" y="0" font-weight="bold" fill="#222">Transition and rules of staging</text>
+    <text x="0" y="22">1. Encounter: both characters turn to face each other; overworld camera holds.</text>
+    <text x="0" y="42">2. Stance: each raises the duel disk; the blade unfolds. Camera swings from overworld pitch down to the duel camera in ≈ 1.2 s.</text>
+    <text x="0" y="62">3. Duel: the street stays visible and lit as normal; bystanders freeze or stay out of frame. Nothing in the world changes.</text>
+    <text x="0" y="82">4. In the PoC, a played monster is its floating card, upright for attack position, turned sideways for defence, face-down when set.</text>
+    <text x="0" y="102">5. Post-PoC: 3D monster holograms rise out of the card.</text>
+    <text x="0" y="122">6. End: loser's cards dissolve, winner poses, camera swings back to overworld pitch.</text>
+    <text x="0" y="150">Reference feel: Yu-Gi-Oh! Duel Monsters anime, Battle City arc. Do not copy its characters, monsters or card art.</text>
+  </g>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8Z" fill="#333"/></marker></defs>
+</svg>

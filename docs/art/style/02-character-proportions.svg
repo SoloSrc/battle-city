@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 560" font-family="Helvetica, Arial, sans-serif" font-size="13">
+  <rect width="1060" height="560" fill="#f6f4ee"/>
+  <text x="20" y="30" font-size="20" font-weight="bold" fill="#222">02 · Character proportions and rig</text>
+  <text x="20" y="50" fill="#555">One model style for everything: overworld, dialogue, duels. Anime-styled, realistic proportions. Never chibi.</text>
+
+  <!-- head-unit ruler -->
+  <g transform="translate(60,80)">
+    <line x1="0" y1="0" x2="0" y2="420" stroke="#999"/>
+    <g fill="#777">
+      <text x="-40" y="4">7 h</text><text x="-40" y="64">6 h</text><text x="-40" y="124">5 h</text>
+      <text x="-40" y="184">4 h</text><text x="-40" y="244">3 h</text><text x="-40" y="304">2 h</text>
+      <text x="-40" y="364">1 h</text><text x="-40" y="424">0</text>
+    </g>
+    <g stroke="#bbb" stroke-dasharray="3 3">
+      <line x1="0" y1="0" x2="300" y2="0"/><line x1="0" y1="60" x2="300" y2="60"/>
+      <line x1="0" y1="120" x2="300" y2="120"/><line x1="0" y1="180" x2="300" y2="180"/>
+      <line x1="0" y1="240" x2="300" y2="240"/><line x1="0" y1="300" x2="300" y2="300"/>
+      <line x1="0" y1="360" x2="300" y2="360"/><line x1="0" y1="420" x2="300" y2="420"/>
+    </g>
+  </g>
+
+  <!-- front figure: 7 heads, 1 head = 60px -->
+  <g transform="translate(200,80)" stroke="#333" stroke-width="1.5">
+    <!-- head -->
+    <ellipse cx="0" cy="30" rx="26" ry="30" fill="#e8b48a"/>
+    <path d="M-26,22 Q-20,-4 0,-2 Q22,-4 26,22 Q14,10 0,14 Q-14,10 -26,22Z" fill="#3b2f3d"/>
+    <!-- eyes: large, anime -->
+    <ellipse cx="-10" cy="34" rx="5" ry="7" fill="#2b4a7a" stroke="none"/>
+    <ellipse cx="10" cy="34" rx="5" ry="7" fill="#2b4a7a" stroke="none"/>
+    <!-- neck -->
+    <rect x="-6" y="58" width="12" height="12" fill="#e8b48a"/>
+    <!-- torso 3 heads: 70 -> 250 -->
+    <path d="M-38,72 L38,72 L34,170 L30,250 L-30,250 L-34,170 Z" fill="#4a6fb5"/>
+    <!-- arms -->
+    <path d="M-38,74 L-52,175 L-44,250" fill="none" stroke-width="12" stroke="#e8b48a" stroke-linecap="round"/>
+    <path d="M38,74 L52,175 L44,250" fill="none" stroke-width="12" stroke="#e8b48a" stroke-linecap="round"/>
+    <!-- legs 3.3 heads: 250 -> 420 -->
+    <path d="M-28,250 L-24,420" stroke-width="20" stroke="#3a3f5c" stroke-linecap="butt"/>
+    <path d="M28,250 L24,420" stroke-width="20" stroke="#3a3f5c" stroke-linecap="butt"/>
+    <rect x="-38" y="410" width="26" height="12" rx="3" fill="#c0392b"/>
+    <rect x="12" y="410" width="26" height="12" rx="3" fill="#c0392b"/>
+  </g>
+  <g fill="#333">
+    <text x="290" y="120">head: slightly large, ~1/7 of height</text>
+    <text x="290" y="140">eyes: large, simple iris, no hard outline</text>
+    <text x="290" y="180">shoulders ≈ 1.6 heads wide</text>
+    <text x="290" y="240">waist at ≈ 4.3 h · hips at ≈ 3.8 h</text>
+    <text x="290" y="300">legs ≈ 45 % of height (slightly long)</text>
+    <text x="290" y="340">hands and feet simplified, no individual toes</text>
+  </g>
+
+  <!-- rig / customisation -->
+  <g transform="translate(560,90)">
+    <text x="0" y="0" font-weight="bold" fill="#222">Shared rig and swappable parts</text>
+    <g fill="#333">
+      <text x="0" y="24">Base body (2 body types) · humanoid rig, Godot-compatible bone names</text>
+      <text x="0" y="44">Skin tone: material parameter, not a texture per tone</text>
+      <text x="0" y="64">Swappable meshes, all skinned to the same rig:</text>
+      <text x="16" y="84">· hair (front / back split)</text>
+      <text x="16" y="104">· top · bottom · shoes</text>
+      <text x="16" y="124">· accessory slot (hat, glasses)</text>
+      <text x="16" y="144">· duel disk on the left forearm (sheet 04)</text>
+      <text x="0" y="172">Texel density: ~512 px per metre</text>
+      <text x="0" y="192">Budget: ≤ 12 k tris per dressed character</text>
+      <text x="0" y="212">Shading: cel / toon ramp (2–3 bands), thin outline, matte</text>
+      <text x="0" y="232">Faces: no nose bridge shading; small nose, mouth shapes</text>
+      <text x="0" y="252">Animations needed for the PoC:</text>
+      <text x="16" y="272">idle · walk · run · turn · talk</text>
+      <text x="16" y="292">duel-ready stance · draw card · play card</text>
+      <text x="16" y="312">take damage · win pose · lose pose</text>
+    </g>
+  </g>
+
+  <g transform="translate(60,520)" fill="#333">
+    <text x="0" y="0">Reference feel: Brilliant Diamond / Shining Pearl in-battle trainer models, and 2000s TV anime proportions. Do not copy their characters or outfits.</text>
+  </g>
+</svg>
