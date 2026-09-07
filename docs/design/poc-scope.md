@@ -25,6 +25,10 @@ A player can:
 5. Play a **complete Goat Format duel** against an AI opponent: draw,
    main phases, battle phase, end phase, life points, summons, sets, spells,
    traps, flips, chains and the win and lose conditions.
+   The duel is presented **in the world**: both duelists stand where they
+   met, wearing duel disks, and played cards appear as floating holographic
+   cards in front of each duelist, mirroring the disk's five monster and
+   five spell/trap zones. Cards use the anime card layout.
 6. Win cards and currency, buy cards at the shop, and edit a deck within
    the format's rules and banlist.
 7. Beat the final duelist and see an ending screen.
@@ -48,7 +52,11 @@ under 2005 rulings.
 - Story beyond a short framing and the three duelists.
 - Voice acting.
 - Console or mobile builds.
-- Final card art. Placeholder frames with name and text are acceptable.
+- 3D holographic monster models. In the slice a played monster is shown as
+  its floating card; monster models are a post-PoC goal.
+- Final card art. Placeholder art inside the anime card layout is
+  acceptable, as long as the layout itself is final.
+- A duel arena or table scene. Duels always take place in the overworld.
 - Localisation.
 - Save slots beyond a single autosave.
 

@@ -12,9 +12,12 @@ A Pokémon-style city adventure where every encounter is a duel of
 You arrive in a big, bright city as a new duelist. You pick a name, build
 your look, and set out to explore: streets, shops, parks and landmarks, all
 seen from the tilted top-down camera of *Pokémon Brilliant Diamond and
-Shining Pearl*. Duelists are everywhere. Catch their eye and the world fades
-into a duel table where you play a full match of Yu-Gi-Oh under **Goat
-Format**, the community-preserved April 2005 rules and card pool. Win, earn
+Shining Pearl*. Duelists are everywhere, each wearing a **duel disk** on their arm. Catch
+their eye and you both take a stance, right there in the street, the way
+duels happen in the anime's Battle City arc. Cards materialise in the air
+in front of each duelist as they are played, and you fight a full match of
+Yu-Gi-Oh under **Goat Format**, the community-preserved April 2005 rules
+and card pool. Win, earn
 cards and reputation, tune your deck, and climb toward the city's
 tournament.
 
@@ -36,9 +39,16 @@ tournament.
   at [goatformat.com](https://www.goatformat.com/). No Synchro, Xyz,
   Pendulum or Link monsters, no modern rule revisions. That makes the rules
   engine tractable and the metagame already balanced.
+- **Duels happen in the world.** No separate arena or table. Duelists stand
+  facing each other where they met, duel disks raised, with their played
+  cards floating in front of them. In the proof of concept the cards
+  themselves are the holograms; 3D monster models come later.
+- **Anime card design.** Cards use the layout seen in the 4Kids-era anime:
+  full-height art, level stars, attribute icon and ATK/DEF panels, with no
+  name box or effect text on the card face. Names and text live in the UI.
 - **One character style.** Characters are anime-styled 3D models with
-  realistic proportions everywhere: walking the streets, talking, and at the
-  duel table. There is no chibi overworld variant.
+  realistic proportions everywhere: walking the streets, talking, and
+  duelling. There is no chibi overworld variant.
 
 ## Player
 
@@ -53,7 +63,9 @@ trainer creator.
 | Overworld camera, city layout, readability | *Pokémon Brilliant Diamond / Shining Pearl*, Hearthome City |
 | Character model style (used everywhere) | *Brilliant Diamond / Shining Pearl* in-battle trainer models |
 | Card game rules, pool and banlist | Goat Format, [goatformat.com](https://www.goatformat.com/) |
-| Duel presentation | *Yu-Gi-Oh! Tag Force* and *Duel Links* table views |
+| Duel presentation | *Yu-Gi-Oh! Duel Monsters* anime, Battle City arc: standing duels with duel disks, cards and monsters projected in front of the duelists |
+| Duel disk | Battle City duel disk: deck holder, life counter, graveyard, five card zones on the blade |
+| Card face design | 4Kids-era anime card layout, not the official TCG frame |
 
 ## Platform and input
 
