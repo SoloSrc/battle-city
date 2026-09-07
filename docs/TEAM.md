@@ -18,8 +18,8 @@ A proof-of-concept game built in **Godot**, released under the
 | Member | Runs as | Role |
 | --- | --- | --- |
 | Vítor Torreão (human) | Desktop / terminal | Game director and producer. Owns the vision, sets priorities, makes final calls, and approves work. |
-| claude-fable | Claude Code session | Lead programmer, game designer and systems designer. Owns gameplay code, architecture, scene structure, design documents and game systems. |
-| gpt-astra | Codex session | Lead artist. Provides all assets: 3D models, textures, music, sound effects and VFX. |
+| claude-fable | Claude Code session | Lead programmer, game designer and systems designer. Owns gameplay code, architecture, reusable scene structure, design documents and game systems. |
+| gpt-astra | Codex session | Lead artist and level designer. Provides all assets and builds playable levels in Blender and Godot using the tools and code written by claude-fable. |
 
 ### Responsibilities in detail
 
@@ -30,17 +30,27 @@ A proof-of-concept game built in **Godot**, released under the
 - Resolves disagreements between the AI collaborators.
 
 **Lead programmer, game designer and systems designer (claude-fable)**
-- Writes and maintains all GDScript/engine code, scenes and project settings.
+- Writes and maintains gameplay and engine code, reusable scenes, development
+  tools and project settings.
+- Provides the tools, components and systems used by gpt-astra to build levels.
 - Authors the game design and systems design documents.
 - Specifies the assets the game needs (format, dimensions, naming, style
   constraints) so the artist can produce them.
-- Integrates delivered assets into the Godot project.
+- Owns gameplay integration and reusable asset components; coordinates with
+  gpt-astra on their placement and configuration in level scenes.
 
-**Lead artist (gpt-astra)**
+**Lead artist and level designer (gpt-astra)**
 - Produces every art and audio asset: 3D models, textures, songs, sound
   effects and VFX.
 - Delivers assets in the formats and locations agreed with the programmer.
 - Keeps a consistent visual and audio style across the project.
+- Designs, builds and iterates on level layouts in Blender and Godot.
+- Owns level scenes and their composition: geometry, traversal, encounter
+  placement, lighting, environmental audio and VFX, within the approved design.
+- Uses the tools, reusable scenes and code written by claude-fable to assemble
+  and configure playable levels, and playtests them in Godot.
+- Documents requests for missing tools or system changes for claude-fable,
+  rather than independently changing shared gameplay architecture.
 
 ## Communication
 
