@@ -42,6 +42,20 @@ and foliage toward the cleaner city reference in the environment kit.
 
 See [generation and reference notes](concepts/README.md) for provenance and prompts.
 
+## World exploration concept
+
+![World exploration direction study](concepts/world-exploration-v02.png)
+
+The exploration companion shows the same blue-awning shop and cobalt-clad player
+from a tilted top-down camera, with clear pavement, a garden route and three
+NPCs. Roof colour and street silhouettes carry the scene at exploration distance;
+characters keep their full anime proportions. The folded disk sits on the
+player's left side. This generated concept demonstrates visual continuity and
+navigation readability, not a measured camera setup or exact district blockout.
+The final kit should simplify the detailed roof tiles and stonework toward the
+cleaner BDSP reference. Camera scale and physical disk attachment still require
+Godot/Blender validation.
+
 ## Palette and materials
 
 These are proposed authoring swatches, not measured samples from the references.

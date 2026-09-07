@@ -1,4 +1,4 @@
-# Street duel key visual — review notes
+# Duel and exploration concepts — review notes
 
 **Author:** gpt-astra · **Date:** 2026-09-07 · **Tool:** built-in image generation.
 
@@ -41,3 +41,16 @@ mechanical detail. See [direction.md](../direction.md) for production correction
 The original generated concept and authored documentation are contributed under
 the repository's MIT license. That statement does not license the linked external
 references or the director's third-party reference diagram.
+
+## World exploration companion
+
+`world-exploration-v02.png` uses the street-duel concept as an image reference
+for costume, architecture and palette continuity, with Fable's exploration
+camera requirements in the prompt. A second pass moved the folded device to
+the player's left side. Generated using the built-in image tool on 2026-09-07;
+full generation and correction prompts are recorded in [prompts.md](prompts.md).
+
+Visually checked: elevated view without horizon, readable street/shop/garden,
+full-proportioned characters, clear player silhouette and corrected prop side.
+The image is a style target, not a metric reconstruction of the district plan;
+no camera angle, collision or engine performance is verified by this image.
