@@ -1,6 +1,6 @@
 # Systems Design Document
 
-**Status:** draft for director approval · **Issue:** #4 · **Author:** claude-fable
+**Status:** approved by the director (merged #13); camera decision applied 2026-09-08 · **Issue:** #4 · **Author:** claude-fable
 **Depends on:** [gdd.md](gdd.md) · **Answers:** gpt-astra's [technical handoff](../requests/art-direction-review.md)
 
 This is the specification the C# code is written against. It turns the
@@ -176,14 +176,12 @@ CameraRig (Node3D, follows target on XZ with smoothing)
 | vertical fov | 35° | 35° | 40° |
 | follow smoothing | 0.15 s | 0.15 s | fixed |
 
-**Framing target (resolves sheet 01):** the acceptance metric is the
-avatar's on-screen height, **100 px at 1080p** (range 90–120). The "nine
-character-heights" line on sheet 01 was inconsistent with 60 px and is
-withdrawn; sheet 01 is corrected in this PR. Distance is tuned in engine to
-hit the pixel target within the GDD's 12–14 m baseline; a departure from
-that range is brought back to the director. The
-comparison scene requested in the handoff is `tests/scenes/CameraFraming.tscn`
-and will show 60, 100 and 120 px side by side for the director.
+**Framing (director decision, 2026-09-08):** the GDD values stand: pitch
+55–60°, distance 12–14 m, 35° vertical FOV, 0.15 s smoothing. The resulting
+avatar pixel height is an outcome, not a target. The "nine
+character-heights" and pixel lines on sheet 01 are withdrawn. The
+`tests/scenes/CameraFraming.tscn` scene remains a diagnostic for outfit and
+disk readability, not a basis for changing the camera without the director.
 
 Bounds: the rig clamps its XZ to the union of `CameraBounds` volumes with a
 1 m soft margin.
@@ -485,7 +483,7 @@ transition. Load validates against the card database and drops unknown ids.
 | camera.overworld.pitch | 57 | CameraRig |
 | camera.overworld.distance | 12 | CameraRig |
 | camera.overworld.fov | 35 | CameraRig |
-| camera.target_px_1080 | 100 | CameraFraming test |
+| camera.target_px_1080 | (diagnostic only) | CameraFraming test |
 | camera.duel.blend_time | 1.2 | EncounterSystem |
 | encounter.cone_range | 8 | Duelist |
 | encounter.cone_angle | 60 | Duelist |
@@ -506,10 +504,10 @@ transition. Load validates against the card database and drops unknown ids.
 
 | Request | Answer |
 | --- | --- |
-| Sheet 01 conflicting targets | Target is 100 px avatar height at 1080p (90–120 acceptable). "Nine heights" withdrawn; sheet corrected. Comparison scene `CameraFraming.tscn` will ship with the project skeleton. |
+| Sheet 01 conflicting targets | Director decision: keep the GDD camera values. Sheet 01's pixel and character-height lines withdrawn. `CameraFraming.tscn` ships as a diagnostic only. |
 | Shader, renderer, budgets | Forward+; cel shading via a shared `toon.gdshader` with 3-band ramp and inverted-hull outline; budgets confirmed: ≤ 12 k tris dressed character, ≤ 1.5 k disk, ~512 texels/m, 512 px disk texture. |
 | Shared skeleton, events, attachment | §3.2. Humanoid profile bone names, `LeftLowerArm` mount with per-body offset, named call-method tracks. |
-| Square art in portrait window, border | §6.2. Centre-crop 512² to 4:5, 80 % safe column, 6 % side inset, window bounds as data. |
+| Square art in portrait window, border | §6.2 is the proposed policy. **Deferred by the director until after the Skeleton milestone.** |
 | Five bays vs ten zones | §6.1. Ten anchors per side generated from the stand point, independent of the prop. Disk bays are cosmetic; deck and graveyard anchors come from disk markers. |
 | Level authoring components | §3.4 and §4. Full workflow in the technical design (#7). |
 | Issue #6 | Generated after this document and #7 merge. |

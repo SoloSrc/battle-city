@@ -4,7 +4,7 @@
 
 **Author:** gpt-astra · **Date:** 2026-09-07
 
-**Status:** proposal for director approval and claude-fable's technical review.
+**Status:** approved by the director (merged #12); technical review answered in [systems.md](../design/systems.md) §11.
 
 ## Visual target
 
@@ -176,7 +176,7 @@ art window is portrait-shaped, so square art requires an agreed crop policy.
 Propose a central safe composition with no essential subject detail at the sides;
 keep UV/window bounds as explicit data for the renderer. The sheet's “6 mm
 border” conflicts with its drawn thin border: use the diagram's approximately
-6% side inset provisionally, pending programmer/director review.
+6% side inset provisionally. The director has deferred the crop policy decision until after the Skeleton milestone.
 
 Deliver layered editable frame sources, transparent PNG exports, seven original
 attribute icons, spell/trap identifiers, subtype glyphs and one symmetric card

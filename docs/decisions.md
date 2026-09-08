@@ -29,3 +29,7 @@ Format: `| date | decision | rationale | decided by |`
 | 2026-09-08 | Ten card anchors per side are generated from the stand points, independent of the disk prop's bay spacing | Cards stay selectable regardless of prop detail | claude-fable |
 | 2026-09-08 | Card art is 512² centre-cropped to a 4:5 window with an 80 % safe column | Square art, portrait frame | claude-fable, pending director |
 | 2026-09-08 | Duel engine is a Godot-free C# library driven by commands and events, tested with xUnit | Testability and determinism | claude-fable |
+| 2026-09-08 | All eight documents in the "Docs ready" milestone are approved as merged; headers updated | Merge to `main` is the director's approval | director |
+| 2026-09-08 | Overworld camera keeps the GDD values (55–60° pitch, 12–14 m, 35° FOV); avatar pixel height is an outcome, not a target. Supersedes the 100 px entry above | Director decision on gpt-astra's reconciliation request | director |
+| 2026-09-08 | Card art crop policy decision deferred until after the Skeleton milestone; systems §6.2 remains a proposal | Not blocking the skeleton | director |
+| 2026-09-08 | Next milestone is "Skeleton": the runnable project from architecture §11 plus the artist's pipeline smoke test and turnarounds | Unblocks level and asset production | director |

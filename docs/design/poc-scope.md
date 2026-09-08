@@ -1,6 +1,6 @@
 # Proof of Concept Definition
 
-**Status:** draft for director approval · **Issue:** #2 · **Author:** claude-fable
+**Status:** approved by the director (merged #9) · **Issue:** #2 · **Author:** claude-fable
 
 ## What we are proving
 

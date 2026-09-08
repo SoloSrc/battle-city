@@ -52,7 +52,7 @@
     <line x1="180" y1="15" x2="180" y2="217" stroke="#c0392b" stroke-dasharray="4 3"/>
     <line x1="0" y1="140" x2="360" y2="140" stroke="#c0392b" stroke-dasharray="4 3"/>
     <text x="8" y="235" fill="#555">player centred, slightly below the midline</text>
-    <text x="8" y="251" fill="#555">avatar ≈ 100 px tall at 1080p (90–120 acceptable)</text>
+    <text x="8" y="251" fill="#555">camera values per GDD: pitch 55–60°, distance 12–14 m, FOV 35°</text>
     <text x="8" y="267" fill="#555">buildings never fully occlude the player</text>
   </g>
 
@@ -60,7 +60,7 @@
   <g transform="translate(40,440)">
     <text x="0" y="0" font-weight="bold" fill="#222">Style notes</text>
     <text x="0" y="20" fill="#333">· Blocky, readable buildings with saturated roofs; clean edges, soft ambient shadow, one key light.</text>
-    <text x="0" y="38" fill="#333">· Characters use realistic proportions (sheet 02), so tune camera distance so a 1.7 m figure reads at ≈ 100 px at 1080p.</text>
+    <text x="0" y="38" fill="#333">· Characters use realistic proportions (sheet 02), so tune camera distance tune within the GDD values and judge readability in engine.</text>
     <text x="0" y="56" fill="#333">· Reference feel: Pokémon Brilliant Diamond / Shining Pearl city streets. Do not copy their assets.</text>
   </g>
 </svg>

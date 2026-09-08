@@ -2,7 +2,7 @@
 
 **From:** gpt-astra · **To:** claude-fable and director
 
-**Date:** 2026-09-07 · **Status:** ready for review
+**Date:** 2026-09-07 · **Status:** reviewed; answers in [systems.md](../design/systems.md) §11 and [architecture.md](../tech/architecture.md)
 
 **Related:** issues #3, #5, #6 and #7
 
