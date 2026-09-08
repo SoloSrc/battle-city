@@ -62,18 +62,21 @@ view never leaves the built district. Interiors use a tighter distance.
 
 ## 2. The city district
 
-The slice is **one district of the city**, roughly 120 × 120 m, built from
-the modular kit. It is a single Godot scene composed by the level designer.
+The slice is **one district of the city**, about 64 × 64 m, built from the
+modular kit and composed by the level designer. The layout and route are
+specified in [district-layout.md](district-layout.md); this section names
+the areas the game logic refers to.
 
 ### 2.1 Areas
 
-| Id | Name | Role | Notes |
+| Id | Working name | Role | Notes |
 | --- | --- | --- | --- |
-| `plaza` | Central Plaza | Hub, spawn point | Fountain, benches, first duelist |
-| `market` | Market Street | Shops | Card shop interior; 2 NPCs |
-| `park` | Riverside Park | Open space | Second duelist; scenic |
-| `arcade` | Old Arcade | Final duel | Third duelist under the arcade sign |
-| `edge` | District edges | Boundaries | Closed streets, "the rest of the city is under construction" NPC |
+| `arrival` | Arrival | Spawn point, orientation | Sightline to the shop |
+| `shop` | Card shop | Shop exterior and interior scene | Blue awning; only enterable door |
+| `site_a` | Shop corner | First duelist (Nico) | Key visual location |
+| `site_b` | Garden street | Second duelist (Mara) | Green backdrop |
+| `site_c` | Civic square | Final duelist (Arcade Owner) | District landmark |
+| `edge` | District edges | Boundaries | Readable façades, an NPC explains the closed streets |
 
 ### 2.2 Interactables
 
@@ -184,9 +187,9 @@ plays around set cards, whether it bluffs sets.
 
 | Id | Name | Where | Deck | Profile | Reward first win / rematch |
 | --- | --- | --- | --- | --- | --- |
-| `d1` | Nico | Plaza | Beatdown (§4.2) | aggressive, high jitter, ignores set cards | 600 / 200 coins, 1 booster |
-| `d2` | Mara | Park | Warrior Toolbox (§4.3) | balanced, medium jitter, plays around one set | 900 / 300 coins, 2 boosters |
-| `d3` | The Arcade Owner | Arcade | Goat Control (§4.4) | control, low jitter, bluffs | 1500 / 500 coins, 3 boosters, ending |
+| `d1` | Nico | Shop corner (`site_a`) | Beatdown (§4.2) | aggressive, high jitter, ignores set cards | 600 / 200 coins, 1 booster |
+| `d2` | Mara | Garden street (`site_b`) | Warrior Toolbox (§4.3) | balanced, medium jitter, plays around one set | 900 / 300 coins, 2 boosters |
+| `d3` | The Arcade Owner | Civic square (`site_c`) | Goat Control (§4.4) | control, low jitter, bluffs | 1500 / 500 coins, 3 boosters, ending |
 
 Dialogue and losses: losing a duel returns the player to the spot with a
 line from the duelist. There is no coin loss or any other penalty beyond
@@ -373,12 +376,12 @@ editor for a duel.
 
 ## 6. Progression and ending
 
-1. New Game → avatar creation → starting room → Plaza.
-2. Nico challenges the player on first entering the Plaza. This is the
-   tutorial duel: the interface explains each phase the first time it
-   appears.
-3. Beat Nico → the Park opens → Mara.
-4. Beat Mara → the Arcade opens → the Arcade Owner.
+1. New Game → avatar creation → arrival point, with the shop in view.
+2. Nico waits at the shop corner and challenges the player on approach.
+   This is the tutorial duel: the interface explains each phase the first
+   time it appears.
+3. Beat Nico → the garden street opens → Mara.
+4. Beat Mara → the civic square opens → the Arcade Owner.
 5. Beat the Arcade Owner → ending screen with the avatar, a line of text and
    the credits. The game returns to the district for free play.
 
