@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 830" role="img" aria-labelledby="title desc"><title id="title">GDD-aligned district proposal</title><desc id="desc">120 metre district. Starting room leads to Central Plaza and Nico. Market is west. Riverside Park and Mara unlock after Nico. Old Arcade and final opponent unlock after Mara.</desc><rect width="1120" height="830" fill="#f4f1e9"/><g font-family="Arial, sans-serif" fill="#263446">
+<text x="40" y="45" font-size="27">CITY DISTRICT / APPROVED GDD ALIGNMENT</text>
+<text x="40" y="76" font-size="15">120 × 120 m · Layout proposal 02 · gpt-astra · GDD baseline 35c2012</text>
+<rect x="40.0" y="120.0" width="576.0" height="576.0" fill="#dce3d5" stroke="#87958c" stroke-width="2"/>
+<rect x="78.4" y="350.4" width="153.6" height="268.8" fill="#e4d7bb" stroke="#87958c" stroke-width="2"/>
+<rect x="232.0" y="436.8" width="172.79999999999998" height="182.4" fill="#c7d4e5" stroke="#87958c" stroke-width="2"/>
+<rect x="404.8" y="312.0" width="172.79999999999998" height="307.2" fill="#b8cf9f" stroke="#87958c" stroke-width="2"/>
+<rect x="232.0" y="158.4" width="288.0" height="153.6" fill="#d2c6de" stroke="#87958c" stroke-width="2"/>
+<text x="88.0" y="374.4" font-size="13">MARKET</text>
+<text x="241.6" y="460.8" font-size="12">CENTRAL PLAZA</text>
+<text x="414.4" y="580.8" font-size="10">RIVERSIDE</text>
+<text x="414.4" y="600.0" font-size="10">PARK</text>
+<text x="241.6" y="182.4" font-size="13">OLD ARCADE</text>
+<rect x="577.6" y="312.0" width="38.4" height="307.2" fill="#8abcc9" stroke="#87958c" stroke-width="2"/>
+<text x="587.1999999999999" y="398.4" font-size="11">R</text>
+<text x="587.1999999999999" y="417.59999999999997" font-size="11">I</text>
+<text x="587.1999999999999" y="436.8" font-size="11">V</text>
+<text x="587.1999999999999" y="456.0" font-size="11">E</text>
+<text x="587.1999999999999" y="475.2" font-size="11">R</text>
+<path d="M 404.8 312 V 528 M 404.8 556.8 V 619.2 M 404.8 312 H 472 M 510.4 312 H 577.6" fill="none" stroke="#5c7257" stroke-width="5"/>
+<rect x="126.39999999999999" y="475.2" width="172.79999999999998" height="24.0" fill="#a9afb4" stroke="#87958c" stroke-width="2"/>
+<rect x="299.2" y="542.4" width="38.4" height="76.8" fill="#a9afb4" stroke="#87958c" stroke-width="2"/>
+<rect x="318.4" y="528.0" width="172.79999999999998" height="28.799999999999997" fill="#a9afb4" stroke="#87958c" stroke-width="2"/>
+<rect x="476.8" y="244.8" width="28.799999999999997" height="297.59999999999997" fill="#a9afb4" stroke="#87958c" stroke-width="2"/>
+<rect x="376.0" y="230.39999999999998" width="115.19999999999999" height="28.799999999999997" fill="#a9afb4" stroke="#87958c" stroke-width="2"/>
+<rect x="116.8" y="422.4" width="57.599999999999994" height="48.0" fill="#3565a9" stroke="#87958c" stroke-width="2"/>
+<text x="116.8" y="412.8" font-size="12">Shop</text>
+<rect x="136.0" y="470.4" width="19.2" height="4.8" fill="#f0b958" stroke="#87958c" stroke-width="2"/>
+<rect x="299.2" y="619.2" width="38.4" height="28.799999999999997" fill="#a99b8d" stroke="#87958c" stroke-width="2"/>
+<text x="246.4" y="676.8" font-size="11">Starting room / door</text>
+<rect x="280.0" y="513.5999999999999" width="76.8" height="57.599999999999994" fill="#efd59b" stroke="#ad8138" stroke-width="2"/>
+<text x="280.0" y="504.0" font-size="11">d1 / Nico</text>
+<circle cx="301.59999999999997" cy="542.4" r="4" fill="#3565a9"/>
+<circle cx="335.2" cy="542.4" r="4" fill="#c66c4c"/>
+<rect x="452.8" y="417.59999999999997" width="76.8" height="57.599999999999994" fill="#efd59b" stroke="#ad8138" stroke-width="2"/>
+<text x="452.8" y="408.0" font-size="11">d2 / Mara</text>
+<circle cx="474.4" cy="446.4" r="4" fill="#3565a9"/>
+<circle cx="508.0" cy="446.4" r="4" fill="#c66c4c"/>
+<rect x="337.59999999999997" y="216.0" width="76.8" height="57.599999999999994" fill="#efd59b" stroke="#ad8138" stroke-width="2"/>
+<text x="337.59999999999997" y="206.39999999999998" font-size="11">d3 / Owner</text>
+<circle cx="359.2" cy="244.8" r="4" fill="#3565a9"/>
+<circle cx="392.8" cy="244.8" r="4" fill="#c66c4c"/>
+<rect x="361.59999999999997" y="460.8" width="9.6" height="9.6" fill="#8abcc9" stroke="#87958c" stroke-width="2"/>
+<text x="347.2" y="446.4" font-size="10">Fountain</text>
+<circle cx="188.79999999999998" cy="456.0" r="4" fill="#755b44"/>
+<circle cx="193.6" cy="504.0" r="4" fill="#755b44"/>
+<circle cx="404.8" cy="542.4" r="12" fill="#263446"/>
+<text x="396.8" y="546.4" fill="white" font-size="10">G1</text>
+<circle cx="491.2" cy="312.0" r="12" fill="#263446"/>
+<text x="483.2" y="316.0" fill="white" font-size="10">G2</text>
+<text x="650" y="135" font-size="20">PROGRESSION</text>
+<text x="650" y="166" font-size="14">Room → Plaza: Nico tutorial</text>
+<text x="650" y="191" font-size="14">G1 opens after defeating Nico.</text>
+<text x="650" y="216" font-size="14">Park: Mara</text>
+<text x="650" y="241" font-size="14">G2 opens after defeating Mara.</text>
+<text x="650" y="266" font-size="14">Old Arcade: Arcade Owner</text>
+<text x="650" y="291" font-size="14">Ending → district free play.</text>
+<text x="650" y="345" font-size="20">AUTHORING CONTRACT</text>
+<text x="650" y="376" font-size="13">Gold pockets: 16 × 12 m, duelists 7 m apart.</text>
+<text x="650" y="401" font-size="13">NPC triggers: 8 m / 60° sight cone.</text>
+<text x="650" y="426" font-size="13">Approach path must remain unobstructed.</text>
+<text x="650" y="451" font-size="13">Defeated NPCs: manual rematches only.</text>
+<text x="650" y="476" font-size="13">Market: card shop plus two NPCs.</text>
+<text x="650" y="501" font-size="13">Deck editor: pause menu.</text>
+<text x="650" y="526" font-size="13">Dark dividers: boundaries; gates are sole access.</text>
+<text x="650" y="551" font-size="13">Edge streets closed; add construction NPC.</text>
+<text x="650" y="608" font-size="20">CAMERA / VALIDATION</text>
+<text x="650" y="640" font-size="13">Per-area bounds; tighter interior camera.</text>
+<text x="650" y="663" font-size="13">Test cones, gates, returns and full duel HUD.</text>
+<text x="650" y="686" font-size="13">Appearance concepts do not define geography.</text>
+<text x="650" y="709" font-size="13">No Godot playtest performed yet.</text>
+<path d="M 40 740 h 96 M 40 734 v 12 M 136 734 v 12" stroke="#263446" stroke-width="2"/>
+<text x="40" y="767" font-size="13">0</text>
+<text x="111" y="767" font-size="13">20 m</text>
+<text x="250" y="746" font-size="13">N ↑ / −Z       E → / +X</text>
+<text x="250" y="770" font-size="12">Ground Y = 0 · Coordinates remain proposals</text>
+</g></svg>
