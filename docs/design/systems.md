@@ -41,7 +41,7 @@ Toolchain: Godot 4.7 .NET, C# on .NET 8, Forward+ renderer.
 | `SaveSystem` | Serialise and restore `SaveData` (§9) |
 | `CardDatabase` | Loads `data/cards/*.json` into `CardDefinition` records |
 | `Collection` | Player's owned cards, deck, coins |
-| `Audio` | Buses Music, SFX, UI, Ambience; music cross-fades; SFX pooling |
+| `Audio` | Buses Music, SFX, UI, Ambience; music cross-fades; layered duel music (base plus intensity stem faded in below 2000 LP); SFX pooling |
 | `Input` (wrapper) | Maps actions, tracks last device for prompt icons |
 
 ### 2.2 Modes
@@ -129,6 +129,7 @@ and live in the `interactable` collision layer.
 | `SurfaceTag` on collision | stone, grass, wood | footstep SFX |
 | `AmbientZone` (Area3D) | music and ambience ids | `Audio` |
 | `LevelBounds` | kill or block volume | `PlayerController` |
+| `ProgressionGate` | blocker mesh plus collision, `requiredFlag` (e.g. `defeated:d1`) | `Game` flags; gate opens with a short animation when the flag is set |
 
 ---
 
@@ -171,7 +172,7 @@ CameraRig (Node3D, follows target on XZ with smoothing)
 | Parameter | Overworld | Interior | Duel |
 | --- | --- | --- | --- |
 | pitch | 57° | 50° | 12–18° (per site) |
-| distance | 11 m | 7 m | 5.5 m from player |
+| distance | 12 m (GDD baseline 12–14) | 7 m | 5.5 m from player |
 | vertical fov | 35° | 35° | 40° |
 | follow smoothing | 0.15 s | 0.15 s | fixed |
 
@@ -179,7 +180,8 @@ CameraRig (Node3D, follows target on XZ with smoothing)
 avatar's on-screen height, **100 px at 1080p** (range 90–120). The "nine
 character-heights" line on sheet 01 was inconsistent with 60 px and is
 withdrawn; sheet 01 is corrected in this PR. Distance is tuned in engine to
-hit the pixel target; the values above are the starting point. The
+hit the pixel target within the GDD's 12–14 m baseline; a departure from
+that range is brought back to the director. The
 comparison scene requested in the handoff is `tests/scenes/CameraFraming.tscn`
 and will show 60, 100 and 120 px side by side for the director.
 
@@ -481,7 +483,7 @@ transition. Load validates against the card database and drops unknown ids.
 | player.walk_speed | 2.2 | PlayerController |
 | player.run_speed | 4.5 | PlayerController |
 | camera.overworld.pitch | 57 | CameraRig |
-| camera.overworld.distance | 11 | CameraRig |
+| camera.overworld.distance | 12 | CameraRig |
 | camera.overworld.fov | 35 | CameraRig |
 | camera.target_px_1080 | 100 | CameraFraming test |
 | camera.duel.blend_time | 1.2 | EncounterSystem |
