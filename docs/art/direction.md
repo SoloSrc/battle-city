@@ -19,13 +19,11 @@ style. Use clean forms, carefully shaped hair and faces, matte materials and
 controlled cel shading. Build original characters, buildings, card artwork and
 device detailing within that visual language.
 
-Mechanics and production scope follow the director-approved [GDD](../design/gdd.md)
-(main `35c2012`). Its approval in chat supersedes its stale draft header.
+Mechanics and production scope follow the approved [GDD](../design/gdd.md).
 
 Inputs: [game pitch](../design/pitch.md), [PoC scope](../design/poc-scope.md),
 [Fable's style brief and external reference links](style-brief.md), and its five
-annotated sheets. The closed pitch/scope issues and merged documents establish
-the working scope; their document headers still say draft.
+annotated sheets. All of these are approved and establish the working scope.
 
 ## Key visual
 
