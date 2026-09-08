@@ -191,7 +191,9 @@ Bounds: the rig clamps its XZ to the union of `CameraBounds` volumes with a
 1. `Duelist` detects the player in its cone (8 m, 60°) or is interacted with.
 2. Freeze player input; exclamation; duelist walks to the nearer stand
    point of the closest `EncounterSite` (or 3.5 m from its own position if
-   no site is within 10 m, snapped to the navmesh).
+   no site is within 10 m, snapped to the navmesh). The cone is disarmed
+   for 3 s after a duel ends so a loss cannot retrigger while the player
+   is still inside it, and stays disarmed after the first victory.
 3. Player is walked to the opposite stand point by the controller.
 4. Dialogue line. Both play `duel_ready`; on `disk_deploy` the `DuelStaging`
    spawns anchors and the camera blends to the duel camera over 1.2 s.
@@ -509,4 +511,4 @@ transition. Load validates against the card database and drops unknown ids.
 | Five bays vs ten zones | §6.1. Ten anchors per side generated from the stand point, independent of the prop. Disk bays are cosmetic; deck and graveyard anchors come from disk markers. |
 | Level authoring components | §3.4 and §4. Full workflow in the technical design (#7). |
 | Issue #6 | Generated after this document and #7 merge. |
-| District size | The 64 × 64 m district and route in `district-layout.md` are adopted; the GDD area table is aligned in this PR. |
+| District | The GDD's 120 × 120 m district with areas `plaza`, `market`, `park`, `arcade`, `edge` stands; gpt-astra's revised `district-layout.md` places anchors inside it. Encounter sites carry two stand points 7 m apart plus a clearance box. |
