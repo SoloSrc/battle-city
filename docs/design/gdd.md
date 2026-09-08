@@ -189,7 +189,8 @@ plays around set cards, whether it bluffs sets.
 | `d3` | The Arcade Owner | Arcade | Goat Control (§4.4) | control, low jitter, bluffs | 1500 / 500 coins, 3 boosters, ending |
 
 Dialogue and losses: losing a duel returns the player to the spot with a
-line from the duelist and no penalty other than time. `d2` is only
+line from the duelist. There is no coin loss or any other penalty beyond
+the time spent. `d2` is only
 challengeable after beating `d1`; `d3` after beating `d2`.
 
 ---
@@ -355,7 +356,7 @@ One shop on Market Street. Two ways to get cards:
 | Item | Price | Contents |
 | --- | --- | --- |
 | Single card | 100–600 by tier and rarity | Any card in the stock table |
-| Booster "Street Pack" | 300 | 5 random cards from the subset, weighted by rarity, at most one Limited card |
+| Booster "Street Pack" | 300 | 5 random cards from the subset, weighted by rarity, at most one Limited card. Duel rewards are boosters, so progression is intentionally not deterministic |
 
 Stock: every card in the subset except Limited cards, which appear only in
 boosters or as duel rewards. The player's collection has no cap.
@@ -417,14 +418,3 @@ The systems document defines schemas. The GDD commits to these data sets:
 | `data/shop.json` | Stock and prices |
 | `data/avatar.json` | Creator options |
 | `levels/district/` | The district scene and area volumes, owned by the level designer |
-
----
-
-## 10. Open questions for the director
-
-1. Should losing to a duelist cost coins? Proposed: no, to keep the slice
-   friendly.
-2. Is a 45–90 minute slice the right length, or should there be a fourth
-   duelist?
-3. Booster packs are random. Acceptable for the slice, or should rewards be
-   fixed cards to make the progression deterministic?
