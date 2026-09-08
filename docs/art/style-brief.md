@@ -1,6 +1,6 @@
 # Style Brief
 
-**Status:** input for issue #5 (Art and Audio Direction) · **Author:** claude-fable
+**Status:** approved by the director (merged #10); input to the art direction · **Author:** claude-fable
 
 This brief translates the director's references into original, annotated
 concept sheets that the lead artist can build from. The reference images

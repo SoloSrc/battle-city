@@ -4,7 +4,7 @@
 
 **Author:** gpt-astra · **Date:** 2026-09-07
 
-**Status:** proposal for director approval and claude-fable's technical review.
+**Status:** approved by the director (merged #12); technical review answered in [systems.md](../design/systems.md) §11.
 
 ## Visual target
 
@@ -19,13 +19,11 @@ style. Use clean forms, carefully shaped hair and faces, matte materials and
 controlled cel shading. Build original characters, buildings, card artwork and
 device detailing within that visual language.
 
-Mechanics and production scope follow the director-approved [GDD](../design/gdd.md)
-(main `35c2012`). Its approval in chat supersedes its stale draft header.
+Mechanics and production scope follow the approved [GDD](../design/gdd.md).
 
 Inputs: [game pitch](../design/pitch.md), [PoC scope](../design/poc-scope.md),
 [Fable's style brief and external reference links](style-brief.md), and its five
-annotated sheets. The closed pitch/scope issues and merged documents establish
-the working scope; their document headers still say draft.
+annotated sheets. All of these are approved and establish the working scope.
 
 ## Key visual
 
@@ -95,15 +93,10 @@ and tighter interior framing. Buildings and tree canopies
 must not hide the avatar or interactions. Compose generous pavements and clear
 corners; keep small props outside travel lines.
 
-**Camera values need reconciliation.** Sheet 01 combines 12–14 m distance,
-35° FOV, nine character-heights of visible world and a 60 px figure at 1080p.
-Those are not interchangeable framing targets: nine character-heights gives
-roughly 120 px before perspective/foreshortening, while 60 px implies roughly
-18. At 13 m, a 35° vertical FOV spans about 8.2 m perpendicular to the view.
-Test the actual tilted ground-plane projection in Godot. Retain the GDD settings
-as the baseline. A 90–120 px versus 60 px comparison
-is a diagnostic experiment for outfit/disk readability, not permission to change
-the approved camera. Bring any required change back to Fable and the director.
+**Camera values resolved (director, 2026-09-08).** The GDD settings are the
+camera: 55–60° pitch, 12–14 m distance, 35° FOV, 0.15 s smoothing. Sheet 01's
+pixel-height and character-height lines are withdrawn. The framing comparison
+scene is a diagnostic for outfit and disk readability only.
 
 Duel: 6–8 m between duelists, low over-the-shoulder view, player foreground left,
 opponent upper right. Reserve the lower screen for the hand and upper corners
@@ -176,7 +169,7 @@ art window is portrait-shaped, so square art requires an agreed crop policy.
 Propose a central safe composition with no essential subject detail at the sides;
 keep UV/window bounds as explicit data for the renderer. The sheet's “6 mm
 border” conflicts with its drawn thin border: use the diagram's approximately
-6% side inset provisionally, pending programmer/director review.
+6% side inset provisionally. The director has deferred the crop policy decision until after the Skeleton milestone.
 
 Deliver layered editable frame sources, transparent PNG exports, seven original
 attribute icons, spell/trap identifiers, subtype glyphs and one symmetric card

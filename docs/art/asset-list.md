@@ -1,6 +1,6 @@
 # Asset List and Specs
 
-**Status:** draft for director approval · **Issue:** #6 · **Author:** claude-fable
+**Status:** approved by the director (merged #16) · **Issue:** #6 · **Author:** claude-fable
 **Sources:** [gdd.md](../design/gdd.md), [systems.md](../design/systems.md), [architecture.md](../tech/architecture.md), [direction.md](direction.md), [district-layout.md](../design/district-layout.md)
 
 The authoritative list of every asset the slice needs. gpt-astra delivers
