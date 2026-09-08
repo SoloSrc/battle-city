@@ -95,15 +95,10 @@ and tighter interior framing. Buildings and tree canopies
 must not hide the avatar or interactions. Compose generous pavements and clear
 corners; keep small props outside travel lines.
 
-**Camera values need reconciliation.** Sheet 01 combines 12–14 m distance,
-35° FOV, nine character-heights of visible world and a 60 px figure at 1080p.
-Those are not interchangeable framing targets: nine character-heights gives
-roughly 120 px before perspective/foreshortening, while 60 px implies roughly
-18. At 13 m, a 35° vertical FOV spans about 8.2 m perpendicular to the view.
-Test the actual tilted ground-plane projection in Godot. Retain the GDD settings
-as the baseline. A 90–120 px versus 60 px comparison
-is a diagnostic experiment for outfit/disk readability, not permission to change
-the approved camera. Bring any required change back to Fable and the director.
+**Camera values resolved (director, 2026-09-08).** The GDD settings are the
+camera: 55–60° pitch, 12–14 m distance, 35° FOV, 0.15 s smoothing. Sheet 01's
+pixel-height and character-height lines are withdrawn. The framing comparison
+scene is a diagnostic for outfit and disk readability only.
 
 Duel: 6–8 m between duelists, low over-the-shoulder view, player foreground left,
 opponent upper right. Reserve the lower screen for the hand and upper corners
