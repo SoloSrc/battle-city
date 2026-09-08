@@ -19,6 +19,9 @@ style. Use clean forms, carefully shaped hair and faces, matte materials and
 controlled cel shading. Build original characters, buildings, card artwork and
 device detailing within that visual language.
 
+Mechanics and production scope follow the director-approved [GDD](../design/gdd.md)
+(main `35c2012`). Its approval in chat supersedes its stale draft header.
+
 Inputs: [game pitch](../design/pitch.md), [PoC scope](../design/poc-scope.md),
 [Fable's style brief and external reference links](style-brief.md), and its five
 annotated sheets. The closed pitch/scope issues and merged documents establish
@@ -52,6 +55,7 @@ NPCs. Roof colour and street silhouettes carry the scene at exploration distance
 characters keep their full anime proportions. The folded disk sits on the
 player's left side. This generated concept demonstrates visual continuity and
 navigation readability, not a measured camera setup or exact district blockout.
+The scene is not the tutorial encounter location or a map of the 120 m district.
 The final kit should simplify the detailed roof tiles and stonework toward the
 cleaner BDSP reference. Camera scale and physical disk attachment still require
 Godot/Blender validation.
@@ -85,7 +89,9 @@ Use 1 engine unit = 1 metre as a proposed contract. Start with a 1.7 m character
 character and rig must survive overworld and duel close-ups.
 
 Overworld: fixed yaw, no roll, player slightly below centre; use Fable's 55–60°
-downward pitch and 35° FOV as initial experiments. Buildings and tree canopies
+downward pitch, 12–14 m distance and 0.15 s follow smoothing as the approved
+GDD starting values; 35° FOV comes from the style sheet. Include per-area bounds
+and tighter interior framing. Buildings and tree canopies
 must not hide the avatar or interactions. Compose generous pavements and clear
 corners; keep small props outside travel lines.
 
@@ -94,13 +100,16 @@ corners; keep small props outside travel lines.
 Those are not interchangeable framing targets: nine character-heights gives
 roughly 120 px before perspective/foreshortening, while 60 px implies roughly
 18. At 13 m, a 35° vertical FOV spans about 8.2 m perpendicular to the view.
-Test the actual tilted ground-plane projection in Godot. Proposed acceptance:
-start at 90–120 px character height at 1080p for outfit and disk readability;
-compare a 60 px variant with the director before locking the camera.
+Test the actual tilted ground-plane projection in Godot. Retain the GDD settings
+as the baseline. A 90–120 px versus 60 px comparison
+is a diagnostic experiment for outfit/disk readability, not permission to change
+the approved camera. Bring any required change back to Fable and the director.
 
 Duel: 6–8 m between duelists, low over-the-shoulder view, player foreground left,
 opponent upper right. Reserve the lower screen for the hand and upper corners
-for life totals. Keep character silhouettes and card rows separate. Prototype
+for life totals and the top edge for the chain stack. Also validate the phase
+bar, response/targeting modals and card inspector. Keep character silhouettes
+and card rows separate. Prototype
 the approximately 1.2 s camera transition; keep exposure and world lighting
 continuous. The district proposal reserves camera clearance at all three encounters.
 
@@ -110,7 +119,12 @@ Follow sheet 02: approximately seven heads tall, simplified anime anatomy,
 expressive eyes and no separate chibi variant. Two body types share a documented
 humanoid skeleton and compatible motion set; proportion differences must be
 tested for hand-to-disk alignment. Skin tone is a material parameter. Hair,
-tops, bottoms and shoes are replaceable meshes using the shared rig.
+tops, bottoms and shoes are replaceable meshes using the shared rig. In the
+creator these are selected as **three complete outfit sets**, not independently.
+The GDD fixes two body types, four hairstyles per body type, six skin swatches,
+eight hair colours and eight accent colours tinting outfit trim and disk. Every
+NPC is assembled from the same parts; outfit/colour coverage is production scope,
+while the first single-character export is only the pipeline smoke test.
 
 Fable's initial limits: up to 12k triangles per dressed character, approximately
 512 texels/m, and a separately budgeted disk up to 1.5k triangles with a 512 px
@@ -170,8 +184,11 @@ back. The subset can use original silhouettes as placeholder art. Validate
 frame hierarchy at hand size and enlarged inspect size; do not assume numbers
 will be readable on distant world cards.
 
-VFX set: deploy pulse, card materialisation, selection edge, play/summon flash,
-attack trail, hit pulse and end-of-duel dissolve. Keep effects short and local,
+VFX set: encounter exclamation, deploy pulse, card materialisation, selection
+edge, play/summon flash,
+attack trail, hit pulse and end-of-duel dissolve. Also provide distinct set/flip
+state transitions and chain-link feedback to match the GDD interaction flow.
+Keep effects short and local,
 with low-frequency motion and restrained flashes. Card surfaces stay readable
 against pale buildings and dark clothing. Attack/defence orientation and
 face-down state must remain distinct without relying on glow colour alone.
@@ -186,10 +203,19 @@ a 2000s TV-anime adventure without quoting an existing melody or recording.
 | Cue | Proposed structure | Purpose |
 | --- | --- | --- |
 | District | 96–108 BPM, 60–90 s seamless loop | Welcoming exploration; space for UI |
-| Shop | 80–96 BPM, 45–60 s loop, lighter arrangement | Calm deck-building and conversation |
-| Duel | 128–140 BPM, 60–90 s loop plus separate intro | Sustained tension without tiring repetition |
-| Final opponent | Variation of duel theme | Escalation through arrangement, not a new genre |
+| Shop (optional) | Lighter district arrangement | Extra proposal; not required by GDD §8 |
+| Duel | 128–140 BPM, 60–90 s loop plus aligned intensity stem | One battle theme; intensity layer when either player is below 2000 LP |
+| Final opponent variation (optional) | Reuse the battle theme | Extra proposal; does not replace the required low-LP layer |
 | Win / loss | 3–5 s / 2–4 s one-shots | Clear resolution; loss subdued rather than punitive |
+| Ending | One short original theme | Avatar, ending line and credits, followed by return to district |
+
+Required GDD coverage: district ambience and footsteps on **stone and grass**;
+draw, summon, set, flip, attack, damage, LP tick, chain link, win and lose;
+UI move, confirm, cancel, error and purchase. Track these individually in issue #6.
+The district's melodic score remains an arrangement proposal alongside its
+required ambient loop. Export base battle music and the intensity stem with
+identical duration, tempo and loop boundaries. Fable controls activation below
+2000 LP and mixing on recovery; test boundary changes without restart or clicks.
 
 SFX: dry card flicks and slides; mechanical hinge/catch for deployment; brief
 pitched electronic shimmer for holograms; short layered impacts for damage;
@@ -209,13 +235,15 @@ This package specifies audio; it does not yet contain composed music or SFX.
 
 Proposed exports: `.blend` sources and `.glb` runtime meshes/animations, PNG
 textures, editable vector/layered UI sources, and the audio formats above.
-Agree orientation, naming and scene paths with architecture issue #7 before
+The district and its area volumes live in `levels/district/` per GDD §9.
+Agree orientation, naming and remaining scene paths with architecture issue #7 before
 bulk export. Validate a 1 m cube, one character and one disk in Godot first.
 Keep import metadata and asset provenance with each delivery.
 
 Next production order: approve direction and key visual; character turnaround;
 disk orthographic sheet and mechanical blockout; card frames/glyphs; then the
-district greybox using claude-fable's reusable components. Issue #6 remains
+120 m district greybox with Plaza, Market, Riverside Park, Old Arcade, starting
+room and shop using claude-fable's reusable components. Issue #6 remains
 claude-fable's authoritative asset list; this document supplies inputs to it.
 
 Director review: visual match, character proportions, disk sweep and district

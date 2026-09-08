@@ -54,3 +54,12 @@ Visually checked: elevated view without horizon, readable street/shop/garden,
 full-proportioned characters, clear player silhouette and corrected prop side.
 The image is a style target, not a metric reconstruction of the district plan;
 no camera angle, collision or engine performance is verified by this image.
+
+## Approved GDD alignment
+
+Both concepts are visual studies, not maps or progression specifications. The
+approved district is approximately 120 × 120 m with Central Plaza, Market Street,
+Riverside Park and Old Arcade. Nico's tutorial occurs in the Plaza, not at the
+illustrated shop corner. Use [the updated district plan](../../design/district-layout.md)
+for geography, starting room, unlocks and encounter placement. Image-generation
+prompts below remain a historical record of the visual process.

@@ -1,96 +1,131 @@
 # City District — Level Proposal
 
-**Author:** gpt-astra · **Date:** 2026-09-07
+**Author:** gpt-astra · **Updated:** 2026-09-07
 
-**Status:** design proposal; no Godot scene or gameplay integration yet.
+**Status:** aligned to the director-approved [GDD](gdd.md), main commit `35c2012`;
+spatial dimensions below are blockout proposals, not engine-tested placements.
+The GDD's draft header is stale relative to the director's approval in chat.
 
-**Scope:** one district, one shop interior, three duelist encounters.
+## Scope and route
 
-## Layout and route
-
-Use a compact 64 × 64 m district with an obvious main street and a short loop
-back to the shop. The proposed sequence is arrival → shop → first duelist →
-garden street → second duelist → landmark square → final duelist. The player
-can see the landmark early; Fable determines progression conditions in the GDD.
-Names below are working labels, not final narrative names.
+Build one roughly **120 × 120 m** district as one Godot scene under
+`levels/district/`, with per-area camera bounds. Include a starting room and
+card-shop interior. The approved sequence is avatar creation → starting room →
+Central Plaza / Nico → Riverside Park / Mara → Old Arcade / Arcade Owner →
+ending with avatar and credits → district free play. Market Street supplies the
+shop and two NPCs; it is not a mandatory stop before the tutorial duel.
 
 ![District blockout plan](district-layout.svg)
 
-Plan coordinates: X increases east; Z increases south; ground Y = 0. These are
-layout data for review, not a new level-loading schema.
+X increases east; Z increases south; ground Y = 0. One unit = one metre.
+The plan uses the GDD area IDs. Coordinates are proposed authoring data, not
+an alternative schema. Duel pocket dimensions remain 16 × 12 m; increasing
+the district size does not scale characters, doors or duel spacing.
 
-| Place | Centre X,Z (m) | Reserved footprint | Function |
-| --- | --- | --- | --- |
-| Arrival | 32,58 | 8 × 8 m | Start, movement orientation, shop sightline |
-| Shop exterior | 18,46 | 12 × 10 m | Blue awning, south-facing entrance at 18,51 |
-| Encounter A | 38,46 | 16 × 12 m | First duel by the shop corner; key visual location |
-| Encounter B | 46,27 | 16 × 12 m | Garden street with different backdrop |
-| Encounter C | 32,10 | 16 × 12 m | Final duel in a civic square |
-| Shop interior | Separate scene | 10 × 8 m | Counter, browsing area and deck-edit interaction |
+| Area ID | Bounds X / Z (m) | Contents |
+| --- | --- | --- |
+| `plaza` | 40–76 / 66–104 | Spawn, fountain, benches, Nico (`d1`) |
+| `market` | 8–40 / 48–104 | Blue-awning card shop, two NPCs, shop access from Plaza |
+| `park` | 76–112 / 40–104 | Riverside path, Mara (`d2`), low planting and river boundary |
+| `arcade` | 40–100 / 8–40 | Old Arcade façade/sign, Arcade Owner (`d3`) outside |
+| `edge` | Outer boundary | Closed streets and construction-message NPC |
 
-Main route occupies X=26–38 from Z=4–60, widening around encounter A and the
-square. An east loop runs near X=46 from Z=10–46, joining the main route at both
-ends. Keep the shop approach along Z≈54 open. Encounters are ordinary parts of
-the street with invisible staging reservations, not visibly painted arenas.
+| Anchor | X,Z (m) | Requirement |
+| --- | --- | --- |
+| Starting-room exterior door | 58,104 | Leads into the Plaza; room size proposed 8 × 6 m |
+| Plaza spawn | 58,98 | Safe arrival after room exit |
+| Nico duel centre | 58,88 | 16 × 12 m clear street reservation |
+| Fountain | 68,72 | Outside Nico's reserved camera/card space |
+| Shop exterior centre | 22,68 | 12 × 10 m footprint; south door at 22,73 |
+| Mara duel centre | 94,68 | 16 × 12 m reservation on the inland side of the river |
+| Arcade Owner duel centre | 70,26 | 16 × 12 m reservation beneath the arcade sign |
+| Plaza → Park connection | 76,88 | Opens after Nico's first defeat |
+| Park → Arcade connection | 94,40 | Opens after Mara's first defeat |
 
-Place façades mainly west of the spine and on the outer east boundary. Low
-planters define the garden. Keep trees out of the duel camera's rear volume;
-use architecture and roof colour for landmarks without crowding traversal.
-Only the card shop is enterable. Other doors should not suggest missing gameplay.
+Keep the west route from Plaza to Market open. Park access has one controlled
+connection from the Plaza; the Arcade has one from the Park. Use continuous
+hedges, façades and closed street boundaries elsewhere so a scenic shortcut
+cannot bypass either progression gate. Return through opened connections to
+reach the shop. No arcade interior or extra explorable area is implied.
 
-## Encounter staging
+The existing exploration and street-duel concepts remain **appearance studies**.
+They do not define the whole district, the tutorial's location or progression.
+The old 64 m plan, shop-first sequence and civic-square finale are superseded.
 
-For each encounter, test an east-west duel axis with positions 7 m apart.
-Proposed positions are (centre X − 3.5, centre Z) and (centre X + 3.5, centre Z).
-Reserve at least 3 m behind each participant for the camera and 4 m of lateral
-card-field clearance. The 16 × 12 m reservation includes those volumes, but the
-camera sweep must be tested rather than inferred from a top-down drawing.
+## Encounters, approach and camera space
 
-Fable provides encounter triggers and facing/positioning behaviour. I place
-encounter markers, geometry and camera-clearance volumes using those tools.
-If meeting positions are invalid, the implementation should resolve to nearby
-valid street positions under the agreed encounter rules; no teleport to a
-separate duel arena. Return the player safely to exploration afterward.
+Nico uses Beatdown, Mara uses Warrior Toolbox and the Arcade Owner uses Goat
+Control. Their rewards, dialogue and AI remain defined by GDD §3.6. No changes
+to those systems are proposed here.
 
-Each location teaches a spatial idea without inventing new card mechanics:
-A is a broad, easily readable shop corner; B has a green backdrop and constrained
-approach but a clear duel pocket; C opens toward the district landmark. Decks,
-difficulty, rewards and unlock conditions remain with Fable's GDD and systems.
+Author an **8 m, 60° line-of-sight cone** for each undefeated, unlocked duelist.
+Provide unobstructed approach space for exclamation → walk to player → dialogue
+→ duel. The player can also interact to challenge. Locked duelists cannot be
+challenged. After first victory disable automatic triggers, retain manual
+rematches and use the GDD's smaller rewards. A loss returns the player to the
+encounter spot without coin loss; verify it does not instantly retrigger while
+the player is still in the cone. Trigger rearming belongs to Fable's systems.
 
-## Shop and navigation
+For Nico, initially place the NPC near (58,91), looking south along the entry
+route toward spawn (58,98), inside the 8 m range. Fable's arrival flow must
+ensure the first Plaza entry reliably starts the tutorial after scene arrival.
+Keep benches and fountain out of that cone and approach. For Mara and the Arcade
+Owner, orient cones toward their unlocked approach paths; test the cone edges,
+occlusion and approach endpoints in the greybox.
 
-Use a 2 m doorway, at least 2 m clear aisles and an uncluttered entry landing.
-Keep the counter visible from entry. Reserve separate interaction positions
-for shopkeeper and deck editing; labels and input prompts come from shared UI.
-The roof/front-wall treatment must preserve visibility with the chosen camera.
-The exit returns to a safe point outside the same shop entrance, facing the street.
+Use an east-west duel axis as the first staging experiment, with duelists
+7 m apart. Reserve 3 m behind both duelists and lateral room for two rows of
+five card zones per side. The 16 × 12 m pocket is an invisible clearance volume,
+not a painted arena. Dynamic meeting positions and NPC approach can change
+staging; validate the entire supported footprint with Fable's encounter tools,
+not just the central pose. Stay in the overworld and use nearby valid street
+positions under the agreed encounter implementation.
 
-Allow a 2 m minimum unobstructed walking route around props, with wider space at
-corners and NPCs. Use simple collision silhouettes for kerbs and planting rather
-than detailed decorative collision. No required jumps, stairs or platforming.
-Dead-end views terminate in a readable façade or boundary, not an invisible wall
-across an otherwise inviting street. Shortcuts should make revisiting the shop
-easy; no additional district or interior is implied by the plan.
+Overworld camera: fixed yaw, 55–60° pitch, 12–14 m distance and 0.15 s smoothing,
+with bounds for each area. Interiors use a tighter distance. Compare framing
+in engine before proposing any departure from these approved starting values.
+For duel transitions, test both characters, all card zones, bottom hand UI,
+top-edge chain stack, life counters, phase bar and modal/inspector overlays.
 
-## Build sequence and acceptance
+## Interiors and navigation
 
-1. Place a metric greybox, the shop shell, three encounter reservations and a
-   placeholder 1.7 m avatar using Fable's project and movement components.
-2. Test the entire route and shop entry/exit with keyboard and gamepad. Inspect
-   all corners for collision snags and avatar occlusion.
-3. Test overworld-to-duel camera transitions at A/B/C with the full card field,
-   hand UI and both characters. Check extreme cards and both camera endpoints.
-4. Replace blocks with one modular wall/roof/window/door kit, then add lighting,
-   low planting, signs, sound emitters and encounter-specific dressing.
-5. Run one complete progression path and a return-to-shop path after each duel;
-   record the director's readability feedback before adding decorative density.
+The starting room establishes the New Game arrival before the Plaza. A bed may
+be decorative/interactable as Fable specifies, but adds no heal or save mechanic;
+life resets per duel. Keep its exit obvious. The shop interior is proposed at
+10 × 8 m, with a visible counter opening the card-shop UI. Deck editing is
+available through the **pause menu**, not a dedicated physical station.
 
-Acceptance: all three encounters fit without walls, trees or UI obscuring
-required cards; avatar remains visible along every required path; shop entry
-and return work; no extra mechanics are needed to traverse the district. Confirm
-frame-time and memory budgets with Fable's profiling scene before expanding art.
+Use roughly 2 m doorways and at least 2 m clear aisles. Fade between exterior
+and interior and return to the same door at a safe landing. Check tighter
+interior camera framing and roof/front-wall visibility. Market's two NPCs and
+its counter must not block the door. Place the district-edge NPC on a visible
+closed street outside required traversal.
 
-No in-engine checks have been performed for this proposal. Blocking dependencies
-are the runnable Godot project, movement/collision, encounter markers, camera
-rig, card-field renderer and interior transition components. These are listed
-in the [handoff](../requests/art-direction-review.md).
+Walk speed is 2.2 m/s, run speed 4.5 m/s, and the player capsule is radius 0.35 m,
+height 1.7 m. Test actual travel time and collision with those GDD values.
+Keep all required routes at least 2 m clear, widen turns and encounters, and
+use simple kerb/planting collision. No jumping or platforming is required.
+Use stone and grass for the required footstep surfaces; assign other surface
+variants only if the final kit uses them. River edges need readable physical
+boundaries and must not create an accidental route around the Park gate.
+
+## Build and acceptance
+
+1. Greybox the 120 m district with five area IDs, both interior transitions,
+   camera-bound volumes, three encounter reservations and two progression gates.
+2. Test New Game → room → Plaza tutorial, including Nico's cone and approach.
+   Verify Park and Arcade cannot be accessed/challenged before their unlocks.
+3. Walk/run required routes using keyboard and gamepad; inspect occlusion,
+   doorway return positions and camera bounds, including every district edge.
+4. Test cone limits, obstructed sightlines, manual challenges, losses and rematches.
+   Verify post-victory auto-trigger suppression and safe return from each duel.
+5. Test complete card fields and HUD through every camera transition. Then add
+   modular façades, fountain, benches, river/planting, arcade sign and audio.
+6. Complete Nico → Mara → Arcade Owner → ending → free play; revisit the shop
+   after each unlock. Confirm autosave/restore positions across area changes
+   through Fable's save system. Validate profiling budgets before dense dressing.
+
+No in-engine validation has been performed. Movement, triggers/approach,
+progression gates, camera bounds, card-field/HUD, room/shop transitions and
+save/return behaviour depend on Fable's reusable tools. See the
+[technical handoff](../requests/art-direction-review.md).
