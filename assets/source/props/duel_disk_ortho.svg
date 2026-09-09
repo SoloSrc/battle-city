@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="1920" viewBox="0 0 1300 1600" font-family="Arial, sans-serif">
+<rect width="1300" height="1600" fill="#f6f4ee"/>
+<defs><g id="blade">
+<path d="M-85,60 L-85,-5 L-25,-5 L-25,60 Z" fill="#e8edf0" stroke="#293344" stroke-width="3"/>
+<path d="M-300,0 L-230,0 L-100,45 L40,40 L180,0 L360,-80 L480,-100 L480,30 L380,90 L200,150 L40,185 L-100,185 L-270,115 Z" fill="#e8edf0" stroke="#293344" stroke-width="3"/>
+<g transform="translate(-190 90) rotate(18)">
+<rect x="-53" y="-45" width="106" height="90" fill="#293344" stroke="#293344" stroke-width="2" />
+<rect x="-48" y="-40" width="96" height="80" fill="#c6d4df" stroke="#293344" stroke-width="2" />
+<text x="-6" y="7" font-size="22" fill="#293344">1</text>
+<rect x="-32" y="48" width="64" height="5" fill="#3565a9" stroke="#293344" stroke-width="2" />
+</g>
+<g transform="translate(-65 110) rotate(4)">
+<rect x="-53" y="-45" width="106" height="90" fill="#293344" stroke="#293344" stroke-width="2" />
+<rect x="-48" y="-40" width="96" height="80" fill="#c6d4df" stroke="#293344" stroke-width="2" />
+<text x="-6" y="7" font-size="22" fill="#293344">2</text>
+<rect x="-32" y="48" width="64" height="5" fill="#3565a9" stroke="#293344" stroke-width="2" />
+</g>
+<g transform="translate(70 100) rotate(-12)">
+<rect x="-53" y="-45" width="106" height="90" fill="#293344" stroke="#293344" stroke-width="2" />
+<rect x="-48" y="-40" width="96" height="80" fill="#c6d4df" stroke="#293344" stroke-width="2" />
+<text x="-6" y="7" font-size="22" fill="#293344">3</text>
+<rect x="-32" y="48" width="64" height="5" fill="#3565a9" stroke="#293344" stroke-width="2" />
+</g>
+<g transform="translate(205 55) rotate(-20)">
+<rect x="-53" y="-45" width="106" height="90" fill="#293344" stroke="#293344" stroke-width="2" />
+<rect x="-48" y="-40" width="96" height="80" fill="#c6d4df" stroke="#293344" stroke-width="2" />
+<text x="-6" y="7" font-size="22" fill="#293344">4</text>
+<rect x="-32" y="48" width="64" height="5" fill="#3565a9" stroke="#293344" stroke-width="2" />
+</g>
+<g transform="translate(345 5) rotate(-20)">
+<rect x="-53" y="-45" width="106" height="90" fill="#293344" stroke="#293344" stroke-width="2" />
+<rect x="-48" y="-40" width="96" height="80" fill="#c6d4df" stroke="#293344" stroke-width="2" />
+<text x="-6" y="7" font-size="22" fill="#293344">5</text>
+<rect x="-32" y="48" width="64" height="5" fill="#3565a9" stroke="#293344" stroke-width="2" />
+</g>
+<path d="M-281,8 L-259,90 L-243,100 L-264,10 Z M441,-80 L461,-85 L459,21 L440,30 Z" fill="#3565a9"/>
+</g><g id="hub">
+<circle cx="-55" cy="-115" r="110" fill="#aebbc6" stroke="#293344" stroke-width="3"/><circle cx="-55" cy="-115" r="88" fill="#e8edf0" stroke="#293344" stroke-width="2"/>
+<rect x="-213" y="-170" width="75" height="112" fill="#e8edf0" stroke="#293344" stroke-width="2" />
+<rect x="-206" y="-160" width="61" height="85" fill="#293344" stroke="#293344" stroke-width="2" />
+<rect x="28" y="-170" width="75" height="112" fill="#e8edf0" stroke="#293344" stroke-width="2" />
+<rect x="35" y="-160" width="61" height="85" fill="#293344" stroke="#293344" stroke-width="2" />
+<rect x="-102" y="-165" width="94" height="36" fill="#293344" stroke="#293344" stroke-width="2" />
+<text x="-92" y="-139" font-size="25" fill="#b5ecf5">8000</text>
+<rect x="-61" y="-99" width="12" height="51" fill="#3565a9" stroke="#293344" stroke-width="2" />
+<circle cx="-55" cy="0" r="13" fill="#3565a9" stroke="#293344" stroke-width="2"/></g></defs>
+<text x="45" y="50" font-size="29" fill="#293344">DUEL DISK / ORTHOGRAPHIC DESIGN</text>
+<text x="45" y="82" font-size="16" fill="#293344">SOLOSRC · ISSUE 29 · REVIEW 01 · Dimensions proposed in millimetres</text>
+<text x="45" y="126" font-size="21" fill="#293344">01  TOP — DEPLOYED</text>
+<g transform="translate(525 470) scale(1.05)"><use href="#blade"/><use href="#hub"/>
+<line x1="-300" y1="-255" x2="480" y2="-255" stroke="#748797" />
+<line x1="-300" y1="-267" x2="-300" y2="-240" stroke="#748797" />
+<line x1="480" y1="-267" x2="480" y2="-240" stroke="#748797" />
+<text x="30" y="-267" font-size="17" fill="#293344">780 overall</text>
+<line x1="-165" y1="-233" x2="55" y2="-233" stroke="#748797" />
+<text x="-118" y="-239" font-size="14" fill="#293344">220 hub</text>
+<text x="-240" y="-190" font-size="14" fill="#293344">DECK</text>
+<text x="27" y="-190" font-size="14" fill="#293344">GRAVEYARD</text>
+<text x="-105" y="-180" font-size="14" fill="#293344">COUNTER</text>
+<line x1="-55" y1="0" x2="-55" y2="36" stroke="#748797" />
+<text x="-91" y="55" font-size="12" fill="#293344">HINGE</text>
+</g>
+<text x="45" y="684" font-size="16" fill="#293344">Five numbered top bays. Recesses and projector strips move with one rigid blade.</text>
+<line x1="45" y1="708" x2="1255" y2="708" stroke="#748797" />
+<text x="45" y="745" font-size="21" fill="#293344">02  FRONT ELEVATION — LOOKING ALONG +Y</text>
+<g transform="translate(525 875) scale(1)">
+<rect x="-300" y="-25" width="780" height="25" fill="#aebbc6" stroke="#293344" stroke-width="2" />
+<rect x="-165" y="-78" width="220" height="53" fill="#e8edf0" stroke="#293344" stroke-width="2" />
+<rect x="-102" y="-98" width="94" height="20" fill="#293344" stroke="#293344" stroke-width="2" />
+<rect x="-213" y="-70" width="75" height="45" fill="#e8edf0" stroke="#293344" stroke-width="2" />
+<rect x="28" y="-70" width="75" height="45" fill="#e8edf0" stroke="#293344" stroke-width="2" />
+<rect x="-157" y="0" width="204" height="48" fill="#293344" stroke="#293344" stroke-width="2" />
+<line x1="493" y1="-25" x2="493" y2="0" stroke="#748797" />
+<text x="502" y="-6" font-size="14" fill="#293344">25</text>
+</g>
+<line x1="45" y1="930" x2="1255" y2="930" stroke="#748797" />
+<text x="45" y="970" font-size="19" fill="#293344">03  SIDE — LOOKING ALONG +X</text>
+<g transform="translate(340 1120) scale(1.05)">
+<rect x="-185" y="-25" width="285" height="25" fill="#aebbc6" stroke="#293344" stroke-width="2" />
+<rect x="5" y="-78" width="220" height="53" fill="#e8edf0" stroke="#293344" stroke-width="2" />
+<rect x="58" y="-98" width="94" height="20" fill="#293344" stroke="#293344" stroke-width="2" />
+<rect x="55" y="0" width="30" height="48" fill="#293344" stroke="#293344" stroke-width="2" />
+<rect x="150" y="0" width="30" height="48" fill="#293344" stroke="#293344" stroke-width="2" />
+</g>
+<text x="785" y="970" font-size="19" fill="#293344">04  UNDERSIDE MOUNT</text>
+<g transform="translate(1050 1085)"><circle cx="0" cy="0" r="110" fill="#aebbc6" stroke="#293344" stroke-width="3"/>
+<rect x="-102" y="-67" width="204" height="32" fill="#293344" stroke="#293344" stroke-width="2" />
+<rect x="-102" y="35" width="204" height="32" fill="#293344" stroke="#293344" stroke-width="2" />
+<line x1="0" y1="-125" x2="0" y2="125" stroke="#748797" stroke-dasharray="5 5"/>
+</g>
+<text x="842" y="1220" font-size="15" fill="#293344">Two straps · forearm axis dashed</text>
+<line x1="45" y1="1245" x2="1255" y2="1245" stroke="#748797" />
+<text x="45" y="1283" font-size="19" fill="#293344">05  TOP — FOLDED / SAME BLADE, 90° SWIVEL</text>
+<g transform="translate(360 1460) scale(.30)"><g transform="translate(-55 0) rotate(-90) translate(55 0)"><use href="#blade"/></g><use href="#hub"/></g>
+<text x="670" y="1338" font-size="18" fill="#293344">MODELLING DATUMS</text>
+<text x="670" y="1370" font-size="15" fill="#293344">Hub centre: (-55, -115); pivot: (-55, 0).</text>
+<text x="670" y="1397" font-size="15" fill="#293344">Blade top: Z = 0; underside: Z = -25.</text>
+<text x="670" y="1424" font-size="15" fill="#293344">Top views share the exact same vector geometry.</text>
+<text x="670" y="1451" font-size="15" fill="#293344">Mount on anatomical LEFT forearm; +Y toward hand.</text>
+<text x="670" y="1478" font-size="15" fill="#293344">Confirm walking / wrist clearance on the shared rig.</text>
+<text x="670" y="1505" font-size="15" fill="#293344">Folded means swivel, not telescoping or shrinking.</text>
+<text x="45" y="1570" font-size="14" fill="#293344">Editable source: duel_disk_ortho.svg · Colour: ivory / graphite / tintable cobalt · Reference drawing, not runtime geometry</text>
+</svg>
