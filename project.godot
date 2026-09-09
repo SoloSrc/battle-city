@@ -87,10 +87,11 @@ run_toggle={
 [layer_names]
 
 3d_physics/layer_1="world"
-3d_physics/layer_2="player"
-3d_physics/layer_3="npc"
-3d_physics/layer_4="interactable"
+3d_physics/layer_2="character"
+3d_physics/layer_3="interactable"
+3d_physics/layer_4="trigger"
 3d_physics/layer_5="card"
+3d_physics/layer_6="camera_blocker"
 
 [rendering]
 
