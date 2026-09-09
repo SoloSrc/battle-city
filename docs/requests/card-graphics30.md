@@ -47,4 +47,3 @@ card layout; no image-generation model was used.
 
 Director review: frame simplicity/palette, icon look and back design. Keep #30
 open pending director approval and the actual hologram integration check.
-
