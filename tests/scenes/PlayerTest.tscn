@@ -1,0 +1,163 @@
+[gd_scene load_steps=16 format=3 uid="uid://c0playertest0001"]
+
+[ext_resource type="Script" path="res://src/Diagnostics/PlayerTestScene.cs" id="1_test"]
+[ext_resource type="PackedScene" path="res://scenes/characters/Player.tscn" id="2_player"]
+[ext_resource type="Shader" path="res://shaders/debug_grid.gdshader" id="3_grid"]
+[ext_resource type="Script" path="res://src/Diagnostics/TestInteractable.cs" id="4_interactable"]
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0.38, 0.55, 0.85, 1)
+sky_horizon_color = Color(0.72, 0.78, 0.86, 1)
+ground_bottom_color = Color(0.2, 0.2, 0.22, 1)
+ground_horizon_color = Color(0.72, 0.78, 0.86, 1)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.6
+tonemap_mode = 2
+
+[sub_resource type="ShaderMaterial" id="grid_mat"]
+shader = ExtResource("3_grid")
+
+[sub_resource type="PlaneMesh" id="grid_mesh"]
+material = SubResource("grid_mat")
+size = Vector2(60, 60)
+
+[sub_resource type="BoxShape3D" id="ground_shape"]
+size = Vector3(60, 0.2, 60)
+
+[sub_resource type="StandardMaterial3D" id="block_mat"]
+albedo_color = Color(0.6, 0.62, 0.66, 1)
+roughness = 0.9
+
+[sub_resource type="BoxMesh" id="kerb_mesh"]
+material = SubResource("block_mat")
+size = Vector3(6, 0.15, 3)
+
+[sub_resource type="BoxShape3D" id="kerb_shape"]
+size = Vector3(6, 0.15, 3)
+
+[sub_resource type="BoxMesh" id="step_mesh"]
+material = SubResource("block_mat")
+size = Vector3(6, 0.45, 3)
+
+[sub_resource type="BoxShape3D" id="step_shape"]
+size = Vector3(6, 0.45, 3)
+
+[sub_resource type="BoxMesh" id="ramp_mesh"]
+material = SubResource("block_mat")
+size = Vector3(6, 0.2, 2)
+
+[sub_resource type="BoxShape3D" id="ramp_shape"]
+size = Vector3(6, 0.2, 2)
+
+[sub_resource type="BoxMesh" id="top_mesh"]
+material = SubResource("block_mat")
+size = Vector3(6, 0.2, 6)
+
+[sub_resource type="BoxShape3D" id="top_shape"]
+size = Vector3(6, 0.2, 6)
+
+[sub_resource type="BoxShape3D" id="interact_shape"]
+size = Vector3(2, 2, 3)
+
+[sub_resource type="BoxMesh" id="interact_mesh"]
+size = Vector3(0.6, 1.2, 0.3)
+
+[node name="PlayerTest" type="Node3D" node_paths=PackedStringArray("Player", "Controller", "Interactable", "Camera", "ReportLabel")]
+script = ExtResource("1_test")
+Player = NodePath("Player")
+Controller = NodePath("Player/Controller")
+Interactable = NodePath("Course/Sign")
+Camera = NodePath("Camera3D")
+ReportLabel = NodePath("Hud/Report")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.321394, 0.383022, 0, 0.766044, 0.642788, -0.5, -0.55667, 0.663414, 0, 8, 0)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.544639, 0.838671, 0, -0.838671, 0.544639, 0, 10.9, 15.08)
+fov = 35.0
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="Grid" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("grid_mesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("ground_shape")
+
+[node name="Course" type="Node3D" parent="."]
+
+[node name="Kerb" type="StaticBody3D" parent="Course"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.075, 3.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Course/Kerb"]
+mesh = SubResource("kerb_mesh")
+
+[node name="Shape" type="CollisionShape3D" parent="Course/Kerb"]
+shape = SubResource("kerb_shape")
+
+[node name="Step" type="StaticBody3D" parent="Course"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.225, 0.5)
+
+[node name="Mesh" type="MeshInstance3D" parent="Course/Step"]
+mesh = SubResource("step_mesh")
+
+[node name="Shape" type="CollisionShape3D" parent="Course/Step"]
+shape = SubResource("step_shape")
+
+[node name="Ramp" type="StaticBody3D" parent="Course"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0.87, -1.866)
+
+[node name="Mesh" type="MeshInstance3D" parent="Course/Ramp"]
+mesh = SubResource("ramp_mesh")
+
+[node name="Shape" type="CollisionShape3D" parent="Course/Ramp"]
+shape = SubResource("ramp_shape")
+
+[node name="Top" type="StaticBody3D" parent="Course"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35, -5.73)
+
+[node name="Mesh" type="MeshInstance3D" parent="Course/Top"]
+mesh = SubResource("top_mesh")
+
+[node name="Shape" type="CollisionShape3D" parent="Course/Top"]
+shape = SubResource("top_shape")
+
+[node name="Sign" type="Area3D" parent="Course"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, -6.5)
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("4_interactable")
+Prompt = "Read"
+
+[node name="Shape" type="CollisionShape3D" parent="Course/Sign"]
+shape = SubResource("interact_shape")
+
+[node name="Mesh" type="MeshInstance3D" parent="Course/Sign"]
+mesh = SubResource("interact_mesh")
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+
+[node name="Hud" type="CanvasLayer" parent="."]
+
+[node name="Report" type="Label" parent="Hud"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 900.0
+offset_bottom = 300.0
+theme_override_font_sizes/font_size = 15
+text = "PlayerTest"

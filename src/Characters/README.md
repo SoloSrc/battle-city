@@ -13,4 +13,10 @@ bone tracks onto the loaded skeleton and injects call-method events from
 `data/rig/animation_events.json`; every event reaches
 `Character.OnAnimationEvent` and the `AnimationEvent` signal.
 
-Controllers (Player, Npc, Duelist) arrive with issues #20 and #23.
+`PlayerController` (child of a `Character`, `scenes/characters/Player.tscn`):
+gamepad-first analogue movement per gdd.md §1.2 and systems.md §4.1 (walk
+2.2, run 4.5 above 60 % deflection or Shift, 0.12 s / 0.08 s accel / decel,
+720 °/s turn), slope snapping, 0.3 m step-up for kerbs, and the `interact`
+probe over `IInteractable` nodes in the `InteractionShape` area, with a
+`PromptChanged` signal for the UI. `InputEnabled` hands control to dialogue,
+menus and encounters. Npc and Duelist controllers arrive with #23.
