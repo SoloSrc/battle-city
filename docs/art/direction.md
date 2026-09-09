@@ -109,7 +109,8 @@ continuous. The district proposal reserves camera clearance at all three encount
 ## Characters and animation
 
 Follow sheet 02: approximately seven heads tall, simplified anime anatomy,
-expressive eyes and no separate chibi variant. Two body types share a documented
+expressive eyes and no separate chibi variant. Body A is male and body B is female (director clarification, 2026-09-08).
+Both use approximately seven-head proportions. Two body types share a documented
 humanoid skeleton and compatible motion set; proportion differences must be
 tested for hand-to-disk alignment. Skin tone is a material parameter. Hair,
 tops, bottoms and shoes are replaceable meshes using the shared rig. In the

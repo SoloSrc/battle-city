@@ -32,9 +32,9 @@ the walk clip plays through the `AnimationTree`.
 | # | Asset | Spec | Path | Status |
 | --- | --- | --- | --- | --- |
 | 1.1 | Key visual | Painted, 3840 × 2160, duel camera at site A | `docs/art/concepts/` | review (v02 merged) |
-| 1.2 | Character turnaround, body A | Front, side, back, 3/4; proportions per sheet 02 | `source/characters/turnaround_a.png` | todo |
-| 1.3 | Character turnaround, body B | Same | `source/characters/turnaround_b.png` | todo |
-| 1.4 | Duel disk orthographic sheet | Top, side, front; folded and deployed; hinge; mount points | `source/props/duel_disk_ortho.png` | todo |
+| 1.2 | Character turnaround, body A | Front, side, back, 3/4; proportions per sheet 02 | `source/characters/turnaround_a.png` | review (#29) |
+| 1.3 | Character turnaround, body B | Same | `source/characters/turnaround_b.png` | review (#29) |
+| 1.4 | Duel disk orthographic sheet | Top, side, front; folded and deployed; hinge; mount points | `source/props/duel_disk_ortho.png` | review (#29) |
 | 1.5 | Card frame set | Six frames (normal, effect, fusion, ritual, spell, trap), 590 × 860 PNG + layered source; window per `frame.json` | `cards/frames/frame_<type>.png` | todo |
 | 1.6 | Card back | Symmetric, one accent colour, 590 × 860 | `cards/frames/card_back.png` | todo |
 | 1.7 | Attribute icons | 7 originals (DARK, LIGHT, EARTH, WATER, FIRE, WIND, DIVINE), 128² PNG with alpha | `cards/icons/attr_<name>.png` | todo |
