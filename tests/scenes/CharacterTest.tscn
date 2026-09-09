@@ -1,0 +1,70 @@
+[gd_scene load_steps=10 format=3 uid="uid://c0chartest00001"]
+
+[ext_resource type="Script" path="res://src/Diagnostics/CharacterTestScene.cs" id="1_test"]
+[ext_resource type="PackedScene" path="res://scenes/characters/Character.tscn" id="2_character"]
+[ext_resource type="Shader" path="res://shaders/debug_grid.gdshader" id="3_grid"]
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0.38, 0.55, 0.85, 1)
+sky_horizon_color = Color(0.72, 0.78, 0.86, 1)
+ground_bottom_color = Color(0.2, 0.2, 0.22, 1)
+ground_horizon_color = Color(0.72, 0.78, 0.86, 1)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.6
+tonemap_mode = 2
+
+[sub_resource type="ShaderMaterial" id="grid_mat"]
+shader = ExtResource("3_grid")
+
+[sub_resource type="PlaneMesh" id="grid_mesh"]
+material = SubResource("grid_mat")
+size = Vector2(60, 60)
+
+[sub_resource type="BoxShape3D" id="ground_shape"]
+size = Vector3(60, 0.2, 60)
+
+[node name="CharacterTest" type="Node3D" node_paths=PackedStringArray("Character", "ReportLabel")]
+script = ExtResource("1_test")
+Character = NodePath("Character")
+ReportLabel = NodePath("Hud/Report")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.321394, 0.383022, 0, 0.766044, 0.642788, -0.5, -0.55667, 0.663414, 0, 8, 0)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.544639, 0.838671, 0, -0.838671, 0.544639, 0, 10.9, 7.08)
+fov = 35.0
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="Grid" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("grid_mesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("ground_shape")
+
+[node name="Character" parent="." instance=ExtResource("2_character")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+
+[node name="Hud" type="CanvasLayer" parent="."]
+
+[node name="Report" type="Label" parent="Hud"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 900.0
+offset_bottom = 300.0
+theme_override_font_sizes/font_size = 15
+text = "CharacterTest"

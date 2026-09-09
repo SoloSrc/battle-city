@@ -94,8 +94,12 @@ sets shader parameters. The avatar creator edits this resource live.
   per-body-type offset transform stored in `data/rig/disk_mount.json`. The
   disk's own origin is the forearm strap centre, blade pointing +X in its
   local space when deployed.
-- **Animation events** are Godot call-method tracks in the clips. The
-  engine listens for these names:
+- **Animation events** are Godot call-method tracks added by the engine
+  from `data/rig/animation_events.json` (clip → event → seconds) when it
+  builds a character's animation library; glTF cannot carry method tracks,
+  so the artist reports timings in the handoff. Every key calls
+  `OnAnimationEvent(name)` on the `Character`, which re-emits it as the
+  `AnimationEvent` signal. The engine listens for these names:
 
 | Event | Emitted by clip | Used for |
 | --- | --- | --- |

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using System.Text.Json;
+using BattleCity.Characters;
 using BattleCity.Core;
 using Godot;
 
@@ -37,10 +37,6 @@ public partial class SmokeTestScene : Node3D
 
     private static readonly string[] _smokeTestClips = { "idle", "walk" };
 
-    private static readonly string[] _knownAnimationEvents =
-    {
-        "footstep_l", "footstep_r", "disk_deploy", "card_draw", "card_release", "card_to_grave", "hit",
-    };
 
     [ExportGroup("Asset paths (asset-list.md §0)")]
     [Export]
@@ -183,23 +179,8 @@ public partial class SmokeTestScene : Node3D
         }
     }
 
-    // Animation call-method events (systems.md §3.2). Method names must match
-    // the event names in the clips, so they are snake_case on purpose.
-#pragma warning disable IDE1006 // Naming Styles
-    public void footstep_l() => LogEvent("footstep_l");
-
-    public void footstep_r() => LogEvent("footstep_r");
-
-    public void disk_deploy() => LogEvent("disk_deploy");
-
-    public void card_draw() => LogEvent("card_draw");
-
-    public void card_release() => LogEvent("card_release");
-
-    public void card_to_grave() => LogEvent("card_to_grave");
-
-    public void hit() => LogEvent("hit");
-#pragma warning restore IDE1006
+    /// <summary>Target of the method tracks injected from data/rig/animation_events.json.</summary>
+    public void OnAnimationEvent(string name) => LogEvent(name);
 
     private void LogEvent(string name)
     {
@@ -319,19 +300,10 @@ public partial class SmokeTestScene : Node3D
             return;
         }
 
-        var library = new AnimationLibrary();
-        NodePath skeletonPath = GetPathTo(skeleton);
-        foreach (StringName libraryName in source.GetAnimationLibraryList())
+        AnimationLibrary library = AnimationRetarget.CopyClips(source, GetPathTo(skeleton));
+        foreach (StringName clip in library.GetAnimationList())
         {
-            AnimationLibrary sourceLibrary = source.GetAnimationLibrary(libraryName);
-            foreach (StringName animationName in sourceLibrary.GetAnimationList())
-            {
-                string clip = ClipName(animationName.ToString());
-                var animation = (Animation)sourceLibrary.GetAnimation(animationName).Duplicate(true);
-                RetargetTracks(animation, skeletonPath);
-                library.AddAnimation(clip, animation);
-                _availableClips.Add(clip);
-            }
+            _availableClips.Add(clip.ToString());
         }
 
         CharacterAnimations.AddAnimationLibrary("", library);
@@ -354,15 +326,13 @@ public partial class SmokeTestScene : Node3D
                 FormattableString.Invariant($"animations: '{clip}' length {animation.Length:F2} s (asset-list §2.9 says {expected:F0} s loop)"), fail: false);
         }
 
-        if (library.HasAnimation("walk"))
-        {
-            // glTF has no method tracks, so exported clips arrive without events.
-            // Issue #19 injects them from data (clip → event → time); this only reports.
-            List<string> events = MethodEvents(library.GetAnimation("walk"));
-            Info(events.Count == 0
-                ? "animations: 'walk' carries no call-method events (expected: none from glTF; #19 adds footstep_l/footstep_r from data)"
-                : $"animations: 'walk' events {string.Join(", ", events)}");
-        }
+        // glTF has no method tracks, so clips arrive without events; they are
+        // injected from data (systems.md §3.2) exactly as Character.tscn does.
+        List<string> injected = AnimationRetarget.InjectEvents(
+            library, AnimationRetarget.LoadEventTable(Paths.AnimationEventsData));
+        Check(injected.Count > 0, injected.Count > 0
+            ? $"animations: events injected from data: {string.Join(", ", injected)}"
+            : $"animations: no events injected ({Paths.AnimationEventsData} has none for the delivered clips)", fail: false);
 
         if (!allPresent)
         {
@@ -395,7 +365,7 @@ public partial class SmokeTestScene : Node3D
             {
                 foreach (StringName name in player.GetAnimationLibrary(libraryName).GetAnimationList())
                 {
-                    clips.Add(ClipName(name.ToString()));
+                    clips.Add(AnimationRetarget.ClipName(name.ToString()));
                 }
             }
         }
@@ -438,111 +408,9 @@ public partial class SmokeTestScene : Node3D
         if (!FileAccess.FileExists(Paths.DiskMountData))
         {
             Warn($"disk mount: {Paths.DiskMountData} missing, using identity offset");
-            return Transform3D.Identity;
         }
 
-        try
-        {
-            using var doc = JsonDocument.Parse(FileAccess.GetFileAsString(Paths.DiskMountData));
-            if (!doc.RootElement.TryGetProperty(BodyType, out JsonElement body))
-            {
-                Warn($"disk mount: no entry for body type '{BodyType}', using identity offset");
-                return Transform3D.Identity;
-            }
-
-            Vector3 position = ReadVector(body, "position");
-            Vector3 rotation = ReadVector(body, "rotation_degrees");
-            var basis = Basis.FromEuler(new Vector3(
-                Mathf.DegToRad(rotation.X), Mathf.DegToRad(rotation.Y), Mathf.DegToRad(rotation.Z)));
-            return new Transform3D(basis, position);
-        }
-        catch (JsonException e)
-        {
-            Fail($"disk mount: {Paths.DiskMountData} is not valid JSON ({e.Message})");
-            return Transform3D.Identity;
-        }
-    }
-
-    private static Vector3 ReadVector(JsonElement parent, string key)
-    {
-        if (!parent.TryGetProperty(key, out JsonElement array) || array.GetArrayLength() != 3)
-        {
-            return Vector3.Zero;
-        }
-
-        return new Vector3(array[0].GetSingle(), array[1].GetSingle(), array[2].GetSingle());
-    }
-
-    /// <summary>
-    /// Points bone tracks at the smoke-test character's skeleton and method
-    /// tracks at this node, so the shared-rig clips drive whichever body was
-    /// loaded (architecture §6.2: one anims file, applied through the library).
-    /// </summary>
-    private void RetargetTracks(Animation animation, NodePath skeletonPath)
-    {
-        string skeletonPathText = skeletonPath.ToString();
-        for (int i = 0; i < animation.GetTrackCount(); i++)
-        {
-            NodePath path = animation.TrackGetPath(i);
-            switch (animation.TrackGetType(i))
-            {
-                case Animation.TrackType.Position3D:
-                case Animation.TrackType.Rotation3D:
-                case Animation.TrackType.Scale3D:
-                    if (path.GetSubNameCount() > 0)
-                    {
-                        string bone = path.GetSubName(path.GetSubNameCount() - 1);
-                        animation.TrackSetPath(i, new NodePath($"{skeletonPathText}:{bone}"));
-                    }
-
-                    break;
-                case Animation.TrackType.Method:
-                    animation.TrackSetPath(i, new NodePath("."));
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    /// <summary>Blender action <c>anim_walk</c> becomes clip <c>walk</c> (architecture §6.3).</summary>
-    private static string ClipName(string animationName)
-    {
-        const string prefix = "anim_";
-        return animationName.StartsWith(prefix, StringComparison.Ordinal)
-            ? animationName[prefix.Length..]
-            : animationName;
-    }
-
-    private static List<string> MethodEvents(Animation animation)
-    {
-        var events = new List<string>();
-        for (int track = 0; track < animation.GetTrackCount(); track++)
-        {
-            if (animation.TrackGetType(track) != Animation.TrackType.Method)
-            {
-                continue;
-            }
-
-            for (int key = 0; key < animation.TrackGetKeyCount(track); key++)
-            {
-                string name = animation.MethodTrackGetName(track, key).ToString();
-                if (!events.Contains(name))
-                {
-                    events.Add(name);
-                }
-            }
-        }
-
-        foreach (string name in events)
-        {
-            if (Array.IndexOf(_knownAnimationEvents, name) < 0)
-            {
-                GD.Print($"SmokeTest: unknown animation event '{name}' (systems.md §3.2 lists the engine hooks)");
-            }
-        }
-
-        return events;
+        return AnimationRetarget.LoadDiskMountOffset(Paths.DiskMountData, BodyType);
     }
 
     private void CheckToonMaterials(Node root, string label)
