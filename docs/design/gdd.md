@@ -1,6 +1,6 @@
 # Game Design Document
 
-**Status:** draft for director approval · **Issue:** #3 · **Author:** claude-fable
+**Status:** approved by the director (merged #11) · **Issue:** #3 · **Author:** claude-fable
 **Depends on:** [pitch.md](pitch.md), [poc-scope.md](poc-scope.md)
 
 This document describes the mechanics of the proof-of-concept slice. Where a

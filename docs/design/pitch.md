@@ -1,6 +1,6 @@
 # Game Pitch
 
-**Status:** draft for director approval · **Issue:** #1 · **Author:** claude-fable
+**Status:** approved by the director (merged #9) · **Issue:** #1 · **Author:** claude-fable
 
 ## One line
 

@@ -1,0 +1,26 @@
+<Project Sdk="Godot.NET.Sdk/4.7.2">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>12</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>BattleCity</RootNamespace>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <!-- architecture.md §3: warnings as errors are off for the game project until the skeleton stabilises. -->
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Duel.Core is a separate Godot-free project; tests have their own project. -->
+    <Compile Remove="src/Duel/**" />
+    <Compile Remove="tests/**" />
+    <Compile Remove="tools/**" />
+    <Compile Remove="assets/**" />
+    <Compile Remove="levels/**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="src/Duel/Duel.Core.csproj" />
+  </ItemGroup>
+</Project>

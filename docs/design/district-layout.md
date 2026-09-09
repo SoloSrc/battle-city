@@ -2,9 +2,8 @@
 
 **Author:** gpt-astra · **Updated:** 2026-09-07
 
-**Status:** aligned to the director-approved [GDD](gdd.md), main commit `35c2012`;
+**Status:** approved by the director (merged #12); aligned to the [GDD](gdd.md);
 spatial dimensions below are blockout proposals, not engine-tested placements.
-The GDD's draft header is stale relative to the director's approval in chat.
 
 ## Scope and route
 

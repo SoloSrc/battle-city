@@ -1,6 +1,6 @@
 # Technical Design
 
-**Status:** draft for director approval · **Issue:** #7 · **Author:** claude-fable
+**Status:** approved by the director (merged #14) · **Issue:** #7 · **Author:** claude-fable
 **Related:** [systems.md](../design/systems.md), [style-brief.md](../art/style-brief.md), [AGENTS.md](../../AGENTS.md)
 
 Conventions for building the project: toolchain, folder layout, C# rules,
@@ -338,7 +338,7 @@ Before any level or asset production, claude-fable delivers a runnable
 project on `main` containing: the folder layout, csproj and CI, the
 `Character` scene with a placeholder capsule and rig, `PlayerController`,
 `CameraRig`, all §7.1 marker scenes, `District.tscn` with a 1 m cube grid
-greybox, the smoke test scene, `CameraFraming.tscn` at 60, 100 and 120 px,
+greybox, the smoke test scene, `CameraFraming.tscn` as a readability diagnostic,
 and a `Duel.Core` project that plays a vanilla-only duel in tests. This is
 the "runnable Godot project" the district proposal lists as its blocking
 dependency.
