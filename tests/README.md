@@ -1,4 +1,4 @@
 # tests (owner: claude-fable)
 
 - `Duel.Core.Tests/` xUnit, runs with `dotnet test tests/Duel.Core.Tests`
-- `scenes/` in-editor diagnostic scenes: CameraFraming.tscn, SmokeTest.tscn, Profiling.tscn
+- `scenes/` in-editor diagnostic scenes: SmokeTest.tscn (#24), CameraFraming.tscn (#21), Profiling.tscn; see `scenes/README.md`
