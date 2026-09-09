@@ -131,7 +131,8 @@ tracked with **Git LFS**; `.gitattributes` lists the patterns.
 
 Blender scene units metric, 1 unit = 1 m, scale 1.0. Export glTF with
 **+Y up** (Godot convention; the exporter converts from Blender's Z up).
-Characters face **−Z** in Godot, which is **−Y** in Blender before export.
+Characters face **−Z** in Godot, which is **+Y** in Blender before export
+(the exporter maps Blender +Y to glTF −Z; verified on the #28 delivery).
 Apply all transforms before export; origin at the feet for characters and
 props that stand, at the bounds-min corner for kit pieces that tile.
 
@@ -150,13 +151,18 @@ props that stand, at the bounds-min corner for kit pieces that tile.
 
 One `.glb` per character part, per prop, per kit piece. Animations for
 the shared rig ship in one `character_anims.glb` containing the rig and
-all clips, imported once and applied through the `AnimationLibrary`.
+all clips (plus a throwaway mesh so the skeleton exports); the engine
+copies the clips into the character's `AnimationLibrary`, retargets the
+bone tracks onto the loaded body and never instantiates the carrier mesh.
+glTF cannot carry Godot call-method tracks, so animation events are
+injected from `data/rig/animation_events.json` (clip → event → seconds)
+at that point; artists report event timings in the handoff, not in the file.
 
 ### 6.3 Naming
 
 | Object type | Blender object name | Result in Godot |
 | --- | --- | --- |
-| Collision mesh | `<name>-col` suffix | Trimesh `StaticBody3D`, mesh hidden |
+| Collision mesh | `<name>-col` suffix | Trimesh `StaticBody3D` added; the mesh stays visible, so a single suffixed object gives visible geometry plus collision |
 | Convex collision | `<name>-convcol` | Convex shape |
 | No-import helper | `<name>-noimp` | Skipped |
 | Navmesh hint | `<name>-navmesh` | NavigationMesh source |

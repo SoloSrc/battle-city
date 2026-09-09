@@ -1,0 +1,172 @@
+[gd_scene load_steps=34 format=3 uid="uid://c0character0001"]
+
+[ext_resource type="Script" path="res://src/Characters/Character.cs" id="1_character"]
+[ext_resource type="PackedScene" path="res://scenes/characters/DuelDisk.tscn" id="2_disk"]
+
+[sub_resource type="CapsuleShape3D" id="collision_shape"]
+radius = 0.35
+height = 1.7
+
+[sub_resource type="StandardMaterial3D" id="placeholder_mat"]
+albedo_color = Color(0.85, 0.5, 0.25, 1)
+roughness = 0.9
+
+[sub_resource type="CapsuleMesh" id="placeholder_mesh"]
+material = SubResource("placeholder_mat")
+radius = 0.35
+height = 1.7
+
+[sub_resource type="CapsuleShape3D" id="interaction_shape"]
+radius = 0.6
+height = 1.8
+
+[sub_resource type="AnimationNodeAnimation" id="clip_idle"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="clip_walk"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeAnimation" id="clip_run"]
+animation = &"run"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="locomotion"]
+blend_point_0/node = SubResource("clip_idle")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("clip_walk")
+blend_point_1/pos = 2.2
+blend_point_2/node = SubResource("clip_run")
+blend_point_2/pos = 4.5
+min_space = 0.0
+max_space = 4.5
+sync = true
+
+[sub_resource type="AnimationNodeAnimation" id="clip_talk"]
+animation = &"talk"
+
+[sub_resource type="AnimationNodeAnimation" id="clip_duel_ready"]
+animation = &"duel_ready"
+
+[sub_resource type="AnimationNodeAnimation" id="clip_duel_idle"]
+animation = &"duel_idle"
+
+[sub_resource type="AnimationNodeAnimation" id="clip_draw_card"]
+animation = &"draw_card"
+
+[sub_resource type="AnimationNodeAnimation" id="clip_play_card"]
+animation = &"play_card"
+
+[sub_resource type="AnimationNodeAnimation" id="clip_take_damage"]
+animation = &"take_damage"
+
+[sub_resource type="AnimationNodeAnimation" id="clip_win"]
+animation = &"win"
+
+[sub_resource type="AnimationNodeAnimation" id="clip_lose"]
+animation = &"lose"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_start"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_loco_talk"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_talk_loco"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_loco_ready"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_ready_duelidle"]
+xfade_time = 0.15
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_duelidle_draw"]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_draw_duelidle"]
+xfade_time = 0.1
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_duelidle_play"]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_play_duelidle"]
+xfade_time = 0.1
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_duelidle_damage"]
+xfade_time = 0.05
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_damage_duelidle"]
+xfade_time = 0.1
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_duelidle_win"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_duelidle_lose"]
+xfade_time = 0.15
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="t_duelidle_loco"]
+xfade_time = 0.2
+
+[sub_resource type="AnimationNodeStateMachine" id="state_machine"]
+states/Locomotion/node = SubResource("locomotion")
+states/Locomotion/position = Vector2(300, 100)
+states/Talk/node = SubResource("clip_talk")
+states/Talk/position = Vector2(300, 250)
+states/DuelReady/node = SubResource("clip_duel_ready")
+states/DuelReady/position = Vector2(550, 100)
+states/DuelIdle/node = SubResource("clip_duel_idle")
+states/DuelIdle/position = Vector2(800, 100)
+states/DrawCard/node = SubResource("clip_draw_card")
+states/DrawCard/position = Vector2(1050, 0)
+states/PlayCard/node = SubResource("clip_play_card")
+states/PlayCard/position = Vector2(1050, 100)
+states/TakeDamage/node = SubResource("clip_take_damage")
+states/TakeDamage/position = Vector2(1050, 200)
+states/Win/node = SubResource("clip_win")
+states/Win/position = Vector2(800, 250)
+states/Lose/node = SubResource("clip_lose")
+states/Lose/position = Vector2(800, 350)
+transitions = ["Start", "Locomotion", SubResource("t_start"), "Locomotion", "Talk", SubResource("t_loco_talk"), "Talk", "Locomotion", SubResource("t_talk_loco"), "Locomotion", "DuelReady", SubResource("t_loco_ready"), "DuelReady", "DuelIdle", SubResource("t_ready_duelidle"), "DuelIdle", "DrawCard", SubResource("t_duelidle_draw"), "DrawCard", "DuelIdle", SubResource("t_draw_duelidle"), "DuelIdle", "PlayCard", SubResource("t_duelidle_play"), "PlayCard", "DuelIdle", SubResource("t_play_duelidle"), "DuelIdle", "TakeDamage", SubResource("t_duelidle_damage"), "TakeDamage", "DuelIdle", SubResource("t_damage_duelidle"), "DuelIdle", "Win", SubResource("t_duelidle_win"), "DuelIdle", "Lose", SubResource("t_duelidle_lose"), "DuelIdle", "Locomotion", SubResource("t_duelidle_loco")]
+
+[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("Rig", "Placeholder", "Animations", "Tree")]
+floor_max_angle = 0.698132
+script = ExtResource("1_character")
+DuelDiskScene = ExtResource("2_disk")
+Rig = NodePath("Rig")
+Placeholder = NodePath("Rig/Placeholder")
+Animations = NodePath("Animations")
+Tree = NodePath("AnimationTree")
+
+[node name="Rig" type="Node3D" parent="."]
+
+[node name="Placeholder" type="MeshInstance3D" parent="Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("placeholder_mesh")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+shape = SubResource("collision_shape")
+
+[node name="Animations" type="AnimationPlayer" parent="."]
+root_node = NodePath("..")
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("state_machine")
+anim_player = NodePath("../Animations")
+active = false
+
+[node name="InteractionShape" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 8
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionShape"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, -0.3)
+shape = SubResource("interaction_shape")
