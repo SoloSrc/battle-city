@@ -13,7 +13,7 @@ composition. Runtime frames contain neither that art nor those numbers.
 - Six 590×860 PNG frames: normal tan, effect orange, fusion violet, ritual blue,
   spell teal and trap magenta. Fine dark contour and light inset border follow
   sheet 05's clean anime layout; a small top-rail signature varies by frame.
-- One original blue/graphite symmetric 590×860 card back.
+- One original amber/burnt-orange/near-black symmetric 590×860 card back.
 - Seven attribute icons and seven spell/trap/type glyphs at 128², plus a 64² star.
 - [Layered SVG sources and builders](../../assets/source/cards/README.md),
   per-asset Godot import presets and an exported validation inventory.
@@ -47,3 +47,7 @@ card layout; no image-generation model was used.
 
 Director review: frame simplicity/palette, icon look and back design. Keep #30
 open pending director approval and the actual hologram integration check.
+
+## Card back revision 04 — director feedback
+
+The card faces were approved by the director. Only the back is revised: near-black centre, deep brown, burnt-orange/amber currents and a warm border, inspired by the supplied reference palette. The curves are original, and the source pattern remains rotationally symmetric. The blue geometric back is superseded. Frame geometry and all approved icon/stat positions remain unchanged.

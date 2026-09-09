@@ -27,7 +27,7 @@ only for review annotations; it is not a game texture.
 
 The exporter verifies exact sizes, all 291,200 art-window pixels fully clear
 per frame, and approximate 180-degree raster symmetry of the back (mean channel
-error ≤0.2/255 to allow edge antialiasing). Its shapes are vector-symmetric.
+error ≤0.75/255 to allow edge antialiasing). Its shapes are vector-symmetric.
 `validation.json` records the exported inventory. Godot verification checks the
 22 Texture2D resources and bindings to StandardMaterial3D; it cannot validate
 Fable's pending hologram shader.
@@ -52,3 +52,7 @@ crop policy remains deferred. Equip uses a breastplate; Counter a shield
 redirecting a strike. The director's supplied reference image is not committed.
 
 See [director-approved handoff](../../../docs/requests/card-layout-director-approved.md).
+
+## Card back revision 04
+
+The director approved the faces and requested a warmer back following the supplied reference. The original back now uses near-black (#030201), deep brown, burnt orange and amber (#f7ae47), with a warm rim and paired curved ember strokes. Each source stroke is duplicated at 180 degrees. Dense thin curves and glow introduce subpixel raster differences; the mean-channel symmetry tolerance is 0.75/255. No reference pixels are used. The deterministic seed is recorded in the SVG builder.

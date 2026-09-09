@@ -24,15 +24,28 @@ for i,(name,(base,pale)) in enumerate(colors.items()):
  marks=['M-12 0 H12','M-13 0 H-4 M4 0 H13','M-13 0 L0 -6 L13 0 L0 6 Z','M-13 0 L-6 -6 L0 0 L6 -6 L13 0 L6 6 L0 0 L-6 6 Z','M-12 5 L0 -6 L12 5','M-12 -5 L0 6 L12 -5']
  ornament=f'<path d="{marks[i]}" transform="translate(295 24)" fill="none" stroke="{DARK}" stroke-width="3" stroke-linejoin="round"/>'
  save('frame_'+name,590,860,layer('frame-base',shell)+layer('cloud-texture',clouds)+layer('border',border)+layer('information-band',band)+layer('type-signature',ornament))
-# Card back invariant under 180-degree rotation; one blue accent with light/dark values.
-back=f'<rect width="590" height="860" rx="18" fill="{DARK}"/><rect x="15" y="15" width="560" height="830" rx="12" fill="#3565a9" stroke="{IVORY}" stroke-width="3"/><rect x="35" y="35" width="520" height="790" rx="6" fill="{DARK}" stroke="#78a2d0" stroke-width="3"/>'
-pattern=''
-for k in range(6):
- x=85+k*26;y=120+k*40
- pattern+=f'<path d="M295 {y} L{590-x} 430 L295 {860-y} L{x} 430 Z" fill="none" stroke="#78a2d0" stroke-width="{4 if k==0 else 2}"/>'
-pattern+='<path d="M295 333 L371 430 L295 527 L219 430 Z" fill="#3565a9" stroke="#f8f1de" stroke-width="5"/><path d="M295 374 L339 430 L295 486 L251 430 Z" fill="#293344" stroke="#78a2d0" stroke-width="4"/>'
-for x,y in [(66,66),(524,794),(524,66),(66,794)]:pattern+=f'<path d="M{x} {y-10} l10 10 -10 10 -10 -10 Z" fill="#78a2d0"/>'
-save('card_back',590,860,layer('base',back)+layer('symmetric-pattern',pattern))
+# Original paired ember currents: every stroke is repeated at 180 degrees.
+import random
+rng=random.Random(4309)
+defs='<defs><linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd18a"/><stop offset=".22" stop-color="#b94e16"/><stop offset=".5" stop-color="#ffb95e"/><stop offset=".78" stop-color="#b94e16"/><stop offset="1" stop-color="#ffd18a"/></linearGradient><radialGradient id="well"><stop stop-color="#030201"/><stop offset=".46" stop-color="#090301"/><stop offset=".77" stop-color="#281006"/><stop offset="1" stop-color="#080301"/></radialGradient><clipPath id="back-field"><rect x="21" y="21" width="548" height="818" rx="10"/></clipPath><filter id="ember-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4"/></filter></defs>'
+back=defs+'<rect width="590" height="860" rx="18" fill="#401604"/><rect x="5" y="5" width="580" height="850" rx="15" fill="url(#rim)"/><rect x="13" y="13" width="564" height="834" rx="11" fill="#803111" stroke="#ffd59a" stroke-width="2"/><rect x="21" y="21" width="548" height="818" rx="10" fill="url(#well)"/>'
+curves=[]
+palette=['#542009','#7f290c','#b5410e','#d85a12','#ed831e','#f7ae47']
+for k in range(74):
+ theta=rng.uniform(0,math.pi*2);reach=rng.uniform(.7,1.5);turn=rng.uniform(.55,1.9);start=rng.uniform(.30,.66)
+ width=rng.uniform(.5,2.9);col=palette[k%len(palette)]
+ points=[]
+ for j in range(55):
+  t=j/54;rad=start+(reach-start)*t;ang=theta+turn*t+.04*math.sin(t*9+k)
+  x=295+245*rad*math.cos(ang)+30*rad*math.sin(ang)
+  y=430+390*rad*math.sin(ang)
+  points.append(f'{x:.2f},{y:.2f}')
+ d='M'+' L'.join(points)
+ curves.append(f'<path d="{d}" fill="none" stroke="{col}" stroke-width="{width:.2f}" stroke-linecap="round"/>')
+paired='<g id="ember-currents">'+''.join(curves)+'</g><use href="#ember-currents" transform="rotate(180 295 430)"/>'
+# The glow is deliberately subdued so the centre remains almost black.
+pattern='<g clip-path="url(#back-field)"><g opacity=".38" filter="url(#ember-glow)">'+paired+'</g><use href="#ember-currents"/><use href="#ember-currents" transform="rotate(180 295 430)"/></g>'
+save('card_back',590,860,layer('warm-rim-and-dark-well',back)+layer('paired-ember-currents',pattern))
 paths={
 'dark':('M84 27 A39 39 0 1 0 91 91 A34 34 0 0 1 84 27 Z','#70639e'),
 'light':('M64 21 V30 M64 98 V107 M21 64 H30 M98 64 H107 M34 34 L41 41 M87 87 L94 94 M34 94 L41 87 M87 41 L94 34','#b79235'),
