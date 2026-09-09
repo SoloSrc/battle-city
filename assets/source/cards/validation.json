@@ -1,0 +1,162 @@
+[
+  {
+    "asset": "attr_dark",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "attr_divine",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "attr_earth",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "attr_fire",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "attr_light",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "attr_water",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "attr_wind",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "card_back",
+    "size": [
+      590,
+      860
+    ]
+  },
+  {
+    "asset": "frame_effect",
+    "size": [
+      590,
+      860
+    ],
+    "art_window_clear": true
+  },
+  {
+    "asset": "frame_fusion",
+    "size": [
+      590,
+      860
+    ],
+    "art_window_clear": true
+  },
+  {
+    "asset": "frame_normal",
+    "size": [
+      590,
+      860
+    ],
+    "art_window_clear": true
+  },
+  {
+    "asset": "frame_ritual",
+    "size": [
+      590,
+      860
+    ],
+    "art_window_clear": true
+  },
+  {
+    "asset": "frame_spell",
+    "size": [
+      590,
+      860
+    ],
+    "art_window_clear": true
+  },
+  {
+    "asset": "frame_trap",
+    "size": [
+      590,
+      860
+    ],
+    "art_window_clear": true
+  },
+  {
+    "asset": "st_continuous",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "st_counter",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "st_equip",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "st_field",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "st_quick_play",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "st_spell",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "st_trap",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "star",
+    "size": [
+      64,
+      64
+    ]
+  }
+]

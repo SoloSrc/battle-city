@@ -35,11 +35,11 @@ the walk clip plays through the `AnimationTree`.
 | 1.2 | Character turnaround, body A | Front, side, back, 3/4; proportions per sheet 02 | `source/characters/turnaround_a.png` | review (#29) |
 | 1.3 | Character turnaround, body B | Same | `source/characters/turnaround_b.png` | review (#29) |
 | 1.4 | Duel disk orthographic sheet | Top, side, front; folded and deployed; hinge; mount points | `source/props/duel_disk_ortho.png` | review (#29) |
-| 1.5 | Card frame set | Six frames (normal, effect, fusion, ritual, spell, trap), 590 × 860 PNG + layered source; window per `frame.json` | `cards/frames/frame_<type>.png` | todo |
-| 1.6 | Card back | Symmetric, one accent colour, 590 × 860 | `cards/frames/card_back.png` | todo |
-| 1.7 | Attribute icons | 7 originals (DARK, LIGHT, EARTH, WATER, FIRE, WIND, DIVINE), 128² PNG with alpha | `cards/icons/attr_<name>.png` | todo |
-| 1.8 | Spell/trap glyphs | Spell, trap, equip, continuous, quick-play, counter, field; 128² | `cards/icons/st_<name>.png` | todo |
-| 1.9 | Level star | 64² | `cards/icons/star.png` | todo |
+| 1.5 | Card frame set | Six frames (normal, effect, fusion, ritual, spell, trap), 590 × 860 PNG + layered source; window per `frame.json` | `cards/frames/frame_<type>.png` | review (#30; shader pending) |
+| 1.6 | Card back | Symmetric, one accent colour, 590 × 860 | `cards/frames/card_back.png` | review (#30; shader pending) |
+| 1.7 | Attribute icons | 7 originals (DARK, LIGHT, EARTH, WATER, FIRE, WIND, DIVINE), 128² PNG with alpha | `cards/icons/attr_<name>.png` | review (#30; shader pending) |
+| 1.8 | Spell/trap glyphs | Spell, trap, equip, continuous, quick-play, counter, field; 128² | `cards/icons/st_<name>.png` | review (#30; shader pending) |
+| 1.9 | Level star | 64² | `cards/icons/star.png` | review (#30; shader pending) |
 
 ## 2. Characters (P0 unless noted)
 
