@@ -1,0 +1,27 @@
+{
+  "comment": "Per-body-type offset of the duel disk from the LeftLowerArm bone (systems.md \u00a73.2). Position in metres, rotation in degrees, applied in bone space. Tune once the smoke-test character and disk are in (asset-list \u00a70).",
+  "a": {
+    "position": [
+      -0.032699,
+      0.119269,
+      0.050307
+    ],
+    "rotation_degrees": [
+      90,
+      -33.02387,
+      0
+    ]
+  },
+  "b": {
+    "position": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rotation_degrees": [
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}

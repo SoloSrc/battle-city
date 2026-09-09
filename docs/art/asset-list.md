@@ -19,9 +19,9 @@ Status column: `todo` → `blockout` → `review` → `final`.
 
 | # | Asset | Spec | Path | Status |
 | --- | --- | --- | --- | --- |
-| 0.1 | Metric cube | 1 m cube, `-col` collision, toon material | `kit/kit_test_cube_1m.glb` | todo |
-| 0.2 | Neutral character | Body type A, one hair, one outfit, humanoid skeleton, A-pose, ≤ 12 k tris, idle + walk clips | `characters/body/char_a_body.glb`, `characters/anims/character_anims.glb` | todo |
-| 0.3 | Duel disk blockout | Folded and deployed, `LeftLowerArm` mount origin, ≤ 1.5 k tris | `props/prop_duel_disk.glb` | todo |
+| 0.1 | Metric cube | 1 m cube, `-col` collision, toon material | `kit/kit_test_cube_1m.glb` | review (#28 blockout) |
+| 0.2 | Neutral character | Body type A, one hair, one outfit, humanoid skeleton, A-pose, ≤ 12 k tris, idle + walk clips | `characters/body/char_a_body.glb`, `characters/anims/character_anims.glb` | review (#28 blockout) |
+| 0.3 | Duel disk blockout | Folded and deployed, `LeftLowerArm` mount origin, ≤ 1.5 k tris | `props/prop_duel_disk.glb` | review (#28 blockout) |
 
 Acceptance: the three load in `tests/scenes/SmokeTest.tscn`, scale reads
 correctly against the 1.7 m capsule, disk sits on the left forearm, and

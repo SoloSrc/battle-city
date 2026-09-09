@@ -1,0 +1,77 @@
+{
+  "cube": {
+    "metres": [
+      1,
+      1,
+      1
+    ],
+    "triangles_visible": 12,
+    "collision_node": "kit_test_cube_1m-col"
+  },
+  "character": {
+    "triangles": 4612,
+    "materials": 4,
+    "bones": [
+      "Root",
+      "Hips",
+      "Spine",
+      "Chest",
+      "UpperChest",
+      "Neck",
+      "Head",
+      "LeftShoulder",
+      "LeftUpperArm",
+      "LeftLowerArm",
+      "LeftHand",
+      "RightShoulder",
+      "RightUpperArm",
+      "RightLowerArm",
+      "RightHand",
+      "LeftUpperLeg",
+      "LeftLowerLeg",
+      "LeftFoot",
+      "LeftToes",
+      "RightUpperLeg",
+      "RightLowerLeg",
+      "RightFoot",
+      "RightToes"
+    ],
+    "height_m": 1.7,
+    "clips": {
+      "idle": 4,
+      "walk": 1
+    },
+    "source_forward": "+Y",
+    "runtime_forward": "-Z",
+    "events": {
+      "walk": {
+        "footstep_l": 0.0,
+        "footstep_r": 0.5
+      }
+    }
+  },
+  "disk": {
+    "triangles": 860,
+    "materials": 1,
+    "origin": "forearm strap centre",
+    "deployed_axis": "+X",
+    "markers": [
+      "deck",
+      "graveyard",
+      "banished",
+      "bay_1",
+      "bay_2",
+      "bay_3",
+      "bay_4",
+      "bay_5"
+    ],
+    "clips": {
+      "disk_deploy": 0.6,
+      "disk_fold": 0.6
+    },
+    "texture": [
+      512,
+      512
+    ]
+  }
+}
