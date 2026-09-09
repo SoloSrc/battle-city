@@ -385,19 +385,44 @@ texture, stars, attribute and stat labels rendered as a `SubViewport`
 texture at 590 × 860, plus an emissive edge material. Attack = upright,
 Defence = rotated 90° about Y, face-down = flipped, with a 0.15 s tween.
 
-### 6.2 Card art crop (answers the handoff)
+### 6.2 Card face layout and art window
 
-Art assets are 512 × 512. The frame's art window is portrait, aspect 4:5.
-The renderer centre-crops the square to 4:5 (uses the central 80 % of
-width). Artists keep essential detail inside a **central 80 % safe
-column**. Window bounds live in `data/cards/frame.json`:
+**Director-approved revision (2026-09-08, PR #39):** enlarge the data panel
+for readable stars, attributes and stats, with real left/right padding. This
+supersedes the earlier 520×650 art window and the y=712 / y=730 icon rows.
+
+The card remains 590×860. Its art window is **520×560** (13:14), starting at
+(35,40). The data panel is **534×224**, starting at (28,608), approximately
+26% of the card height. Use a minimum 24 px horizontal inset for icon content.
+These coordinates are the contract for `data/cards/frame.json`:
 
 ```json
-{ "size": [590, 860], "art_window": [35, 40, 520, 650], "inset_pct": 6,
-  "stars": [40, 712], "attribute": [520, 712], "atk": [60, 760], "def": [330, 760] }
+{ "size": [590, 860], "art_window": [35, 40, 520, 560], "inset_pct": 6,
+  "data_panel": [28, 608, 534, 224],
+  "stars": [68, 656], "star_size": [32, 32], "star_step": 34,
+  "attribute": [514, 656], "attribute_size": [48, 48],
+  "atk": [68, 726], "def": [338, 726], "stat_font_px": 56 }
 ```
 
-The "6 mm border" note on sheet 05 is replaced by the 6 % side inset.
+Stars and attribute coordinates are **centres**; ATK/DEF are **text-box top-left
+origins**, not baselines. Use engine font metrics inside the plates. The first
+star's left edge is x=52, 24 px inside the panel. For twelve stars the last edge
+is x=458; the attribute starts at x=490, leaving 32 px between them. Its right
+edge x=538 also leaves 24 px. Both rows stay below the art window (ending y=600).
+The stat plates occupy x=50/320, y=704, size 210×102; inner number areas are
+x=57/327, y=711, size 196×88. Spell/trap use a 104×104 type badge at (60,665)
+and subtype glyph at (198,665), with no stat numbers.
+
+Source art remains 512×512. **The square-art crop policy is deferred until after
+Skeleton.** This change fixes frame geometry only; the former 4:5 crop and central
+80% rule are not binding for this new window. Fable will implement the eventual
+crop policy separately. The "6 mm border" note on sheet 05 remains superseded
+by approximately 6% side inset. The old sheet is a style reference; this section
+is authoritative for pixel geometry.
+
+See [director-approved renderer handoff](../requests/card-layout-director-approved.md)
+and the small display-size samples there. Validate hand-size readability in
+CardView and the hologram material; enlarged contact sheets alone are insufficient.
 
 ### 6.3 HUD and input
 

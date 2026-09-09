@@ -12,14 +12,14 @@ def save(name,w,h,body):
 DARK='#293344';IVORY='#f8f1de'
 colors={'normal':('#c8a577','#eddbc0'),'effect':('#c87841','#f4d5ad'),'fusion':('#8064b4','#dfd2ed'),'ritual':('#4a77b5','#ccdef1'),'spell':('#33948d','#cce9de'),'trap':('#b4538c','#edd0e3')}
 for i,(name,(base,pale)) in enumerate(colors.items()):
- shell=f'<path fill="{base}" fill-rule="evenodd" d="M18 0 H572 Q590 0 590 18 V842 Q590 860 572 860 H18 Q0 860 0 842 V18 Q0 0 18 0 Z M35 40 V690 H555 V40 Z"/>'
- border=f'<rect x="6" y="6" width="578" height="848" rx="14" fill="none" stroke="{DARK}" stroke-width="5"/><rect x="17" y="17" width="556" height="826" rx="7" fill="none" stroke="{pale}" stroke-width="3"/><rect x="32" y="37" width="526" height="656" fill="none" stroke="{DARK}" stroke-width="6"/>'
- clouddefs='<defs><filter id="clouds" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".018 .032" numOctaves="3" seed="19"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.3 0 0 0 -.35"/><feGaussianBlur stdDeviation="1.4"/></filter><clipPath id="band-clip"><rect x="28" y="698" width="534" height="134" rx="4"/></clipPath><clipPath id="frame-clip"><path clip-rule="evenodd" d="M0 0 H590 V860 H0 Z M35 40 V690 H555 V40 Z"/></clipPath></defs>'
+ shell=f'<path fill="{base}" fill-rule="evenodd" d="M18 0 H572 Q590 0 590 18 V842 Q590 860 572 860 H18 Q0 860 0 842 V18 Q0 0 18 0 Z M35 40 V600 H555 V40 Z"/>'
+ border=f'<rect x="6" y="6" width="578" height="848" rx="14" fill="none" stroke="{DARK}" stroke-width="5"/><rect x="17" y="17" width="556" height="826" rx="7" fill="none" stroke="{pale}" stroke-width="3"/><rect x="32" y="37" width="526" height="566" fill="none" stroke="{DARK}" stroke-width="6"/>'
+ clouddefs='<defs><filter id="clouds" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".018 .032" numOctaves="3" seed="19"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.3 0 0 0 -.35"/><feGaussianBlur stdDeviation="1.4"/></filter><clipPath id="band-clip"><rect x="28" y="608" width="534" height="224" rx="4"/></clipPath><clipPath id="frame-clip"><path clip-rule="evenodd" d="M0 0 H590 V860 H0 Z M35 40 V600 H555 V40 Z"/></clipPath></defs>'
  clouds=clouddefs+'<g clip-path="url(#frame-clip)" opacity=".48"><rect width="590" height="860" filter="url(#clouds)"/></g>'
- band=f'<rect x="28" y="698" width="534" height="134" rx="4" fill="{base}" stroke="{DARK}" stroke-width="3"/><g clip-path="url(#band-clip)"><rect x="28" y="698" width="534" height="134" fill="{pale}" opacity=".40"/><rect x="28" y="698" width="534" height="134" filter="url(#clouds)" opacity=".85"/></g>'
+ band=f'<rect x="28" y="608" width="534" height="224" rx="4" fill="{base}" stroke="{DARK}" stroke-width="3"/><g clip-path="url(#band-clip)"><rect x="28" y="608" width="534" height="224" fill="{pale}" opacity=".40"/><rect x="28" y="608" width="534" height="224" filter="url(#clouds)" opacity=".85"/></g>'
  if name not in ('spell','trap'):
   for x in [50,320]:
-   band+=f'<path d="M{x+7} 762 H{x+203} L{x+210} 769 V811 L{x+203} 818 H{x+7} L{x} 811 V769 Z" fill="{DARK}"/><path d="M{x+9} 765 H{x+201} L{x+207} 771 V809 L{x+201} 815 H{x+9} L{x+3} 809 V771 Z" fill="{pale}"/><rect x="{x+7}" y="769" width="196" height="42" fill="{IVORY}" stroke="{DARK}" stroke-width="2"/><path d="M{x+10} 773 H{x+200} M{x+10} 807 H{x+200}" stroke="{base}" stroke-width="1.5"/>'
+   band+=f'<path d="M{x+7} 704 H{x+203} L{x+210} 711 V799 L{x+203} 806 H{x+7} L{x} 799 V711 Z" fill="{DARK}"/><path d="M{x+9} 707 H{x+201} L{x+207} 713 V797 L{x+201} 803 H{x+9} L{x+3} 797 V713 Z" fill="{pale}"/><rect x="{x+7}" y="711" width="196" height="88" fill="{IVORY}" stroke="{DARK}" stroke-width="2"/><path d="M{x+10} 715 H{x+200} M{x+10} 795 H{x+200}" stroke="{base}" stroke-width="1.5"/>'
  # A small original type signature in the top frame rail, leaves window clear.
  marks=['M-12 0 H12','M-13 0 H-4 M4 0 H13','M-13 0 L0 -6 L13 0 L0 6 Z','M-13 0 L-6 -6 L0 0 L6 -6 L13 0 L6 6 L0 0 L-6 6 Z','M-12 5 L0 -6 L12 5','M-12 -5 L0 6 L12 -5']
  ornament=f'<path d="{marks[i]}" transform="translate(295 24)" fill="none" stroke="{DARK}" stroke-width="3" stroke-linejoin="round"/>'
@@ -67,5 +67,5 @@ for i in range(10):
  pts.append(f'{32+r*math.cos(a):.2f},{32+r*math.sin(a):.2f}')
 save('star',64,64,layer('medallion','<circle cx="32" cy="32" r="30" fill="#c88b32" stroke="#6e481e" stroke-width="3"/>')+layer('star',f'<polygon points="{" ".join(pts)}" fill="#fff0aa" stroke="#6e481e" stroke-width="2"/>'))
 # Reference data mirrors systems.md. Coordinates intentionally do not decide art crop.
-(SRC/'frame-layout.json').write_text(json.dumps({'size':[590,860],'art_window':[35,40,520,650],'inset_pct':6,'stars':[40,730],'attribute':[520,730],'atk':[60,770],'def':[330,770]},indent=2)+'\n')
+(SRC/'frame-layout.json').write_text(json.dumps({'size':[590,860],'art_window':[35,40,520,560],'inset_pct':6,'stars':[68,656],'attribute':[514,656],'atk':[68,726],'def':[338,726],'data_panel':[28,608,534,224],'star_size':[32,32],'star_step':34,'attribute_size':[48,48],'stat_font_px':56},indent=2)+'\n')
 print('Wrote',len(list(SRC.glob('*.svg'))),'layered SVG sources to',SRC)

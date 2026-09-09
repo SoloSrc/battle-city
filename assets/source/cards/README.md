@@ -25,34 +25,30 @@ installed module path if Sharp is not on Node's search path. There are no font
 or raster references in the asset SVGs. The contact sheet uses a system font
 only for review annotations; it is not a game texture.
 
-The exporter verifies exact sizes, all 338,000 art-window pixels fully clear
+The exporter verifies exact sizes, all 291,200 art-window pixels fully clear
 per frame, and approximate 180-degree raster symmetry of the back (mean channel
 error ≤0.2/255 to allow edge antialiasing). Its shapes are vector-symmetric.
 `validation.json` records the exported inventory. Godot verification checks the
 22 Texture2D resources and bindings to StandardMaterial3D; it cannot validate
 Fable's pending hologram shader.
 
-## Compositing
+## Compositing — director-approved revision 03
 
-Frames/back are 590×860. Frame PNGs have transparent exterior corners and the
-exact open art rectangle `[35,40,520,650]`; place art behind that opening.
-Do not interpret a transparent frame as a complete opaque card. Compose art,
-frame, icons and labels into CardView's viewport before using the hologram
-material. Spell/trap have an empty lower band; monster frames have two empty
-stat plates. There are no baked names, rules, stats, stars or attributes.
+Use the exact dimensions, icon centres and text origins in `frame-layout.json`,
+now documented in systems.md §6.2. The art rectangle is `[35,40,520,560]`, and
+the data panel is `[28,608,534,224]`. Frames retain transparent windows/exterior
+corners, with cloud texture and inset bevelled number plates. The exporter
+checks all 291,200 art-window pixels per frame.
 
-For preview only: stars are 24×24 at centre `(40 + 36*i, 730)` for up to 12;
-attribute 32×32 centred `(520,730)`. Values from the revised ATK/DEF anchors
-are top-left positions; use engine font metrics to lay out numbers in the plates.
-Spell/trap badge and subtype examples use 78×78 at `(46,719)` and `(156,719)`.
-The director requested additional margin: these revised anchors supersede the earlier preview positions. ATK/DEF text origins are now `(60,770)` and `(330,770)`; Fable should apply these in CardView.
+Stars render at 32×32 centred `(68 + 34*i,656)`; attribute at 48×48 centred
+`(514,656)`. This leaves 24 px padding at the left/right edges and 32 px between
+the twelfth star and attribute. ATK/DEF text-box origins are `(68,726)` and
+`(338,726)` with a 56 px starting font size, adjusted using engine font metrics.
+Spell/trap use 104×104 badges at `(60,665)` and `(198,665)`.
 
-Attribute files: `attr_dark`, `attr_light`, `attr_earth`, `attr_water`,
-`attr_fire`, `attr_wind`, `attr_divine` (128² PNG).
-Glyph files: `st_spell`, `st_trap`, `st_equip`, `st_continuous`, `st_quick_play`,
-`st_counter`, `st_field` (128² PNG). Level: `star.png` (64²).
-None has baked text; glyph shapes distinguish the symbols without colour alone.
+Compose art, frame, icons and text into CardView before mapping to a world quad.
+No stats, stars, attributes, name or rules text are baked into frames. The art
+crop policy remains deferred. Equip uses a breastplate; Counter a shield
+redirecting a strike. The director's supplied reference image is not committed.
 
-See [review handoff](../../../docs/requests/card-graphics30.md).
-
-Revision 02 adds deterministic SVG cloud texture and bevelled double-line stat borders. Equip uses a breastplate; Counter uses an incoming strike deflected by a shield. The supplied commercial card reference is not included in the repository.
+See [director-approved handoff](../../../docs/requests/card-layout-director-approved.md).
