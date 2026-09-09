@@ -14,13 +14,16 @@ colors={'normal':('#c8a577','#eddbc0'),'effect':('#c87841','#f4d5ad'),'fusion':(
 for i,(name,(base,pale)) in enumerate(colors.items()):
  shell=f'<path fill="{base}" fill-rule="evenodd" d="M18 0 H572 Q590 0 590 18 V842 Q590 860 572 860 H18 Q0 860 0 842 V18 Q0 0 18 0 Z M35 40 V690 H555 V40 Z"/>'
  border=f'<rect x="6" y="6" width="578" height="848" rx="14" fill="none" stroke="{DARK}" stroke-width="5"/><rect x="17" y="17" width="556" height="826" rx="7" fill="none" stroke="{pale}" stroke-width="3"/><rect x="32" y="37" width="526" height="656" fill="none" stroke="{DARK}" stroke-width="6"/>'
- band=f'<rect x="28" y="698" width="534" height="134" rx="7" fill="{pale}" stroke="{DARK}" stroke-width="3"/>'
+ clouddefs='<defs><filter id="clouds" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".018 .032" numOctaves="3" seed="19"/><feColorMatrix type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1.3 0 0 0 -.35"/><feGaussianBlur stdDeviation="1.4"/></filter><clipPath id="band-clip"><rect x="28" y="698" width="534" height="134" rx="4"/></clipPath><clipPath id="frame-clip"><path clip-rule="evenodd" d="M0 0 H590 V860 H0 Z M35 40 V690 H555 V40 Z"/></clipPath></defs>'
+ clouds=clouddefs+'<g clip-path="url(#frame-clip)" opacity=".48"><rect width="590" height="860" filter="url(#clouds)"/></g>'
+ band=f'<rect x="28" y="698" width="534" height="134" rx="4" fill="{base}" stroke="{DARK}" stroke-width="3"/><g clip-path="url(#band-clip)"><rect x="28" y="698" width="534" height="134" fill="{pale}" opacity=".40"/><rect x="28" y="698" width="534" height="134" filter="url(#clouds)" opacity=".85"/></g>'
  if name not in ('spell','trap'):
-  band+=''.join(f'<rect x="{x}" y="752" width="210" height="65" rx="5" fill="{IVORY}" stroke="{DARK}" stroke-width="3"/>' for x in [50,320])
+  for x in [50,320]:
+   band+=f'<path d="M{x+7} 762 H{x+203} L{x+210} 769 V811 L{x+203} 818 H{x+7} L{x} 811 V769 Z" fill="{DARK}"/><path d="M{x+9} 765 H{x+201} L{x+207} 771 V809 L{x+201} 815 H{x+9} L{x+3} 809 V771 Z" fill="{pale}"/><rect x="{x+7}" y="769" width="196" height="42" fill="{IVORY}" stroke="{DARK}" stroke-width="2"/><path d="M{x+10} 773 H{x+200} M{x+10} 807 H{x+200}" stroke="{base}" stroke-width="1.5"/>'
  # A small original type signature in the top frame rail, leaves window clear.
  marks=['M-12 0 H12','M-13 0 H-4 M4 0 H13','M-13 0 L0 -6 L13 0 L0 6 Z','M-13 0 L-6 -6 L0 0 L6 -6 L13 0 L6 6 L0 0 L-6 6 Z','M-12 5 L0 -6 L12 5','M-12 -5 L0 6 L12 -5']
  ornament=f'<path d="{marks[i]}" transform="translate(295 24)" fill="none" stroke="{DARK}" stroke-width="3" stroke-linejoin="round"/>'
- save('frame_'+name,590,860,layer('frame-base',shell)+layer('border',border)+layer('information-band',band)+layer('type-signature',ornament))
+ save('frame_'+name,590,860,layer('frame-base',shell)+layer('cloud-texture',clouds)+layer('border',border)+layer('information-band',band)+layer('type-signature',ornament))
 # Card back invariant under 180-degree rotation; one blue accent with light/dark values.
 back=f'<rect width="590" height="860" rx="18" fill="{DARK}"/><rect x="15" y="15" width="560" height="830" rx="12" fill="#3565a9" stroke="{IVORY}" stroke-width="3"/><rect x="35" y="35" width="520" height="790" rx="6" fill="{DARK}" stroke="#78a2d0" stroke-width="3"/>'
 pattern=''
@@ -48,10 +51,10 @@ for name,(path,col) in paths.items():
 glyphs={
 'spell':'M64 22 L74 53 L106 64 L74 75 L64 106 L54 75 L22 64 L54 53 Z',
  'trap':'M29 31 H99 V70 L64 104 L29 70 Z M45 48 L83 83 M83 48 L45 83',
- 'equip':'M38 95 L88 45 M80 28 L99 47 L85 61 L66 42 Z M28 81 L52 105',
+ 'equip':'M43 25 L30 34 L34 55 L26 71 L35 103 H93 L102 71 L94 55 L98 34 L85 25 C82 48 46 48 43 25 Z M64 53 V92 M41 74 L64 82 L87 74',
  'continuous':'M63 63 C24 18 10 92 42 85 C70 79 64 30 90 41 C122 55 101 108 63 63 Z',
  'quick_play':'M73 20 L34 69 H61 L52 109 L96 56 H70 Z',
- 'counter':'M99 82 A39 39 0 1 0 33 91 M28 68 L33 91 L56 85',
+ 'counter':'M35 52 L58 43 L80 52 V75 Q77 94 58 104 Q38 94 35 75 Z M24 24 L61 60 L103 23 M81 23 H103 V45',
  'field':'M64 23 L107 47 L64 71 L21 47 Z M21 66 L64 90 L107 66 M21 85 L64 109 L107 85'}
 for name,path in glyphs.items():
  col='#33948d' if name=='spell' else '#b4538c' if name=='trap' else DARK
@@ -64,5 +67,5 @@ for i in range(10):
  pts.append(f'{32+r*math.cos(a):.2f},{32+r*math.sin(a):.2f}')
 save('star',64,64,layer('medallion','<circle cx="32" cy="32" r="30" fill="#c88b32" stroke="#6e481e" stroke-width="3"/>')+layer('star',f'<polygon points="{" ".join(pts)}" fill="#fff0aa" stroke="#6e481e" stroke-width="2"/>'))
 # Reference data mirrors systems.md. Coordinates intentionally do not decide art crop.
-(SRC/'frame-layout.json').write_text(json.dumps({'size':[590,860],'art_window':[35,40,520,650],'inset_pct':6,'stars':[40,712],'attribute':[520,712],'atk':[60,760],'def':[330,760]},indent=2)+'\n')
+(SRC/'frame-layout.json').write_text(json.dumps({'size':[590,860],'art_window':[35,40,520,650],'inset_pct':6,'stars':[40,730],'attribute':[520,730],'atk':[60,770],'def':[330,770]},indent=2)+'\n')
 print('Wrote',len(list(SRC.glob('*.svg'))),'layered SVG sources to',SRC)

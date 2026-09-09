@@ -6,7 +6,7 @@ No external art or font files are included. The SVGs use named Inkscape layers
 Open them in a vector editor to change shapes, colours or layer visibility.
 
 Runtime PNGs live in `assets/cards/frames/` and `assets/cards/icons/`.
-`frame-layout.json` mirrors the documented coordinates in systems.md §6.2;
+`frame-layout.json` retains the documented art rectangle and proposes revised lower-band coordinates;
 it is a handoff reference, not an engine schema addition or art crop decision.
 
 ## Rebuild
@@ -41,11 +41,11 @@ frame, icons and labels into CardView's viewport before using the hologram
 material. Spell/trap have an empty lower band; monster frames have two empty
 stat plates. There are no baked names, rules, stats, stars or attributes.
 
-For preview only: stars are 24×24 at centre `(40 + 36*i, 712)` for up to 12;
-attribute 44×44 centred `(520,712)`. Values from the documented ATK/DEF anchors
+For preview only: stars are 24×24 at centre `(40 + 36*i, 730)` for up to 12;
+attribute 32×32 centred `(520,730)`. Values from the revised ATK/DEF anchors
 are top-left positions; use engine font metrics to lay out numbers in the plates.
 Spell/trap badge and subtype examples use 78×78 at `(46,719)` and `(156,719)`.
-These sizes are renderer proposals, not changes to the approved anchor points.
+The director requested additional margin: these revised anchors supersede the earlier preview positions. ATK/DEF text origins are now `(60,770)` and `(330,770)`; Fable should apply these in CardView.
 
 Attribute files: `attr_dark`, `attr_light`, `attr_earth`, `attr_water`,
 `attr_fire`, `attr_wind`, `attr_divine` (128² PNG).
@@ -54,3 +54,5 @@ Glyph files: `st_spell`, `st_trap`, `st_equip`, `st_continuous`, `st_quick_play`
 None has baked text; glyph shapes distinguish the symbols without colour alone.
 
 See [review handoff](../../../docs/requests/card-graphics30.md).
+
+Revision 02 adds deterministic SVG cloud texture and bevelled double-line stat borders. Equip uses a breastplate; Counter uses an incoming strike deflected by a shield. The supplied commercial card reference is not included in the repository.
