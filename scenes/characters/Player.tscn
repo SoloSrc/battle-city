@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" path="res://scenes/characters/Character.tscn" id="1_character"]
 [ext_resource type="Script" path="res://src/Characters/PlayerController.cs" id="2_controller"]
 
-[node name="Player" instance=ExtResource("1_character")]
+[node name="Player" groups=["player"] instance=ExtResource("1_character")]
 
 [node name="Controller" type="Node" parent="." index="5"]
 script = ExtResource("2_controller")

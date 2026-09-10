@@ -1,0 +1,112 @@
+[gd_scene load_steps=13 format=3 uid="uid://c0camframing001"]
+
+[ext_resource type="Script" path="res://src/Diagnostics/CameraFramingScene.cs" id="1_test"]
+[ext_resource type="PackedScene" path="res://scenes/characters/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/characters/Character.tscn" id="3_character"]
+[ext_resource type="PackedScene" path="res://scenes/world/CameraRig.tscn" id="4_rig"]
+[ext_resource type="PackedScene" path="res://scenes/world/CameraBounds.tscn" id="5_bounds"]
+[ext_resource type="Shader" path="res://shaders/debug_grid.gdshader" id="6_grid"]
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0.38, 0.55, 0.85, 1)
+sky_horizon_color = Color(0.72, 0.78, 0.86, 1)
+ground_bottom_color = Color(0.2, 0.2, 0.22, 1)
+ground_horizon_color = Color(0.72, 0.78, 0.86, 1)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.6
+tonemap_mode = 2
+
+[sub_resource type="ShaderMaterial" id="grid_mat"]
+shader = ExtResource("6_grid")
+
+[sub_resource type="PlaneMesh" id="grid_mesh"]
+material = SubResource("grid_mat")
+size = Vector2(80, 80)
+
+[sub_resource type="BoxShape3D" id="ground_shape"]
+size = Vector3(80, 0.2, 80)
+
+[sub_resource type="StyleBoxFlat" id="hud_panel"]
+content_margin_left = 10.0
+content_margin_top = 8.0
+content_margin_right = 10.0
+content_margin_bottom = 8.0
+bg_color = Color(0, 0, 0, 0.55)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="CameraFraming" type="Node3D" node_paths=PackedStringArray("Player", "Controller", "Rig", "Plaza", "Interior", "Cubes", "ReportLabel")]
+script = ExtResource("1_test")
+Player = NodePath("Player")
+Controller = NodePath("Player/Controller")
+Rig = NodePath("CameraRig")
+Plaza = NodePath("Bounds/Plaza")
+Interior = NodePath("Bounds/Interior")
+Cubes = NodePath("Cubes")
+ReportLabel = NodePath("Hud/ReportPanel/Report")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.321394, 0.383022, 0, 0.766044, 0.642788, -0.5, -0.55667, 0.663414, 0, 8, 0)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="Grid" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("grid_mesh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("ground_shape")
+
+[node name="Cubes" type="Node3D" parent="."]
+
+[node name="Bounds" type="Node3D" parent="."]
+
+[node name="Plaza" parent="Bounds" instance=ExtResource("5_bounds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 5, 0)
+Size = Vector3(26, 10, 16)
+
+[node name="Interior" parent="Bounds" instance=ExtResource("5_bounds")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 2, 0)
+Size = Vector3(8, 4, 8)
+priority = 1
+Interior = true
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+
+[node name="Duelist" parent="." instance=ExtResource("3_character")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, -7)
+
+[node name="Bystander" parent="." instance=ExtResource("3_character")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -4, 0, 1)
+EquipDuelDisk = false
+
+[node name="CameraRig" parent="." node_paths=PackedStringArray("Target") instance=ExtResource("4_rig")]
+Target = NodePath("../Player")
+
+[node name="Hud" type="CanvasLayer" parent="."]
+
+[node name="ReportPanel" type="PanelContainer" parent="Hud"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 760.0
+offset_bottom = 80.0
+theme_override_styles/panel = SubResource("hud_panel")
+
+[node name="Report" type="Label" parent="Hud/ReportPanel"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "CameraFraming"
