@@ -266,7 +266,7 @@ public partial class Game : Node
         Camera?.Snap();
     }
 
-    /// <summary>Levels are committed without baked navigation data; bake at load and push the mesh into the map right away.</summary>
+    /// <summary>Levels are committed without baked navigation data; bake at load. The map takes the mesh a few physics frames later, well before the fade-in ends.</summary>
     private static void BakeNavigation(Node3D level)
     {
         foreach (Node child in level.GetChildren())
@@ -275,7 +275,6 @@ public partial class Game : Node
             {
                 region.NavigationMesh ??= new NavigationMesh();
                 region.BakeNavigationMesh(false);
-                NavigationServer3D.MapForceUpdate(level.GetWorld3D().NavigationMap);
             }
         }
     }
