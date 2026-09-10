@@ -1,0 +1,908 @@
+[gd_scene load_steps=65 format=3]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_ground_street.glb" id="1"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_ground_street_edge.glb" id="2"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_ground_pavement.glb" id="3"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_ground_pavement_edge.glb" id="4"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_ground_plaza.glb" id="5"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_ground_plaza_edge.glb" id="6"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_ground_grass.glb" id="7"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_ground_grass_edge.glb" id="8"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_ground_path.glb" id="9"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_ground_path_edge.glb" id="10"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_kerb_straight.glb" id="11"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_kerb_corner_out.glb" id="12"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_kerb_corner_in.glb" id="13"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_kerb_ramp.glb" id="14"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_wall_plain.glb" id="15"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_wall_window.glb" id="16"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_wall_door.glb" id="17"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_wall_shop_front.glb" id="18"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_wall_corner.glb" id="19"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_roof_flat_warm.glb" id="20"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_roof_pitched_warm.glb" id="21"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_roof_pitched_end_warm.glb" id="22"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_roof_ridge_warm.glb" id="23"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_roof_flat_green.glb" id="24"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_roof_pitched_green.glb" id="25"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_roof_pitched_end_green.glb" id="26"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_roof_ridge_green.glb" id="27"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_shop_awning.glb" id="28"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_shop_sign.glb" id="29"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_shop_door.glb" id="30"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_shop_window_display.glb" id="31"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_arcade_sign.glb" id="32"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_arcade_marquee.glb" id="33"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_arcade_closed_doors.glb" id="34"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_bound_hedge.glb" id="35"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_bound_fence.glb" id="36"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_bound_construction.glb" id="37"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_bound_river_edge.glb" id="38"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_bound_river_water.glb" id="39"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_bench.glb" id="40"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_lamp_post.glb" id="41"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_planter_small.glb" id="42"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_planter_large.glb" id="43"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_tree_round.glb" id="44"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_tree_tall.glb" id="45"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_bush.glb" id="46"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_fountain.glb" id="47"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_sign_post.glb" id="48"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_bin.glb" id="49"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_crate.glb" id="50"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_int_counter.glb" id="51"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_int_shelves.glb" id="52"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_int_card_display.glb" id="53"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_int_floor.glb" id="54"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_int_wall.glb" id="55"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_int_bed.glb" id="56"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_int_desk.glb" id="57"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_int_door.glb" id="58"]
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0.38, 0.58, 0.77, 1)
+sky_horizon_color = Color(0.87, 0.87, 0.8, 1)
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_color = Color(0.85, 0.86, 0.9, 1)
+ambient_light_energy = 0.35
+reflected_light_source = 2
+[sub_resource type="StandardMaterial3D" id="floor_mat"]
+albedo_color = Color(0.19, 0.23, 0.28, 1)
+roughness = 1.0
+[sub_resource type="PlaneMesh" id="floor"]
+material = SubResource("floor_mat")
+size = Vector2(52, 54)
+[node name="EnvironmentKit" type="Node3D"]
+[node name="Environment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-55, -25, 0)
+light_energy = 0.7
+shadow_enabled = true
+[node name="Floor" type="MeshInstance3D" parent="."]
+position = Vector3(22, -0.05, 22)
+mesh = SubResource("floor")
+[node name="Overview" type="Camera3D" parent="."]
+position = Vector3(22, 48, 65)
+rotation_degrees = Vector3(-48, 0, 0)
+projection = 1
+size = 54.0
+far = 200.0
+current = true
+
+
+[node name="kit_ground_street" parent="." instance=ExtResource("1")]
+position = Vector3(0, 0, 0)
+
+[node name="Label_0" type="Label3D" parent="."]
+position = Vector3(1, 0.06, 3.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "ground street"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_ground_street_edge" parent="." instance=ExtResource("2")]
+position = Vector3(6, 0, 0)
+
+[node name="Label_1" type="Label3D" parent="."]
+position = Vector3(7, 0.06, 3.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "ground street edge"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_ground_pavement" parent="." instance=ExtResource("3")]
+position = Vector3(12, 0, 0)
+
+[node name="Label_2" type="Label3D" parent="."]
+position = Vector3(13, 0.06, 3.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "ground pavement"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_ground_pavement_edge" parent="." instance=ExtResource("4")]
+position = Vector3(18, 0, 0)
+
+[node name="Label_3" type="Label3D" parent="."]
+position = Vector3(19, 0.06, 3.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "ground pavement edge"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_ground_plaza" parent="." instance=ExtResource("5")]
+position = Vector3(24, 0, 0)
+
+[node name="Label_4" type="Label3D" parent="."]
+position = Vector3(25, 0.06, 3.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "ground plaza"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_ground_plaza_edge" parent="." instance=ExtResource("6")]
+position = Vector3(30, 0, 0)
+
+[node name="Label_5" type="Label3D" parent="."]
+position = Vector3(31, 0.06, 3.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "ground plaza edge"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_ground_grass" parent="." instance=ExtResource("7")]
+position = Vector3(36, 0, 0)
+
+[node name="Label_6" type="Label3D" parent="."]
+position = Vector3(37, 0.06, 3.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "ground grass"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_ground_grass_edge" parent="." instance=ExtResource("8")]
+position = Vector3(42, 0, 0)
+
+[node name="Label_7" type="Label3D" parent="."]
+position = Vector3(43, 0.06, 3.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "ground grass edge"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_ground_path" parent="." instance=ExtResource("9")]
+position = Vector3(0, 0, 6)
+
+[node name="Label_8" type="Label3D" parent="."]
+position = Vector3(1, 0.06, 9.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "ground path"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_ground_path_edge" parent="." instance=ExtResource("10")]
+position = Vector3(6, 0, 6)
+
+[node name="Label_9" type="Label3D" parent="."]
+position = Vector3(7, 0.06, 9.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "ground path edge"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_kerb_straight" parent="." instance=ExtResource("11")]
+position = Vector3(12, 0, 6)
+
+[node name="Label_10" type="Label3D" parent="."]
+position = Vector3(13, 0.06, 9.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "kerb straight"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_kerb_corner_out" parent="." instance=ExtResource("12")]
+position = Vector3(18, 0, 6)
+
+[node name="Label_11" type="Label3D" parent="."]
+position = Vector3(19, 0.06, 9.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "kerb corner out"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_kerb_corner_in" parent="." instance=ExtResource("13")]
+position = Vector3(24, 0, 6)
+
+[node name="Label_12" type="Label3D" parent="."]
+position = Vector3(25, 0.06, 9.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "kerb corner in"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_kerb_ramp" parent="." instance=ExtResource("14")]
+position = Vector3(30, 0, 6)
+
+[node name="Label_13" type="Label3D" parent="."]
+position = Vector3(31, 0.06, 9.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "kerb ramp"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_wall_plain" parent="." instance=ExtResource("15")]
+position = Vector3(36, 0, 6)
+
+[node name="Label_14" type="Label3D" parent="."]
+position = Vector3(37, 0.06, 9.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "wall plain"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_wall_window" parent="." instance=ExtResource("16")]
+position = Vector3(42, 0, 6)
+
+[node name="Label_15" type="Label3D" parent="."]
+position = Vector3(43, 0.06, 9.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "wall window"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_wall_door" parent="." instance=ExtResource("17")]
+position = Vector3(0, 0, 12)
+
+[node name="Label_16" type="Label3D" parent="."]
+position = Vector3(1, 0.06, 15.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "wall door"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_wall_shop_front" parent="." instance=ExtResource("18")]
+position = Vector3(6, 0, 12)
+
+[node name="Label_17" type="Label3D" parent="."]
+position = Vector3(7, 0.06, 15.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "wall shop front"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_wall_corner" parent="." instance=ExtResource("19")]
+position = Vector3(12, 0, 12)
+
+[node name="Label_18" type="Label3D" parent="."]
+position = Vector3(13, 0.06, 15.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "wall corner"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_roof_flat_warm" parent="." instance=ExtResource("20")]
+position = Vector3(18, 0, 12)
+
+[node name="Label_19" type="Label3D" parent="."]
+position = Vector3(19, 0.06, 15.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "roof flat warm"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_roof_pitched_warm" parent="." instance=ExtResource("21")]
+position = Vector3(24, 0, 12)
+
+[node name="Label_20" type="Label3D" parent="."]
+position = Vector3(25, 0.06, 15.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "roof pitched warm"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_roof_pitched_end_warm" parent="." instance=ExtResource("22")]
+position = Vector3(30, 0, 12)
+
+[node name="Label_21" type="Label3D" parent="."]
+position = Vector3(31, 0.06, 15.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "roof pitched end warm"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_roof_ridge_warm" parent="." instance=ExtResource("23")]
+position = Vector3(36, 0, 12)
+
+[node name="Label_22" type="Label3D" parent="."]
+position = Vector3(37, 0.06, 15.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "roof ridge warm"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_roof_flat_green" parent="." instance=ExtResource("24")]
+position = Vector3(42, 0, 12)
+
+[node name="Label_23" type="Label3D" parent="."]
+position = Vector3(43, 0.06, 15.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "roof flat green"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_roof_pitched_green" parent="." instance=ExtResource("25")]
+position = Vector3(0, 0, 18)
+
+[node name="Label_24" type="Label3D" parent="."]
+position = Vector3(1, 0.06, 21.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "roof pitched green"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_roof_pitched_end_green" parent="." instance=ExtResource("26")]
+position = Vector3(6, 0, 18)
+
+[node name="Label_25" type="Label3D" parent="."]
+position = Vector3(7, 0.06, 21.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "roof pitched end green"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_roof_ridge_green" parent="." instance=ExtResource("27")]
+position = Vector3(12, 0, 18)
+
+[node name="Label_26" type="Label3D" parent="."]
+position = Vector3(13, 0.06, 21.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "roof ridge green"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_shop_awning" parent="." instance=ExtResource("28")]
+position = Vector3(18, 0, 18)
+
+[node name="Label_27" type="Label3D" parent="."]
+position = Vector3(19, 0.06, 21.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "shop awning"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_shop_sign" parent="." instance=ExtResource("29")]
+position = Vector3(24, 0, 18)
+
+[node name="Label_28" type="Label3D" parent="."]
+position = Vector3(25, 0.06, 21.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "shop sign"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_shop_door" parent="." instance=ExtResource("30")]
+position = Vector3(30, 0, 18)
+
+[node name="Label_29" type="Label3D" parent="."]
+position = Vector3(31, 0.06, 21.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "shop door"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_shop_window_display" parent="." instance=ExtResource("31")]
+position = Vector3(36, 0, 18)
+
+[node name="Label_30" type="Label3D" parent="."]
+position = Vector3(37, 0.06, 21.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "shop window display"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_arcade_sign" parent="." instance=ExtResource("32")]
+position = Vector3(42, 0, 18)
+
+[node name="Label_31" type="Label3D" parent="."]
+position = Vector3(43, 0.06, 21.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "arcade sign"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_arcade_marquee" parent="." instance=ExtResource("33")]
+position = Vector3(0, 0, 24)
+
+[node name="Label_32" type="Label3D" parent="."]
+position = Vector3(1, 0.06, 27.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "arcade marquee"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_arcade_closed_doors" parent="." instance=ExtResource("34")]
+position = Vector3(6, 0, 24)
+
+[node name="Label_33" type="Label3D" parent="."]
+position = Vector3(7, 0.06, 27.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "arcade closed doors"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_bound_hedge" parent="." instance=ExtResource("35")]
+position = Vector3(12, 0, 24)
+
+[node name="Label_34" type="Label3D" parent="."]
+position = Vector3(13, 0.06, 27.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "bound hedge"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_bound_fence" parent="." instance=ExtResource("36")]
+position = Vector3(18, 0, 24)
+
+[node name="Label_35" type="Label3D" parent="."]
+position = Vector3(19, 0.06, 27.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "bound fence"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_bound_construction" parent="." instance=ExtResource("37")]
+position = Vector3(24, 0, 24)
+
+[node name="Label_36" type="Label3D" parent="."]
+position = Vector3(25, 0.06, 27.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "bound construction"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_bound_river_edge" parent="." instance=ExtResource("38")]
+position = Vector3(30, 0, 24)
+
+[node name="Label_37" type="Label3D" parent="."]
+position = Vector3(31, 0.06, 27.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "bound river edge"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_bound_river_water" parent="." instance=ExtResource("39")]
+position = Vector3(36, 0, 24)
+
+[node name="Label_38" type="Label3D" parent="."]
+position = Vector3(37, 0.06, 27.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "bound river water"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="prop_bench" parent="." instance=ExtResource("40")]
+position = Vector3(42, 0, 24)
+
+[node name="Label_39" type="Label3D" parent="."]
+position = Vector3(43, 0.06, 27.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "bench"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="prop_lamp_post" parent="." instance=ExtResource("41")]
+position = Vector3(0, 0, 30)
+
+[node name="Label_40" type="Label3D" parent="."]
+position = Vector3(1, 0.06, 33.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "lamp post"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="prop_planter_small" parent="." instance=ExtResource("42")]
+position = Vector3(6, 0, 30)
+
+[node name="Label_41" type="Label3D" parent="."]
+position = Vector3(7, 0.06, 33.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "planter small"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="prop_planter_large" parent="." instance=ExtResource("43")]
+position = Vector3(12, 0, 30)
+
+[node name="Label_42" type="Label3D" parent="."]
+position = Vector3(13, 0.06, 33.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "planter large"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="prop_tree_round" parent="." instance=ExtResource("44")]
+position = Vector3(18, 0, 30)
+
+[node name="Label_43" type="Label3D" parent="."]
+position = Vector3(19, 0.06, 33.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "tree round"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="prop_tree_tall" parent="." instance=ExtResource("45")]
+position = Vector3(24, 0, 30)
+
+[node name="Label_44" type="Label3D" parent="."]
+position = Vector3(25, 0.06, 33.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "tree tall"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="prop_bush" parent="." instance=ExtResource("46")]
+position = Vector3(30, 0, 30)
+
+[node name="Label_45" type="Label3D" parent="."]
+position = Vector3(31, 0.06, 33.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "bush"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="prop_fountain" parent="." instance=ExtResource("47")]
+position = Vector3(36, 0, 30)
+
+[node name="Label_46" type="Label3D" parent="."]
+position = Vector3(37, 0.06, 33.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "fountain"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="prop_sign_post" parent="." instance=ExtResource("48")]
+position = Vector3(42, 0, 30)
+
+[node name="Label_47" type="Label3D" parent="."]
+position = Vector3(43, 0.06, 33.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "sign post"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="prop_bin" parent="." instance=ExtResource("49")]
+position = Vector3(0, 0, 36)
+
+[node name="Label_48" type="Label3D" parent="."]
+position = Vector3(1, 0.06, 39.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "bin"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="prop_crate" parent="." instance=ExtResource("50")]
+position = Vector3(6, 0, 36)
+
+[node name="Label_49" type="Label3D" parent="."]
+position = Vector3(7, 0.06, 39.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "crate"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_int_counter" parent="." instance=ExtResource("51")]
+position = Vector3(12, 0, 36)
+
+[node name="Label_50" type="Label3D" parent="."]
+position = Vector3(13, 0.06, 39.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "int counter"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_int_shelves" parent="." instance=ExtResource("52")]
+position = Vector3(18, 0, 36)
+
+[node name="Label_51" type="Label3D" parent="."]
+position = Vector3(19, 0.06, 39.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "int shelves"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_int_card_display" parent="." instance=ExtResource("53")]
+position = Vector3(24, 0, 36)
+
+[node name="Label_52" type="Label3D" parent="."]
+position = Vector3(25, 0.06, 39.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "int card display"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_int_floor" parent="." instance=ExtResource("54")]
+position = Vector3(30, 0, 36)
+
+[node name="Label_53" type="Label3D" parent="."]
+position = Vector3(31, 0.06, 39.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "int floor"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_int_wall" parent="." instance=ExtResource("55")]
+position = Vector3(36, 0, 36)
+
+[node name="Label_54" type="Label3D" parent="."]
+position = Vector3(37, 0.06, 39.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "int wall"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_int_bed" parent="." instance=ExtResource("56")]
+position = Vector3(42, 0, 36)
+
+[node name="Label_55" type="Label3D" parent="."]
+position = Vector3(43, 0.06, 39.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "int bed"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_int_desk" parent="." instance=ExtResource("57")]
+position = Vector3(0, 0, 42)
+
+[node name="Label_56" type="Label3D" parent="."]
+position = Vector3(1, 0.06, 45.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "int desk"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_int_door" parent="." instance=ExtResource("58")]
+position = Vector3(6, 0, 42)
+
+[node name="Label_57" type="Label3D" parent="."]
+position = Vector3(7, 0.06, 45.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "int door"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
