@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+
+level_check res://levels/district/interiors/CardShop.tscn
+level_check PASS: exactly one NavigationRegion3D under the root (found 1)
+level_check PASS: exactly one WorldEnvironment under the root (found 1)
+level_check PASS: exactly one DirectionalLight3D under the root (found 1)
+level_check PASS: exactly one PlayerSpawn with id 'arrival' (found 1)
+level_check PASS: Door 'Exit' return spawn 'exit_return' exists in this scene
+level_check PASS: at least one CameraBounds volume (found 1)
+level_check PASS: every navmesh vertex is inside a CameraBounds (0 of 8 outside)
+level_check PASS: 16 kit pieces and props checked for naming and scale
+level_check PASS: Door 'Exit' target 'DistrictComposition.tscn' has spawn 'shop_return'
+level_check INFO: whole level: 432 triangles, 24 surfaces (budget per view: 400000 tris, 600 draw calls)
+level_check summary: 9 pass, 0 fail, 0 warn

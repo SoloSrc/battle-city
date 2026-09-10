@@ -1,0 +1,804 @@
+[gd_scene load_steps=24 format=3]
+
+[ext_resource type="Script" path="res://src/World/SurfaceTag.cs" id="1"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/CameraBounds.tscn" id="2"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/AmbientZone.tscn" id="3"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_wall_window.glb" id="4"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_roof_flat_warm.glb" id="5"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_shop_awning.glb" id="6"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_shop_sign.glb" id="7"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/PlayerSpawn.tscn" id="8"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/Door.tscn" id="9"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/TalkNpc.tscn" id="10"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_planter_large.glb" id="11"]
+
+[sub_resource type="StandardMaterial3D" id="r1"]
+albedo_color = Color(0.5, 0.51, 0.49, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r2"]
+size = Vector3(32, 0.25, 56)
+material = SubResource("r1")
+
+[sub_resource type="BoxShape3D" id="r3"]
+size = Vector3(32, 0.25, 56)
+
+[sub_resource type="StandardMaterial3D" id="r4"]
+albedo_color = Color(0.69, 0.62, 0.49, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r5"]
+size = Vector3(12, 3.5, 10)
+material = SubResource("r4")
+
+[sub_resource type="BoxShape3D" id="r6"]
+size = Vector3(12, 3.5, 10)
+
+[sub_resource type="StandardMaterial3D" id="r7"]
+albedo_color = Color(0.69, 0.62, 0.49, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r8"]
+size = Vector3(18, 3.5, 6)
+material = SubResource("r7")
+
+[sub_resource type="BoxShape3D" id="r9"]
+size = Vector3(18, 3.5, 6)
+
+[sub_resource type="StandardMaterial3D" id="r10"]
+albedo_color = Color(0.69, 0.62, 0.49, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r11"]
+size = Vector3(18, 3.5, 10)
+material = SubResource("r10")
+
+[sub_resource type="BoxShape3D" id="r12"]
+size = Vector3(18, 3.5, 10)
+
+[node name="Market" type="Node3D"]
+
+
+[node name="MarketPaving" type="StaticBody3D" parent="."]
+position = Vector3(24.0, -0.125, 76.0)
+script = ExtResource("1")
+Kind = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="MarketPaving"]
+mesh = SubResource("r2")
+
+[node name="Collision" type="CollisionShape3D" parent="MarketPaving"]
+shape = SubResource("r3")
+
+[node name="CameraBounds" parent="." instance=ExtResource("2")]
+position = Vector3(24.0, 2, 76.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(36, 12, 60)
+Interior = false
+Pitch = 57.0
+Distance = 12.0
+
+[node name="AmbientZone" parent="." instance=ExtResource("3")]
+position = Vector3(24.0, 2, 76.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(32, 10, 56)
+metadata/area_id = "market"
+
+[node name="CardShop" type="StaticBody3D" parent="."]
+position = Vector3(22.0, 1.75, 68.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="CardShop"]
+mesh = SubResource("r5")
+
+[node name="Collision" type="CollisionShape3D" parent="CardShop"]
+shape = SubResource("r6")
+
+[node name="kit_wall_window_009" parent="." instance=ExtResource("4")]
+position = Vector3(16, 0, 73)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_010" parent="." instance=ExtResource("4")]
+position = Vector3(18, 0, 73)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_011" parent="." instance=ExtResource("4")]
+position = Vector3(20, 0, 73)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_012" parent="." instance=ExtResource("4")]
+position = Vector3(22, 0, 73)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_013" parent="." instance=ExtResource("4")]
+position = Vector3(24, 0, 73)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_014" parent="." instance=ExtResource("4")]
+position = Vector3(26, 0, 73)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_015" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 63)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_016" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 65)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_017" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 67)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_018" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 69)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_019" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 71)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_020" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 63)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_021" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 65)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_022" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 67)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_023" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 69)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_024" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 71)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_025" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 63)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_026" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 65)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_027" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 67)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_028" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 69)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_029" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 71)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_030" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 63)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_031" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 65)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_032" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 67)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_033" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 69)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_034" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 71)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_035" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 63)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_036" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 65)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_037" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 67)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_038" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 69)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_039" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 71)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_040" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 63)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_041" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 65)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_042" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 67)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_043" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 69)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_044" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 71)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_shop_awning_045" parent="." instance=ExtResource("6")]
+position = Vector3(20.0, 2.5, 73)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_shop_sign_046" parent="." instance=ExtResource("7")]
+position = Vector3(21.0, 3.05, 73.05)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="ShopReturn" parent="." instance=ExtResource("8")]
+position = Vector3(22, 0, 76)
+rotation = Vector3(0, 3.141593, 0)
+Id = "shop_return"
+
+[node name="CardShopDoor" parent="." instance=ExtResource("9")]
+position = Vector3(22, 0, 73.5)
+rotation = Vector3(0, 0.0, 0)
+TargetScene = "res://levels/district/interiors/CardShop.tscn"
+TargetSpawn = "arrival"
+ReturnSpawn = "shop_return"
+
+[node name="MarketResident" parent="." instance=ExtResource("10")]
+position = Vector3(30, 0, 78)
+rotation = Vector3(0, 3.141593, 0)
+
+
+[node name="Talk" parent="MarketResident" index="5"]
+DialogueId = "market_resident"
+
+[node name="CardCollector" parent="." instance=ExtResource("10")]
+position = Vector3(14, 0, 82)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="Talk" parent="CardCollector" index="5"]
+DialogueId = "card_collector"
+
+[node name="NorthMarketFacade" type="StaticBody3D" parent="."]
+position = Vector3(19.0, 1.75, 51.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="NorthMarketFacade"]
+mesh = SubResource("r8")
+
+[node name="Collision" type="CollisionShape3D" parent="NorthMarketFacade"]
+shape = SubResource("r9")
+
+[node name="kit_wall_window_056" parent="." instance=ExtResource("4")]
+position = Vector3(10, 0, 54)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_057" parent="." instance=ExtResource("4")]
+position = Vector3(12, 0, 54)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_058" parent="." instance=ExtResource("4")]
+position = Vector3(14, 0, 54)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_059" parent="." instance=ExtResource("4")]
+position = Vector3(16, 0, 54)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_060" parent="." instance=ExtResource("4")]
+position = Vector3(18, 0, 54)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_061" parent="." instance=ExtResource("4")]
+position = Vector3(20, 0, 54)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_062" parent="." instance=ExtResource("4")]
+position = Vector3(22, 0, 54)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_063" parent="." instance=ExtResource("4")]
+position = Vector3(24, 0, 54)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_064" parent="." instance=ExtResource("4")]
+position = Vector3(26, 0, 54)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_065" parent="." instance=ExtResource("5")]
+position = Vector3(10, 3.5, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_066" parent="." instance=ExtResource("5")]
+position = Vector3(10, 3.5, 50)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_067" parent="." instance=ExtResource("5")]
+position = Vector3(10, 3.5, 52)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_068" parent="." instance=ExtResource("5")]
+position = Vector3(12, 3.5, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_069" parent="." instance=ExtResource("5")]
+position = Vector3(12, 3.5, 50)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_070" parent="." instance=ExtResource("5")]
+position = Vector3(12, 3.5, 52)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_071" parent="." instance=ExtResource("5")]
+position = Vector3(14, 3.5, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_072" parent="." instance=ExtResource("5")]
+position = Vector3(14, 3.5, 50)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_073" parent="." instance=ExtResource("5")]
+position = Vector3(14, 3.5, 52)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_074" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_075" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 50)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_076" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 52)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_077" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_078" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 50)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_079" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 52)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_080" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_081" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 50)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_082" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 52)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_083" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_084" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 50)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_085" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 52)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_086" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_087" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 50)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_088" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 52)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_089" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_090" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 50)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_091" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 52)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="SouthMarketFacade" type="StaticBody3D" parent="."]
+position = Vector3(19.0, 1.75, 99.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="SouthMarketFacade"]
+mesh = SubResource("r11")
+
+[node name="Collision" type="CollisionShape3D" parent="SouthMarketFacade"]
+shape = SubResource("r12")
+
+[node name="kit_wall_window_095" parent="." instance=ExtResource("4")]
+position = Vector3(10, 0, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_096" parent="." instance=ExtResource("4")]
+position = Vector3(12, 0, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_097" parent="." instance=ExtResource("4")]
+position = Vector3(14, 0, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_098" parent="." instance=ExtResource("4")]
+position = Vector3(16, 0, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_099" parent="." instance=ExtResource("4")]
+position = Vector3(18, 0, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_100" parent="." instance=ExtResource("4")]
+position = Vector3(20, 0, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_101" parent="." instance=ExtResource("4")]
+position = Vector3(22, 0, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_102" parent="." instance=ExtResource("4")]
+position = Vector3(24, 0, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_103" parent="." instance=ExtResource("4")]
+position = Vector3(26, 0, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_104" parent="." instance=ExtResource("5")]
+position = Vector3(10, 3.5, 94)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_105" parent="." instance=ExtResource("5")]
+position = Vector3(10, 3.5, 96)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_106" parent="." instance=ExtResource("5")]
+position = Vector3(10, 3.5, 98)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_107" parent="." instance=ExtResource("5")]
+position = Vector3(10, 3.5, 100)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_108" parent="." instance=ExtResource("5")]
+position = Vector3(10, 3.5, 102)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_109" parent="." instance=ExtResource("5")]
+position = Vector3(12, 3.5, 94)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_110" parent="." instance=ExtResource("5")]
+position = Vector3(12, 3.5, 96)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_111" parent="." instance=ExtResource("5")]
+position = Vector3(12, 3.5, 98)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_112" parent="." instance=ExtResource("5")]
+position = Vector3(12, 3.5, 100)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_113" parent="." instance=ExtResource("5")]
+position = Vector3(12, 3.5, 102)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_114" parent="." instance=ExtResource("5")]
+position = Vector3(14, 3.5, 94)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_115" parent="." instance=ExtResource("5")]
+position = Vector3(14, 3.5, 96)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_116" parent="." instance=ExtResource("5")]
+position = Vector3(14, 3.5, 98)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_117" parent="." instance=ExtResource("5")]
+position = Vector3(14, 3.5, 100)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_118" parent="." instance=ExtResource("5")]
+position = Vector3(14, 3.5, 102)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_119" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 94)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_120" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 96)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_121" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 98)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_122" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 100)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_123" parent="." instance=ExtResource("5")]
+position = Vector3(16, 3.5, 102)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_124" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 94)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_125" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 96)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_126" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 98)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_127" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 100)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_128" parent="." instance=ExtResource("5")]
+position = Vector3(18, 3.5, 102)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_129" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 94)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_130" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 96)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_131" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 98)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_132" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 100)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_133" parent="." instance=ExtResource("5")]
+position = Vector3(20, 3.5, 102)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_134" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 94)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_135" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 96)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_136" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 98)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_137" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 100)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_138" parent="." instance=ExtResource("5")]
+position = Vector3(22, 3.5, 102)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_139" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 94)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_140" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 96)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_141" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 98)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_142" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 100)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_143" parent="." instance=ExtResource("5")]
+position = Vector3(24, 3.5, 102)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_144" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 94)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_145" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 96)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_146" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 98)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_147" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 100)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_148" parent="." instance=ExtResource("5")]
+position = Vector3(26, 3.5, 102)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="prop_planter_large_149" parent="." instance=ExtResource("11")]
+position = Vector3(12, 0, 76)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="prop_planter_large_150" parent="." instance=ExtResource("11")]
+position = Vector3(34, 0, 90)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="prop_planter_large_151" parent="." instance=ExtResource("11")]
+position = Vector3(34, 0, 54)
+rotation = Vector3(0, 0.0, 0)
