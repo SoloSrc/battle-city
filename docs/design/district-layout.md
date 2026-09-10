@@ -1,9 +1,10 @@
 # City District — Level Proposal
 
-**Author:** gpt-astra · **Updated:** 2026-09-07
+**Author:** gpt-astra · **Updated:** 2026-09-09
 
 **Status:** approved by the director (merged #12); aligned to the [GDD](gdd.md);
-spatial dimensions below are blockout proposals, not engine-tested placements.
+spatial dimensions below now have an artist-owned Godot greybox and spatial audit.
+Runtime acceptance remains pending #23; see the [composition handoff](../requests/district-composition31.md).
 
 ## Scope and route
 
@@ -17,8 +18,8 @@ shop and two NPCs; it is not a mandatory stop before the tutorial duel.
 ![District blockout plan](district-layout.svg)
 
 X increases east; Z increases south; ground Y = 0. One unit = one metre.
-The plan uses the GDD area IDs. Coordinates are proposed authoring data, not
-an alternative schema. Duel pocket dimensions remain 16 × 12 m; increasing
+The plan uses the GDD area IDs. Coordinates are authoring data, not an
+alternative engine schema. Duel pocket dimensions remain 16 × 12 m; increasing
 the district size does not scale characters, doors or duel spacing.
 
 | Area ID | Bounds X / Z (m) | Contents |
@@ -124,7 +125,8 @@ boundaries and must not create an accidental route around the Park gate.
    after each unlock. Confirm autosave/restore positions across area changes
    through Fable's save system. Validate profiling budgets before dense dressing.
 
-No in-engine validation has been performed. Movement, triggers/approach,
-progression gates, camera bounds, card-field/HUD, room/shop transitions and
-save/return behaviour depend on Fable's reusable tools. See the
-[technical handoff](../requests/art-direction-review.md).
+The #31 review assembly has passed collision, marker, navigation and injected
+joypad movement checks using Fable's merged components. Door and counter signals
+are reachable; scene transitions, New Game/tutorial, complete encounter flow,
+card-field/HUD and save/return acceptance still require #23 integration.
+See the [measured results and remaining checks](../requests/district-composition31.md).

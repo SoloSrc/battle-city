@@ -55,3 +55,13 @@ for this asset review.
   remains open.
 - #31: blocked on #22/#23; remains open.
 - #32: now In Progress with this asset delivery; final District checks pending.
+
+## Composition follow-up (2026-09-09)
+
+PR #42 has merged #22's marker tools. The kit is now placed in #31's
+artist-owned district review assembly and both interiors. All three level
+checklists have zero failures; the outdoor assembly has documented data and
+whole-level budget warnings, with sampled gameplay rendering below budget.
+See [district-composition31.md](district-composition31.md) for evidence and
+Fable integration steps. #31 and #32 remain open for the runtime District
+acceptance after #23; the earlier dependency notes above describe delivery time.

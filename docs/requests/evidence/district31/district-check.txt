@@ -1,0 +1,33 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+
+level_check res://levels/review/DistrictComposition.tscn
+level_check PASS: exactly one NavigationRegion3D under the root (found 1)
+level_check PASS: exactly one WorldEnvironment under the root (found 1)
+level_check PASS: exactly one DirectionalLight3D under the root (found 1)
+level_check PASS: exactly one PlayerSpawn with id 'arrival' (found 1)
+level_check PASS: Door 'RoomDoor' return spawn 'room_return' exists in this scene
+level_check PASS: Door 'CardShopDoor' return spawn 'shop_return' exists in this scene
+level_check PASS: EncounterSite 'nicosite' has Duelist 'd1' within 10 m
+level_check PASS: site 'nicosite' stand point A is on the navmesh (0.50 m off)
+level_check PASS: site 'nicosite' stand point B is on the navmesh (0.50 m off)
+level_check PASS: site 'nicosite' clearance box (16 × 12 m) is free of world collision
+level_check PASS: EncounterSite 'marasite' has Duelist 'd2' within 10 m
+level_check PASS: site 'marasite' stand point A is on the navmesh (0.50 m off)
+level_check PASS: site 'marasite' stand point B is on the navmesh (0.50 m off)
+level_check PASS: site 'marasite' clearance box (16 × 12 m) is free of world collision
+level_check PASS: EncounterSite 'arcadesite' has Duelist 'd3' within 10 m
+level_check PASS: site 'arcadesite' stand point A is on the navmesh (0.50 m off)
+level_check PASS: site 'arcadesite' stand point B is on the navmesh (0.50 m off)
+level_check PASS: site 'arcadesite' clearance box (16 × 12 m) is free of world collision
+level_check PASS: 3 encounter reservations checked for overlap
+level_check WARN: res://data/duelists.json not present yet (issue #26); duelist ids not verified
+level_check PASS: at least one CameraBounds volume (found 5)
+level_check PASS: every navmesh vertex is inside a CameraBounds (0 of 236 outside)
+level_check PASS: 1016 kit pieces and props checked for naming and scale
+level_check PASS: Door 'RoomDoor' target 'StartingRoom.tscn' has spawn 'arrival'
+level_check PASS: Door 'CardShopDoor' target 'CardShop.tscn' has spawn 'arrival'
+level_check PASS: ProgressionGate 'ParkGate' flag 'defeated:d1' is a known flag
+level_check PASS: ProgressionGate 'ArcadeGate' flag 'defeated:d2' is a known flag
+level_check INFO: whole level: 70260 triangles, 712 surfaces (budget per view: 400000 tris, 600 draw calls)
+level_check WARN: whole-level totals exceed the per-view budget; profile from each camera position before dressing further
+level_check summary: 26 pass, 0 fail, 2 warn

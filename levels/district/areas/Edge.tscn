@@ -1,0 +1,1756 @@
+[gd_scene load_steps=51 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/world/CameraBounds.tscn" id="1"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/AmbientZone.tscn" id="2"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/LevelBounds.tscn" id="3"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_bound_hedge.glb" id="4"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_bound_river_edge.glb" id="5"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/ProgressionGate.tscn" id="6"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/TalkNpc.tscn" id="7"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_bound_construction.glb" id="8"]
+
+[sub_resource type="StandardMaterial3D" id="r1"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r2"]
+size = Vector3(49, 1.5, 0.75)
+material = SubResource("r1")
+
+[sub_resource type="BoxShape3D" id="r3"]
+size = Vector3(49, 1.5, 0.75)
+
+[sub_resource type="StandardMaterial3D" id="r4"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r5"]
+size = Vector3(53, 1.5, 0.75)
+material = SubResource("r4")
+
+[sub_resource type="BoxShape3D" id="r6"]
+size = Vector3(53, 1.5, 0.75)
+
+[sub_resource type="StandardMaterial3D" id="r7"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r8"]
+size = Vector3(0.75, 1.5, 56)
+material = SubResource("r7")
+
+[sub_resource type="BoxShape3D" id="r9"]
+size = Vector3(0.75, 1.5, 56)
+
+[sub_resource type="StandardMaterial3D" id="r10"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r11"]
+size = Vector3(32, 1.5, 0.75)
+material = SubResource("r10")
+
+[sub_resource type="BoxShape3D" id="r12"]
+size = Vector3(32, 1.5, 0.75)
+
+[sub_resource type="StandardMaterial3D" id="r13"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r14"]
+size = Vector3(36, 1.5, 0.75)
+material = SubResource("r13")
+
+[sub_resource type="BoxShape3D" id="r15"]
+size = Vector3(36, 1.5, 0.75)
+
+[sub_resource type="StandardMaterial3D" id="r16"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r17"]
+size = Vector3(0.75, 1.5, 18)
+material = SubResource("r16")
+
+[sub_resource type="BoxShape3D" id="r18"]
+size = Vector3(0.75, 1.5, 18)
+
+[sub_resource type="StandardMaterial3D" id="r19"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r20"]
+size = Vector3(0.75, 1.5, 32)
+material = SubResource("r19")
+
+[sub_resource type="BoxShape3D" id="r21"]
+size = Vector3(0.75, 1.5, 32)
+
+[sub_resource type="StandardMaterial3D" id="r22"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r23"]
+size = Vector3(60, 1.5, 0.75)
+material = SubResource("r22")
+
+[sub_resource type="BoxShape3D" id="r24"]
+size = Vector3(60, 1.5, 0.75)
+
+[sub_resource type="StandardMaterial3D" id="r25"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r26"]
+size = Vector3(0.75, 1.5, 32)
+material = SubResource("r25")
+
+[sub_resource type="BoxShape3D" id="r27"]
+size = Vector3(0.75, 1.5, 32)
+
+[sub_resource type="StandardMaterial3D" id="r28"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r29"]
+size = Vector3(52, 1.5, 0.75)
+material = SubResource("r28")
+
+[sub_resource type="BoxShape3D" id="r30"]
+size = Vector3(52, 1.5, 0.75)
+
+[sub_resource type="StandardMaterial3D" id="r31"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r32"]
+size = Vector3(16, 1.5, 0.75)
+material = SubResource("r31")
+
+[sub_resource type="BoxShape3D" id="r33"]
+size = Vector3(16, 1.5, 0.75)
+
+[sub_resource type="StandardMaterial3D" id="r34"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r35"]
+size = Vector3(0.75, 1.5, 46)
+material = SubResource("r34")
+
+[sub_resource type="BoxShape3D" id="r36"]
+size = Vector3(0.75, 1.5, 46)
+
+[sub_resource type="StandardMaterial3D" id="r37"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r38"]
+size = Vector3(0.75, 1.5, 14)
+material = SubResource("r37")
+
+[sub_resource type="BoxShape3D" id="r39"]
+size = Vector3(0.75, 1.5, 14)
+
+[sub_resource type="StandardMaterial3D" id="r40"]
+albedo_color = Color(0.3, 0.43, 0.27, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r41"]
+size = Vector3(0.75, 1.5, 64)
+material = SubResource("r40")
+
+[sub_resource type="BoxShape3D" id="r42"]
+size = Vector3(0.75, 1.5, 64)
+
+[node name="Edge" type="Node3D"]
+
+
+[node name="CameraBounds" parent="." instance=ExtResource("1")]
+position = Vector3(35.0, 2, 56.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(14, 12, 20)
+Interior = false
+Pitch = 57.0
+Distance = 12.0
+
+[node name="AmbientZone" parent="." instance=ExtResource("2")]
+position = Vector3(35.0, 2, 56.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(10, 10, 16)
+metadata/area_id = "edge"
+
+[node name="LevelBounds" parent="." instance=ExtResource("3")]
+position = Vector3(60, 0, 60)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="SouthWest" type="StaticBody3D" parent="."]
+position = Vector3(32.5, 0.75, 104.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="SouthWest"]
+mesh = SubResource("r2")
+
+[node name="Collision" type="CollisionShape3D" parent="SouthWest"]
+shape = SubResource("r3")
+
+[node name="kit_bound_hedge_007" parent="." instance=ExtResource("4")]
+position = Vector3(8, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_008" parent="." instance=ExtResource("4")]
+position = Vector3(10, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_009" parent="." instance=ExtResource("4")]
+position = Vector3(12, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_010" parent="." instance=ExtResource("4")]
+position = Vector3(14, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_011" parent="." instance=ExtResource("4")]
+position = Vector3(16, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_012" parent="." instance=ExtResource("4")]
+position = Vector3(18, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_013" parent="." instance=ExtResource("4")]
+position = Vector3(20, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_014" parent="." instance=ExtResource("4")]
+position = Vector3(22, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_015" parent="." instance=ExtResource("4")]
+position = Vector3(24, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_016" parent="." instance=ExtResource("4")]
+position = Vector3(26, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_017" parent="." instance=ExtResource("4")]
+position = Vector3(28, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_018" parent="." instance=ExtResource("4")]
+position = Vector3(30, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_019" parent="." instance=ExtResource("4")]
+position = Vector3(32, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_020" parent="." instance=ExtResource("4")]
+position = Vector3(34, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_021" parent="." instance=ExtResource("4")]
+position = Vector3(36, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_022" parent="." instance=ExtResource("4")]
+position = Vector3(38, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_023" parent="." instance=ExtResource("4")]
+position = Vector3(40, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_024" parent="." instance=ExtResource("4")]
+position = Vector3(42, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_025" parent="." instance=ExtResource("4")]
+position = Vector3(44, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_026" parent="." instance=ExtResource("4")]
+position = Vector3(46, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_027" parent="." instance=ExtResource("4")]
+position = Vector3(48, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_028" parent="." instance=ExtResource("4")]
+position = Vector3(50, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_029" parent="." instance=ExtResource("4")]
+position = Vector3(52, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_030" parent="." instance=ExtResource("4")]
+position = Vector3(54, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="SouthEast" type="StaticBody3D" parent="."]
+position = Vector3(85.5, 0.75, 104.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="SouthEast"]
+mesh = SubResource("r5")
+
+[node name="Collision" type="CollisionShape3D" parent="SouthEast"]
+shape = SubResource("r6")
+
+[node name="kit_bound_hedge_034" parent="." instance=ExtResource("4")]
+position = Vector3(59, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_035" parent="." instance=ExtResource("4")]
+position = Vector3(61, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_036" parent="." instance=ExtResource("4")]
+position = Vector3(63, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_037" parent="." instance=ExtResource("4")]
+position = Vector3(65, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_038" parent="." instance=ExtResource("4")]
+position = Vector3(67, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_039" parent="." instance=ExtResource("4")]
+position = Vector3(69, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_040" parent="." instance=ExtResource("4")]
+position = Vector3(71, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_041" parent="." instance=ExtResource("4")]
+position = Vector3(73, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_042" parent="." instance=ExtResource("4")]
+position = Vector3(75, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_043" parent="." instance=ExtResource("4")]
+position = Vector3(77, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_044" parent="." instance=ExtResource("4")]
+position = Vector3(79, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_045" parent="." instance=ExtResource("4")]
+position = Vector3(81, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_046" parent="." instance=ExtResource("4")]
+position = Vector3(83, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_047" parent="." instance=ExtResource("4")]
+position = Vector3(85, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_048" parent="." instance=ExtResource("4")]
+position = Vector3(87, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_049" parent="." instance=ExtResource("4")]
+position = Vector3(89, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_050" parent="." instance=ExtResource("4")]
+position = Vector3(91, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_051" parent="." instance=ExtResource("4")]
+position = Vector3(93, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_052" parent="." instance=ExtResource("4")]
+position = Vector3(95, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_053" parent="." instance=ExtResource("4")]
+position = Vector3(97, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_054" parent="." instance=ExtResource("4")]
+position = Vector3(99, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_055" parent="." instance=ExtResource("4")]
+position = Vector3(101, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_056" parent="." instance=ExtResource("4")]
+position = Vector3(103, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_057" parent="." instance=ExtResource("4")]
+position = Vector3(105, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_058" parent="." instance=ExtResource("4")]
+position = Vector3(107, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_059" parent="." instance=ExtResource("4")]
+position = Vector3(109, 0, 103.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="MarketWest" type="StaticBody3D" parent="."]
+position = Vector3(8.0, 0.75, 76.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="MarketWest"]
+mesh = SubResource("r8")
+
+[node name="Collision" type="CollisionShape3D" parent="MarketWest"]
+shape = SubResource("r9")
+
+[node name="kit_bound_hedge_063" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 50)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_064" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 52)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_065" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 54)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_066" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 56)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_067" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 58)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_068" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 60)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_069" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 62)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_070" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 64)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_071" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 66)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_072" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 68)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_073" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 70)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_074" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 72)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_075" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 74)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_076" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 76)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_077" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 78)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_078" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 80)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_079" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 82)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_080" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 84)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_081" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 86)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_082" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 88)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_083" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 90)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_084" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 92)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_085" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 94)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_086" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 96)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_087" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 98)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_088" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 100)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_089" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 102)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_090" parent="." instance=ExtResource("4")]
+position = Vector3(7.625, 0, 104)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="MarketNorth" type="StaticBody3D" parent="."]
+position = Vector3(24.0, 0.75, 48.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="MarketNorth"]
+mesh = SubResource("r11")
+
+[node name="Collision" type="CollisionShape3D" parent="MarketNorth"]
+shape = SubResource("r12")
+
+[node name="kit_bound_hedge_094" parent="." instance=ExtResource("4")]
+position = Vector3(8, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_095" parent="." instance=ExtResource("4")]
+position = Vector3(10, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_096" parent="." instance=ExtResource("4")]
+position = Vector3(12, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_097" parent="." instance=ExtResource("4")]
+position = Vector3(14, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_098" parent="." instance=ExtResource("4")]
+position = Vector3(16, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_099" parent="." instance=ExtResource("4")]
+position = Vector3(18, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_100" parent="." instance=ExtResource("4")]
+position = Vector3(20, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_101" parent="." instance=ExtResource("4")]
+position = Vector3(22, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_102" parent="." instance=ExtResource("4")]
+position = Vector3(24, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_103" parent="." instance=ExtResource("4")]
+position = Vector3(26, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_104" parent="." instance=ExtResource("4")]
+position = Vector3(28, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_105" parent="." instance=ExtResource("4")]
+position = Vector3(30, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_106" parent="." instance=ExtResource("4")]
+position = Vector3(32, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_107" parent="." instance=ExtResource("4")]
+position = Vector3(34, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_108" parent="." instance=ExtResource("4")]
+position = Vector3(36, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_109" parent="." instance=ExtResource("4")]
+position = Vector3(38, 0, 47.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="PlazaNorth" type="StaticBody3D" parent="."]
+position = Vector3(58.0, 0.75, 66.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="PlazaNorth"]
+mesh = SubResource("r14")
+
+[node name="Collision" type="CollisionShape3D" parent="PlazaNorth"]
+shape = SubResource("r15")
+
+[node name="kit_bound_hedge_113" parent="." instance=ExtResource("4")]
+position = Vector3(40, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_114" parent="." instance=ExtResource("4")]
+position = Vector3(42, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_115" parent="." instance=ExtResource("4")]
+position = Vector3(44, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_116" parent="." instance=ExtResource("4")]
+position = Vector3(46, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_117" parent="." instance=ExtResource("4")]
+position = Vector3(48, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_118" parent="." instance=ExtResource("4")]
+position = Vector3(50, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_119" parent="." instance=ExtResource("4")]
+position = Vector3(52, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_120" parent="." instance=ExtResource("4")]
+position = Vector3(54, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_121" parent="." instance=ExtResource("4")]
+position = Vector3(56, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_122" parent="." instance=ExtResource("4")]
+position = Vector3(58, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_123" parent="." instance=ExtResource("4")]
+position = Vector3(60, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_124" parent="." instance=ExtResource("4")]
+position = Vector3(62, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_125" parent="." instance=ExtResource("4")]
+position = Vector3(64, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_126" parent="." instance=ExtResource("4")]
+position = Vector3(66, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_127" parent="." instance=ExtResource("4")]
+position = Vector3(68, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_128" parent="." instance=ExtResource("4")]
+position = Vector3(70, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_129" parent="." instance=ExtResource("4")]
+position = Vector3(72, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_130" parent="." instance=ExtResource("4")]
+position = Vector3(74, 0, 65.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="MarketUpperEast" type="StaticBody3D" parent="."]
+position = Vector3(40.0, 0.75, 57.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="MarketUpperEast"]
+mesh = SubResource("r17")
+
+[node name="Collision" type="CollisionShape3D" parent="MarketUpperEast"]
+shape = SubResource("r18")
+
+[node name="kit_bound_hedge_134" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 50)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_135" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 52)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_136" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 54)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_137" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 56)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_138" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 58)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_139" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 60)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_140" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 62)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_141" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 64)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_142" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 66)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="ArcadeWest" type="StaticBody3D" parent="."]
+position = Vector3(40.0, 0.75, 24.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="ArcadeWest"]
+mesh = SubResource("r20")
+
+[node name="Collision" type="CollisionShape3D" parent="ArcadeWest"]
+shape = SubResource("r21")
+
+[node name="kit_bound_hedge_146" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 10)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_147" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 12)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_148" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 14)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_149" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 16)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_150" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 18)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_151" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 20)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_152" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 22)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_153" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 24)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_154" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 26)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_155" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 28)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_156" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 30)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_157" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 32)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_158" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 34)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_159" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 36)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_160" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 38)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_161" parent="." instance=ExtResource("4")]
+position = Vector3(39.625, 0, 40)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="ArcadeNorth" type="StaticBody3D" parent="."]
+position = Vector3(70.0, 0.75, 8.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="ArcadeNorth"]
+mesh = SubResource("r23")
+
+[node name="Collision" type="CollisionShape3D" parent="ArcadeNorth"]
+shape = SubResource("r24")
+
+[node name="kit_bound_hedge_165" parent="." instance=ExtResource("4")]
+position = Vector3(40, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_166" parent="." instance=ExtResource("4")]
+position = Vector3(42, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_167" parent="." instance=ExtResource("4")]
+position = Vector3(44, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_168" parent="." instance=ExtResource("4")]
+position = Vector3(46, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_169" parent="." instance=ExtResource("4")]
+position = Vector3(48, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_170" parent="." instance=ExtResource("4")]
+position = Vector3(50, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_171" parent="." instance=ExtResource("4")]
+position = Vector3(52, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_172" parent="." instance=ExtResource("4")]
+position = Vector3(54, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_173" parent="." instance=ExtResource("4")]
+position = Vector3(56, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_174" parent="." instance=ExtResource("4")]
+position = Vector3(58, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_175" parent="." instance=ExtResource("4")]
+position = Vector3(60, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_176" parent="." instance=ExtResource("4")]
+position = Vector3(62, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_177" parent="." instance=ExtResource("4")]
+position = Vector3(64, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_178" parent="." instance=ExtResource("4")]
+position = Vector3(66, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_179" parent="." instance=ExtResource("4")]
+position = Vector3(68, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_180" parent="." instance=ExtResource("4")]
+position = Vector3(70, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_181" parent="." instance=ExtResource("4")]
+position = Vector3(72, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_182" parent="." instance=ExtResource("4")]
+position = Vector3(74, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_183" parent="." instance=ExtResource("4")]
+position = Vector3(76, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_184" parent="." instance=ExtResource("4")]
+position = Vector3(78, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_185" parent="." instance=ExtResource("4")]
+position = Vector3(80, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_186" parent="." instance=ExtResource("4")]
+position = Vector3(82, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_187" parent="." instance=ExtResource("4")]
+position = Vector3(84, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_188" parent="." instance=ExtResource("4")]
+position = Vector3(86, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_189" parent="." instance=ExtResource("4")]
+position = Vector3(88, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_190" parent="." instance=ExtResource("4")]
+position = Vector3(90, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_191" parent="." instance=ExtResource("4")]
+position = Vector3(92, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_192" parent="." instance=ExtResource("4")]
+position = Vector3(94, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_193" parent="." instance=ExtResource("4")]
+position = Vector3(96, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_194" parent="." instance=ExtResource("4")]
+position = Vector3(98, 0, 7.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="ArcadeEast" type="StaticBody3D" parent="."]
+position = Vector3(100.0, 0.75, 24.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="ArcadeEast"]
+mesh = SubResource("r26")
+
+[node name="Collision" type="CollisionShape3D" parent="ArcadeEast"]
+shape = SubResource("r27")
+
+[node name="kit_bound_hedge_198" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 10)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_199" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 12)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_200" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 14)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_201" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 16)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_202" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 18)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_203" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 20)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_204" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 22)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_205" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 24)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_206" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 26)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_207" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 28)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_208" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 30)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_209" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 32)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_210" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 34)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_211" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 36)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_212" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 38)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_213" parent="." instance=ExtResource("4")]
+position = Vector3(99.625, 0, 40)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="ArcadeSouthWest" type="StaticBody3D" parent="."]
+position = Vector3(66.0, 0.75, 40.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="ArcadeSouthWest"]
+mesh = SubResource("r29")
+
+[node name="Collision" type="CollisionShape3D" parent="ArcadeSouthWest"]
+shape = SubResource("r30")
+
+[node name="kit_bound_hedge_217" parent="." instance=ExtResource("4")]
+position = Vector3(40, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_218" parent="." instance=ExtResource("4")]
+position = Vector3(42, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_219" parent="." instance=ExtResource("4")]
+position = Vector3(44, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_220" parent="." instance=ExtResource("4")]
+position = Vector3(46, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_221" parent="." instance=ExtResource("4")]
+position = Vector3(48, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_222" parent="." instance=ExtResource("4")]
+position = Vector3(50, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_223" parent="." instance=ExtResource("4")]
+position = Vector3(52, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_224" parent="." instance=ExtResource("4")]
+position = Vector3(54, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_225" parent="." instance=ExtResource("4")]
+position = Vector3(56, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_226" parent="." instance=ExtResource("4")]
+position = Vector3(58, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_227" parent="." instance=ExtResource("4")]
+position = Vector3(60, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_228" parent="." instance=ExtResource("4")]
+position = Vector3(62, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_229" parent="." instance=ExtResource("4")]
+position = Vector3(64, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_230" parent="." instance=ExtResource("4")]
+position = Vector3(66, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_231" parent="." instance=ExtResource("4")]
+position = Vector3(68, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_232" parent="." instance=ExtResource("4")]
+position = Vector3(70, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_233" parent="." instance=ExtResource("4")]
+position = Vector3(72, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_234" parent="." instance=ExtResource("4")]
+position = Vector3(74, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_235" parent="." instance=ExtResource("4")]
+position = Vector3(76, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_236" parent="." instance=ExtResource("4")]
+position = Vector3(78, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_237" parent="." instance=ExtResource("4")]
+position = Vector3(80, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_238" parent="." instance=ExtResource("4")]
+position = Vector3(82, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_239" parent="." instance=ExtResource("4")]
+position = Vector3(84, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_240" parent="." instance=ExtResource("4")]
+position = Vector3(86, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_241" parent="." instance=ExtResource("4")]
+position = Vector3(88, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_242" parent="." instance=ExtResource("4")]
+position = Vector3(90, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="ArcadeSouthEast" type="StaticBody3D" parent="."]
+position = Vector3(104.0, 0.75, 40.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="ArcadeSouthEast"]
+mesh = SubResource("r32")
+
+[node name="Collision" type="CollisionShape3D" parent="ArcadeSouthEast"]
+shape = SubResource("r33")
+
+[node name="kit_bound_hedge_246" parent="." instance=ExtResource("4")]
+position = Vector3(96, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_247" parent="." instance=ExtResource("4")]
+position = Vector3(98, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_248" parent="." instance=ExtResource("4")]
+position = Vector3(100, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_249" parent="." instance=ExtResource("4")]
+position = Vector3(102, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_250" parent="." instance=ExtResource("4")]
+position = Vector3(104, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_251" parent="." instance=ExtResource("4")]
+position = Vector3(106, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_252" parent="." instance=ExtResource("4")]
+position = Vector3(108, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_hedge_253" parent="." instance=ExtResource("4")]
+position = Vector3(110, 0, 39.625)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="ParkDivideNorth" type="StaticBody3D" parent="."]
+position = Vector3(76.0, 0.75, 63.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="ParkDivideNorth"]
+mesh = SubResource("r35")
+
+[node name="Collision" type="CollisionShape3D" parent="ParkDivideNorth"]
+shape = SubResource("r36")
+
+[node name="kit_bound_hedge_257" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 42)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_258" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 44)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_259" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 46)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_260" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 48)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_261" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 50)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_262" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 52)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_263" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 54)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_264" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 56)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_265" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 58)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_266" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 60)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_267" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 62)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_268" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 64)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_269" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 66)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_270" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 68)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_271" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 70)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_272" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 72)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_273" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 74)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_274" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 76)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_275" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 78)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_276" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 80)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_277" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 82)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_278" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 84)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_279" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 86)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="ParkDivideSouth" type="StaticBody3D" parent="."]
+position = Vector3(76.0, 0.75, 97.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="ParkDivideSouth"]
+mesh = SubResource("r38")
+
+[node name="Collision" type="CollisionShape3D" parent="ParkDivideSouth"]
+shape = SubResource("r39")
+
+[node name="kit_bound_hedge_283" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 92)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_284" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 94)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_285" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 96)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_286" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 98)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_287" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 100)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_288" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 102)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_hedge_289" parent="." instance=ExtResource("4")]
+position = Vector3(75.625, 0, 104)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="RiverRail" type="StaticBody3D" parent="."]
+position = Vector3(112.0, 0.75, 72.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="RiverRail"]
+mesh = SubResource("r41")
+
+[node name="Collision" type="CollisionShape3D" parent="RiverRail"]
+shape = SubResource("r42")
+
+[node name="kit_bound_river_edge_293" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 42)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_294" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 44)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_295" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 46)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_296" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 48)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_297" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 50)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_298" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 52)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_299" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 54)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_300" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 56)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_301" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 58)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_302" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 60)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_303" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 62)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_304" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 64)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_305" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 66)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_306" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 68)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_307" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 70)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_308" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 72)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_309" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 74)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_310" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 76)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_311" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 78)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_312" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 80)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_313" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 82)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_314" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 84)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_315" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 86)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_316" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 88)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_317" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 90)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_318" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 92)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_319" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 94)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_320" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 96)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_321" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 98)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_322" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 100)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_323" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 102)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="kit_bound_river_edge_324" parent="." instance=ExtResource("5")]
+position = Vector3(111.625, 0, 104)
+rotation = Vector3(0, 1.570796, 0)
+
+
+[node name="ParkGate" parent="." instance=ExtResource("6")]
+position = Vector3(76, 0, 88)
+rotation = Vector3(0, 1.570796, 0)
+RequiredFlag = "defeated:d1"
+
+[node name="ArcadeGate" parent="." instance=ExtResource("6")]
+position = Vector3(94, 0, 40)
+rotation = Vector3(0, 0.0, 0)
+RequiredFlag = "defeated:d2"
+
+[node name="ConstructionWorker" parent="." instance=ExtResource("7")]
+position = Vector3(36, 0, 58)
+rotation = Vector3(0, 3.141593, 0)
+
+
+[node name="Talk" parent="ConstructionWorker" index="5"]
+DialogueId = "district_edge"
+
+[node name="kit_bound_construction_329" parent="." instance=ExtResource("8")]
+position = Vector3(30, 0, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_construction_330" parent="." instance=ExtResource("8")]
+position = Vector3(32, 0, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_construction_331" parent="." instance=ExtResource("8")]
+position = Vector3(34, 0, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_construction_332" parent="." instance=ExtResource("8")]
+position = Vector3(36, 0, 48)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_bound_construction_333" parent="." instance=ExtResource("8")]
+position = Vector3(38, 0, 48)
+rotation = Vector3(0, 0.0, 0)
