@@ -1,0 +1,698 @@
+[
+  {
+    "name": "kit_ground_street",
+    "path": "assets/kit/kit_ground_street.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": "Place at Y=-0.25 for a finished surface at Y=0."
+  },
+  {
+    "name": "kit_ground_street_edge",
+    "path": "assets/kit/kit_ground_street_edge.glb",
+    "size_xyz_m": [
+      1.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": "Place at Y=-0.25 for a finished surface at Y=0."
+  },
+  {
+    "name": "kit_ground_pavement",
+    "path": "assets/kit/kit_ground_pavement.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": "Place at Y=-0.25 for a finished surface at Y=0."
+  },
+  {
+    "name": "kit_ground_pavement_edge",
+    "path": "assets/kit/kit_ground_pavement_edge.glb",
+    "size_xyz_m": [
+      1.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": "Place at Y=-0.25 for a finished surface at Y=0."
+  },
+  {
+    "name": "kit_ground_plaza",
+    "path": "assets/kit/kit_ground_plaza.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": "Place at Y=-0.25 for a finished surface at Y=0."
+  },
+  {
+    "name": "kit_ground_plaza_edge",
+    "path": "assets/kit/kit_ground_plaza_edge.glb",
+    "size_xyz_m": [
+      1.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": "Place at Y=-0.25 for a finished surface at Y=0."
+  },
+  {
+    "name": "kit_ground_grass",
+    "path": "assets/kit/kit_ground_grass.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": "Place at Y=-0.25 for a finished surface at Y=0."
+  },
+  {
+    "name": "kit_ground_grass_edge",
+    "path": "assets/kit/kit_ground_grass_edge.glb",
+    "size_xyz_m": [
+      1.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": "Place at Y=-0.25 for a finished surface at Y=0."
+  },
+  {
+    "name": "kit_ground_path",
+    "path": "assets/kit/kit_ground_path.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": "Place at Y=-0.25 for a finished surface at Y=0."
+  },
+  {
+    "name": "kit_ground_path_edge",
+    "path": "assets/kit/kit_ground_path_edge.glb",
+    "size_xyz_m": [
+      1.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": "Place at Y=-0.25 for a finished surface at Y=0."
+  },
+  {
+    "name": "kit_kerb_straight",
+    "path": "assets/kit/kit_kerb_straight.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      0.25
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": ""
+  },
+  {
+    "name": "kit_kerb_corner_out",
+    "path": "assets/kit/kit_kerb_corner_out.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 24,
+    "note": ""
+  },
+  {
+    "name": "kit_kerb_corner_in",
+    "path": "assets/kit/kit_kerb_corner_in.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 24,
+    "note": ""
+  },
+  {
+    "name": "kit_kerb_ramp",
+    "path": "assets/kit/kit_kerb_ramp.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      1.0
+    ],
+    "collision": true,
+    "triangles": 8,
+    "note": "1:4 slope; connect street at Y=0 to pavement at Y=0.25."
+  },
+  {
+    "name": "kit_wall_plain",
+    "path": "assets/kit/kit_wall_plain.glb",
+    "size_xyz_m": [
+      2.0,
+      3.5,
+      0.25
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": "3.5 m storey; place front details toward +Z."
+  },
+  {
+    "name": "kit_wall_window",
+    "path": "assets/kit/kit_wall_window.glb",
+    "size_xyz_m": [
+      2.0,
+      3.5,
+      0.5
+    ],
+    "collision": true,
+    "triangles": 48,
+    "note": "3.5 m storey; place front details toward +Z."
+  },
+  {
+    "name": "kit_wall_door",
+    "path": "assets/kit/kit_wall_door.glb",
+    "size_xyz_m": [
+      4.0,
+      3.5,
+      0.25
+    ],
+    "collision": true,
+    "triangles": 36,
+    "note": "4 m module with 2 m clear opening."
+  },
+  {
+    "name": "kit_wall_shop_front",
+    "path": "assets/kit/kit_wall_shop_front.glb",
+    "size_xyz_m": [
+      2.0,
+      3.5,
+      0.5
+    ],
+    "collision": true,
+    "triangles": 48,
+    "note": "3.5 m storey; place front details toward +Z."
+  },
+  {
+    "name": "kit_wall_corner",
+    "path": "assets/kit/kit_wall_corner.glb",
+    "size_xyz_m": [
+      2.0,
+      3.5,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 24,
+    "note": "3.5 m storey; place front details toward +Z."
+  },
+  {
+    "name": "kit_roof_flat_warm",
+    "path": "assets/kit/kit_roof_flat_warm.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": ""
+  },
+  {
+    "name": "kit_roof_pitched_warm",
+    "path": "assets/kit/kit_roof_pitched_warm.glb",
+    "size_xyz_m": [
+      2.0,
+      1.0,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 16,
+    "note": ""
+  },
+  {
+    "name": "kit_roof_pitched_end_warm",
+    "path": "assets/kit/kit_roof_pitched_end_warm.glb",
+    "size_xyz_m": [
+      2.0,
+      1.0,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 28,
+    "note": ""
+  },
+  {
+    "name": "kit_roof_ridge_warm",
+    "path": "assets/kit/kit_roof_ridge_warm.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      0.25
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": ""
+  },
+  {
+    "name": "kit_roof_flat_green",
+    "path": "assets/kit/kit_roof_flat_green.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": ""
+  },
+  {
+    "name": "kit_roof_pitched_green",
+    "path": "assets/kit/kit_roof_pitched_green.glb",
+    "size_xyz_m": [
+      2.0,
+      1.0,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 16,
+    "note": ""
+  },
+  {
+    "name": "kit_roof_pitched_end_green",
+    "path": "assets/kit/kit_roof_pitched_end_green.glb",
+    "size_xyz_m": [
+      2.0,
+      1.0,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 28,
+    "note": ""
+  },
+  {
+    "name": "kit_roof_ridge_green",
+    "path": "assets/kit/kit_roof_ridge_green.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      0.25
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": ""
+  },
+  {
+    "name": "kit_shop_awning",
+    "path": "assets/kit/kit_shop_awning.glb",
+    "size_xyz_m": [
+      4.0,
+      0.5,
+      1.0
+    ],
+    "collision": true,
+    "triangles": 24,
+    "note": "Origin is awning lower bound; place above doorway."
+  },
+  {
+    "name": "kit_shop_sign",
+    "path": "assets/kit/kit_shop_sign.glb",
+    "size_xyz_m": [
+      2.0,
+      1.0,
+      0.3125
+    ],
+    "collision": true,
+    "triangles": 24,
+    "note": "Blank sign surface; original sign graphics come in dressing pass."
+  },
+  {
+    "name": "kit_shop_door",
+    "path": "assets/kit/kit_shop_door.glb",
+    "size_xyz_m": [
+      2.0,
+      2.5,
+      0.1875
+    ],
+    "collision": true,
+    "triangles": 24,
+    "note": "Separate removable door leaf; never merge into the portal wall."
+  },
+  {
+    "name": "kit_shop_window_display",
+    "path": "assets/kit/kit_shop_window_display.glb",
+    "size_xyz_m": [
+      2.0,
+      2.0,
+      0.5
+    ],
+    "collision": true,
+    "triangles": 48,
+    "note": ""
+  },
+  {
+    "name": "kit_arcade_sign",
+    "path": "assets/kit/kit_arcade_sign.glb",
+    "size_xyz_m": [
+      4.0,
+      1.0,
+      0.375
+    ],
+    "collision": true,
+    "triangles": 84,
+    "note": "Blank central sign region; light blocks are non-emissive greybox markers."
+  },
+  {
+    "name": "kit_arcade_marquee",
+    "path": "assets/kit/kit_arcade_marquee.glb",
+    "size_xyz_m": [
+      4.0,
+      0.5,
+      1.125
+    ],
+    "collision": true,
+    "triangles": 24,
+    "note": ""
+  },
+  {
+    "name": "kit_arcade_closed_doors",
+    "path": "assets/kit/kit_arcade_closed_doors.glb",
+    "size_xyz_m": [
+      4.0,
+      2.5,
+      0.375
+    ],
+    "collision": true,
+    "triangles": 36,
+    "note": ""
+  },
+  {
+    "name": "kit_bound_hedge",
+    "path": "assets/kit/kit_bound_hedge.glb",
+    "size_xyz_m": [
+      2.0,
+      1.5,
+      0.75
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": ""
+  },
+  {
+    "name": "kit_bound_fence",
+    "path": "assets/kit/kit_bound_fence.glb",
+    "size_xyz_m": [
+      2.0,
+      1.5,
+      0.25
+    ],
+    "collision": true,
+    "triangles": 48,
+    "note": ""
+  },
+  {
+    "name": "kit_bound_construction",
+    "path": "assets/kit/kit_bound_construction.glb",
+    "size_xyz_m": [
+      2.0,
+      1.25,
+      0.75
+    ],
+    "collision": true,
+    "triangles": 36,
+    "note": ""
+  },
+  {
+    "name": "kit_bound_river_edge",
+    "path": "assets/kit/kit_bound_river_edge.glb",
+    "size_xyz_m": [
+      2.0,
+      1.5,
+      0.5
+    ],
+    "collision": true,
+    "triangles": 48,
+    "note": "Solid edging plus rail; continuous rail blocks stepping into river."
+  },
+  {
+    "name": "kit_bound_river_water",
+    "path": "assets/kit/kit_bound_river_water.glb",
+    "size_xyz_m": [
+      2.0,
+      0.0625,
+      2.0
+    ],
+    "collision": false,
+    "triangles": 12,
+    "note": "Visual surface only. Pair with river-edge collision and progression boundaries."
+  },
+  {
+    "name": "prop_bench",
+    "path": "assets/props/prop_bench.glb",
+    "size_xyz_m": [
+      2.0,
+      1.5,
+      0.75
+    ],
+    "collision": true,
+    "triangles": 48,
+    "note": ""
+  },
+  {
+    "name": "prop_lamp_post",
+    "path": "assets/props/prop_lamp_post.glb",
+    "size_xyz_m": [
+      0.5,
+      3.5,
+      0.5
+    ],
+    "collision": true,
+    "triangles": 68,
+    "note": ""
+  },
+  {
+    "name": "prop_planter_small",
+    "path": "assets/props/prop_planter_small.glb",
+    "size_xyz_m": [
+      1.0,
+      0.75,
+      1.0
+    ],
+    "collision": true,
+    "triangles": 24,
+    "note": ""
+  },
+  {
+    "name": "prop_planter_large",
+    "path": "assets/props/prop_planter_large.glb",
+    "size_xyz_m": [
+      2.0,
+      0.75,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 24,
+    "note": ""
+  },
+  {
+    "name": "prop_tree_round",
+    "path": "assets/props/prop_tree_round.glb",
+    "size_xyz_m": [
+      1.9021,
+      3.5,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 80,
+    "note": "Greybox canopy mass; collision intentionally conservative until dressing."
+  },
+  {
+    "name": "prop_tree_tall",
+    "path": "assets/props/prop_tree_tall.glb",
+    "size_xyz_m": [
+      1.4266,
+      4.5,
+      1.5
+    ],
+    "collision": true,
+    "triangles": 80,
+    "note": "Greybox canopy mass; collision intentionally conservative until dressing."
+  },
+  {
+    "name": "prop_bush",
+    "path": "assets/props/prop_bush.glb",
+    "size_xyz_m": [
+      0.9511,
+      1.0,
+      1.0
+    ],
+    "collision": true,
+    "triangles": 36,
+    "note": ""
+  },
+  {
+    "name": "prop_fountain",
+    "path": "assets/props/prop_fountain.glb",
+    "size_xyz_m": [
+      3.875,
+      1.5625,
+      3.875
+    ],
+    "collision": true,
+    "triangles": 404,
+    "note": "Basin and pedestal blockout. No water VFX; outside 16\u00d712 duel clearances."
+  },
+  {
+    "name": "prop_sign_post",
+    "path": "assets/props/prop_sign_post.glb",
+    "size_xyz_m": [
+      1.0,
+      2.0,
+      0.25
+    ],
+    "collision": true,
+    "triangles": 24,
+    "note": ""
+  },
+  {
+    "name": "prop_bin",
+    "path": "assets/props/prop_bin.glb",
+    "size_xyz_m": [
+      0.75,
+      1.0,
+      0.75
+    ],
+    "collision": true,
+    "triangles": 44,
+    "note": ""
+  },
+  {
+    "name": "prop_crate",
+    "path": "assets/props/prop_crate.glb",
+    "size_xyz_m": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "collision": true,
+    "triangles": 36,
+    "note": ""
+  },
+  {
+    "name": "kit_int_counter",
+    "path": "assets/kit/kit_int_counter.glb",
+    "size_xyz_m": [
+      2.0,
+      1.125,
+      1.0
+    ],
+    "collision": true,
+    "triangles": 24,
+    "note": ""
+  },
+  {
+    "name": "kit_int_shelves",
+    "path": "assets/kit/kit_int_shelves.glb",
+    "size_xyz_m": [
+      2.0,
+      2.0,
+      0.5
+    ],
+    "collision": true,
+    "triangles": 72,
+    "note": ""
+  },
+  {
+    "name": "kit_int_card_display",
+    "path": "assets/kit/kit_int_card_display.glb",
+    "size_xyz_m": [
+      1.0,
+      1.0,
+      0.75
+    ],
+    "collision": true,
+    "triangles": 24,
+    "note": ""
+  },
+  {
+    "name": "kit_int_floor",
+    "path": "assets/kit/kit_int_floor.glb",
+    "size_xyz_m": [
+      2.0,
+      0.25,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": ""
+  },
+  {
+    "name": "kit_int_wall",
+    "path": "assets/kit/kit_int_wall.glb",
+    "size_xyz_m": [
+      2.0,
+      3.5,
+      0.25
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": ""
+  },
+  {
+    "name": "kit_int_bed",
+    "path": "assets/kit/kit_int_bed.glb",
+    "size_xyz_m": [
+      1.0,
+      0.75,
+      2.0
+    ],
+    "collision": true,
+    "triangles": 36,
+    "note": ""
+  },
+  {
+    "name": "kit_int_desk",
+    "path": "assets/kit/kit_int_desk.glb",
+    "size_xyz_m": [
+      1.5,
+      0.875,
+      0.75
+    ],
+    "collision": true,
+    "triangles": 36,
+    "note": ""
+  },
+  {
+    "name": "kit_int_door",
+    "path": "assets/kit/kit_int_door.glb",
+    "size_xyz_m": [
+      2.0,
+      2.5,
+      0.125
+    ],
+    "collision": true,
+    "triangles": 12,
+    "note": "Separate leaf. Use kit_wall_door for the 2 m clear portal."
+  }
+]

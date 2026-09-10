@@ -19,9 +19,9 @@ Status column: `todo` → `blockout` → `review` → `final`.
 
 | # | Asset | Spec | Path | Status |
 | --- | --- | --- | --- | --- |
-| 0.1 | Metric cube | 1 m cube, `-col` collision, toon material | `kit/kit_test_cube_1m.glb` | review (#28 blockout) |
-| 0.2 | Neutral character | Body type A, one hair, one outfit, humanoid skeleton, A-pose, ≤ 12 k tris, idle + walk clips | `characters/body/char_a_body.glb`, `characters/anims/character_anims.glb` | review (#28 blockout) |
-| 0.3 | Duel disk blockout | Folded and deployed, `LeftLowerArm` mount origin, ≤ 1.5 k tris | `props/prop_duel_disk.glb` | review (#28 blockout) |
+| 0.1 | Metric cube | 1 m cube, `-col` collision, toon material | `kit/kit_test_cube_1m.glb` | final (smoke test) |
+| 0.2 | Neutral character | Body type A, one hair, one outfit, humanoid skeleton, A-pose, ≤ 12 k tris, idle + walk clips | `characters/body/char_a_body.glb`, `characters/anims/character_anims.glb` | final (smoke test) |
+| 0.3 | Duel disk blockout | Folded and deployed, `LeftLowerArm` mount origin, ≤ 1.5 k tris | `props/prop_duel_disk.glb` | final (smoke test) |
 
 Acceptance: the three load in `tests/scenes/SmokeTest.tscn`, scale reads
 correctly against the 1.7 m capsule, disk sits on the left forearm, and
@@ -32,9 +32,9 @@ the walk clip plays through the `AnimationTree`.
 | # | Asset | Spec | Path | Status |
 | --- | --- | --- | --- | --- |
 | 1.1 | Key visual | Painted, 3840 × 2160, duel camera at site A | `docs/art/concepts/` | review (v02 merged) |
-| 1.2 | Character turnaround, body A | Front, side, back, 3/4; proportions per sheet 02 | `source/characters/turnaround_a.png` | review (#29) |
-| 1.3 | Character turnaround, body B | Same | `source/characters/turnaround_b.png` | review (#29) |
-| 1.4 | Duel disk orthographic sheet | Top, side, front; folded and deployed; hinge; mount points | `source/props/duel_disk_ortho.png` | review (#29) |
+| 1.2 | Character turnaround, body A | Front, side, back, 3/4; proportions per sheet 02 | `source/characters/turnaround_a.png` | final (approved reference) |
+| 1.3 | Character turnaround, body B | Same | `source/characters/turnaround_b.png` | final (approved reference) |
+| 1.4 | Duel disk orthographic sheet | Top, side, front; folded and deployed; hinge; mount points | `source/props/duel_disk_ortho.png` | final (approved reference) |
 | 1.5 | Card frame set | Six frames (normal, effect, fusion, ritual, spell, trap), 590 × 860 PNG + layered source; window per `frame.json` | `cards/frames/frame_<type>.png` | review (#30; shader pending) |
 | 1.6 | Card back | Symmetric, one accent colour, 590 × 860 | `cards/frames/card_back.png` | review (#30; shader pending) |
 | 1.7 | Attribute icons | 7 originals (DARK, LIGHT, EARTH, WATER, FIRE, WIND, DIVINE), 128² PNG with alpha | `cards/icons/attr_<name>.png` | review (#30; shader pending) |
@@ -103,15 +103,15 @@ two-storey shop.
 
 | # | Piece | Variants | Spec | Path | Status |
 | --- | --- | --- | --- | --- | --- |
-| 5.1 | Ground tiles | street, pavement, plaza stone, grass, path | 2 × 2 m tiles + 1 m edge strips | `kit/kit_ground_<name>.glb` | todo |
-| 5.2 | Kerbs | straight 2 m, corner in, corner out, ramp | | `kit/kit_kerb_<name>.glb` | todo |
-| 5.3 | Walls | 2 m plain, window, door, shop front, corner | 3.5 m storey height | `kit/kit_wall_<name>.glb` | todo |
-| 5.4 | Roofs | flat, pitched 2 m segment, pitched end, ridge, in warm and green | | `kit/kit_roof_<name>.glb` | todo |
-| 5.5 | Shop façade set | Blue awning, sign, door, window display | | `kit/kit_shop_<name>.glb` | todo |
-| 5.6 | Arcade façade set | Sign with lights, marquee, closed doors | | `kit/kit_arcade_<name>.glb` | todo |
-| 5.7 | Boundaries | Hedge 2 m, fence 2 m, construction barrier, river edge 2 m, river water plane | | `kit/kit_bound_<name>.glb` | todo |
-| 5.8 | Props | Bench, lamp post, planter (2 sizes), tree (2), bush, fountain, sign post, bin, crate | | `props/prop_<name>.glb` | todo |
-| 5.9 | Interiors | Shop: counter, shelves, card display, floor, walls; starting room: bed, desk, door | | `kit/kit_int_<name>.glb` | todo |
+| 5.1 | Ground tiles | street, pavement, plaza stone, grass, path | 2 × 2 m tiles + 1 m edge strips | `kit/kit_ground_<name>.glb` | review (#32 greybox) |
+| 5.2 | Kerbs | straight 2 m, corner in, corner out, ramp | | `kit/kit_kerb_<name>.glb` | review (#32 greybox) |
+| 5.3 | Walls | 2 m plain, window, door, shop front, corner | 3.5 m storey height | `kit/kit_wall_<name>.glb` | review (#32 greybox) |
+| 5.4 | Roofs | flat, pitched 2 m segment, pitched end, ridge, in warm and green | | `kit/kit_roof_<name>.glb` | review (#32 greybox) |
+| 5.5 | Shop façade set | Blue awning, sign, door, window display | | `kit/kit_shop_<name>.glb` | review (#32 greybox) |
+| 5.6 | Arcade façade set | Sign with lights, marquee, closed doors | | `kit/kit_arcade_<name>.glb` | review (#32 greybox) |
+| 5.7 | Boundaries | Hedge 2 m, fence 2 m, construction barrier, river edge 2 m, river water plane | | `kit/kit_bound_<name>.glb` | review (#32 greybox) |
+| 5.8 | Props | Bench, lamp post, planter (2 sizes), tree (2), bush, fountain, sign post, bin, crate | | `props/prop_<name>.glb` | review (#32 greybox) |
+| 5.9 | Interiors | Shop: counter, shelves, card display, floor, walls; starting room: bed, desk, door | | `kit/kit_int_<name>.glb` | review (#32 greybox) |
 | 5.10 | Sky and lighting | Sky gradient texture, one sun direction, environment resource | `env/` | todo |
 
 Level scenes themselves (`levels/district/District.tscn` and interiors) are
