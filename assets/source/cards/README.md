@@ -53,18 +53,10 @@ redirecting a strike. The director's supplied reference image is not committed.
 
 See [director-approved handoff](../../../docs/requests/card-layout-director-approved.md).
 
-## Card back — flat brown black hole
+## Card back — director-approved preview
 
-The director requested a new revision after PR #39, then explicitly removed
-cloud-like shading from the brief. The back uses flat dark brown (#513927), cocoa
-(#3c291d), muted tan (#876344) and a near-black centre (#050505). Broad paired
-shapes imply matter orbiting a black hole. It uses the fronts' restrained dark
-outline and inset tan border, with no cloud filter, gradient or fiery streaks.
-The SVG pattern is rotationally symmetric. Approved card faces are unchanged.
-
-The director requested a darker brown and removal of the event-horizon borders.
-The centre is now one solid black ellipse with no stroke or concentric rings.
-
-The outer back contour is warm dark brown (#2d2017), replacing the blue-grey
-stroke. Swirl shapes now cross the event horizon and taper into the black
-centre; the centre sits behind the currents instead of obscuring them.
+Approved in chat on 2026-09-09 for PR #40. The flat dark-brown field and broad
+cocoa/tan currents surround a softly integrated black elliptical opening. The
+local radial transition at the centre is intentional; it is not cloud shading.
+The warm-brown border and lack of event-horizon rings are retained. See
+[handoff](../../../docs/requests/card-back-black-hole.md).
