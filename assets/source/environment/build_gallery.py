@@ -54,4 +54,4 @@ pixel_size = 0.012
 outline_size = 5
 modulate = Color(0.95, 0.95, 0.9, 1)
 ''')
-(p/'EnvironmentKit.tscn').write_text('\n\n'.join(s)+'\n')
+(p/'EnvironmentKit.tscn').write_text('\n\n'.join(s).rstrip()+'\n')
