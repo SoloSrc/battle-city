@@ -53,6 +53,10 @@ redirecting a strike. The director's supplied reference image is not committed.
 
 See [director-approved handoff](../../../docs/requests/card-layout-director-approved.md).
 
-## Card back revision 04
+## Card back — director-approved preview
 
-The director approved the faces and requested a warmer back following the supplied reference. The original back now uses near-black (#030201), deep brown, burnt orange and amber (#f7ae47), with a warm rim and paired curved ember strokes. Each source stroke is duplicated at 180 degrees. Dense thin curves and glow introduce subpixel raster differences; the mean-channel symmetry tolerance is 0.75/255. No reference pixels are used. The deterministic seed is recorded in the SVG builder.
+Approved in chat on 2026-09-09 for PR #40. The flat dark-brown field and broad
+cocoa/tan currents surround a softly integrated black elliptical opening. The
+local radial transition at the centre is intentional; it is not cloud shading.
+The warm-brown border and lack of event-horizon rings are retained. See
+[handoff](../../../docs/requests/card-back-black-hole.md).
