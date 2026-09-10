@@ -60,6 +60,10 @@ public partial class Character : CharacterBody3D
     [Export]
     public AnimationTree? Tree { get; set; }
 
+    /// <summary>Area on the <c>interactable</c> mask that the interaction probe queries.</summary>
+    [Export]
+    public Area3D? InteractionShape { get; set; }
+
     public Skeleton3D? Skeleton { get; private set; }
 
     public BoneAttachment3D? DuelDiskMount { get; private set; }

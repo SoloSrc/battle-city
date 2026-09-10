@@ -135,7 +135,9 @@ states/Lose/node = SubResource("clip_lose")
 states/Lose/position = Vector2(800, 350)
 transitions = ["Start", "Locomotion", SubResource("t_start"), "Locomotion", "Talk", SubResource("t_loco_talk"), "Talk", "Locomotion", SubResource("t_talk_loco"), "Locomotion", "DuelReady", SubResource("t_loco_ready"), "DuelReady", "DuelIdle", SubResource("t_ready_duelidle"), "DuelIdle", "DrawCard", SubResource("t_duelidle_draw"), "DrawCard", "DuelIdle", SubResource("t_draw_duelidle"), "DuelIdle", "PlayCard", SubResource("t_duelidle_play"), "PlayCard", "DuelIdle", SubResource("t_play_duelidle"), "DuelIdle", "TakeDamage", SubResource("t_duelidle_damage"), "TakeDamage", "DuelIdle", SubResource("t_damage_duelidle"), "DuelIdle", "Win", SubResource("t_duelidle_win"), "DuelIdle", "Lose", SubResource("t_duelidle_lose"), "DuelIdle", "Locomotion", SubResource("t_duelidle_loco")]
 
-[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("Rig", "Placeholder", "Animations", "Tree")]
+[node name="Character" type="CharacterBody3D" node_paths=PackedStringArray("Rig", "Placeholder", "Animations", "Tree", "InteractionShape")]
+collision_layer = 2
+collision_mask = 3
 floor_max_angle = 0.698132
 script = ExtResource("1_character")
 DuelDiskScene = ExtResource("2_disk")
@@ -143,6 +145,7 @@ Rig = NodePath("Rig")
 Placeholder = NodePath("Rig/Placeholder")
 Animations = NodePath("Animations")
 Tree = NodePath("AnimationTree")
+InteractionShape = NodePath("InteractionShape")
 
 [node name="Rig" type="Node3D" parent="."]
 
@@ -164,7 +167,7 @@ active = false
 
 [node name="InteractionShape" type="Area3D" parent="."]
 collision_layer = 0
-collision_mask = 8
+collision_mask = 4
 monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractionShape"]

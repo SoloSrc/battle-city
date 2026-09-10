@@ -64,6 +64,19 @@ fire, the disk mounts and the state machine reaches the duel states.
 godot --headless --path . res://tests/scenes/CharacterTest.tscn --fixed-fps 60 --quit-after 300
 ```
 
+## PlayerTest.tscn (issue #20)
+
+A test course for `scenes/characters/Player.tscn`: a 0.15 m kerb, a 0.30 m
+step, a 30° ramp onto a platform, and a test interactable. Headless, the
+scene feeds scripted input (walk, then run, then interact) and checks
+distance, climb, peak speed, airborne frames, single-frame drops (jitter)
+and the interaction. In the editor it is a free-roam course for gamepad
+and keyboard. `PlayerTest FAIL` lines fail CI.
+
+```bash
+godot --headless --path . res://tests/scenes/PlayerTest.tscn --fixed-fps 60 --quit-after 400
+```
+
 ## Planned
 
 - `CameraFraming.tscn` (issue #21)
