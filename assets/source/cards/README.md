@@ -64,3 +64,7 @@ The SVG pattern is rotationally symmetric. Approved card faces are unchanged.
 
 The director requested a darker brown and removal of the event-horizon borders.
 The centre is now one solid black ellipse with no stroke or concentric rings.
+
+The outer back contour is warm dark brown (#2d2017), replacing the blue-grey
+stroke. Swirl shapes now cross the event horizon and taper into the black
+centre; the centre sits behind the currents instead of obscuring them.

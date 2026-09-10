@@ -21,3 +21,7 @@ Original SOLOSRC vector artwork under the repository MIT license.
 
 Follow-up director revision: darkened the brown palette and removed both event-
 horizon borders. The black centre is a single ellipse without an outline.
+
+The outer back contour is warm dark brown (#2d2017), replacing the blue-grey
+stroke. Swirl shapes now cross the event horizon and taper into the black
+centre; the centre sits behind the currents instead of obscuring them.
