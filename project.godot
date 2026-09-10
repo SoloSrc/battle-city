@@ -28,6 +28,10 @@ window/stretch/aspect="expand"
 
 project/assembly_name="BattleCity"
 
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/battle_city/plugin.cfg")
+
 [input]
 
 move_left={

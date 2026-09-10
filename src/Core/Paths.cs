@@ -20,12 +20,15 @@ public static class Paths
     public const string DuelDiskScene = "res://scenes/characters/DuelDisk.tscn";
     public const string CameraRigScene = "res://scenes/world/CameraRig.tscn";
     public const string CameraBoundsScene = "res://scenes/world/CameraBounds.tscn";
+    public const string WorldScenes = "res://scenes/world";
+    public const string DistrictScene = "res://levels/district/District.tscn";
 
     // Pipeline smoke-test deliverables (asset-list.md §0). Owned by gpt-astra.
     public const string SmokeTestScene = "res://tests/scenes/SmokeTest.tscn";
     public const string CharacterTestScene = "res://tests/scenes/CharacterTest.tscn";
     public const string PlayerTestScene = "res://tests/scenes/PlayerTest.tscn";
     public const string CameraFramingScene = "res://tests/scenes/CameraFraming.tscn";
+    public const string MarkersTestScene = "res://tests/scenes/MarkersTest.tscn";
     public const string SmokeCube = "res://assets/kit/kit_test_cube_1m.glb";
     public const string SmokeCharacterBody = "res://assets/characters/body/char_a_body.glb";
     public const string CharacterAnims = "res://assets/characters/anims/character_anims.glb";

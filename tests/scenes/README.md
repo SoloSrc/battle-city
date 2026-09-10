@@ -105,3 +105,25 @@ the player east through the plaza/interior seam, past the east edge and
 around the corner, and checks the snap at start, follow lag, the interior
 takeover and blend, the edge clamp with the 1 m margin and the corner hold.
 `CameraFraming FAIL` lines fail CI.
+
+## MarkersTest.tscn and MarkersBad.tscn (issue #22)
+
+`MarkersTest.tscn` is a small level built only from the `scenes/world`
+components: PlayerSpawn, CameraBounds, LevelBounds, AmbientZone, Sign, Door,
+ShopCounter, EncounterSite, Duelist, TalkNpc, ProgressionGate and a
+SurfaceTag ground under a NavigationRegion3D that bakes at load. Scripted
+mode walks the player into the zone, reads the sign through the interaction
+probe, gets spotted by the duelist's cone and challenges it, opens the gate
+with `defeated:d1`, fires the Door / ShopCounter / TalkNpc contracts and runs
+off the built area to be recovered by LevelBounds. `MarkersTest FAIL` lines
+fail CI.
+
+```bash
+godot --headless --path . res://tests/scenes/MarkersTest.tscn --fixed-fps 60 --quit-after 520
+godot --headless --path . -s tools/level_check.gd -- res://tests/scenes/MarkersTest.tscn
+```
+
+`MarkersBad.tscn` seeds the faults the checklist must catch (two `arrival`
+spawns, overlapping reservations, a site without its duelist, a wall inside a
+clearance box, an unapplied scale, a door to a missing scene, an unknown gate
+flag, no CameraBounds). CI expects the checklist to exit 1 on it.
