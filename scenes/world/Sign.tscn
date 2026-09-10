@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c0sign000000001"]
+
+[ext_resource type="Script" path="res://src/World/Sign.cs" id="1_sign"]
+
+[sub_resource type="BoxShape3D" id="use_shape"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="post_mat"]
+albedo_color = Color(0.55, 0.42, 0.3, 1)
+
+[sub_resource type="BoxMesh" id="post_mesh"]
+material = SubResource("post_mat")
+size = Vector3(0.6, 1.2, 0.08)
+
+[node name="Sign" type="Area3D" groups=["interactable"]]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_sign")
+Text = "Sign text"
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.8)
+shape = SubResource("use_shape")
+
+[node name="Placeholder" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+mesh = SubResource("post_mesh")

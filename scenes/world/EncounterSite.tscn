@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0encsite000001"]
+
+[ext_resource type="Script" path="res://src/World/EncounterSite.cs" id="1_site"]
+
+[node name="EncounterSite" type="Node3D" groups=["encounter_site"]]
+script = ExtResource("1_site")
+Id = "site"
+DuelistId = "d1"

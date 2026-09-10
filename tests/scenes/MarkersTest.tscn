@@ -1,0 +1,157 @@
+[gd_scene load_steps=24 format=3 uid="uid://c0markerstest01"]
+
+[ext_resource type="Script" path="res://src/Diagnostics/MarkersTestScene.cs" id="1_test"]
+[ext_resource type="PackedScene" path="res://scenes/characters/Player.tscn" id="2_player"]
+[ext_resource type="Shader" path="res://shaders/debug_grid.gdshader" id="3_grid"]
+[ext_resource type="Script" path="res://src/World/SurfaceTag.cs" id="4_surface"]
+[ext_resource type="PackedScene" path="res://scenes/world/PlayerSpawn.tscn" id="5_spawn"]
+[ext_resource type="PackedScene" path="res://scenes/world/CameraBounds.tscn" id="6_cam"]
+[ext_resource type="PackedScene" path="res://scenes/world/LevelBounds.tscn" id="7_lvl"]
+[ext_resource type="PackedScene" path="res://scenes/world/AmbientZone.tscn" id="8_zone"]
+[ext_resource type="PackedScene" path="res://scenes/world/Sign.tscn" id="9_sign"]
+[ext_resource type="PackedScene" path="res://scenes/world/Door.tscn" id="10_door"]
+[ext_resource type="PackedScene" path="res://scenes/world/ShopCounter.tscn" id="11_shop"]
+[ext_resource type="PackedScene" path="res://scenes/world/EncounterSite.tscn" id="12_site"]
+[ext_resource type="PackedScene" path="res://scenes/world/Duelist.tscn" id="13_duelist"]
+[ext_resource type="PackedScene" path="res://scenes/world/TalkNpc.tscn" id="14_npc"]
+[ext_resource type="PackedScene" path="res://scenes/world/ProgressionGate.tscn" id="15_gate"]
+[ext_resource type="PackedScene" path="res://scenes/world/CameraRig.tscn" id="16_rig"]
+
+[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
+sky_top_color = Color(0.38, 0.55, 0.85, 1)
+sky_horizon_color = Color(0.72, 0.78, 0.86, 1)
+ground_bottom_color = Color(0.2, 0.2, 0.22, 1)
+ground_horizon_color = Color(0.72, 0.78, 0.86, 1)
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("sky_mat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_sky_contribution = 0.6
+tonemap_mode = 2
+
+[sub_resource type="NavigationMesh" id="navmesh"]
+geometry_parsed_geometry_type = 1
+agent_radius = 0.5
+
+[sub_resource type="ShaderMaterial" id="grid_mat"]
+shader = ExtResource("3_grid")
+
+[sub_resource type="PlaneMesh" id="grid_mesh"]
+material = SubResource("grid_mat")
+size = Vector2(40, 40)
+
+[sub_resource type="BoxShape3D" id="ground_shape"]
+size = Vector3(40, 0.2, 40)
+
+[node name="MarkersTest" type="Node3D" node_paths=PackedStringArray("Player", "Nav", "Spawn", "Sign", "Duelist", "Site", "Zone", "Gate", "Door", "Shop", "Npc", "Bounds", "Ground", "ReportLabel")]
+script = ExtResource("1_test")
+Player = NodePath("Player")
+Nav = NodePath("NavigationRegion3D")
+Spawn = NodePath("Markers/Arrival")
+Sign = NodePath("Markers/Sign")
+Duelist = NodePath("Markers/Nico/Marker")
+Site = NodePath("Markers/NicoSite")
+Zone = NodePath("Markers/PlazaZone")
+Gate = NodePath("Markers/ParkGate")
+Door = NodePath("Markers/RoomDoor")
+Shop = NodePath("Markers/Counter")
+Npc = NodePath("Markers/Greeter/Talk")
+Bounds = NodePath("Markers/LevelBounds")
+Ground = NodePath("NavigationRegion3D/Ground")
+ReportLabel = NodePath("Hud/Report")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.321394, 0.383022, 0, 0.766044, 0.642788, -0.5, -0.55667, 0.663414, 0, 8, 0)
+light_energy = 1.2
+shadow_enabled = true
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("navmesh")
+
+[node name="Ground" type="StaticBody3D" parent="NavigationRegion3D"]
+collision_layer = 1
+collision_mask = 0
+script = ExtResource("4_surface")
+Kind = 1
+
+[node name="Grid" type="MeshInstance3D" parent="NavigationRegion3D/Ground"]
+mesh = SubResource("grid_mesh")
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("ground_shape")
+
+[node name="Markers" type="Node3D" parent="."]
+
+[node name="Arrival" parent="Markers" instance=ExtResource("5_spawn")]
+Id = "arrival"
+
+[node name="PlazaCamera" parent="Markers" instance=ExtResource("6_cam")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+Size = Vector3(40, 10, 40)
+
+[node name="LevelBounds" parent="Markers" instance=ExtResource("7_lvl")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 9, 0)
+Size = Vector3(12, 20, 40)
+
+[node name="PlazaZone" parent="Markers" instance=ExtResource("8_zone")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, -8)
+Size = Vector3(12, 5, 10)
+MusicId = "plaza"
+AmbienceId = "street"
+
+[node name="Sign" parent="Markers" instance=ExtResource("9_sign")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, -6)
+Text = "Welcome to the plaza"
+
+[node name="RoomDoor" parent="Markers" instance=ExtResource("10_door")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, -4, 0, 4)
+TargetScene = "res://tests/scenes/MarkersTest.tscn"
+TargetSpawn = "arrival"
+ReturnSpawn = "arrival"
+
+[node name="Counter" parent="Markers" instance=ExtResource("11_shop")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+
+[node name="NicoSite" parent="Markers" instance=ExtResource("12_site")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -16)
+Id = "nico"
+DuelistId = "d1"
+
+[node name="Nico" parent="Markers" instance=ExtResource("13_duelist")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, -16)
+
+[node name="Marker" parent="Markers/Nico" index="5"]
+DuelistId = "d1"
+
+[node name="Greeter" parent="Markers" instance=ExtResource("14_npc")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -4, 0, -8)
+
+[node name="Talk" parent="Markers/Greeter" index="5"]
+DialogueId = "greeter"
+
+[node name="ParkGate" parent="Markers" instance=ExtResource("15_gate")]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 8, 0, -2)
+RequiredFlag = "defeated:d1"
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+
+[node name="CameraRig" parent="." node_paths=PackedStringArray("Target") instance=ExtResource("16_rig")]
+Target = NodePath("../Player")
+
+[node name="Hud" type="CanvasLayer" parent="."]
+
+[node name="Report" type="Label" parent="Hud"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 900.0
+offset_bottom = 400.0
+theme_override_font_sizes/font_size = 15
+text = "MarkersTest"

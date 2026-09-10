@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://c0markersbad001"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/PlayerSpawn.tscn" id="1_spawn"]
+[ext_resource type="PackedScene" path="res://scenes/world/EncounterSite.tscn" id="2_site"]
+[ext_resource type="PackedScene" path="res://scenes/world/Door.tscn" id="3_door"]
+[ext_resource type="PackedScene" path="res://scenes/world/ProgressionGate.tscn" id="4_gate"]
+
+[sub_resource type="BoxMesh" id="box"]
+
+[sub_resource type="BoxShape3D" id="ground_shape"]
+size = Vector3(40, 0.2, 40)
+
+[sub_resource type="BoxShape3D" id="wall_shape"]
+size = Vector3(1, 3, 1)
+
+[node name="MarkersBad" type="Node3D"]
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+
+[node name="Ground" type="StaticBody3D" parent="NavigationRegion3D"]
+
+[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+shape = SubResource("ground_shape")
+
+[node name="Arrival" parent="." instance=ExtResource("1_spawn")]
+Id = "arrival"
+
+[node name="ArrivalAgain" parent="." instance=ExtResource("1_spawn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 0)
+Id = "arrival"
+
+[node name="SiteA" parent="." instance=ExtResource("2_site")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10)
+Id = "a"
+DuelistId = "d1"
+
+[node name="SiteB" parent="." instance=ExtResource("2_site")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -10)
+Id = "b"
+DuelistId = "d2"
+
+[node name="Kit_Wall" type="StaticBody3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1.5, -10)
+collision_layer = 1
+
+[node name="Mesh" type="MeshInstance3D" parent="Kit_Wall"]
+mesh = SubResource("box")
+
+[node name="Shape" type="CollisionShape3D" parent="Kit_Wall"]
+shape = SubResource("wall_shape")
+
+[node name="BrokenDoor" parent="." instance=ExtResource("3_door")]
+TargetScene = "res://levels/district/interiors/Missing.tscn"
+TargetSpawn = "from_plaza"
+ReturnSpawn = "nowhere"
+
+[node name="Gate" parent="." instance=ExtResource("4_gate")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+RequiredFlag = "beat nico"

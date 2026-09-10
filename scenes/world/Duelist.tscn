@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0duelist000001"]
+
+[ext_resource type="PackedScene" path="res://scenes/characters/Character.tscn" id="1_character"]
+[ext_resource type="Script" path="res://src/World/Duelist.cs" id="2_duelist"]
+
+[sub_resource type="CylinderShape3D" id="talk_shape"]
+height = 2.0
+radius = 1.2
+
+[node name="Duelist" groups=["npc"] instance=ExtResource("1_character")]
+
+[node name="Marker" type="Area3D" parent="." index="5" groups=["duelist"]]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("2_duelist")
+DuelistId = "d1"
+
+[node name="Shape" type="CollisionShape3D" parent="Marker"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("talk_shape")

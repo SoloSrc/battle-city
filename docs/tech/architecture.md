@@ -61,7 +61,8 @@ the repository root so the repo *is* the Godot project.
 ├── tests/
 │   ├── Duel.Core.Tests/       xUnit project, runs with `dotnet test`
 │   └── scenes/                in-editor test scenes (CameraFraming.tscn, SmokeTest.tscn)
-└── tools/                     editor plugins and scripts (level checklist, card data validator)
+├── addons/battle_city/        editor plugin: checklist menu, KitSnap, marker gizmos
+└── tools/                     scripts (level checklist CLI, card data validator)
 ```
 
 Ownership follows AGENTS.md: `src/`, `scenes/`, `shaders/`, `data/`,
