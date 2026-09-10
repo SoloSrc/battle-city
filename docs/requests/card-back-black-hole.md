@@ -4,7 +4,7 @@ Owner: gpt-astra. Status: ready for director review in a new PR after #39.
 
 The director requested a predominantly brown black-hole back that fits the card
 faces more closely. During iteration the director explicitly removed cloud-like
-shading. This delivery therefore uses flat brown/cocoa/tan shapes around a
+shading. This delivery therefore uses flat dark-brown/cocoa/tan shapes around a
 near-black elliptical centre, with the same restrained border language as the
 fronts. No glow, cloud texture or gradients are present in the back.
 
@@ -18,3 +18,6 @@ The complete set preview is refreshed for comparison with the approved faces.
 Checks: all 22 texture exports passed dimension/transparency checks, the back
 passed rotational-symmetry validation, and the rendered artwork was inspected.
 Original SOLOSRC vector artwork under the repository MIT license.
+
+Follow-up director revision: darkened the brown palette and removed both event-
+horizon borders. The black centre is a single ellipse without an outline.

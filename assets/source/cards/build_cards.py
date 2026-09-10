@@ -26,7 +26,7 @@ for i,(name,(base,pale)) in enumerate(colors.items()):
  save('frame_'+name,590,860,layer('frame-base',shell)+layer('cloud-texture',clouds)+layer('border',border)+layer('information-band',band)+layer('type-signature',ornament))
 # Original flat brown black-hole motif, built from paired broad shapes.
 defs='<defs><clipPath id="back-field"><rect x="28" y="28" width="534" height="804" rx="7"/></clipPath></defs>'
-back=defs+'<rect width="590" height="860" rx="18" fill="#79583f"/><rect x="6" y="6" width="578" height="848" rx="14" fill="none" stroke="#293344" stroke-width="5"/><rect x="17" y="17" width="556" height="826" rx="7" fill="none" stroke="#c6aa85" stroke-width="3"/><rect x="28" y="28" width="534" height="804" rx="7" fill="#78563e" stroke="#443325" stroke-width="3"/>'
+back=defs+'<rect width="590" height="860" rx="18" fill="#59402f"/><rect x="6" y="6" width="578" height="848" rx="14" fill="none" stroke="#293344" stroke-width="5"/><rect x="17" y="17" width="556" height="826" rx="7" fill="none" stroke="#a88a66" stroke-width="3"/><rect x="28" y="28" width="534" height="804" rx="7" fill="#513927" stroke="#443325" stroke-width="3"/>'
 ribbons=[]
 for k in range(3):
  sides=[]
@@ -38,9 +38,9 @@ for k in range(3):
    y=430+285*(rad+sign*thick)*math.sin(ang)
    pts.append(f'{x:.2f},{y:.2f}')
   sides.append(pts)
- ribbons.append('<path d="M'+' L'.join(sides[0]+list(reversed(sides[1])))+' Z" fill="'+['#a17c57','#634632','#8b6748'][k]+'"/>')
+ ribbons.append('<path d="M'+' L'.join(sides[0]+list(reversed(sides[1])))+' Z" fill="'+['#876344','#3c291d','#6b4b32'][k]+'"/>')
 flow='<g clip-path="url(#back-field)"><g id="broad-currents">'+''.join(ribbons)+'</g><use href="#broad-currents" transform="rotate(180 295 430)"/></g>'
-hole='<g transform="rotate(-18 295 430)"><ellipse cx="295" cy="430" rx="91" ry="130" fill="#39291e" stroke="#af8c63" stroke-width="4"/><ellipse cx="295" cy="430" rx="79" ry="116" fill="#0c0b0a"/><ellipse cx="295" cy="430" rx="72" ry="108" fill="#050505"/></g>'
+hole='<ellipse cx="295" cy="430" rx="89" ry="128" transform="rotate(-18 295 430)" fill="#050505"/>'
 save('card_back',590,860,layer('matte-brown-frame',back)+layer('broad-currents',flow)+layer('black-hole-centre',hole))
 paths={
 'dark':('M84 27 A39 39 0 1 0 91 91 A34 34 0 0 1 84 27 Z','#70639e'),

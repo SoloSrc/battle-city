@@ -56,8 +56,11 @@ See [director-approved handoff](../../../docs/requests/card-layout-director-appr
 ## Card back — flat brown black hole
 
 The director requested a new revision after PR #39, then explicitly removed
-cloud-like shading from the brief. The back uses flat brown (#78563e), cocoa
-(#634632), muted tan (#a17c57) and a near-black centre (#050505). Broad paired
+cloud-like shading from the brief. The back uses flat dark brown (#513927), cocoa
+(#3c291d), muted tan (#876344) and a near-black centre (#050505). Broad paired
 shapes imply matter orbiting a black hole. It uses the fronts' restrained dark
 outline and inset tan border, with no cloud filter, gradient or fiery streaks.
 The SVG pattern is rotationally symmetric. Approved card faces are unchanged.
+
+The director requested a darker brown and removal of the event-horizon borders.
+The centre is now one solid black ellipse with no stroke or concentric rings.
