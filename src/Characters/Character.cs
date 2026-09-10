@@ -121,6 +121,13 @@ public partial class Character : CharacterBody3D
         _playback?.Travel(state);
     }
 
+    /// <summary>Restarts the state machine at Locomotion (after Win / Lose, which have no outgoing transitions).</summary>
+    public void ResetToLocomotion()
+    {
+        _playback?.Start(LocomotionState);
+        SetLocomotion(0.0f);
+    }
+
     /// <summary>Called by injected method tracks; re-emitted as <see cref="AnimationEvent"/>.</summary>
     public void OnAnimationEvent(string name)
     {

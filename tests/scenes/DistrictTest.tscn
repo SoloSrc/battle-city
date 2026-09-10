@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0districttest1"]
+
+[ext_resource type="Script" path="res://src/Diagnostics/DistrictTestScene.cs" id="1_test"]
+
+[node name="DistrictTest" type="Node" node_paths=PackedStringArray("ReportLabel")]
+script = ExtResource("1_test")
+ReportLabel = NodePath("Hud/Report")
+
+[node name="Hud" type="CanvasLayer" parent="."]
+layer = 45
+
+[node name="Report" type="Label" parent="Hud"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 900.0
+offset_bottom = 500.0
+theme_override_font_sizes/font_size = 15
+text = "DistrictTest"
