@@ -53,6 +53,11 @@ redirecting a strike. The director's supplied reference image is not committed.
 
 See [director-approved handoff](../../../docs/requests/card-layout-director-approved.md).
 
-## Card back revision 04
+## Card back — flat brown black hole
 
-The director approved the faces and requested a warmer back following the supplied reference. The original back now uses near-black (#030201), deep brown, burnt orange and amber (#f7ae47), with a warm rim and paired curved ember strokes. Each source stroke is duplicated at 180 degrees. Dense thin curves and glow introduce subpixel raster differences; the mean-channel symmetry tolerance is 0.75/255. No reference pixels are used. The deterministic seed is recorded in the SVG builder.
+The director requested a new revision after PR #39, then explicitly removed
+cloud-like shading from the brief. The back uses flat brown (#78563e), cocoa
+(#634632), muted tan (#a17c57) and a near-black centre (#050505). Broad paired
+shapes imply matter orbiting a black hole. It uses the fronts' restrained dark
+outline and inset tan border, with no cloud filter, gradient or fiery streaks.
+The SVG pattern is rotationally symmetric. Approved card faces are unchanged.
