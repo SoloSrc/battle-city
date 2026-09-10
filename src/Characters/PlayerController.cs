@@ -58,6 +58,15 @@ public partial class PlayerController : Node
 
     public IInteractable? CurrentInteractable { get; private set; }
 
+    /// <summary>Point the controller is walking the player to on its own (encounter staging), or null.</summary>
+    public Vector3? WalkTarget { get; private set; }
+
+    public bool IsAutoWalking => WalkTarget.HasValue;
+
+    /// <summary>Distance at which an auto-walk counts as arrived.</summary>
+    [Export(PropertyHint.Range, "0.05,1,0.05,suffix:m")]
+    public float ArriveRadius { get; set; } = 0.15f;
+
     private float _gravity;
     private Vector3 _planarVelocity;
     private string _lastPrompt = string.Empty;
@@ -79,9 +88,9 @@ public partial class PlayerController : Node
         }
 
         float dt = (float)delta;
-        Vector2 stick = InputEnabled ? Input.GetVector(InputActions.MoveLeft, InputActions.MoveRight, InputActions.MoveUp, InputActions.MoveDown) : Vector2.Zero;
+        Vector2 stick = ReadStick();
         float deflection = Mathf.Min(stick.Length(), 1.0f);
-        bool runHeld = InputEnabled && Input.IsActionPressed(InputActions.RunToggle);
+        bool runHeld = InputEnabled && !IsAutoWalking && Input.IsActionPressed(InputActions.RunToggle);
         IsRunning = deflection > 0.0f && (deflection >= RunThreshold || runHeld);
 
         Vector3 wish = Vector3.Zero;
@@ -111,10 +120,41 @@ public partial class PlayerController : Node
 
         Character.SetLocomotion(Speed);
         UpdatePrompt();
-        if (InputEnabled && Input.IsActionJustPressed(InputActions.Interact))
+        if (InputEnabled && !IsAutoWalking && Input.IsActionJustPressed(InputActions.Interact))
         {
             CurrentInteractable?.Interact(Character);
         }
+    }
+
+    /// <summary>Walks the player to <paramref name="target"/> at walk speed, ignoring the stick until it arrives (systems.md §4.3 step 3).</summary>
+    public void WalkTo(Vector3 target)
+    {
+        WalkTarget = target;
+    }
+
+    public void StopWalk()
+    {
+        WalkTarget = null;
+    }
+
+    /// <summary>Stick from the player, or a synthetic walk-strength stick toward <see cref="WalkTarget"/>.</summary>
+    private Vector2 ReadStick()
+    {
+        if (WalkTarget is Vector3 target && Character is not null)
+        {
+            Vector3 to = target - Character.GlobalPosition;
+            to.Y = 0.0f;
+            if (to.Length() <= ArriveRadius)
+            {
+                WalkTarget = null;
+                return Vector2.Zero;
+            }
+
+            Vector3 local = to.Normalized().Rotated(Vector3.Up, -Mathf.DegToRad(CameraYaw));
+            return new Vector2(local.X, local.Z) * (RunThreshold * 0.8f);
+        }
+
+        return InputEnabled ? Input.GetVector(InputActions.MoveLeft, InputActions.MoveRight, InputActions.MoveUp, InputActions.MoveDown) : Vector2.Zero;
     }
 
     private void TurnToward(Vector3 direction, float dt)

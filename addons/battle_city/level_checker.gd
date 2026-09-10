@@ -20,7 +20,7 @@ func run(root: Node) -> Array:
 	if not root.is_inside_tree():
 		_fail("scene root is not inside a tree; physics and navigation checks need one")
 		return _results
-	# let physics and navigation maps sync before querying
+	# let physics settle before the shape queries; navmesh checks read the baked mesh directly
 	await root.get_tree().physics_frame
 	await root.get_tree().physics_frame
 	_check_structure(root)
@@ -68,7 +68,10 @@ func _check_spawns(root: Node) -> void:
 	for s in spawns:
 		var id: String = s.get("Id")
 		ids[id] = ids.get(id, 0) + 1
-	_check(ids.get("arrival", 0) == 1, "exactly one PlayerSpawn with id 'arrival' (found %d)" % ids.get("arrival", 0))
+	if _is_interior(root):
+		_check(not spawns.is_empty() and ids.get("arrival", 0) <= 1, "interior has at least one PlayerSpawn and at most one 'arrival' (found %d spawns)" % spawns.size())
+	else:
+		_check(ids.get("arrival", 0) == 1, "exactly one PlayerSpawn with id 'arrival' (found %d)" % ids.get("arrival", 0))
 	for id in ids:
 		if ids[id] > 1:
 			_fail("PlayerSpawn id '%s' is used %d times" % [id, ids[id]])
@@ -98,11 +101,13 @@ func _check_sites(root: Node) -> void:
 				matched = true
 		_check(matched, "EncounterSite '%s' has Duelist '%s' within %.0f m" % [site_id, duelist_id, SITE_DUELIST_RANGE])
 		if nav_ready:
-			var map: RID = world.navigation_map
+			var region := _find_nav_region(root)
 			for label in ["A", "B"]:
 				var p: Vector3 = site.get("StandPoint" + label)
-				var closest := NavigationServer3D.map_get_closest_point(map, p)
-				_check(closest.distance_to(p) <= NAV_TOLERANCE, "site '%s' stand point %s is on the navmesh (%.2f m off)" % [site_id, label, closest.distance_to(p)])
+				var closest := _closest_point_on_navmesh(region, p)
+				# the baked surface floats up to a cell above the collider, so compare on the ground plane
+				var off := Vector2(closest.x - p.x, closest.z - p.z).length()
+				_check(off <= NAV_TOLERANCE and absf(closest.y - p.y) <= 1.0, "site '%s' stand point %s is on the navmesh (%.2f m off)" % [site_id, label, off])
 		if space != null:
 			var size: Vector3 = site.get("ClearanceSize")
 			var box := BoxShape3D.new()
@@ -226,6 +231,10 @@ func _check_gates(root: Node) -> void:
 	for gate in _nodes_with_script(root, "ProgressionGate"):
 		var flag: String = gate.get("RequiredFlag")
 		_check(flag in KNOWN_FLAGS or re.search(flag) != null, "ProgressionGate '%s' flag '%s' is a known flag" % [gate.name, flag])
+	for d in _nodes_with_script(root, "Duelist"):
+		var required: String = d.get("RequiredFlag")
+		if required != "":
+			_check(required in KNOWN_FLAGS or re.search(required) != null, "Duelist '%s' required flag '%s' is a known flag" % [d.get("DuelistId"), required])
 
 
 func _check_budget(root: Node) -> void:
@@ -253,6 +262,53 @@ func _site_aabb(site: Node3D) -> AABB:
 	var xf: Transform3D = site.get("ClearanceTransform")
 	var local := AABB(-size * 0.5, size)
 	return xf * local
+
+
+## Closest point to p on the region's baked mesh, computed from the polygons
+## themselves. The NavigationServer map does not reliably take a mesh baked
+## after the region entered the tree in script mode, so the checklist never
+## asks it.
+func _closest_point_on_navmesh(region: NavigationRegion3D, p: Vector3) -> Vector3:
+	var mesh := region.navigation_mesh
+	var verts := mesh.get_vertices()
+	var xf := region.global_transform
+	var best := Vector3.ZERO
+	var best_d := INF
+	for i in range(mesh.get_polygon_count()):
+		var poly := mesh.get_polygon(i)
+		for k in range(1, poly.size() - 1):
+			var a: Vector3 = xf * verts[poly[0]]
+			var b: Vector3 = xf * verts[poly[k]]
+			var c: Vector3 = xf * verts[poly[k + 1]]
+			var q := _closest_point_on_triangle(p, a, b, c)
+			var d := q.distance_squared_to(p)
+			if d < best_d:
+				best_d = d
+				best = q
+	return best
+
+
+func _closest_point_on_triangle(p: Vector3, a: Vector3, b: Vector3, c: Vector3) -> Vector3:
+	var n := (b - a).cross(c - a)
+	if n.length_squared() < 1e-12:
+		return Geometry3D.get_closest_point_to_segment(p, a, b)
+	n = n.normalized()
+	var q := p - n * (p - a).dot(n)
+	if Geometry3D.ray_intersects_triangle(q + n, -n, a, b, c) != null:
+		return q
+	var e1 := Geometry3D.get_closest_point_to_segment(p, a, b)
+	var e2 := Geometry3D.get_closest_point_to_segment(p, b, c)
+	var e3 := Geometry3D.get_closest_point_to_segment(p, c, a)
+	var best := e1
+	for e in [e2, e3]:
+		if e.distance_squared_to(p) < best.distance_squared_to(p):
+			best = e
+	return best
+
+
+## Interiors (architecture.md §7.4) live under levels/district/interiors/ and have one spawn per door, no 'arrival'.
+func _is_interior(root: Node) -> bool:
+	return str(root.scene_file_path).contains("/interiors/")
 
 
 func _navmesh_ready(root: Node) -> bool:
