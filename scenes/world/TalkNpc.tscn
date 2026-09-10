@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c0talknpc000001"]
+
+[ext_resource type="PackedScene" path="res://scenes/characters/Character.tscn" id="1_character"]
+[ext_resource type="Script" path="res://src/World/TalkNpc.cs" id="2_npc"]
+
+[sub_resource type="CylinderShape3D" id="talk_shape"]
+height = 2.0
+radius = 1.2
+
+[node name="TalkNpc" groups=["npc"] instance=ExtResource("1_character")]
+EquipDuelDisk = false
+
+[node name="Talk" type="Area3D" parent="." index="5"]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("2_npc")
+DialogueId = "npc"
+
+[node name="Shape" type="CollisionShape3D" parent="Talk"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("talk_shape")

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0levelbounds01"]
+
+[ext_resource type="Script" path="res://src/World/LevelBounds.cs" id="1_bounds"]
+
+[sub_resource type="BoxShape3D" id="box"]
+size = Vector3(120, 40, 120)
+
+[node name="LevelBounds" type="Area3D"]
+collision_layer = 8
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_bounds")
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+shape = SubResource("box")

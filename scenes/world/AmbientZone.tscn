@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0ambientzone01"]
+
+[ext_resource type="Script" path="res://src/World/AmbientZone.cs" id="1_zone"]
+
+[sub_resource type="BoxShape3D" id="box"]
+size = Vector3(20, 10, 20)
+
+[node name="AmbientZone" type="Area3D" groups=["ambient_zone"]]
+collision_layer = 8
+collision_mask = 2
+script = ExtResource("1_zone")
+MusicId = ""
+AmbienceId = ""
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+shape = SubResource("box")

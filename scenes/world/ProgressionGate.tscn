@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://c0progrgate0001"]
+
+[ext_resource type="Script" path="res://src/World/ProgressionGate.cs" id="1_gate"]
+
+[sub_resource type="StandardMaterial3D" id="gate_mat"]
+albedo_color = Color(0.85, 0.35, 0.3, 1)
+
+[sub_resource type="BoxMesh" id="gate_mesh"]
+material = SubResource("gate_mat")
+size = Vector3(4, 3, 0.6)
+
+[sub_resource type="BoxShape3D" id="gate_shape"]
+size = Vector3(4, 3, 0.6)
+
+[node name="ProgressionGate" type="Node3D" groups=["gate"] node_paths=PackedStringArray("Blocker")]
+script = ExtResource("1_gate")
+RequiredFlag = "defeated:d1"
+Blocker = NodePath("Blocker")
+
+[node name="Blocker" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+collision_layer = 1
+collision_mask = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="Blocker"]
+mesh = SubResource("gate_mesh")
+
+[node name="Shape" type="CollisionShape3D" parent="Blocker"]
+shape = SubResource("gate_shape")

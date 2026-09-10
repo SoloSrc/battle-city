@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://c0door000000001"]
+
+[ext_resource type="Script" path="res://src/World/Door.cs" id="1_door"]
+
+[sub_resource type="BoxShape3D" id="use_shape"]
+size = Vector3(2.4, 2.5, 2)
+
+[sub_resource type="StandardMaterial3D" id="door_mat"]
+albedo_color = Color(0.35, 0.5, 0.75, 1)
+
+[sub_resource type="BoxMesh" id="door_mesh"]
+material = SubResource("door_mat")
+size = Vector3(2, 2.5, 0.1)
+
+[node name="Door" type="Area3D" groups=["interactable"]]
+collision_layer = 4
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_door")
+TargetScene = ""
+TargetSpawn = ""
+ReturnSpawn = ""
+
+[node name="Shape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 1)
+shape = SubResource("use_shape")
+
+[node name="Placeholder" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("door_mesh")
