@@ -81,3 +81,27 @@ godot --headless --path . res://tests/scenes/PlayerTest.tscn --fixed-fps 60 --qu
 
 - `CameraFraming.tscn` (issue #21)
 - `Profiling.tscn` (later)
+
+## CameraFraming.tscn (issue #21)
+
+Readability diagnostic for the overworld camera (systems.md §4.2). The player,
+a duelist at the 7 m stand distance, a bystander and 1 m kit cubes sit on the
+reference grid under `scenes/world/CameraRig.tscn`. Two `CameraBounds`
+volumes, a plaza and an interior with the interior override, sit side by side
+so clamping and the profile blend can be seen.
+
+```bash
+godot --headless --path . res://tests/scenes/CameraFraming.tscn --fixed-fps 60 --quit-after 700
+```
+
+The HUD shows the live pitch, distance, FOV, yaw, rig position, active
+volume, clamp state and the avatar's pixel height normalised to 1080p. That
+height is an outcome to look at, not a target (director decision
+2026-09-08); the camera values change only by director decision. Live
+controls: move as in the game, `menu` cycles framing presets (GDD baseline
+57° / 12 m, GDD min 55° / 12 m, GDD max 60° / 14 m, far 57° / 14 m), `cancel`
+shows the bounds volumes. Scripted mode (headless or `-- --scripted`) runs
+the player east through the plaza/interior seam, past the east edge and
+around the corner, and checks the snap at start, follow lag, the interior
+takeover and blend, the edge clamp with the 1 m margin and the corner hold.
+`CameraFraming FAIL` lines fail CI.

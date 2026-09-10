@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0camerarig0001"]
+
+[ext_resource type="Script" path="res://src/World/CameraRig.cs" id="1_rig"]
+
+[node name="CameraRig" type="Node3D" node_paths=PackedStringArray("Pivot", "Camera")]
+script = ExtResource("1_rig")
+Pivot = NodePath("Pivot")
+Camera = NodePath("Pivot/Camera3D")
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.544639, 0.838671, 0, -0.838671, 0.544639, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 12)
+fov = 35.0
+near = 0.1
+far = 200.0
