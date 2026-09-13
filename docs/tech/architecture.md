@@ -190,6 +190,13 @@ for the common cases.
 - Skin tone and accent colour are the `albedo` of the copies made from
   `toon_skin` and `toon_accent`, set by `CharacterAppearance`, so no
   per-colour textures.
+- Sun shadows are configured at load by `src/Rendering/SunShadows.cs` on
+  every shadow-casting `DirectionalLight3D` in a level (orthogonal mode over
+  25 m, blur 1, bias 0.1 / normal bias 2, 0.5° sun), with the project set to
+  the high soft-shadow filter and a 24-bit directional atlas. Levels only
+  author the sun's rotation and energy; the fixed overworld camera sees
+  about 20 m, so one full-resolution map beats the PSSM far split that
+  drew stair-stepped edges (walkthrough feedback, 2026-09-13).
 
 ### 6.5 Rig
 

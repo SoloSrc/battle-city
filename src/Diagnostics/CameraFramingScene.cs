@@ -272,6 +272,8 @@ public partial class CameraFramingScene : Node3D
 
         int toon = ToonMaterials.Apply(Cubes);
         Report("INFO", $"toon material on {toon} kit cube surface(s) (shaders/materials/toon.tres)");
+        int suns = SunShadows.Apply(this);
+        Report("INFO", $"sun shadows configured on {suns} directional light(s) (SunShadows)");
     }
 
     /// <summary>

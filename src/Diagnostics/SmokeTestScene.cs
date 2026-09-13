@@ -112,6 +112,7 @@ public partial class SmokeTestScene : Node3D
         }
 
         CheckShaders();
+        CheckSunShadows();
         Node? cube = LoadAndPlace(CubePath, CubeSpot, "metric cube");
         if (cube is not null)
         {
@@ -448,6 +449,15 @@ public partial class SmokeTestScene : Node3D
         Check(toon > 0, $"{label}: {toon} toon_ surface(s), {other} other (toon_ prefix gets the shared toon material, architecture §6.4)",
             fail: false);
         Check(converted == toon, $"{label}: {converted} surface(s) now use shaders/toon.gdshader with the outline pass", fail: true);
+    }
+
+    /// <summary>The scene's sun gets the shared shadow setup, as levels do in Game.LoadLevel.</summary>
+    private void CheckSunShadows()
+    {
+        int suns = SunShadows.Apply(this);
+        Check(suns >= 1, $"sun shadows: {suns} directional light(s) configured (SunShadows, orthogonal {SunShadows.MaxDistance:0} m)", fail: true);
+        var sun = GetNodeOrNull<DirectionalLight3D>("Sun");
+        Check(sun is { DirectionalShadowMode: DirectionalLight3D.ShadowMode.Orthogonal }, "sun shadows: Sun uses orthogonal mode after Apply", fail: true);
     }
 
     /// <summary>
