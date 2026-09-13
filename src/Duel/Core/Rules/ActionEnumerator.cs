@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BattleCity.Duel.Core.Commands;
+using BattleCity.Duel.Core.Effects;
 using BattleCity.Duel.Core.Model;
 
 namespace BattleCity.Duel.Core.Rules;
@@ -13,7 +14,22 @@ internal static class ActionEnumerator
     {
         DuelState s = engine.State;
         var actions = new List<PlayerCommand>();
-        if (s.IsOver || player is < 0 or > 1 || player != s.Priority)
+        if (s.IsOver || player is < 0 or > 1)
+        {
+            return actions;
+        }
+
+        if (s.PendingChoice is { } pending)
+        {
+            if (pending.Player == player)
+            {
+                AddAnswers(engine, player, pending.Choice, actions);
+            }
+
+            return actions;
+        }
+
+        if (player != s.Priority)
         {
             return actions;
         }
@@ -26,9 +42,20 @@ internal static class ActionEnumerator
         }
 
         actions.Add(new Pass(player));
-        if (player != s.TurnPlayer || s.Chain.Count > 0 || s.Attacker is not null)
+        AddResponses(engine, player, actions);
+        if (player != s.TurnPlayer || s.Chain.Count > 0)
         {
-            // Responses (Quick-Play Spells, Traps, Quick effects) arrive with tier 2.
+            return actions;
+        }
+
+        if (TurnFlow.IsMainPhase(s) && s.Window is Window.Open or Window.Summon)
+        {
+            // Ignition effects also under summon priority (systems.md §5.5); everything else needs the open Main Phase.
+            AddIgnitionEffects(engine, player, actions);
+        }
+
+        if (s.Window != Window.Open)
+        {
             return actions;
         }
 
@@ -42,6 +69,61 @@ internal static class ActionEnumerator
         }
 
         return actions;
+    }
+
+    /// <summary>Every valid answer: each selection of <c>Min</c> to <c>Max</c> options, in option order.</summary>
+    private static void AddAnswers(DuelEngine engine, int player, Choice choice, List<PlayerCommand> actions)
+    {
+        for (int size = choice.Min; size <= Math.Min(choice.Max, choice.Options.Count); size++)
+        {
+            foreach (IReadOnlyList<Guid> selection in Combinations(choice.Options, size))
+            {
+                Add(engine, actions, new AnswerChoice(player, selection));
+            }
+        }
+    }
+
+    /// <summary>Speed 2 and 3 activations available to whoever holds priority: Set Traps, Quick-Play Spells and monster Quick effects.</summary>
+    private static void AddResponses(DuelEngine engine, int player, List<PlayerCommand> actions)
+    {
+        DuelState s = engine.State;
+        PlayerState p = s.Player(player);
+        foreach (CardInstance card in p.SpellTraps)
+        {
+            if (!card.IsFaceDown)
+            {
+                continue;
+            }
+
+            if (card.Def.IsTrap)
+            {
+                Add(engine, actions, new ActivateTrap(player, card.Id));
+            }
+            else if (card.Def.Spell?.Subtype == SpellSubtype.Quick)
+            {
+                Add(engine, actions, new ActivateSpell(player, card.Id));
+            }
+        }
+
+        foreach (CardInstance card in p.Hand)
+        {
+            if (card.Def.Spell?.Subtype == SpellSubtype.Quick)
+            {
+                Add(engine, actions, new ActivateSpell(player, card.Id));
+            }
+        }
+
+        foreach (CardInstance card in p.Monsters.Where(m => m.IsFaceUp))
+        {
+            IReadOnlyList<IEffect> effects = engine.EffectsOf(card);
+            for (int i = 0; i < effects.Count; i++)
+            {
+                if (effects[i].Kind == EffectKind.Quick)
+                {
+                    Add(engine, actions, new ActivateEffect(player, card.Id, i));
+                }
+            }
+        }
     }
 
     private static void AddMainPhaseActions(DuelEngine engine, int player, List<PlayerCommand> actions)
@@ -61,7 +143,7 @@ internal static class ActionEnumerator
                 }
             }
 
-            if (card.Def.IsSpell)
+            if (card.Def.Spell?.Subtype == SpellSubtype.Normal)
             {
                 Add(engine, actions, new ActivateSpell(player, card.Id));
             }
@@ -79,13 +161,28 @@ internal static class ActionEnumerator
 
         foreach (CardInstance card in p.SpellTraps)
         {
-            if (card.IsFaceDown && card.Def.IsSpell)
+            if (card.IsFaceDown && card.Def.Spell?.Subtype == SpellSubtype.Normal)
             {
                 Add(engine, actions, new ActivateSpell(player, card.Id));
             }
         }
 
         Add(engine, actions, new EnterBattlePhase(player));
+    }
+
+    private static void AddIgnitionEffects(DuelEngine engine, int player, List<PlayerCommand> actions)
+    {
+        foreach (CardInstance card in engine.State.Player(player).Monsters.Where(m => m.IsFaceUp))
+        {
+            IReadOnlyList<IEffect> effects = engine.EffectsOf(card);
+            for (int i = 0; i < effects.Count; i++)
+            {
+                if (effects[i].Kind == EffectKind.Ignition)
+                {
+                    Add(engine, actions, new ActivateEffect(player, card.Id, i));
+                }
+            }
+        }
     }
 
     private static void AddAttacks(DuelState s, int player, List<PlayerCommand> actions)
@@ -110,29 +207,25 @@ internal static class ActionEnumerator
     }
 
     /// <summary>Every way to pick <paramref name="count"/> distinct tributes; one empty set when none are needed.</summary>
-    private static IEnumerable<IReadOnlyList<Guid>> TributeSets(List<CardInstance> monsters, int count)
+    private static IEnumerable<IReadOnlyList<Guid>> TributeSets(List<CardInstance> monsters, int count) =>
+        Combinations(monsters.Select(m => m.Id).ToList(), count);
+
+    /// <summary>Every selection of <paramref name="size"/> distinct items, in item order; one empty selection for size 0.</summary>
+    private static IEnumerable<IReadOnlyList<Guid>> Combinations(IReadOnlyList<Guid> items, int size)
     {
-        if (count == 0)
+        if (size == 0)
         {
             yield return Array.Empty<Guid>();
             yield break;
         }
 
-        if (count == 1)
+        for (int i = 0; i + size <= items.Count; i++)
         {
-            foreach (CardInstance m in monsters)
+            foreach (IReadOnlyList<Guid> rest in Combinations(items.Skip(i + 1).ToList(), size - 1))
             {
-                yield return new[] { m.Id };
-            }
-
-            yield break;
-        }
-
-        for (int i = 0; i < monsters.Count; i++)
-        {
-            for (int j = i + 1; j < monsters.Count; j++)
-            {
-                yield return new[] { monsters[i].Id, monsters[j].Id };
+                var selection = new List<Guid>(size) { items[i] };
+                selection.AddRange(rest);
+                yield return selection;
             }
         }
     }

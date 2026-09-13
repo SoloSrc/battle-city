@@ -24,6 +24,11 @@ internal static class BattleRules
             return "not while a chain is being built";
         }
 
+        if (s.Window != Window.Open)
+        {
+            return "not while a window is open for responses";
+        }
+
         if (s.FirstTurn)
         {
             return "the player who goes first cannot attack in their first turn";
@@ -69,6 +74,11 @@ internal static class BattleRules
             return "not while a chain is being built";
         }
 
+        if (s.Window != Window.Open)
+        {
+            return "not while a window is open for responses";
+        }
+
         CardInstance? attacker = Zones.OnField(s, player, attackerId);
         if (attacker is null)
         {
@@ -102,8 +112,8 @@ internal static class BattleRules
         s.Attacker = attackerId;
         s.AttackTarget = targetId;
         engine.Emit(new AttackDeclared(player, attackerId, targetId));
-        // The opponent may respond to the declaration; two passes enter the Damage Step (TurnFlow.Pass).
-        s.ConsecutivePasses = 1;
-        s.Priority = 1 - player;
+        // Both players may respond to the declaration, turn player first; two passes on an empty chain enter the Damage Step.
+        TurnFlow.SetWindow(engine, Window.AttackDeclared, attackerId);
+        TurnFlow.GivePriorityToTurnPlayer(s);
     }
 }

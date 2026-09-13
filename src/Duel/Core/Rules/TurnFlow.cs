@@ -1,13 +1,17 @@
 using System;
+using System.Linq;
+using BattleCity.Duel.Core.Effects;
 using BattleCity.Duel.Core.Events;
 using BattleCity.Duel.Core.Model;
 
 namespace BattleCity.Duel.Core.Rules;
 
 /// <summary>
-/// Turns, phases and priority (systems.md §5.5). Priority passes alternate;
-/// two consecutive passes resolve the chain, run a pending Damage Step, or
-/// advance the phase or step.
+/// Turns, phases, priority and windows (systems.md §5.5). Priority passes
+/// alternate; two consecutive passes resolve the chain or, on an empty
+/// chain, close the current <see cref="Window"/>: an open window advances
+/// the phase or step, a summon window returns to the Main Phase, the attack
+/// windows move the Damage Step along.
 /// </summary>
 internal static class TurnFlow
 {
@@ -22,6 +26,9 @@ internal static class TurnFlow
         s.DamageSubstep = DamageSubstep.None;
         s.Attacker = null;
         s.AttackTarget = null;
+        s.BattleFlipped = null;
+        s.Window = Window.Open;
+        s.WindowCard = null;
         foreach (PlayerState p in s.Players)
         {
             foreach (CardInstance card in p.AllCards)
@@ -58,22 +65,30 @@ internal static class TurnFlow
             return;
         }
 
+        GivePriorityToTurnPlayer(s);
         if (s.Chain.Count > 0)
         {
             ChainResolver.ResolveAll(engine);
-        }
-        else if (s.Attacker is not null)
-        {
-            DamageStep.Run(engine);
-        }
-        else
-        {
-            Advance(engine);
+            return;
         }
 
-        if (!s.IsOver)
+        switch (s.Window)
         {
-            GivePriorityToTurnPlayer(s);
+            case Window.Open:
+                Advance(engine);
+                break;
+            case Window.Summon:
+                SetWindow(engine, Window.Open, null);
+                break;
+            case Window.AttackDeclared:
+                DamageStep.Begin(engine);
+                break;
+            case Window.DamageBeforeCalc:
+                DamageStep.Calculate(engine);
+                break;
+            case Window.DamageAfterCalc:
+                DamageStep.End(engine);
+                break;
         }
     }
 
@@ -96,11 +111,11 @@ internal static class TurnFlow
     }
 
     public static bool HandLimitPending(DuelState s, DuelOptions options) =>
-        s.Phase == Phase.End && s.Current.Hand.Count > options.HandLimit;
+        s.Phase == Phase.End && s.Window == Window.Open && s.Chain.Count == 0 && s.Current.Hand.Count > options.HandLimit;
 
     public static bool IsMainPhase(DuelState s) => s.Phase is Phase.Main1 or Phase.Main2;
 
-    /// <summary>The turn player may act freely: their turn, a Main Phase, empty chain, no attack in progress.</summary>
+    /// <summary>The turn player may act freely: their turn, a Main Phase, empty chain, no window waiting for responses.</summary>
     public static string? ValidateMainPhaseAction(DuelState s, int player)
     {
         if (player != s.TurnPlayer)
@@ -118,6 +133,11 @@ internal static class TurnFlow
             return "not while a chain is being built";
         }
 
+        if (s.Window != Window.Open)
+        {
+            return "not while a window is open for responses";
+        }
+
         return null;
     }
 
@@ -127,10 +147,37 @@ internal static class TurnFlow
         s.ConsecutivePasses = 0;
     }
 
+    public static void SetWindow(DuelEngine engine, Window window, Guid? card)
+    {
+        engine.State.Window = window;
+        engine.State.WindowCard = card;
+        engine.Emit(new WindowChanged(window, card));
+    }
+
+    /// <summary>Enters a phase; the Standby and End Phases fire the triggers of every face-up card on the field, turn player's side first.</summary>
     public static void SetPhase(DuelEngine engine, Phase phase)
     {
-        engine.State.Phase = phase;
+        DuelState s = engine.State;
+        s.Phase = phase;
         engine.Emit(new PhaseChanged(phase));
+        TriggerWindow? window = phase switch
+        {
+            Phase.Standby => TriggerWindow.Standby,
+            Phase.End => TriggerWindow.EndPhase,
+            _ => null,
+        };
+        if (window is null)
+        {
+            return;
+        }
+
+        foreach (PlayerState p in new[] { s.Current, s.Opponent(s.TurnPlayer) })
+        {
+            foreach (CardInstance card in p.Monsters.Concat(p.SpellTraps).Where(c => c.IsFaceUp).ToList())
+            {
+                engine.QueueTriggers(card, window.Value);
+            }
+        }
     }
 
     public static void SetBattleStep(DuelEngine engine, BattleStep step)

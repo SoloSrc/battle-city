@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BattleCity.Duel.Core.Effects;
 using BattleCity.Duel.Core.Events;
 using BattleCity.Duel.Core.Model;
 
@@ -84,6 +85,7 @@ internal static class SummonRules
         else
         {
             engine.Emit(new MonsterSummoned(player, card.Id, card.Def.Id, zone, position, tributes));
+            Summoned(engine, card);
         }
 
         // Ignition-effect priority: the turn player keeps priority after a summon (systems.md §5.5).
@@ -150,7 +152,19 @@ internal static class SummonRules
         card.Pos = Position.FaceUpAttack;
         card.ChangedPositionThisTurn = true;
         engine.Emit(new MonsterFlipSummoned(player, card.Id, card.Def.Id));
+        Summoned(engine, card);
+        engine.QueueTriggers(card, TriggerWindow.OnFlip);
         TurnFlow.GivePriorityToTurnPlayer(engine.State);
+    }
+
+    /// <summary>A monster arrived face-up: its summon triggers fire and, in an open state, the summon window opens for responses.</summary>
+    public static void Summoned(DuelEngine engine, CardInstance card)
+    {
+        engine.QueueTriggers(card, TriggerWindow.OnSummon);
+        if (engine.State.Window == Window.Open)
+        {
+            TurnFlow.SetWindow(engine, Window.Summon, card.Id);
+        }
     }
 
     /// <summary>Position changes: once per turn, not on the turn the monster arrived, not after it attacked (systems.md §5.5).</summary>

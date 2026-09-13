@@ -16,7 +16,7 @@ public static class DuelRunner
         int steps = 0;
         while (!engine.State.IsOver && steps < maxSteps)
         {
-            int player = engine.State.Priority;
+            int player = engine.ActingPlayer;
             IReadOnlyList<PlayerCommand> legal = engine.LegalActions(player);
             if (legal.Count == 0)
             {
