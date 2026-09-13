@@ -1,0 +1,47 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+
+RuntimeArt physical joypads: []
+Game: loaded res://levels/district/interiors/StartRoom.tscn at spawn 'arrival'
+RuntimeArt PASS: New Game uses integrated starting room
+Game: ambient zone entered, music 'room', ambience 'interior'
+RuntimeArt PASS: room exit approach
+Game: loaded res://levels/district/District.tscn at spawn 'arrival'
+RuntimeArt PASS: door loads integrated District
+Encounter: d1 spotted the player
+Encounter: d1 walks a navmesh path of 2 points to the stand point; player to (61.5, 0, 88)
+Game: ambient zone entered, music 'plaza', ambience 'street'
+Encounter: duel against d1 won; coins 500
+RuntimeArt PASS: d1 won through the actual encounter flow
+RuntimeArt PASS: Nico victory opens Park collision
+RuntimeArt PASS: Arcade remains blocked before Mara victory
+RuntimeArt PASS: Arcade Owner remains unchallengeable
+Game: ambient zone entered, music 'park', ambience 'street'
+Encounter: d2 spotted the player
+Encounter: d2 walks a navmesh path of 3 points to the stand point; player to (97.5, 0, 68)
+Encounter: duel against d2 won; coins 500
+RuntimeArt PASS: walk through unlocked Park gate
+RuntimeArt PASS: d2 won through the actual encounter flow
+RuntimeArt PASS: Mara victory opens Arcade collision
+RuntimeArt PASS: Arcade Owner unlocks after Mara
+Encounter: d3 spotted the player
+Encounter: d3 walks a navmesh path of 2 points to the stand point; player to (66.5, 0, 26)
+Game: ambient zone entered, music 'arcade', ambience 'street'
+Encounter: duel against d3 won; coins 500
+RuntimeArt PASS: walk through unlocked Arcade gate
+RuntimeArt PASS: d3 won through the actual encounter flow
+Game: ambient zone entered, music 'park', ambience 'street'
+Game: ambient zone entered, music 'market', ambience 'street'
+RuntimeArt PASS: return through both gates to shop
+Game: loaded res://levels/district/interiors/ShopInterior.tscn at spawn 'door'
+RuntimeArt PASS: shop exterior door loads integrated interior
+Game: ambient zone entered, music 'shop', ambience 'interior'
+RuntimeArt PASS: counter approach
+RuntimeArt PASS: shop counter invokes runtime placeholder UI
+RuntimeArt PASS: shop exit approach
+Game: loaded res://levels/district/District.tscn at spawn 'shop_door'
+RuntimeArt PASS: shop exit returns to District
+Game: ambient zone entered, music 'market', ambience 'street'
+RuntimeArt PASS: shop return uses shop_door spawn
+RuntimeArt PASS: all three flags survive interior transitions
+RuntimeArt PASS: both gates remain open after return
+RuntimeArt summary: 22 pass, 0 fail

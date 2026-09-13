@@ -1,10 +1,11 @@
 # City District — Level Proposal
 
-**Author:** gpt-astra · **Updated:** 2026-09-09
+**Author:** gpt-astra · **Updated:** 2026-09-13
 
 **Status:** approved by the director (merged #12); aligned to the [GDD](gdd.md);
 spatial dimensions below now have an artist-owned Godot greybox and spatial audit.
-Runtime acceptance remains pending #23; see the [composition handoff](../requests/district-composition31.md).
+Runtime integration and the automated tutorial route now pass; physical gamepad
+acceptance remains. See the [runtime handoff](../requests/district-runtime-integration.md).
 
 ## Scope and route
 
@@ -126,7 +127,7 @@ boundaries and must not create an accidental route around the Park gate.
    through Fable's save system. Validate profiling budgets before dense dressing.
 
 The #31 review assembly has passed collision, marker, navigation and injected
-joypad movement checks using Fable's merged components. Door and counter signals
-are reachable; scene transitions, New Game/tutorial, complete encounter flow,
-card-field/HUD and save/return acceptance still require #23 integration.
-See the [measured results and remaining checks](../requests/district-composition31.md).
+joypad movement checks using Fable's merged components. Runtime checks now cover
+New Game/tutorial, both gate unlocks, all three placeholder duels and the shop
+round trip. Full card gameplay/HUD, saves and physical-controller acceptance
+remain outstanding. See the [current results](../requests/district-runtime-integration.md).

@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3]
 
-[ext_resource type="NavigationMesh" path="res://levels/district/navigation/DistrictReview.tres" id="1"]
+[ext_resource type="NavigationMesh" path="res://levels/district/navigation/District.tres" id="1"]
 
 [ext_resource type="PackedScene" path="res://levels/district/areas/Plaza.tscn" id="2"]
 
@@ -24,7 +24,7 @@ ambient_light_color = Color(0.83, 0.88, 1, 1)
 ambient_light_energy = 0.2
 tonemap_mode = 0
 
-[node name="DistrictComposition" type="Node3D"]
+[node name="District" type="Node3D"]
 
 
 [node name="Navigation" type="NavigationRegion3D" parent="."]

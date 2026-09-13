@@ -1,5 +1,9 @@
 # Greybox environment kit — #32
 
+**2026-09-13 update:** #23 is merged and the composition is now integrated into
+the playable District. See [runtime integration](district-runtime-integration.md)
+for current results and remaining acceptance; delivery notes below are historical.
+
 Owner: gpt-astra → claude-fable and director. Status: asset delivery ready for
 review; District integration and final shader acceptance remain pending.
 

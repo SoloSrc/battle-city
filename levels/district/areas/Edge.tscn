@@ -186,6 +186,8 @@ position = Vector3(35.0, 2, 56.0)
 rotation = Vector3(0, 0.0, 0)
 Size = Vector3(10, 10, 16)
 metadata/area_id = "edge"
+MusicId = "plaza"
+AmbienceId = "street"
 
 [node name="LevelBounds" parent="." instance=ExtResource("3")]
 position = Vector3(60, 0, 60)
@@ -1729,7 +1731,7 @@ rotation = Vector3(0, 3.141593, 0)
 
 
 [node name="Talk" parent="ConstructionWorker" index="5"]
-DialogueId = "district_edge"
+DialogueId = "edge_construction"
 
 [node name="kit_bound_construction_329" parent="." instance=ExtResource("8")]
 position = Vector3(30, 0, 48)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3]
+[gd_scene load_steps=25 format=3]
 
 [ext_resource type="Script" path="res://src/World/SurfaceTag.cs" id="1"]
 
@@ -21,6 +21,8 @@
 [ext_resource type="PackedScene" path="res://scenes/world/TalkNpc.tscn" id="10"]
 
 [ext_resource type="PackedScene" path="res://assets/props/prop_planter_large.glb" id="11"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/Sign.tscn" id="12"]
 
 [sub_resource type="StandardMaterial3D" id="r1"]
 albedo_color = Color(0.5, 0.51, 0.49, 1)
@@ -93,6 +95,8 @@ position = Vector3(24.0, 2, 76.0)
 rotation = Vector3(0, 0.0, 0)
 Size = Vector3(32, 10, 56)
 metadata/area_id = "market"
+MusicId = "market"
+AmbienceId = "street"
 
 [node name="CardShop" type="StaticBody3D" parent="."]
 position = Vector3(22.0, 1.75, 68.0)
@@ -296,14 +300,14 @@ rotation = Vector3(0, 0.0, 0)
 [node name="ShopReturn" parent="." instance=ExtResource("8")]
 position = Vector3(22, 0, 76)
 rotation = Vector3(0, 3.141593, 0)
-Id = "shop_return"
+Id = "shop_door"
 
 [node name="CardShopDoor" parent="." instance=ExtResource("9")]
 position = Vector3(22, 0, 73.5)
 rotation = Vector3(0, 0.0, 0)
-TargetScene = "res://levels/district/interiors/CardShop.tscn"
-TargetSpawn = "arrival"
-ReturnSpawn = "shop_return"
+TargetScene = "res://levels/district/interiors/ShopInterior.tscn"
+TargetSpawn = "door"
+ReturnSpawn = "shop_door"
 
 [node name="MarketResident" parent="." instance=ExtResource("10")]
 position = Vector3(30, 0, 78)
@@ -311,7 +315,7 @@ rotation = Vector3(0, 3.141593, 0)
 
 
 [node name="Talk" parent="MarketResident" index="5"]
-DialogueId = "market_resident"
+DialogueId = "market_vendor"
 
 [node name="CardCollector" parent="." instance=ExtResource("10")]
 position = Vector3(14, 0, 82)
@@ -319,7 +323,7 @@ rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="Talk" parent="CardCollector" index="5"]
-DialogueId = "card_collector"
+DialogueId = "market_kid"
 
 [node name="NorthMarketFacade" type="StaticBody3D" parent="."]
 position = Vector3(19.0, 1.75, 51.0)
@@ -802,3 +806,9 @@ rotation = Vector3(0, 0.0, 0)
 [node name="prop_planter_large_151" parent="." instance=ExtResource("11")]
 position = Vector3(34, 0, 54)
 rotation = Vector3(0, 0.0, 0)
+
+
+[node name="AreaSign" parent="." instance=ExtResource("12")]
+position = Vector3(34, 0, 80)
+rotation = Vector3(0, 0.0, 0)
+Text = "Market Street: card shop this way"

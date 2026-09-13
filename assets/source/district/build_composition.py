@@ -50,16 +50,24 @@ class Scene:
     def zone(self,area,bounds,interior=False):
         x0,x1,z0,z1=bounds; pos=((x0+x1)/2,2,(z0+z1)/2)
         self.instance('CameraBounds','res://scenes/world/CameraBounds.tscn',pos,props='Size = %s\nInterior = %s\nPitch = 57.0\nDistance = %s' % (vec((x1-x0+4,12,z1-z0+4)),str(interior).lower(),'7.0' if interior else '12.0'))
-        self.instance('AmbientZone','res://scenes/world/AmbientZone.tscn',pos,props='Size = %s\nmetadata/area_id = "%s"'%(vec((x1-x0,10,z1-z0)),area))
+        self.instance('AmbientZone','res://scenes/world/AmbientZone.tscn',pos,props='Size = %s\nmetadata/area_id = "%s"'%(vec((x1-x0,10,z1-z0)),area)+'\nMusicId = "%s"\nAmbienceId = "%s"' % ('plaza' if area=='edge' else area,'interior' if interior else 'street'))
     def spawn(self,name,identifier,pos,yaw=0):
         self.instance(name,'res://scenes/world/PlayerSpawn.tscn',pos,yaw,'Id = "%s"'%identifier)
     def door(self,name,pos,target,spawn,ret,yaw=0):
         self.instance(name,'res://scenes/world/Door.tscn',pos,yaw,'TargetScene = "%s"\nTargetSpawn = "%s"\nReturnSpawn = "%s"'%(target,spawn,ret))
     def npc(self,name,pos,ident,duelist=False,yaw=180,locked=False):
         self.instance(name,'res://scenes/world/%s.tscn'%('Duelist' if duelist else 'TalkNpc'),pos,yaw)
-        self.node('Marker' if duelist else 'Talk',parent=name,extra=' index="5"',props=('%s = "%s"'%('DuelistId' if duelist else 'DialogueId',ident))+ ('\nArmed = false\nChallengeable = false' if locked else ''))
+        self.node('Marker' if duelist else 'Talk',parent=name,extra=' index="5"',props=('%s = "%s"'%('DuelistId' if duelist else 'DialogueId',ident))+ ('\nRequiredFlag = "defeated:%s"' % ('d1' if ident=='d2' else 'd2') if locked else ''))
+        if duelist:
+            display,line = {
+                'd1':('Nico','Hey, new face! Nobody crosses the Plaza without dueling me first.'),
+                'd2':('Mara',"You beat Nico? Then show me what you've got."),
+                'd3':('The Arcade Owner',"The arcade has stood for thirty years. Let's see if you have.")
+            }[ident]
+            self.nodes[-1] += '\nDisplayName = "%s"\nChallengeLine = "%s"' % (display,line)
     def site(self,name,pos,ident):
-        self.instance(name,'res://scenes/world/EncounterSite.tscn',pos,props='Id = "%s"\nDuelistId = "%s"'%(name.lower(),ident))
+        site_id = {'d1':'nico','d2':'mara','d3':'arcade_owner'}[ident]
+        self.instance(name,'res://scenes/world/EncounterSite.tscn',pos,props='Id = "%s"\nDuelistId = "%s"'%(site_id,ident))
     def boundary(self,name,x0,z0,x1,z1,asset='kit_bound_hedge'):
         # Continuous blocking backing closes fractional seams; kit keeps its authored dimensions.
         dx,dz=x1-x0,z1-z0; length=abs(dx)+abs(dz)
@@ -89,7 +97,7 @@ areas={}
 s=Scene('Plaza'); areas['Plaza']=s
 s.floor('PlazaPaving',(40,76,66,104),(.60,.57,.49)); s.zone('plaza',(40,76,66,104))
 s.spawn('Arrival','arrival',(58,0,98)); s.spawn('RoomReturn','room_return',(58,0,101),180)
-s.door('RoomDoor',(58,0,103.7),'res://levels/district/interiors/StartingRoom.tscn','arrival','room_return',180)
+s.door('RoomDoor',(58,0,103.7),'res://levels/district/interiors/StartRoom.tscn','door','arrival',180)
 s.site('NicoSite',(58,0,88),'d1'); s.npc('Nico',(58,0,91),'d1',True)
 s.kit('prop_fountain',66,70)
 for x,z in [(44,72),(70,96)]: s.kit('prop_bench',x,z)
@@ -100,9 +108,9 @@ s.kit('kit_wall_door',56,103.75)
 s=Scene('Market'); areas['Market']=s
 s.floor('MarketPaving',(8,40,48,104),(.50,.51,.49)); s.zone('market',(8,40,48,104))
 s.building('CardShop',16,63,12,10,door=True)
-s.spawn('ShopReturn','shop_return',(22,0,76),180)
-s.door('CardShopDoor',(22,0,73.5),'res://levels/district/interiors/CardShop.tscn','arrival','shop_return')
-s.npc('MarketResident',(30,0,78),'market_resident'); s.npc('CardCollector',(14,0,82),'card_collector',yaw=90)
+s.spawn('ShopReturn','shop_door',(22,0,76),180)
+s.door('CardShopDoor',(22,0,73.5),'res://levels/district/interiors/ShopInterior.tscn','door','shop_door')
+s.npc('MarketResident',(30,0,78),'market_vendor'); s.npc('CardCollector',(14,0,82),'market_kid',yaw=90)
 s.building('NorthMarketFacade',10,48,18,6)
 s.building('SouthMarketFacade',10,94,18,10)
 for x,z in [(12,76),(34,90),(34,54)]: s.kit('prop_planter_large',x,z)
@@ -120,7 +128,7 @@ s.box('River',(116,-.18,72),(8,.08,64),(.29,.47,.52),collide=False)
 s=Scene('Arcade'); areas['Arcade']=s
 s.floor('ArcadePaving',(40,100,8,40),(.49,.48,.47)); s.zone('arcade',(40,100,8,40))
 s.building('OldArcade',62,8,16,10,arcade=True)
-s.site('ArcadeSite',(70,0,26),'d3'); s.npc('ArcadeOwner',(74,0,27),'d3',True,yaw=135,locked=True)
+s.site('ArcadeSite',(70,0,26),'d3'); s.npc('ArcadeOwner',(74,0,27),'d3',True,yaw=225,locked=True)
 for x,z in [(46,14),(84,14)]: s.kit('prop_planter_large',x,z)
 
 s=Scene('Edge'); areas['Edge']=s
@@ -136,9 +144,15 @@ for name,coords in {
     s.boundary(name,*coords,asset='kit_bound_river_edge' if name=='RiverRail' else 'kit_bound_hedge')
 s.instance('ParkGate','res://scenes/world/ProgressionGate.tscn',(76,0,88),90,'RequiredFlag = "defeated:d1"')
 s.instance('ArcadeGate','res://scenes/world/ProgressionGate.tscn',(94,0,40),props='RequiredFlag = "defeated:d2"')
-s.npc('ConstructionWorker',(36,0,58),'district_edge',yaw=180)
+s.npc('ConstructionWorker',(36,0,58),'edge_construction',yaw=180)
 for x in (30,32,34,36,38): s.kit('kit_bound_construction',x,48)
 
+for area, pos, label in [
+    ('Plaza',(44,0,78),'Central Plaza'),
+    ('Market',(34,0,80),'Market Street: card shop this way'),
+    ('Park',(80,0,84),'Riverside Park'),
+    ('Arcade',(84,0,34),'Old Arcade')]:
+    areas[area].instance('AreaSign','res://scenes/world/Sign.tscn',pos,props='Text = "%s"'%label)
 for name,s in areas.items(): s.save('levels/district/areas/%s.tscn'%name)
 
 def light_and_nav(s,navpath):
@@ -148,16 +162,18 @@ def light_and_nav(s,navpath):
     s.node('WorldEnvironment','WorldEnvironment',props='environment = '+env)
     s.node('Sun','DirectionalLight3D',props='rotation_degrees = Vector3(-65, -25, 0)\nlight_energy = 0.3\nshadow_enabled = true\ndirectional_shadow_max_distance = 25.0')
 
-# Independent assembly while Fable owns the #23 runtime District root.
-s=Scene('DistrictComposition')
-light_and_nav(s,'res://levels/district/navigation/DistrictReview.tres')
+# Runtime root: Game creates and carries the player/camera across transitions.
+s=Scene('District')
+light_and_nav(s,'res://levels/district/navigation/District.tres')
 for name in areas: s.instance(name,'res://levels/district/areas/%s.tscn'%name,parent='Navigation')
+s.save('levels/district/District.tscn')
+# Standalone artist inspection assembly uses the same authoritative areas.
 s.instance('Player','res://scenes/characters/Player.tscn',(58,0,98))
 s.instance('CameraRig','res://scenes/world/CameraRig.tscn')
 s.save('levels/review/DistrictComposition.tscn')
 
-for name,w,d in [('StartingRoom',8,6),('CardShop',10,8)]:
-    s=Scene(name); light_and_nav(s,'res://levels/district/navigation/%s.tres'%name)
+for name,w,d in [('StartRoom',8,6),('ShopInterior',10,8)]:
+    s=Scene(name); light_and_nav(s,'res://levels/district/navigation/%s.tres'%('StartingRoom' if name=='StartRoom' else 'CardShop'))
     # Geometry belongs under Navigation; zone/door/spawn can remain root children.
     start=len(s.nodes)
     s.floor('WoodFloor',(0,w,0,d),(.55,.42,.29),2)
@@ -167,7 +183,7 @@ for name,w,d in [('StartingRoom',8,6),('CardShop',10,8)]:
     # South wall low enough for the fixed-yaw camera; physical doorway is 2 m wide.
     for label,x in [('Left',(w/2-1)/2),('Right',(w/2+1+w)/2)]:
         s.box('South'+label,(x,.4,d+.125),(w/2-1,.8,.25),(.69,.65,.54))
-    if name=='StartingRoom':
+    if name=='StartRoom':
         s.kit('kit_int_bed',.75,.5); s.kit('kit_int_desk',w-2,.5)
     else:
         for x in (1,3,5,7): s.kit('kit_int_counter',x,1.5)
@@ -177,16 +193,20 @@ for name,w,d in [('StartingRoom',8,6),('CardShop',10,8)]:
         s.nodes[i]=s.nodes[i].replace('parent="."','parent="Navigation"')
         if 'parent="Navigation"' not in s.nodes[i]:
             s.nodes[i]=s.nodes[i].replace('parent="','parent="Navigation/')
-    s.zone('room' if name=='StartingRoom' else 'shop',(0,w,0,d),True)
+    s.zone('room' if name=='StartRoom' else 'shop',(0,w,0,d),True)
     s.instance('LevelBounds','res://scenes/world/LevelBounds.tscn',(w/2,0,d/2),props='Size = %s'%vec((w+2,12,d+2)))
-    s.spawn('Arrival','arrival',(w/2,0,d-1.5)); s.spawn('DoorReturn','exit_return',(w/2,0,d-1.5))
-    s.door('Exit',(w/2,0,d),'res://levels/review/DistrictComposition.tscn','room_return' if name=='StartingRoom' else 'shop_return','exit_return',180)
-    if name=='CardShop':
+    s.spawn('Arrival','arrival',(w/2,0,d-1.5)); s.spawn('DoorReturn','door',(w/2,0,d-1.5))
+    s.door('Exit',(w/2,0,d),'res://levels/district/District.tscn','arrival' if name=='StartRoom' else 'shop_door','door',180)
+    s.nodes[-1] += '\nVerb = "Go outside"'
+    # A full-height door placeholder blocks the fixed-yaw interior camera.
+    s.node('Placeholder',parent='Exit',extra=' index="1"',props='visible = false')
+    s.box('ExitThreshold',(w/2,.02,d-.1),(2,.04,.2),(.20,.35,.55),2)
+    if name=='ShopInterior':
         s.instance('ShopCounter','res://scenes/world/ShopCounter.tscn',(5,0,2.5))
         s.node('Placeholder',parent='ShopCounter',extra=' index="1"',props='visible = false')
     s.save('levels/district/interiors/%s.tscn'%name)
 
 # Empty resources bootstrap scene import; bake_navigation.gd replaces them.
-for name in ('DistrictReview','StartingRoom','CardShop'):
+for name in ('District','StartingRoom','CardShop'):
     p=ROOT/'levels/district/navigation'/('%s.tres'%name); p.parent.mkdir(parents=True,exist_ok=True)
     p.write_text('[gd_resource type="NavigationMesh" format=3]\n\n[resource]\nagent_radius = 0.4\nagent_height = 1.7\nagent_max_climb = 0.2\ngeometry_parsed_geometry_type = 1\ngeometry_collision_mask = 1\n')

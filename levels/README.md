@@ -1,34 +1,45 @@
 # levels — composed level scenes (owner: gpt-astra)
 
-`district/District.tscn`, `district/interiors/` and area sub-scenes. Levels instance scenes from `scenes/` and place markers; they contain no scripts (architecture.md §4). Run `tools/level_check.gd` before opening a pull request.
+Levels instance reusable scenes and marker components; no level scripts.
+Run `tools/level_check.gd` before opening a pull request.
 
-## District greybox (issue #23, seeded by claude-fable)
+## Playable district
 
-`District.tscn` is the 120 × 120 m district from
-[district-layout.md](../docs/design/district-layout.md) as a 1 m grid greybox:
-ground slabs per area, 1 m thick / 3 m tall wall boxes on the grid, solid
-blocks for the starting room and the card shop, and every marker the slice
-needs. X grows east, Z grows south, ground at y = 0; every `kit_*` / `prop_*`
-node has its origin at its bounds-min corner so `KitSnap` keeps it on the grid.
-Nothing here is final art: replace pieces freely, keep the markers' ids and
-the anchors below unless the layout document changes.
+`district/District.tscn` composes the five approved area scenes under one
+NavigationRegion3D. The Game autoload owns the player, CameraRig, transitions
+and encounters. Run Boot for the complete placeholder flow; the runtime level
+has no extra player or camera instance.
 
-| Area (`AmbientZone` / `CameraBounds`) | Slab X / Z (m) | Contents |
+| Area scene | Bounds X / Z (m) | Content |
 | --- | --- | --- |
-| `plaza` | 40–76 / 66–104 | `arrival` spawn (58,98), Nico `d1` at (58,91) facing the spawn, `nico` site (58,88), fountain, benches, signs |
-| `market` | 8–40 / 48–104 | Shop block (16–28 / 63–73) with `ShopDoor` at (22,73) and `shop_door` spawn, two `TalkNpc`s, planter |
-| `park` | 76–112 / 40–104 | Mara `d2` at (91,68) facing west, `mara` site (94,68), river strip on the east edge |
-| `arcade` | 40–100 / 8–40 | Arcade Owner `d3` at (70,30), `arcade_owner` site (70,26), sign block on the south wall |
-| `edge` | 40–76 / 104–112 | Starting-room block (54–62 / 105–111) with `RoomDoor` at (58,105), construction foreman `TalkNpc` |
+| Plaza | 40–76 / 66–104 | Arrival (58,98), Nico (58,91), `nico` site (58,88), fountain and room door |
+| Market | 8–40 / 48–104 | Card shop, `shop_door` spawn (22,76), two talk NPCs |
+| Park | 76–112 / 40–104 | Mara (94,71), `mara` site (94,68), river and planting |
+| Arcade | 40–100 / 8–40 | Arcade Owner (74,27), `arcade_owner` site (70,26), arcade façade |
+| Edge | Perimeter / construction street | Continuous boundaries, two gates, construction NPC; camera/audio volume at X30–40 / Z48–64 |
 
-- Gates: `ParkGate` in the hedge gap at (76,88) opens on `defeated:d1`;
-  `ArcadeGate` in the wall gap at (94,40) opens on `defeated:d2`. Mara and the
-  Arcade Owner carry the same flags as `RequiredFlag`, so they neither spot nor
-  accept challenges before their area opens.
-- Interiors (`interiors/StartRoom.tscn` 8 × 6 m, `interiors/ShopInterior.tscn`
-  10 × 8 m) have a `door` spawn just inside their exit door, an interior
-  `CameraBounds`, and the room also has the New Game `arrival` spawn. Their
-  doors return to `arrival` / `shop_door` in the district.
-- Navigation is baked at load by `Game` and by the checklist, so the scenes
-  carry no baked data; press the bake button in the editor when you need the
-  navmesh visible.
+X increases east, Z south, ground Y=0. Area roots remain at identity.
+Each area carries CameraBounds and AmbientZone metadata. Duel clearances are
+16×12 m with 7 m east-west stand spacing. The Arcade Owner faces southeast
+toward the unlocked approach. Park and Arcade gates use `defeated:d1` and
+`defeated:d2`; the corresponding duelists use the same RequiredFlag values.
+
+`interiors/StartRoom.tscn` (8×6 m) and `interiors/ShopInterior.tscn` (10×8 m)
+are the canonical interiors. New Game uses room `arrival`; exterior doors target
+interior `door` spawns. Exits return to district `arrival` / `shop_door`.
+Interior roofs are omitted and door thresholds stay low for camera visibility.
+
+Navigation is committed baked under `district/navigation/`. The artist bake
+excludes gate blockers and inaccessible elevated surfaces. Game/checklist
+already retain a populated navigation mesh. After editing geometry, rebake with
+`assets/source/district/bake_navigation.gd`; a generic fallback bake does not
+reproduce those exclusions. `build_composition.py` regenerates scenes and resets
+navigation, so update it alongside scene edits and rebake afterwards.
+
+`review/DistrictComposition.tscn` uses the same areas with its own inspection
+player/camera. It is for isolated artist inspection, not the Game entry point.
+The former duplicate `StartingRoom.tscn` / `CardShop.tscn` review interiors are
+retired; all consumers use the canonical paths above.
+
+See [runtime integration](../docs/requests/district-runtime-integration.md) for
+results, captures, remaining acceptance and the handoff to Fable.
