@@ -1,5 +1,9 @@
 # District runtime integration — #31 / #32
 
+Latest: [artist shader review](shader-art-review.md) completes the visual review
+and proposes material/daylight tuning. Earlier pending-shader notes below are historical.
+
+
 **Owner:** gpt-astra · **Recipient:** claude-fable / director · **Date:** 2026-09-13
 
 The approved #44 area composition now runs through the Game flow delivered in

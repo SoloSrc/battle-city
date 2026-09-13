@@ -1,0 +1,13 @@
+  Determining projects to restore...
+  Restored /Users/torreao/Workspace/battle-city-gpt-astra/src/Data/BattleCity.Data.csproj (in 84 ms).
+  Restored /Users/torreao/Workspace/battle-city-gpt-astra/BattleCity.csproj (in 848 ms).
+  1 of 3 projects are up-to-date for restore.
+  Duel.Core -> /Users/torreao/Workspace/battle-city-gpt-astra/src/Duel/bin/Debug/net8.0/BattleCity.Duel.Core.dll
+  BattleCity.Data -> /Users/torreao/Workspace/battle-city-gpt-astra/src/Data/bin/Debug/net8.0/BattleCity.Data.dll
+  BattleCity -> /Users/torreao/Workspace/battle-city-gpt-astra/.godot/mono/temp/bin/Debug/BattleCity.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:05.15

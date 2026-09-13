@@ -1,0 +1,41 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+Metal 3.0 - Forward+ - Using Device #0: Apple - Apple M1 (Apple7)
+
+SmokeTest PASS: shaders: res://shaders/materials/toon.tres loads with its shader
+SmokeTest PASS: shaders: toon material has the outline pass (res://shaders/materials/outline.tres)
+SmokeTest PASS: shaders: toon exposes albedo, albedo_texture, bands, shade_floor, rim_strength
+SmokeTest PASS: shaders: hologram_player.tres and hologram_opponent.tres load with shaders/hologram.gdshader
+SmokeTest PASS: shaders: hologram exposes face_texture, back_texture, edge_color, edge_width, scanline_density
+SmokeTest PASS: shaders: hologram exposes instance uniforms hover_phase, selected, reveal, dissolve
+SmokeTest INFO: hologram cards: 3 at CardSpot, 0.20 × 0.29 m (attack selected, defence, face-down), frames from assets/cards/frames
+SmokeTest PASS: metric cube: loaded res://assets/kit/kit_test_cube_1m.glb
+SmokeTest PASS: cube: size (1.00, 1.00, 1.00) (expected 1 × 1 × 1 m)
+SmokeTest PASS: cube: origin at bounds-min corner, min (0.00, 0.00, 0.00) (kit pieces, architecture §6.1)
+SmokeTest PASS: cube: 1 collision shape(s) from the -col suffix
+SmokeTest PASS: cube: 1 toon_ surface(s), 0 other (toon_ prefix gets the shared toon material, architecture §6.4)
+SmokeTest PASS: cube: 1 surface(s) now use shaders/toon.gdshader with the outline pass
+SmokeTest PASS: neutral character: loaded res://assets/characters/body/char_a_body.glb
+SmokeTest PASS: character: 23 bones, SkeletonProfileHumanoid names present
+SmokeTest PASS: character: LeftLowerArm bone present for the disk mount
+SmokeTest PASS: character: height 1.70 m (expected 1.7 ± 0.1)
+SmokeTest PASS: character: feet at y = 0.00 (origin at the feet)
+SmokeTest PASS: character: 4612 triangles (budget 12000)
+SmokeTest PASS: character: 4 toon_ surface(s), 0 other (toon_ prefix gets the shared toon material, architecture §6.4)
+SmokeTest PASS: character: 4 surface(s) now use shaders/toon.gdshader with the outline pass
+SmokeTest PASS: character animations: loaded res://assets/characters/anims/character_anims.glb
+SmokeTest PASS: animations: clips card_to_grave, draw_card, duel_idle, duel_ready, idle, lose, play_card, run, take_damage, talk, turn_l, turn_r, walk, win
+SmokeTest PASS: animations: 'idle' length 4.00 s (asset-list §2.9 says 4 s loop)
+SmokeTest PASS: animations: 'walk' length 1.00 s (asset-list §2.9 says 1 s loop)
+SmokeTest PASS: animations: events injected from data: walk:footstep_l@0.00, walk:footstep_r@0.50, run:footstep_l@0.00, run:footstep_r@0.35, duel_ready:disk_deploy@0.50, draw_card:card_draw@0.40, play_card:card_release@0.50, card_to_grave:card_to_grave@0.30, take_damage:hit@0.10
+SmokeTest PASS: animations: AnimationTree active, playing idle (interact toggles idle/walk)
+SmokeTest PASS: duel disk blockout: loaded res://assets/props/prop_duel_disk.glb
+SmokeTest PASS: disk: 860 triangles (budget 1500)
+SmokeTest INFO: disk: animations disk_deploy, disk_fold
+SmokeTest PASS: disk: 1 toon_ surface(s), 0 other (toon_ prefix gets the shared toon material, architecture §6.4)
+SmokeTest PASS: disk: 1 surface(s) now use shaders/toon.gdshader with the outline pass
+SmokeTest PASS: disk mount: attached to LeftLowerArm with the a offset from res://data/rig/disk_mount.json
+SmokeTest summary: 31 pass, 0 warn, 0 fail, 0 skipped
+SmokeTest event: footstep_l (clip walk)
+SmokeTest PASS: animations: skeleton pose changed after 20 frames of 'walk'
+SmokeTest summary: 32 pass, 0 warn, 0 fail, 0 skipped
+REVIEW smoke save=0

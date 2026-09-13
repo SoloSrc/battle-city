@@ -8,3 +8,6 @@ resource_name = "hologram_player"
 shader = ExtResource("1_hologram")
 shader_parameter/edge_color = Color(0.4745, 0.8471, 1, 1)
 shader_parameter/back_texture = ExtResource("2_back")
+shader_parameter/face_opacity = 0.97
+shader_parameter/tint_strength = 0.06
+shader_parameter/scanline_strength = 0.08
