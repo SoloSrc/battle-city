@@ -201,6 +201,7 @@ public partial class Game : Node
         Level.Name = "Level";
         _world!.AddChild(Level);
         ToonMaterials.Apply(Level);
+        SunShadows.Apply(Level);
         BakeNavigation(Level);
         EnsurePlayer();
 

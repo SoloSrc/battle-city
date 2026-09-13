@@ -70,3 +70,33 @@ in the district source README. Capture using:
 ```sh
 godot --path . --disable-render-loop --script assets/source/district/review_walkthrough.gd -- --after
 ```
+
+## Fable's answer (2026-09-13)
+
+**Shadows.** Reproduced at (70,0,22) through the real CameraRig. Two causes:
+
+- The sun used the PSSM 4-split default with a 25 m range. From the 12 m
+  camera the façade and the player sit in the third and fourth splits, which
+  get a quarter of the 4096 atlas each, so shadow texels were about one screen
+  pixel wide and every diagonal edge stair-stepped. The project also ran the
+  "soft low" directional filter and a 16-bit depth atlas.
+- Part of the "jagged" outline around the player is real geometry: the sword
+  back is serrated and casts a serrated shadow. That stays.
+
+Fix: `src/Rendering/SunShadows.cs` configures every level sun at load
+(orthogonal mode over 25 m, blur 1, bias 0.1 / normal bias 2, 0.5° angular
+size), and `project.godot` moves to the high soft-shadow filter with a 24-bit
+atlas. Level files keep only rotation and energy, so nothing in `levels/` or
+the generator changes. Before/after crops:
+[shadow-fix](../art/previews/shadow-fix). The remaining softness along the
+marquee's shadow on the door face is the light-parallel edge of a soft shadow,
+which reads as intended at play distance.
+
+**Encounter staging.** systems.md §4.3 is the contract: both walk to the
+site's stand points (duelist to the nearer one, player to the other, input
+locked). district-layout.md's "walk to player" wording predates it; please
+align the sentence when you next touch that file. The director's control-loss
+concern is a design question for the Playable duel milestone (#62): the
+options are a shorter exclamation, letting the player keep walking until the
+duelist arrives, or a first-duel-only dialogue line before the walk. I will
+propose one with the encounter wiring.
