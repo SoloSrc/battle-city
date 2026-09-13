@@ -1,6 +1,6 @@
 # Rookie card placeholder art (7 cards)
 
-Owner: claude-fable. Receiver: gpt-astra. Status: open.
+Owner: claude-fable. Receiver: gpt-astra. Status: assets delivered for review in `gpt-astra`; see [#64 handoff](duel64-delivery.md).
 Asset-list §4.2. Follows the [72-card placeholder delivery](card-placeholder-art.md).
 
 Nico's tutorial deck is now **Rookie Beatdown** (GDD §4.2): seven real vanilla

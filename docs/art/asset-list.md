@@ -95,7 +95,7 @@ validation and remaining polish. Final modular bodies and disk art are separate.
 | # | Asset | Count | Spec | Path | Status |
 | --- | --- | --- | --- | --- | --- |
 | 4.1 | Frames, back, icons | see §1 | | | |
-| 4.2 | Placeholder art | 79 | 512² flat-colour or silhouette per card, original, no third-party art | `cards/art/<card_id>.png` | review ([72 symbolic placeholders](../requests/card-placeholder-art.md)); 7 rookie cards todo ([request](../requests/rookie-card-art.md)) |
+| 4.2 | Placeholder art | 79 | 512² flat-colour or silhouette per card, original, no third-party art | `cards/art/<card_id>.png` | review (79 symbolic placeholders; [Rookie delivery](../requests/duel64-delivery.md)) |
 | 4.3 | Final art (P2) | 79 | Original illustrations, 512², central 80 % safe column | same | todo |
 | 4.4 | Hologram material | 1 | Emissive edge, hover bob, additive glow, per-side colour | `shaders/hologram.gdshader` (claude-fable) with artist parameters | review (#27; parameters in `shaders/README.md`) |
 
@@ -123,17 +123,17 @@ composed by gpt-astra and are not assets on this list.
 
 ## 6. VFX (P1)
 
-Scenes under `assets/vfx/`, instantiated by code with anchor transforms.
+Scenes under repository-root `vfx/` (issue #64 / systems §6.4), instantiated by code with anchor transforms.
 
 | # | Effect | Trigger | Spec | Status |
 | --- | --- | --- | --- | --- |
 | 6.1 | Disk deploy pulse | `disk_deploy` | Ring from the disk, 0.4 s | todo |
-| 6.2 | Card materialise | card reaches anchor | Fade + scanline, 0.3 s | todo |
-| 6.3 | Card selected | cursor on card | Edge brighten | todo |
-| 6.4 | Summon flash | monster summoned | 0.5 s burst at anchor | todo |
-| 6.5 | Attack trail | attack declared | Streak from attacker to target, 0.4 s | todo |
-| 6.6 | Hit pulse | damage dealt | Screen-edge and character pulse | todo |
-| 6.7 | End dissolve | duel result | Loser's cards dissolve, 1 s | todo |
+| 6.2 | Card materialise | card reaches anchor | Fade + scanline, 0.3 s | placeholder review ([#64](../requests/duel64-delivery.md)); runtime hookup pending #60 |
+| 6.3 | Card selected | cursor on card | Edge brighten | placeholder review ([#64](../requests/duel64-delivery.md)); runtime hookup pending #60 |
+| 6.4 | Summon flash | monster summoned | 0.5 s burst at anchor | placeholder review ([#64](../requests/duel64-delivery.md)); runtime hookup pending #60 |
+| 6.5 | Attack trail | attack declared | Streak from attacker to target, 0.4 s | placeholder review ([#64](../requests/duel64-delivery.md)); runtime hookup pending #60 |
+| 6.6 | Hit pulse | damage dealt | Screen-edge and character pulse | placeholder review ([#64](../requests/duel64-delivery.md)); runtime hookup pending #60 |
+| 6.7 | End dissolve | duel result | Loser's cards dissolve, 1 s | placeholder review ([#64](../requests/duel64-delivery.md)); runtime hookup pending #60 |
 | 6.8 | Exclamation | encounter | Overhead "!" sprite, 0.6 s | todo |
 | 6.9 | Gate open | progression flag | Barrier retracts, dust | todo |
 
@@ -164,11 +164,11 @@ Vector or layered sources plus PNG exports; 9-slice where noted.
 | 8.3 | Duel theme, base | 128–140 BPM, 60–90 s loop + intro | `audio/music/duel_base.ogg`, `duel_intro.ogg` | todo |
 | 8.4 | Duel theme, intensity stem | Same length and tempo, mixed in below 2000 LP | `audio/music/duel_intense.ogg` | todo |
 | 8.5 | Final duel variation (P2) | Arrangement variant of 8.3 | `audio/music/duel_final.ogg` | todo |
-| 8.6 | Win / lose stingers | 3–5 s / 2–4 s | `audio/music/win.ogg`, `lose.ogg` | todo |
+| 8.6 | Win / lose stingers | 3–5 s / 2–4 s | `audio/music/win.ogg`, `lose.ogg` | temporary WAV stingers under `audio/sfx/duel_win.wav`, `duel_lose.wav` ([#64](../requests/duel64-delivery.md)); final music assets todo |
 | 8.7 | Ending theme | 30–60 s | `audio/music/ending.ogg` | todo |
 | 8.8 | Ambience | District loop, park loop, interior room tone | `audio/ambience/` | todo |
 | 8.9 | Footsteps | 3 variants × stone, grass, wood | `audio/sfx/step_<surface>_<n>.wav` | todo |
-| 8.10 | Duel SFX | draw, summon, set, flip, attack, hit, lp_tick, chain_link, deploy, fold, card_insert, dissolve | `audio/sfx/duel_<name>.wav` | todo |
+| 8.10 | Duel SFX | draw, summon, set, flip, attack, hit, lp_tick, chain_link, deploy, fold, card_insert, dissolve | `audio/sfx/duel_<name>.wav` | partial: draw/summon/set/attack/hit + activate placeholders ([#64](../requests/duel64-delivery.md)); remaining cues todo |
 | 8.11 | UI SFX | move, confirm, cancel, invalid, purchase, open, close | `audio/sfx/ui_<name>.wav` | todo |
 | 8.12 | World SFX | door, exclamation, gate open, fountain loop | `audio/sfx/world_<name>.wav` | todo |
 

@@ -77,6 +77,13 @@
     "sha256": "ae7a7914e3e1f1c15c316f39d13472d132d8e7cd4dedadb33d3ff031f33c7673"
   },
   {
+    "id": "celtic_guardian",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "eabce4e337c40eb9bff0e87e81d4c3625a08eeda32303fb8e11ebcfd1ccc7bd6"
+  },
+  {
     "id": "chaos_sorcerer",
     "width": 512,
     "height": 512,
@@ -168,6 +175,13 @@
     "sha256": "42c042b52dcd2ba7d4302634cbe98692c28517439d59d525b6086b3bef5a3f36"
   },
   {
+    "id": "feral_imp",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "166923ce218c79d7c03d0ae39d2734e9cfc144daf4efe3ea59de8a50d3cb26d3"
+  },
+  {
     "id": "fissure",
     "width": 512,
     "height": 512,
@@ -187,6 +201,13 @@
     "height": 512,
     "opaque": true,
     "sha256": "b9cf87dfa789ebb9bf97699d51c1be27abf30a6ed9c1d4a29576d53858f317c3"
+  },
+  {
+    "id": "giant_soldier_of_stone",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "cbb2f0ac81e3868ac039730c67b235713e72378b5cd13e576a043328f764544b"
   },
   {
     "id": "goblin_attack_force",
@@ -217,6 +238,13 @@
     "sha256": "c5fa5a3506a68f7cda3881bf9b112a9b441c43b8ea4bdb88babe66c9845b1212"
   },
   {
+    "id": "harpie_lady",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "1358ad349189a040868996df6cf0ffffb23be50bdbc61d2b072f4703c14ddc52"
+  },
+  {
     "id": "heavy_storm",
     "width": 512,
     "height": 512,
@@ -229,6 +257,13 @@
     "height": 512,
     "opaque": true,
     "sha256": "d9cb9c5320a45e15e44428cbbe7f619415a9a70ea683491b7ba6cf9444b7bef6"
+  },
+  {
+    "id": "koumori_dragon",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "16f6555ef6cef1bf7f5f439f9ec17525a6276145ba82a9606646e44f496a3c4a"
   },
   {
     "id": "kycoo_the_ghost_destroyer",
@@ -315,6 +350,13 @@
     "sha256": "22853a42b2c4914a4aa27ceb3a13b7ccc8bc3263e58b52d3d42e42feb8368882"
   },
   {
+    "id": "mystical_elf",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "8ce7b6ced1ec6257e41f0fecb10734a0e67d5c295593b0aa277f540625edc509"
+  },
+  {
     "id": "mystical_space_typhoon",
     "width": 512,
     "height": 512,
@@ -362,6 +404,13 @@
     "height": 512,
     "opaque": true,
     "sha256": "5f95c60f95121bcb4b20e6b594cd7ee48eef98755969be04613b3f02857d7b52"
+  },
+  {
+    "id": "rogue_doll",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "26b4ba7d32824b5605ad946e8f999591c4b60c34ef8129c47dbdc4c4ec9cb9cf"
   },
   {
     "id": "sakuretsu_armor",

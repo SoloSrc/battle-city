@@ -1,0 +1,50 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+Metal 3.0 - Forward+ - Using Device #0: Apple - Apple M1 (Apple7)
+
+DUEL64 PASS: CardMaterialise midpoint
+DUEL64 PASS: CardMaterialise cleans up
+DUEL64 PASS: CardSelected selects bound card
+DUEL64 PASS: CardSelected stop clears selection
+DUEL64 PASS: CardSelected cleans up
+DUEL64 PASS: SummonFlash builds visible geometry
+DUEL64 PASS: SummonFlash cleans up
+DUEL64 PASS: AttackTrail builds visible geometry
+DUEL64 PASS: AttackTrail travels toward the configured target
+DUEL64 PASS: AttackTrail cleans up
+DUEL64 PASS: HitPulse builds visible geometry
+DUEL64 PASS: HitPulse cleans up
+DUEL64 PASS: Dissolve midpoint
+DUEL64 PASS: Dissolve cleans up
+DUEL64 PASS: sound draw imports with expected duration
+DUEL64 PASS: sound summon imports with expected duration
+DUEL64 PASS: sound set imports with expected duration
+DUEL64 PASS: sound attack imports with expected duration
+DUEL64 PASS: sound hit imports with expected duration
+DUEL64 PASS: sound activate imports with expected duration
+DUEL64 PASS: sound win imports with expected duration
+DUEL64 PASS: sound lose imports with expected duration
+DUEL64 PASS: render frame 0
+DUEL64 PASS: render frame 1
+DUEL64 PASS: render frame 2
+DUEL64 PASS: render frame 3
+DUEL64 PASS: render frame 4
+DUEL64 PASS: render frame 5
+DUEL64 PASS: render frame 6
+DUEL64 PASS: render frame 7
+DUEL64 PASS: render frame 8
+DUEL64 PASS: render frame 9
+DUEL64 PASS: render frame 10
+DUEL64 PASS: render frame 11
+DUEL64 PASS: render frame 12
+DUEL64 PASS: render frame 13
+DUEL64 PASS: render frame 14
+DUEL64 PASS: render frame 15
+DUEL64 PASS: render frame 16
+DUEL64 PASS: render frame 17
+DUEL64 PASS: render frame 18
+DUEL64 PASS: render frame 19
+DUEL64 PASS: render frame 20
+DUEL64 PASS: render frame 21
+DUEL64 PASS: render frame 22
+DUEL64 PASS: render frame 23
+DUEL64 summary: 0 failures; rendered with forward_plus

@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://vfx/DuelEffect.gd" id="1"]
+
+[node name="HitPulse" type="Node3D"]
+script = ExtResource("1")
+effect = "HitPulse"
+duration = 0.35
+color = Color(1, 0.6314, 0.5451, 1)

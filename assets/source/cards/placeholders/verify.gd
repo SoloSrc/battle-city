@@ -15,4 +15,4 @@ func _initialize() -> void:
             return
         count+=1
     print("CardPlaceholder PASS: %d Texture2D resources at 512x512, bound to StandardMaterial3D"%count)
-    quit(0 if count==72 else 1)
+    quit(0 if count==manifest.size() else 1)
