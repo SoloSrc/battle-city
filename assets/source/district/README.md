@@ -7,7 +7,10 @@ from `assets/source/environment/`. No new external models or textures.
 the repository root, then run `bake_navigation.gd` in Godot .NET. The builder
 resets navigation and owns its generated scene text. Update it before making
 changes you want to preserve across regeneration. `verify_composition.gd` and
-`render_composition.gd` are standalone audit/capture entry points.
+`render_composition.gd` are standalone spatial audit/capture entry points.
+`verify_runtime.gd` exercises the real Game flow across all encounters and the
+shop round trip; optional `--capture` records playable views. No physical
+controller is implied by its injected input.
 
-See `docs/requests/district-composition31.md` for exact commands, limitations,
+See `docs/requests/district-runtime-integration.md` for exact commands, limitations,
 results and the handoff to Fable. Do not attach these scripts to level nodes.

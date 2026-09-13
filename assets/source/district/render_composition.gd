@@ -10,8 +10,8 @@ func run() -> void:
 		viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 		root.add_child(viewport)
 		var path := "res://levels/review/DistrictComposition.tscn"
-		if shot == "room": path = "res://levels/district/interiors/StartingRoom.tscn"
-		if shot == "shop": path = "res://levels/district/interiors/CardShop.tscn"
+		if shot == "room": path = "res://levels/district/interiors/StartRoom.tscn"
+		if shot == "shop": path = "res://levels/district/interiors/ShopInterior.tscn"
 		var level: Node3D = load(path).instantiate()
 		viewport.add_child(level)
 		var camera: Camera3D

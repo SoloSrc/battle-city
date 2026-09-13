@@ -1,238 +1,238 @@
-[gd_scene load_steps=23 format=3 uid="uid://c0startroom0001"]
+[gd_scene load_steps=32 format=3]
 
-[ext_resource type="Script" path="res://src/World/SurfaceTag.cs" id="surface"]
-[ext_resource type="Shader" path="res://shaders/debug_grid.gdshader" id="grid"]
-[ext_resource type="PackedScene" path="res://scenes/world/PlayerSpawn.tscn" id="spawn"]
-[ext_resource type="PackedScene" path="res://scenes/world/Door.tscn" id="door"]
-[ext_resource type="PackedScene" path="res://scenes/world/CameraBounds.tscn" id="cam"]
-[ext_resource type="PackedScene" path="res://scenes/world/AmbientZone.tscn" id="zone"]
+[ext_resource type="NavigationMesh" path="res://levels/district/navigation/StartingRoom.tres" id="1"]
 
-[sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
-sky_top_color = Color(0.38, 0.55, 0.85, 1)
-sky_horizon_color = Color(0.72, 0.78, 0.86, 1)
-ground_bottom_color = Color(0.2, 0.2, 0.22, 1)
-ground_horizon_color = Color(0.72, 0.78, 0.86, 1)
+[ext_resource type="Script" path="res://src/World/SurfaceTag.cs" id="2"]
 
-[sub_resource type="Sky" id="sky"]
-sky_material = SubResource("sky_mat")
+[ext_resource type="PackedScene" path="res://assets/kit/kit_int_bed.glb" id="3"]
 
-[sub_resource type="Environment" id="env"]
-background_mode = 2
-sky = SubResource("sky")
-ambient_light_source = 3
-ambient_light_sky_contribution = 0.6
-tonemap_mode = 2
+[ext_resource type="PackedScene" path="res://assets/kit/kit_int_desk.glb" id="4"]
 
-[sub_resource type="NavigationMesh" id="navmesh"]
-geometry_parsed_geometry_type = 1
-agent_radius = 0.5
+[ext_resource type="PackedScene" path="res://scenes/world/CameraBounds.tscn" id="5"]
 
-[sub_resource type="ShaderMaterial" id="grid_floor"]
-shader = ExtResource("grid")
-shader_parameter/base_color = Color(0.66, 0.6, 0.52, 1)
-shader_parameter/minor_color = Color(0.607, 0.552, 0.478, 1)
-shader_parameter/major_color = Color(0.515, 0.468, 0.406, 1)
-shader_parameter/axis_color = Color(0.515, 0.468, 0.406, 1)
+[ext_resource type="PackedScene" path="res://scenes/world/AmbientZone.tscn" id="6"]
 
-[sub_resource type="BoxMesh" id="mesh_8x1x6_floor"]
-material = SubResource("grid_floor")
-size = Vector3(8, 1, 6)
+[ext_resource type="PackedScene" path="res://scenes/world/LevelBounds.tscn" id="7"]
 
-[sub_resource type="BoxShape3D" id="shape_8x1x6"]
-size = Vector3(8, 1, 6)
+[ext_resource type="PackedScene" path="res://scenes/world/PlayerSpawn.tscn" id="8"]
 
-[sub_resource type="StandardMaterial3D" id="mat_wall"]
-albedo_color = Color(0.55, 0.55, 0.58, 1)
+[ext_resource type="PackedScene" path="res://scenes/world/Door.tscn" id="9"]
+
+[sub_resource type="Environment" id="r1"]
+background_mode = 1
+background_color = Color(0.61, 0.70, 0.76, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.83, 0.88, 1, 1)
+ambient_light_energy = 0.2
+tonemap_mode = 0
+
+[sub_resource type="StandardMaterial3D" id="r2"]
+albedo_color = Color(0.55, 0.42, 0.29, 1)
 roughness = 0.95
 
-[sub_resource type="BoxMesh" id="mesh_10x3x1_wall"]
-material = SubResource("mat_wall")
-size = Vector3(10, 3, 1)
+[sub_resource type="BoxMesh" id="r3"]
+size = Vector3(8, 0.25, 6)
+material = SubResource("r2")
 
-[sub_resource type="BoxShape3D" id="shape_10x3x1"]
-size = Vector3(10, 3, 1)
+[sub_resource type="BoxShape3D" id="r4"]
+size = Vector3(8, 0.25, 6)
 
-[sub_resource type="BoxMesh" id="mesh_1x3x6_wall"]
-material = SubResource("mat_wall")
-size = Vector3(1, 3, 6)
-
-[sub_resource type="BoxShape3D" id="shape_1x3x6"]
-size = Vector3(1, 3, 6)
-
-[sub_resource type="BoxMesh" id="mesh_4x3x1_wall"]
-material = SubResource("mat_wall")
-size = Vector3(4, 3, 1)
-
-[sub_resource type="BoxShape3D" id="shape_4x3x1"]
-size = Vector3(4, 3, 1)
-
-[sub_resource type="StandardMaterial3D" id="mat_prop"]
-albedo_color = Color(0.6, 0.5, 0.4, 1)
+[sub_resource type="StandardMaterial3D" id="r5"]
+albedo_color = Color(0.69, 0.65, 0.54, 1)
 roughness = 0.95
 
-[sub_resource type="BoxMesh" id="mesh_2x0_6x1_prop"]
-material = SubResource("mat_prop")
-size = Vector3(2, 0.6, 1)
+[sub_resource type="BoxMesh" id="r6"]
+size = Vector3(8, 3.5, 0.25)
+material = SubResource("r5")
 
-[sub_resource type="BoxShape3D" id="shape_2x0_6x1"]
-size = Vector3(2, 0.6, 1)
+[sub_resource type="BoxShape3D" id="r7"]
+size = Vector3(8, 3.5, 0.25)
 
-[sub_resource type="BoxMesh" id="mesh_2x0_8x1_prop"]
-material = SubResource("mat_prop")
-size = Vector3(2, 0.8, 1)
+[sub_resource type="StandardMaterial3D" id="r8"]
+albedo_color = Color(0.69, 0.65, 0.54, 1)
+roughness = 0.95
 
-[sub_resource type="BoxShape3D" id="shape_2x0_8x1"]
-size = Vector3(2, 0.8, 1)
+[sub_resource type="BoxMesh" id="r9"]
+size = Vector3(0.25, 3.5, 6)
+material = SubResource("r8")
+
+[sub_resource type="BoxShape3D" id="r10"]
+size = Vector3(0.25, 3.5, 6)
+
+[sub_resource type="StandardMaterial3D" id="r11"]
+albedo_color = Color(0.69, 0.65, 0.54, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r12"]
+size = Vector3(0.25, 3.5, 6)
+material = SubResource("r11")
+
+[sub_resource type="BoxShape3D" id="r13"]
+size = Vector3(0.25, 3.5, 6)
+
+[sub_resource type="StandardMaterial3D" id="r14"]
+albedo_color = Color(0.69, 0.65, 0.54, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r15"]
+size = Vector3(3.0, 0.8, 0.25)
+material = SubResource("r14")
+
+[sub_resource type="BoxShape3D" id="r16"]
+size = Vector3(3.0, 0.8, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="r17"]
+albedo_color = Color(0.69, 0.65, 0.54, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r18"]
+size = Vector3(3.0, 0.8, 0.25)
+material = SubResource("r17")
+
+[sub_resource type="BoxShape3D" id="r19"]
+size = Vector3(3.0, 0.8, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="r20"]
+albedo_color = Color(0.2, 0.35, 0.55, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r21"]
+size = Vector3(2, 0.04, 0.2)
+material = SubResource("r20")
+
+[sub_resource type="BoxShape3D" id="r22"]
+size = Vector3(2, 0.04, 0.2)
 
 [node name="StartRoom" type="Node3D"]
 
+
+[node name="Navigation" type="NavigationRegion3D" parent="."]
+navigation_mesh = ExtResource("1")
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("env")
+environment = SubResource("r1")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.866025, -0.321394, 0.383022, 0, 0.766044, 0.642788, -0.5, -0.55667, 0.663414, 4, 20, 3)
-light_energy = 1.2
+rotation_degrees = Vector3(-65, -25, 0)
+light_energy = 0.3
 shadow_enabled = true
+directional_shadow_max_distance = 25.0
 
-[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
-navigation_mesh = SubResource("navmesh")
-
-[node name="Ground" type="Node3D" parent="NavigationRegion3D"]
-
-[node name="Kit" type="Node3D" parent="NavigationRegion3D"]
-
-[node name="Props" type="Node3D" parent="NavigationRegion3D"]
-
-[node name="Markers" type="Node3D" parent="."]
-
-[node name="kit_floor_room" type="StaticBody3D" parent="NavigationRegion3D/Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-collision_layer = 1
-collision_mask = 0
-script = ExtResource("surface")
+[node name="WoodFloor" type="StaticBody3D" parent="Navigation"]
+position = Vector3(4.0, -0.125, 3.0)
+script = ExtResource("2")
 Kind = 2
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Ground/kit_floor_room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, 3)
-mesh = SubResource("mesh_8x1x6_floor")
+[node name="Mesh" type="MeshInstance3D" parent="Navigation/WoodFloor"]
+mesh = SubResource("r3")
 
-[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Ground/kit_floor_room"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0.5, 3)
-shape = SubResource("shape_8x1x6")
+[node name="Collision" type="CollisionShape3D" parent="Navigation/WoodFloor"]
+shape = SubResource("r4")
 
-[node name="kit_wall_room_n" type="StaticBody3D" parent="NavigationRegion3D/Kit"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
-collision_layer = 1
-collision_mask = 0
+[node name="NorthWall" type="StaticBody3D" parent="Navigation"]
+position = Vector3(4.0, 1.75, -0.125)
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Kit/kit_wall_room_n"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 0.5)
-mesh = SubResource("mesh_10x3x1_wall")
+[node name="Mesh" type="MeshInstance3D" parent="Navigation/NorthWall"]
+mesh = SubResource("r6")
 
-[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Kit/kit_wall_room_n"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.5, 0.5)
-shape = SubResource("shape_10x3x1")
+[node name="Collision" type="CollisionShape3D" parent="Navigation/NorthWall"]
+shape = SubResource("r7")
 
-[node name="kit_wall_room_w" type="StaticBody3D" parent="NavigationRegion3D/Kit"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
-collision_layer = 1
-collision_mask = 0
+[node name="WestWall" type="StaticBody3D" parent="Navigation"]
+position = Vector3(-0.125, 1.75, 3.0)
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Kit/kit_wall_room_w"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, 3)
-mesh = SubResource("mesh_1x3x6_wall")
+[node name="Mesh" type="MeshInstance3D" parent="Navigation/WestWall"]
+mesh = SubResource("r9")
 
-[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Kit/kit_wall_room_w"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, 3)
-shape = SubResource("shape_1x3x6")
+[node name="Collision" type="CollisionShape3D" parent="Navigation/WestWall"]
+shape = SubResource("r10")
 
-[node name="kit_wall_room_e" type="StaticBody3D" parent="NavigationRegion3D/Kit"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
-collision_layer = 1
-collision_mask = 0
+[node name="EastWall" type="StaticBody3D" parent="Navigation"]
+position = Vector3(8.125, 1.75, 3.0)
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Kit/kit_wall_room_e"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, 3)
-mesh = SubResource("mesh_1x3x6_wall")
+[node name="Mesh" type="MeshInstance3D" parent="Navigation/EastWall"]
+mesh = SubResource("r12")
 
-[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Kit/kit_wall_room_e"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, 3)
-shape = SubResource("shape_1x3x6")
+[node name="Collision" type="CollisionShape3D" parent="Navigation/EastWall"]
+shape = SubResource("r13")
 
-[node name="kit_wall_room_s_w" type="StaticBody3D" parent="NavigationRegion3D/Kit"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 6)
-collision_layer = 1
-collision_mask = 0
+[node name="SouthLeft" type="StaticBody3D" parent="Navigation"]
+position = Vector3(1.5, 0.4, 6.125)
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Kit/kit_wall_room_s_w"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, 0.5)
-mesh = SubResource("mesh_4x3x1_wall")
+[node name="Mesh" type="MeshInstance3D" parent="Navigation/SouthLeft"]
+mesh = SubResource("r15")
 
-[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Kit/kit_wall_room_s_w"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, 0.5)
-shape = SubResource("shape_4x3x1")
+[node name="Collision" type="CollisionShape3D" parent="Navigation/SouthLeft"]
+shape = SubResource("r16")
 
-[node name="kit_wall_room_s_e" type="StaticBody3D" parent="NavigationRegion3D/Kit"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 6)
-collision_layer = 1
-collision_mask = 0
+[node name="SouthRight" type="StaticBody3D" parent="Navigation"]
+position = Vector3(6.5, 0.4, 6.125)
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Kit/kit_wall_room_s_e"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, 0.5)
-mesh = SubResource("mesh_4x3x1_wall")
+[node name="Mesh" type="MeshInstance3D" parent="Navigation/SouthRight"]
+mesh = SubResource("r18")
 
-[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Kit/kit_wall_room_s_e"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.5, 0.5)
-shape = SubResource("shape_4x3x1")
+[node name="Collision" type="CollisionShape3D" parent="Navigation/SouthRight"]
+shape = SubResource("r19")
 
-[node name="prop_bed" type="StaticBody3D" parent="NavigationRegion3D/Props"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
-collision_layer = 1
-collision_mask = 0
+[node name="kit_int_bed_022" parent="Navigation" instance=ExtResource("3")]
+position = Vector3(0.75, 0, 0.5)
+rotation = Vector3(0, 0.0, 0)
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Props/prop_bed"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.3, 0.5)
-mesh = SubResource("mesh_2x0_6x1_prop")
 
-[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Props/prop_bed"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.3, 0.5)
-shape = SubResource("shape_2x0_6x1")
+[node name="kit_int_desk_023" parent="Navigation" instance=ExtResource("4")]
+position = Vector3(6, 0, 0.5)
+rotation = Vector3(0, 0.0, 0)
 
-[node name="prop_desk" type="StaticBody3D" parent="NavigationRegion3D/Props"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-collision_layer = 1
-collision_mask = 0
 
-[node name="Mesh" type="MeshInstance3D" parent="NavigationRegion3D/Props/prop_desk"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.4, 0.5)
-mesh = SubResource("mesh_2x0_8x1_prop")
+[node name="CameraBounds" parent="." instance=ExtResource("5")]
+position = Vector3(4.0, 2, 3.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(12, 12, 10)
+Interior = true
+Pitch = 57.0
+Distance = 7.0
 
-[node name="Shape" type="CollisionShape3D" parent="NavigationRegion3D/Props/prop_desk"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.4, 0.5)
-shape = SubResource("shape_2x0_8x1")
+[node name="AmbientZone" parent="." instance=ExtResource("6")]
+position = Vector3(4.0, 2, 3.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(8, 10, 6)
+metadata/area_id = "room"
+MusicId = "room"
+AmbienceId = "interior"
 
-[node name="Arrival" parent="Markers" instance=ExtResource("spawn")]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 5, 0, 2.5)
+[node name="LevelBounds" parent="." instance=ExtResource("7")]
+position = Vector3(4.0, 0, 3.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(10, 12, 8)
+
+[node name="Arrival" parent="." instance=ExtResource("8")]
+position = Vector3(4.0, 0, 4.5)
+rotation = Vector3(0, 0.0, 0)
 Id = "arrival"
 
-[node name="DoorSpawn" parent="Markers" instance=ExtResource("spawn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+[node name="DoorReturn" parent="." instance=ExtResource("8")]
+position = Vector3(4.0, 0, 4.5)
+rotation = Vector3(0, 0.0, 0)
 Id = "door"
 
-[node name="ExitDoor" parent="Markers" instance=ExtResource("door")]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 4, 0, 6)
+[node name="Exit" parent="." instance=ExtResource("9")]
+position = Vector3(4.0, 0, 6)
+rotation = Vector3(0, 3.141593, 0)
 TargetScene = "res://levels/district/District.tscn"
 TargetSpawn = "arrival"
 ReturnSpawn = "door"
 Verb = "Go outside"
 
-[node name="RoomCamera" parent="Markers" instance=ExtResource("cam")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 3, 3)
-Size = Vector3(12, 8, 10)
-Interior = true
+[node name="Placeholder" parent="Exit" index="1"]
+visible = false
 
-[node name="RoomZone" parent="Markers" instance=ExtResource("zone")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2.5, 3)
-Size = Vector3(12, 5, 10)
-MusicId = "room"
-AmbienceId = "interior"
+[node name="ExitThreshold" type="StaticBody3D" parent="."]
+position = Vector3(4.0, 0.02, 5.9)
+script = ExtResource("2")
+Kind = 2
+
+[node name="Mesh" type="MeshInstance3D" parent="ExitThreshold"]
+mesh = SubResource("r21")
+
+[node name="Collision" type="CollisionShape3D" parent="ExitThreshold"]
+shape = SubResource("r22")

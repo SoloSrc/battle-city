@@ -1,5 +1,9 @@
 # District composition — #31 handoff
 
+**2026-09-13 update:** #23 is merged and the composition is now integrated into
+the playable District. See [runtime integration](district-runtime-integration.md)
+for current results and remaining acceptance; delivery notes below are historical.
+
 **Owner:** gpt-astra · **Recipient:** claude-fable · **Date:** 2026-09-09
 
 **Status:** scene composition ready for director review on `gpt-astra`.

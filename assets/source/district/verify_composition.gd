@@ -136,7 +136,7 @@ func run() -> void:
 	level.queue_free()
 	await process_frame
 	await process_frame
-	for name in ["StartingRoom","CardShop"]:
+	for name in ["StartRoom","ShopInterior"]:
 		level = load("res://levels/district/interiors/%s.tscn" % name).instantiate()
 		player = load("res://scenes/characters/Player.tscn").instantiate()
 		player.position = level.get_node("Arrival").position
@@ -146,7 +146,7 @@ func run() -> void:
 		var start := player.position
 		await travel(name+" exit approach",start,[start+Vector3(0,0,1)],0.5)
 		await interact_with(level.get_node("Exit"),name+" exit")
-		if name == "CardShop":
+		if name == "ShopInterior":
 			await travel("shop counter approach",Vector3(5,0,6),[Vector3(5,0,3.5)],0.5)
 			var result := {"hit":false}
 			level.get_node("ShopCounter").connect("ShopRequested",func(_id,_player): result.hit=true)

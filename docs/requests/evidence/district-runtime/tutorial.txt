@@ -1,0 +1,54 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+
+DistrictTest INFO: scripted: room → plaza → Nico (lose, rematch, win) → gate → room (frame 0)
+Game: loaded res://levels/district/interiors/StartRoom.tscn at spawn 'arrival'
+DistrictTest INFO: level loaded: StartRoom.tscn at 'arrival' (frame 16)
+Game: ambient zone entered, music 'room', ambience 'interior'
+DistrictTest PASS: New Game loaded the starting room in Interior mode (Interior) (frame 33)
+DistrictTest PASS: player placed at the room's 'arrival' spawn (frame 33)
+DistrictTest PASS: camera rig picked the interior bounds (frame 33)
+DistrictTest PASS: room has an exit door (frame 33)
+DistrictTest PASS: door prompt shows the door's verb ('[E]  Go outside') (frame 45)
+Game: loaded res://levels/district/District.tscn at spawn 'arrival'
+DistrictTest INFO: level loaded: District.tscn at 'arrival' (frame 61)
+DistrictTest PASS: door transition reached the district (Overworld) (frame 78)
+DistrictTest PASS: arrived at the Plaza spawn (58, 0, 98) (frame 78)
+DistrictTest PASS: Park gate closed and solid before Nico is beaten (frame 78)
+DistrictTest PASS: Mara and the Arcade Owner are locked before their flags (frame 78)
+DistrictTest PASS: Nico is challengeable (frame 78)
+Encounter: d1 spotted the player
+DistrictTest PASS: first Plaza entry started Nico's encounter from the cone (frame 79)
+DistrictTest PASS: encounter uses the 'nico' site (nico) (frame 79)
+DistrictTest PASS: player input frozen for the encounter (frame 79)
+Encounter: d1 walks a navmesh path of 2 points to the stand point; player to (61.5, 0, 88)
+Game: ambient zone entered, music 'plaza', ambience 'street'
+DistrictTest PASS: both walked to the stand points, 6.78 m apart (frame 421)
+DistrictTest PASS: dialogue line shown ('Nico: Hey, new face! Nobody crosses the Plaza without dueling me first.') (frame 421)
+DistrictTest PASS: mode is Duel for the placeholder duel (frame 441)
+DistrictTest PASS: player plays duel_ready (DuelReady) (frame 441)
+Encounter: duel against d1 lost; coins 500
+DistrictTest PASS: loss recorded, no flag set (frame 534)
+DistrictTest PASS: loss returned the player to the encounter spot (0.00 m off) (frame 534)
+DistrictTest PASS: no coin loss (500) (frame 534)
+DistrictTest PASS: cone disarmed after the duel (2.5 s left) (frame 534)
+DistrictTest PASS: back to Overworld with input enabled (frame 534)
+DistrictTest PASS: cone re-armed after 3 s without retriggering on the standing player (in cone: False) (frame 772)
+Game: ambient zone entered, music 'plaza', ambience 'street'
+Encounter: d1 challenged
+Encounter: d1 walks a navmesh path of 2 points to the stand point; player to (61.5, 0, 88)
+DistrictTest PASS: manual challenge started the encounter (frame 1254)
+Encounter: duel against d1 won; coins 500
+DistrictTest PASS: win set 'defeated:d1' (frame 1335)
+DistrictTest PASS: Park gate opened and dropped its collision (frame 1335)
+DistrictTest PASS: Mara unlocked, Arcade Owner still locked (frame 1335)
+DistrictTest PASS: Nico defeated: cone off, rematch by interacting stays available (frame 1335)
+DistrictTest PASS: coins unchanged by the placeholder duel (500) (frame 1335)
+Game: ambient zone entered, music 'plaza', ambience 'street'
+DistrictTest PASS: walking back into the cone after the victory does not retrigger (in cone: True) (frame 1667)
+DistrictTest PASS: district has the room door (frame 1667)
+Game: loaded res://levels/district/interiors/StartRoom.tscn at spawn 'door'
+DistrictTest INFO: level loaded: StartRoom.tscn at 'door' (frame 2075)
+Game: ambient zone entered, music 'room', ambience 'interior'
+DistrictTest PASS: returned into the room at its 'door' spawn (frame 2092)
+DistrictTest PASS: mode back to Interior (frame 2092)
+DistrictTest summary: 33 pass, 0 fail (2092 frames)

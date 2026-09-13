@@ -5,9 +5,9 @@ func _initialize() -> void:
 
 func bake_all() -> void:
 	for entry in [
-		["res://levels/review/DistrictComposition.tscn", "DistrictReview"],
-		["res://levels/district/interiors/StartingRoom.tscn", "StartingRoom"],
-		["res://levels/district/interiors/CardShop.tscn", "CardShop"]]:
+		["res://levels/district/District.tscn", "District"],
+		["res://levels/district/interiors/StartRoom.tscn", "StartingRoom"],
+		["res://levels/district/interiors/ShopInterior.tscn", "CardShop"]]:
 		var level: Node3D = load(entry[0]).instantiate()
 		root.add_child(level)
 		await process_frame
