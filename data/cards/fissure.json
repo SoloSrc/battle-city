@@ -1,0 +1,16 @@
+{
+  "id": "fissure",
+  "name": "Fissure",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Destroy the face-up monster the opponent controls with the lowest ATK.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "fissure"
+  ]
+}

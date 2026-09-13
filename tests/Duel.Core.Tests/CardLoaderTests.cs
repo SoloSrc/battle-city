@@ -10,13 +10,14 @@ namespace BattleCity.Duel.Core.Tests;
 public class CardLoaderTests
 {
     [Fact]
-    public void LoadsTheTierOneCards()
+    public void LoadsTheCardPool()
     {
         CardLibrary library = new CardLoader().LoadDirectory(Cards.DataDirectory);
 
-        Assert.Equal(6, library.Count);
+        Assert.Equal(72, library.Count);
         Assert.Equal(5, library.All.Count(c => c.IsVanilla));
-        Assert.All(library.All, c => Assert.Equal(1, c.Tier));
+        Assert.Equal(6, library.All.Count(c => c.Tier == 1));
+        Assert.All(library.All.Where(c => c.Tier > 1), c => Assert.NotEmpty(c.Effects));
 
         CardDefinition elf = library["gemini_elf"];
         Assert.Equal("Gemini Elf", elf.Name);
@@ -55,7 +56,8 @@ public class CardLoaderTests
     }
 
     [Theory]
-    [InlineData("""{"id":"x","name":"X","kind":"monster","monster":{"type":"Beast","attribute":"EARTH","level":4,"atk":1,"def":1,"category":"effect"},"tier":2,"limit":3,"effects":["not_yet"]}""", "effect 'not_yet' is not implemented")]
+    [InlineData("""{"id":"x","name":"X","kind":"monster","monster":{"type":"Beast","attribute":"EARTH","level":4,"atk":1,"def":1,"category":"effect"},"tier":1,"limit":3,"effects":["not_yet"]}""", "tier 1 effect 'not_yet' is not implemented")]
+    [InlineData("""{"id":"x","name":"X","kind":"monster","monster":{"type":"Beast","attribute":"EARTH","level":4,"atk":1,"def":1,"category":"effect"},"tier":2,"limit":3,"effects":["Not Yet"]}""", "effect id 'Not Yet' must be snake_case")]
     [InlineData("""{"id":"x","name":"X","kind":"monster","monster":{"type":"Beast","attribute":"EARTH","level":4,"atk":1,"def":1,"category":"normal"},"tier":1,"limit":3,"effects":["pot_of_greed"]}""", "a normal monster has no effects")]
     [InlineData("""{"id":"Bad Id","name":"X","kind":"spell","spell":{"subtype":"normal"},"tier":1,"limit":1}""", "'id' must be snake_case")]
     [InlineData("""{"id":"x","name":"X","kind":"ritual","tier":1,"limit":1}""", "'kind' has unknown value 'ritual'")]
@@ -69,6 +71,18 @@ public class CardLoaderTests
     {
         var error = Assert.Throws<CardDataException>(() => new CardLoader().Parse(json));
         Assert.Contains(expectedError, error.Message);
+    }
+
+    [Fact]
+    public void StubEffectsLoadButCannotBeDuelled()
+    {
+        CardLibrary library = new CardLoader().LoadDirectory(Cards.DataDirectory);
+        CardDefinition mirrorForce = library["mirror_force"];
+        var deck = new Deck(Enumerable.Repeat(mirrorForce, 40).ToList());
+
+        Assert.Equal(new[] { "mirror_force" }, mirrorForce.Effects);
+        var error = Assert.Throws<System.ArgumentException>(() => DuelEngine.Start(deck, deck));
+        Assert.Contains("effects that are not implemented: mirror_force", error.Message);
     }
 
     [Fact]

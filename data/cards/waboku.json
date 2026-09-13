@@ -1,0 +1,16 @@
+{
+  "id": "waboku",
+  "name": "Waboku",
+  "kind": "trap",
+  "monster": null,
+  "spell": null,
+  "trap": {
+    "subtype": "normal"
+  },
+  "text": "You take no battle damage this turn and your monsters cannot be destroyed by battle.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "waboku"
+  ]
+}

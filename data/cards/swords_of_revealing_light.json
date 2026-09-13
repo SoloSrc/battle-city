@@ -1,0 +1,16 @@
+{
+  "id": "swords_of_revealing_light",
+  "name": "Swords of Revealing Light",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Flip all the opponent's monsters face-up. Their monsters cannot attack for 3 of their turns.",
+  "limit": 1,
+  "tier": 3,
+  "effects": [
+    "swords_of_revealing_light"
+  ]
+}

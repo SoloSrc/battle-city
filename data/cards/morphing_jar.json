@@ -1,0 +1,21 @@
+{
+  "id": "morphing_jar",
+  "name": "Morphing Jar",
+  "kind": "monster",
+  "monster": {
+    "type": "Rock",
+    "attribute": "EARTH",
+    "level": 2,
+    "atk": 700,
+    "def": 600,
+    "category": "flip"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "FLIP: both players discard their hands and draw 5 cards.",
+  "limit": 1,
+  "tier": 2,
+  "effects": [
+    "morphing_jar"
+  ]
+}

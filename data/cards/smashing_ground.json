@@ -1,0 +1,16 @@
+{
+  "id": "smashing_ground",
+  "name": "Smashing Ground",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Destroy the face-up monster the opponent controls with the highest DEF.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "smashing_ground"
+  ]
+}

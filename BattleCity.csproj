@@ -15,6 +15,7 @@
   <ItemGroup>
     <!-- Duel.Core is a separate Godot-free project; tests have their own project. -->
     <Compile Remove="src/Duel/**" />
+    <Compile Remove="src/Data/**" />
     <Compile Remove="tests/**" />
     <Compile Remove="tools/**" />
     <Compile Remove="assets/**" />
@@ -22,5 +23,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="src/Duel/Duel.Core.csproj" />
+    <ProjectReference Include="src/Data/BattleCity.Data.csproj" />
   </ItemGroup>
 </Project>

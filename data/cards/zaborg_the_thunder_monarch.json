@@ -1,0 +1,21 @@
+{
+  "id": "zaborg_the_thunder_monarch",
+  "name": "Zaborg the Thunder Monarch",
+  "kind": "monster",
+  "monster": {
+    "type": "Thunder",
+    "attribute": "LIGHT",
+    "level": 5,
+    "atk": 2400,
+    "def": 1000,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "When Tribute Summoned: destroy 1 monster on the field.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "zaborg_the_thunder_monarch"
+  ]
+}

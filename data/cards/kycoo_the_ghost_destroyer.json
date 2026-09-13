@@ -1,0 +1,21 @@
+{
+  "id": "kycoo_the_ghost_destroyer",
+  "name": "Kycoo the Ghost Destroyer",
+  "kind": "monster",
+  "monster": {
+    "type": "Spellcaster",
+    "attribute": "DARK",
+    "level": 4,
+    "atk": 1800,
+    "def": 700,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "When it inflicts battle damage: banish up to 2 monsters from the opponent's Graveyard. The opponent cannot banish cards from either Graveyard.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "kycoo_the_ghost_destroyer"
+  ]
+}

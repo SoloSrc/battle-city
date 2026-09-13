@@ -206,6 +206,12 @@ public sealed class DuelEngine
             throw new ArgumentException($"Player {player}'s deck has {deck.Main.Count} cards; {Options.MinDeckSize}–{Options.MaxDeckSize} required.", nameof(deck));
         }
 
+        var missing = deck.Main.Concat(deck.Fusion).SelectMany(d => d.Effects).Distinct().Where(e => !_registry.Contains(e)).ToList();
+        if (missing.Count > 0)
+        {
+            throw new ArgumentException($"Player {player}'s deck uses effects that are not implemented: {string.Join(", ", missing)}.", nameof(deck));
+        }
+
         PlayerState p = State.Player(player);
         foreach (CardDefinition def in deck.Main)
         {

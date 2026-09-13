@@ -1,0 +1,16 @@
+{
+  "id": "scapegoat",
+  "name": "Scapegoat",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "quick"
+  },
+  "trap": null,
+  "text": "Special Summon 4 Sheep Tokens (0/0) in Defense Position. They cannot be tributed for a Tribute Summon. You cannot Summon other monsters this turn.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "scapegoat"
+  ]
+}

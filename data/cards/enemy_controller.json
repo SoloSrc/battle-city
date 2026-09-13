@@ -1,0 +1,16 @@
+{
+  "id": "enemy_controller",
+  "name": "Enemy Controller",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "quick"
+  },
+  "trap": null,
+  "text": "Either change the battle position of 1 face-up monster the opponent controls, or tribute 1 monster to take control of 1 face-up monster the opponent controls until the End Phase.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "enemy_controller"
+  ]
+}

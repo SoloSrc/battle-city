@@ -1,0 +1,18 @@
+{
+  "id": "bad_stats",
+  "name": "Bad Stats",
+  "kind": "monster",
+  "monster": {
+    "type": "Beast",
+    "attribute": "VOID",
+    "level": 13,
+    "atk": -1,
+    "def": 1,
+    "category": "normal"
+  },
+  "limit": 4,
+  "tier": 5,
+  "effects": [
+    "pot_of_greed"
+  ]
+}

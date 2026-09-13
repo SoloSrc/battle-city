@@ -1,0 +1,21 @@
+{
+  "id": "cyber_jar",
+  "name": "Cyber Jar",
+  "kind": "monster",
+  "monster": {
+    "type": "Rock",
+    "attribute": "DARK",
+    "level": 3,
+    "atk": 900,
+    "def": 900,
+    "category": "flip"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "FLIP: destroy all monsters on the field, then each player reveals the top 5 cards of their Deck, Special Summons the Level 4 or lower monsters and adds the rest to the hand.",
+  "limit": 1,
+  "tier": 4,
+  "effects": [
+    "cyber_jar"
+  ]
+}

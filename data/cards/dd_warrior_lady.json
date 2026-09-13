@@ -1,0 +1,21 @@
+{
+  "id": "dd_warrior_lady",
+  "name": "D.D. Warrior Lady",
+  "kind": "monster",
+  "monster": {
+    "type": "Warrior",
+    "attribute": "LIGHT",
+    "level": 4,
+    "atk": 1500,
+    "def": 1600,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "When it battles a monster: after damage calculation, banish both.",
+  "limit": 1,
+  "tier": 3,
+  "effects": [
+    "dd_warrior_lady"
+  ]
+}

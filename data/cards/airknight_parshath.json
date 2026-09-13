@@ -1,0 +1,21 @@
+{
+  "id": "airknight_parshath",
+  "name": "Airknight Parshath",
+  "kind": "monster",
+  "monster": {
+    "type": "Fairy",
+    "attribute": "LIGHT",
+    "level": 5,
+    "atk": 1900,
+    "def": 1400,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Inflicts piercing battle damage. When it inflicts battle damage: draw 1 card.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "airknight_parshath"
+  ]
+}

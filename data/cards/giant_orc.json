@@ -1,0 +1,21 @@
+{
+  "id": "giant_orc",
+  "name": "Giant Orc",
+  "kind": "monster",
+  "monster": {
+    "type": "Fiend",
+    "attribute": "EARTH",
+    "level": 4,
+    "atk": 2200,
+    "def": 0,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "After it attacks it switches to Defense Position and cannot change position until the end of your next turn.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "giant_orc"
+  ]
+}

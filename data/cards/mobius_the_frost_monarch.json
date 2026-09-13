@@ -1,0 +1,21 @@
+{
+  "id": "mobius_the_frost_monarch",
+  "name": "Mobius the Frost Monarch",
+  "kind": "monster",
+  "monster": {
+    "type": "Aqua",
+    "attribute": "WATER",
+    "level": 6,
+    "atk": 2400,
+    "def": 1000,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "When Tribute Summoned: destroy up to 2 Spell or Trap Cards on the field.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "mobius_the_frost_monarch"
+  ]
+}

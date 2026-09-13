@@ -1,0 +1,21 @@
+{
+  "id": "skilled_dark_magician",
+  "name": "Skilled Dark Magician",
+  "kind": "monster",
+  "monster": {
+    "type": "Spellcaster",
+    "attribute": "DARK",
+    "level": 4,
+    "atk": 1900,
+    "def": 1700,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Gains a Spell Counter (up to 3) whenever a Spell Card is activated. Tribute it with 3 counters: Special Summon 1 Dark Magician from the hand, Deck or Graveyard.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "skilled_dark_magician"
+  ]
+}

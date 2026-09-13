@@ -21,4 +21,15 @@
   nodes snap to 1 m and 90°, `prop_*` to 0.25 m while you move them) and the
   gizmos for EncounterSite (footprint, axis, stand points), Duelist (cone),
   PlayerSpawn and Door (facing arrows).
-- `validate_data.py`: card and deck data validator (issue #26).
+- `validate_data.py`: validates everything under `data/` against the schemas
+  in systems.md §5.3 and §8 (cards, decks with copy limits, duelists, shop,
+  avatar) and the cross references between them:
+
+  ```bash
+  python3 tools/validate_data.py --root data
+  ```
+
+  Prints `validate_data FAIL: <file>: <rule>` lines and a summary; exits 1 on
+  any failure. CI runs it on `data/` (must pass) and on `tests/data_bad/`
+  (must fail with the expected messages). The C# loaders enforce the same
+  rules; the script is the no-build gate.

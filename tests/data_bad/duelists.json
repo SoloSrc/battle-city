@@ -1,0 +1,46 @@
+{
+  "duelists": [
+    {
+      "id": "d1",
+      "name": "",
+      "area": "plaza",
+      "deck": "missing",
+      "required_flag": "Bad Flag",
+      "profile": {
+        "board": 1,
+        "cards": 1,
+        "life": 1,
+        "risk": 0,
+        "jitter": -1,
+        "bluff_set": 2
+      },
+      "reward_first": {
+        "coins": -1,
+        "boosters": 0
+      },
+      "ending": "yes"
+    },
+    {
+      "id": "d1",
+      "name": "Dup",
+      "area": "park",
+      "deck": "small",
+      "profile": {
+        "board": 1,
+        "cards": 1,
+        "life": 1,
+        "risk": 0,
+        "jitter": 0,
+        "bluff_set": 0
+      },
+      "reward_first": {
+        "coins": 0,
+        "boosters": 0
+      },
+      "reward_rematch": {
+        "coins": 0,
+        "boosters": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "unimplemented_t1",
+  "name": "Unimplemented",
+  "kind": "trap",
+  "monster": null,
+  "spell": null,
+  "trap": {
+    "subtype": "normal"
+  },
+  "limit": 3,
+  "tier": 1,
+  "effects": [
+    "not_yet"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "gravekeepers_spy",
+  "name": "Gravekeeper's Spy",
+  "kind": "monster",
+  "monster": {
+    "type": "Spellcaster",
+    "attribute": "DARK",
+    "level": 4,
+    "atk": 1200,
+    "def": 2000,
+    "category": "flip"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "FLIP: Special Summon 1 Gravekeeper's monster with 1500 or less ATK from the Deck.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "gravekeepers_spy"
+  ]
+}

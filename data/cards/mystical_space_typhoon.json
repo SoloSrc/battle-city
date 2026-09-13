@@ -1,0 +1,16 @@
+{
+  "id": "mystical_space_typhoon",
+  "name": "Mystical Space Typhoon",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "quick"
+  },
+  "trap": null,
+  "text": "Destroy 1 Spell or Trap Card on the field.",
+  "limit": 1,
+  "tier": 2,
+  "effects": [
+    "mystical_space_typhoon"
+  ]
+}

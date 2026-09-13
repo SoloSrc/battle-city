@@ -1,0 +1,21 @@
+{
+  "id": "jinzo",
+  "name": "Jinzo",
+  "kind": "monster",
+  "monster": {
+    "type": "Machine",
+    "attribute": "DARK",
+    "level": 6,
+    "atk": 2400,
+    "def": 1500,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Trap Cards cannot be activated and their effects are negated.",
+  "limit": 1,
+  "tier": 3,
+  "effects": [
+    "jinzo"
+  ]
+}

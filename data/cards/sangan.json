@@ -1,0 +1,21 @@
+{
+  "id": "sangan",
+  "name": "Sangan",
+  "kind": "monster",
+  "monster": {
+    "type": "Fiend",
+    "attribute": "DARK",
+    "level": 3,
+    "atk": 1000,
+    "def": 600,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "When sent from the field to the Graveyard: add a monster with 1500 or less ATK from the Deck to the hand.",
+  "limit": 1,
+  "tier": 2,
+  "effects": [
+    "sangan"
+  ]
+}

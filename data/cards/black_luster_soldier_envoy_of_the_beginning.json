@@ -1,0 +1,21 @@
+{
+  "id": "black_luster_soldier_envoy_of_the_beginning",
+  "name": "Black Luster Soldier - Envoy of the Beginning",
+  "kind": "monster",
+  "monster": {
+    "type": "Warrior",
+    "attribute": "LIGHT",
+    "level": 8,
+    "atk": 3000,
+    "def": 2500,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Cannot be Normal Summoned or Set. Special Summon by banishing 1 LIGHT and 1 DARK monster from your Graveyard. Once per turn: banish 1 monster, or attack twice after destroying a monster by battle.",
+  "limit": 1,
+  "tier": 4,
+  "effects": [
+    "black_luster_soldier_envoy_of_the_beginning"
+  ]
+}

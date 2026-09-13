@@ -1,0 +1,21 @@
+{
+  "id": "sinister_serpent",
+  "name": "Sinister Serpent",
+  "kind": "monster",
+  "monster": {
+    "type": "Reptile",
+    "attribute": "WATER",
+    "level": 1,
+    "atk": 300,
+    "def": 250,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "During your Standby Phase, if it is in the Graveyard: return it to the hand.",
+  "limit": 1,
+  "tier": 3,
+  "effects": [
+    "sinister_serpent"
+  ]
+}

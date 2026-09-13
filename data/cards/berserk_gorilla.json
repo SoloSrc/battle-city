@@ -1,0 +1,21 @@
+{
+  "id": "berserk_gorilla",
+  "name": "Berserk Gorilla",
+  "kind": "monster",
+  "monster": {
+    "type": "Beast",
+    "attribute": "EARTH",
+    "level": 4,
+    "atk": 2000,
+    "def": 1000,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Must attack if able. Destroyed if it is switched to Defense Position.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "berserk_gorilla"
+  ]
+}
