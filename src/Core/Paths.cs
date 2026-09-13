@@ -26,6 +26,14 @@ public static class Paths
     public const string StartRoomScene = InteriorScenes + "StartRoom.tscn";
     public const string ShopInteriorScene = InteriorScenes + "ShopInterior.tscn";
 
+    // Shared materials (issue #27, shaders/README.md).
+    public const string ToonMaterial = "res://shaders/materials/toon.tres";
+    public const string OutlineMaterial = "res://shaders/materials/outline.tres";
+    public const string HologramPlayerMaterial = "res://shaders/materials/hologram_player.tres";
+    public const string HologramOpponentMaterial = "res://shaders/materials/hologram_opponent.tres";
+    public const string CardFrames = "res://assets/cards/frames";
+    public const string CardBack = CardFrames + "/card_back.png";
+
     // Pipeline smoke-test deliverables (asset-list.md §0). Owned by gpt-astra.
     public const string SmokeTestScene = "res://tests/scenes/SmokeTest.tscn";
     public const string CharacterTestScene = "res://tests/scenes/CharacterTest.tscn";

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using BattleCity.Characters;
 using BattleCity.Core;
+using BattleCity.Rendering;
 using BattleCity.World;
 using Godot;
 
@@ -15,7 +16,10 @@ namespace BattleCity.Diagnostics;
 /// override. The HUD reports the live framing values and the avatar's pixel
 /// height, which is an outcome to look at, not a target (director decision
 /// 2026-09-08). Scripted mode (headless or <c>-- --scripted</c>) runs the
-/// player east through the seam and past the edge and checks the rig.
+/// player east through the seam and past the edge and checks the rig. The kit
+/// cubes take the shared toon material and both duelists get the ten hologram
+/// card anchors of systems.md §6.1 in front of them, so the shaders (issue #27)
+/// can be judged from the overworld camera.
 /// </summary>
 public partial class CameraFramingScene : Node3D
 {
@@ -53,6 +57,10 @@ public partial class CameraFramingScene : Node3D
     [Export]
     public Node3D? Cubes { get; set; }
 
+    /// <summary>Characters that get a 2 × 5 grid of hologram cards 1 m in front (systems.md §6.1).</summary>
+    [Export]
+    public Node3D? Duelist { get; set; }
+
     [Export]
     public Label? ReportLabel { get; set; }
 
@@ -74,6 +82,7 @@ public partial class CameraFramingScene : Node3D
         Scripted = Scripted || DisplayServer.GetName() == "headless"
             || Array.IndexOf(OS.GetCmdlineUserArgs(), "--scripted") >= 0;
         SpawnCubes();
+        SpawnHolograms();
         BuildBoundsMeshes();
         if (Player is null || Controller is null || Rig is null)
         {
@@ -260,6 +269,58 @@ public partial class CameraFramingScene : Node3D
             cube.Position = spot;
             Cubes.AddChild(cube);
         }
+
+        int toon = ToonMaterials.Apply(Cubes);
+        Report("INFO", $"toon material on {toon} kit cube surface(s) (shaders/materials/toon.tres)");
+    }
+
+    /// <summary>
+    /// Ten cards per duelist in the §6.1 layout: 1.0 m forward of the chest, five
+    /// across at 0.22 m, monsters in front and spells/traps 0.28 m behind, facing
+    /// the opponent. Anchors come from the stand point, never from the disk mesh.
+    /// </summary>
+    private void SpawnHolograms()
+    {
+        const float forward = 1.0f;
+        const float spacingX = 0.22f;
+        const float spacingZ = 0.28f;
+        const float chest = 1.2f;
+        int cards = 0;
+        (Node3D? owner, HologramSide side)[] sides = { (Player, HologramSide.Player), (Duelist, HologramSide.Opponent) };
+        foreach ((Node3D? owner, HologramSide side) in sides)
+        {
+            if (owner is null)
+            {
+                continue;
+            }
+
+            Texture2D? face = ResourceLoader.Exists($"{Paths.CardFrames}/frame_normal.png")
+                ? ResourceLoader.Load<Texture2D>($"{Paths.CardFrames}/frame_normal.png") : null;
+            var anchors = new Node3D { Name = "CardAnchors" };
+            owner.AddChild(anchors);
+            for (int row = 0; row < 2; row++)
+            {
+                for (int column = 0; column < 5; column++)
+                {
+                    var anchor = new Marker3D
+                    {
+                        Name = $"{(row == 0 ? "m" : "st")}{column + 1}",
+                        Position = new Vector3((column - 2) * spacingX, chest, -(forward + row * spacingZ)),
+                    };
+                    anchors.AddChild(anchor);
+                    MeshInstance3D card = HologramCards.Create(side, face, (row * 5 + column) / 10.0f);
+                    if (row == 1)
+                    {
+                        card.RotationDegrees = new Vector3(0.0f, 180.0f, 0.0f);
+                    }
+
+                    anchor.AddChild(card);
+                    cards++;
+                }
+            }
+        }
+
+        Report("INFO", Inv($"hologram anchors: {cards} cards in the §6.1 grid ({HologramCards.Width:F2} × {HologramCards.Height:F2} m, 0.22 × 0.28 m spacing)"));
     }
 
     private void BuildBoundsMeshes()

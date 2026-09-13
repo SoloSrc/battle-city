@@ -24,11 +24,18 @@ change is needed.
 | Character clips | `assets/characters/anims/character_anims.glb` | `idle` (4 s) and `walk` (1 s) clips, events injected from `data/rig/animation_events.json`; played through the `AnimationTree` state machine |
 | Duel disk | `assets/props/prop_duel_disk.glb` | ≤ 1.5 k triangles; shown at its spot and mounted on `LeftLowerArm` with the offset from `data/rig/disk_mount.json` |
 
+The scene also loads the shared materials of issue #27: it checks the toon
+and hologram shaders compile and expose the uniforms code sets, converts
+every `toon_*` surface with `ToonMaterials.Apply` (a `FAIL` if any is left),
+and floats three sample cards at `CardSpot` (player attack, selected;
+opponent defence; face-down showing the back).
+
 Output goes to the console and the on-screen report. `SmokeTest FAIL`
 lines fail CI; `WARN` lines are review notes; `SKIP` means the file is not
 there yet. Press `interact` to toggle idle / walk and `menu` to switch
 between the gameplay camera (55–60° pitch, 13 m, 35° FOV) and a close
-inspect camera. Animation events print as `SmokeTest event: <name>`.
+inspect camera; `-- --inspect` starts on the inspect camera. Animation
+events print as `SmokeTest event: <name>`.
 
 ### glTF import contract (Blender export)
 
@@ -45,9 +52,9 @@ inspect camera. Animation events print as `SmokeTest event: <name>`.
   the `anim_` prefix). glTF cannot carry call-method tracks: report event
   timings in the handoff and the engine injects them from
   `data/rig/animation_events.json` (systems.md §3.2).
-- Materials named `toon_*` receive the shared toon material (placeholder
-  `StandardMaterial3D` until issue #27; `tools/import/apply_toon.gd` will do
-  the same at import time). Anything else imports as PBR for review.
+- Materials named `toon_*` receive the shared toon material
+  (`shaders/materials/toon.tres`, applied at load by `ToonMaterials`, see
+  `shaders/README.md`). Anything else imports as PBR for review.
 - Rig: `SkeletonProfileHumanoid` bone names, A-pose, `LeftLowerArm` must
   exist. Godot generates a `.import` file next to each `.glb` on first
   import; commit it, it is the per-asset import preset.
@@ -87,7 +94,10 @@ Readability diagnostic for the overworld camera (systems.md §4.2). The player,
 a duelist at the 7 m stand distance, a bystander and 1 m kit cubes sit on the
 reference grid under `scenes/world/CameraRig.tscn`. Two `CameraBounds`
 volumes, a plaza and an interior with the interior override, sit side by side
-so clamping and the profile blend can be seen.
+so clamping and the profile blend can be seen. The cubes take the toon
+material and the player and duelist each get the ten hologram card anchors of
+systems.md §6.1 (2 × 5, 1 m forward, 0.22 × 0.28 m), so the shaders can be
+judged from the overworld camera.
 
 ```bash
 godot --headless --path . res://tests/scenes/CameraFraming.tscn --fixed-fps 60 --quit-after 700

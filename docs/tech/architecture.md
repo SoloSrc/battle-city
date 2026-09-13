@@ -57,7 +57,7 @@ the repository root so the repo *is* the Godot project.
 │   ├── audio/music/, audio/sfx/, audio/ambience/
 │   └── source/                .blend, layered sources, audio sessions (Git LFS)
 ├── data/                      game data JSON: cards/, decks/, duelists.json, shop.json, tuning.json, avatar.json, rig/
-├── shaders/                   toon.gdshader, outline.gdshader, hologram.gdshader
+├── shaders/                   toon, outline, hologram (.gdshader) and materials/*.tres
 ├── tests/
 │   ├── Duel.Core.Tests/       xUnit project, runs with `dotnet test`
 │   └── scenes/                in-editor test scenes (CameraFraming.tscn, SmokeTest.tscn)
@@ -179,12 +179,17 @@ for the common cases.
 
 - One material per part where possible; texture set `<name>_albedo.png`,
   `_normal.png` optional, `_orm.png` optional. Power-of-two sizes, PNG.
-- Godot import replaces glTF materials with the shared `toon.gdshader`
-  material through an import script (`tools/import/apply_toon.gd`) keyed on
-  the material name prefix `toon_`. Materials named otherwise import as
-  standard PBR for review.
-- Skin tone and accent colour are shader parameters (`skin_tint`,
-  `accent_tint`) set by `CharacterAppearance`, so no per-colour textures.
+- glTF materials named `toon_*` are replaced at load with the shared
+  `shaders/materials/toon.tres` (cel ramp plus an inverted-hull outline as
+  its `next_pass`) by `src/Rendering/ToonMaterials.cs`: one copy per source
+  material carrying its colour and albedo texture, everything else shared.
+  `Character`, `DuelDisk` and `Game` apply it to bodies, props and levels;
+  no import script and no change to the exported files (decision
+  2026-09-13). Materials named otherwise import as standard PBR for review.
+  Parameters: `shaders/README.md`.
+- Skin tone and accent colour are the `albedo` of the copies made from
+  `toon_skin` and `toon_accent`, set by `CharacterAppearance`, so no
+  per-colour textures.
 
 ### 6.5 Rig
 

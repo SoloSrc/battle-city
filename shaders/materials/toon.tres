@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c0toonmateri001"]
+
+[ext_resource type="Shader" path="res://shaders/toon.gdshader" id="1_toon"]
+[ext_resource type="Material" path="res://shaders/materials/outline.tres" id="2_outline"]
+
+[resource]
+resource_name = "toon"
+next_pass = ExtResource("2_outline")
+shader = ExtResource("1_toon")
