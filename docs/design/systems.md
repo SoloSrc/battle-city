@@ -468,6 +468,7 @@ The layout contract is `assets/source/cards/frame-layout.json`, revision 4:
   ],
   "stat_alignment": "center",
   "stat_font_px": 70,
+  "stat_font_style": "normal",
   "stat_plates": [
     [
       46,
@@ -497,13 +498,13 @@ The layout contract is `assets/source/cards/frame-layout.json`, revision 4:
 The art window is [14,14,562,616], with a thin beveled border. Centered cover
 scales square art to 616² and clips 27 pixels from each side, without stretching.
 The visible source region is approximately [22.44,0,467.12,512]. Keep essential
-art inside this safe region. The lower panel begins at y=645.
+art inside this safe region. The lower panel begins at y=645. All six types use the same continuous cloud field, tinted by type; no patch rectangles. Stat text must be upright, never italic.
 
 For a level L, star row width is `(L-1)*36+34`. Center the row at
 `min(295,460-width/2)`; its left edge is that center minus half the width.
 Stars are 34² at top y=679. This centers ordinary levels and shifts long rows
 left to preserve clearance from the 64² attribute centered at (514,696).
-ATK/DEF are centered inside their plates, using a 70 px italic serif starting
+ATK/DEF are centered inside their plates, using a 70 px upright serif starting
 size; use font metrics to vertically center rather than assuming a baseline.
 The coordinate fields `atk`/`def` now denote centers, not top-left origins.
 

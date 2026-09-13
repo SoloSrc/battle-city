@@ -12,7 +12,7 @@ const icon=n=>path.join(root,'assets/cards/icons',n+'.png');
    const level=[4,1,5,8][i],width=(level-1)*36+34,left=Math.min(295,460-width/2)-width/2;
    for(let j=0;j<level;j++)layers.push({input:await sharp(icon('star')).resize(34,34).png().toBuffer(),left:Math.round(left+j*36),top:679});
    layers.push({input:await sharp(icon('attr_'+['light','water','dark','dark'][i])).resize(64,64).png().toBuffer(),left:482,top:664});
-   layers.push({input:Buffer.from(`<svg width="590" height="860"><g font-family="serif" font-style="italic" font-size="70" text-anchor="middle"><text x="158" y="807">${[1600,300,2000,2800][i]}</text><text x="430" y="807">${[1000,250,1200,2600][i]}</text></g></svg>`),left:0,top:0});
+   layers.push({input:Buffer.from(`<svg width="590" height="860"><g font-family="serif" font-style="normal" font-size="70" text-anchor="middle"><text x="158" y="807">${[1600,300,2000,2800][i]}</text><text x="430" y="807">${[1000,250,1200,2600][i]}</text></g></svg>`),left:0,top:0});
   }else layers.push({input:await sharp(icon('st_'+kind)).resize(72,72).png().toBuffer(),left:259,top:714});
   const face=await sharp({create:{width:590,height:860,channels:4,background:'#15151a'}}).composite(layers).png().toBuffer();
   await sharp(face).toFile(path.join(out,kind+'-sample.png'));

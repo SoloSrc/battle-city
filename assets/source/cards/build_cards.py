@@ -38,5 +38,5 @@ save('card_back',590,860,layer('matte-brown-frame',back)+layer('inward-transitio
 # Exact reference badges are isolated by SVG viewports in reference_badges.py.
 from reference_badges import write_badges
 write_badges(SRC, save, layer)
-(SRC/'frame-layout.json').write_text(json.dumps({'revision':4,'size':[590,860],'art_window':[14,14,562,616],'data_panel':[0,645,590,215],'star_size':[34,34],'star_step':36,'star_row_y':696,'star_row_center_x':295,'star_row_right_max':460,'attribute':[514,696],'attribute_size':[64,64],'atk':[158,781],'def':[430,781],'stat_alignment':'center','stat_font_px':70,'stat_plates':[[46,735,224,92],[318,735,224,92]],'spell_trap_badge':[295,750],'spell_trap_badge_size':[72,72],'subtype_placement':'tooltip_only'},indent=2)+'\n')
+(SRC/'frame-layout.json').write_text(json.dumps({'revision':4,'size':[590,860],'art_window':[14,14,562,616],'data_panel':[0,645,590,215],'star_size':[34,34],'star_step':36,'star_row_y':696,'star_row_center_x':295,'star_row_right_max':460,'attribute':[514,696],'attribute_size':[64,64],'atk':[158,781],'def':[430,781],'stat_alignment':'center','stat_font_px':70,'stat_font_style':'normal','stat_plates':[[46,735,224,92],[318,735,224,92]],'spell_trap_badge':[295,750],'spell_trap_badge_size':[72,72],'subtype_placement':'tooltip_only'},indent=2)+'\n')
 print('Wrote card source revision 4')

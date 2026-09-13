@@ -49,6 +49,27 @@
     ]
   },
   {
+    "asset": "st_spell",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "st_trap",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
+    "asset": "star",
+    "size": [
+      64,
+      64
+    ]
+  },
+  {
     "asset": "card_back",
     "size": [
       590,
@@ -143,27 +164,6 @@
     "size": [
       128,
       128
-    ]
-  },
-  {
-    "asset": "st_spell",
-    "size": [
-      128,
-      128
-    ]
-  },
-  {
-    "asset": "st_trap",
-    "size": [
-      128,
-      128
-    ]
-  },
-  {
-    "asset": "star",
-    "size": [
-      64,
-      64
     ]
   }
 ]

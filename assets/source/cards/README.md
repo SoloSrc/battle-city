@@ -1,18 +1,17 @@
-# Card graphics — reference revision 4
+# Card graphics — revision 4
 
-The director's 2026-09-13 `~/Downloads/cards` examples supersede revision 3.
-Six SVG frame assemblies preserve supplied bevels, lower-panel textures and
-stat borders at 590×860. `reference_frames.py` clears art windows and replaces
-baked badge/number areas with blank strips from the same reference. The approved
-card back remains unchanged. Original illustrations are present in source
-references only; exported frame windows are fully transparent.
+The director's reference style is implemented with isolated approved trim and
+one continuous procedural cloud field across all six frames. The cloud field
+uses identical coordinates and noise seed for every type, tinted to each palette.
+Plate interiors brighten that same field; there are no local repair squares.
+ATK/DEF text is upright serif, centered using the layout contract.
 
-`reference_badges.py` creates SVG viewports of the supplied attribute and level
-sheets, preserving their glyphs and glossy artwork. `references/attributes.png`
-and `references/levels.png` are user-provided reference assets. The full card references likewise retain their supplied artwork. Their original
-creator/license was not supplied; do not label these reference-derived frames or badges
-as original SOLOSRC MIT artwork. No reference monster illustration is used as runtime card art.
-The assembly code and six new tooltip glyphs are original SOLOSRC.
+The original reference cards and sheets are not included, including as embedded
+SVG copies. `trim/` contains only isolated frame/border pixels from the prior
+export; `approved-badges/` contains only the approved individual icons and star.
+Their reference-derived provenance remains recorded; they are not claimed as
+original SOLOSRC artwork. Tooltip glyphs and generator code are original SOLOSRC.
+The card back and all approved icon pixels are unchanged by this correction.
 
 ## Rebuild
 
@@ -25,14 +24,12 @@ godot --headless --editor --import
 godot --headless --script assets/source/cards/verify_import.gd
 ```
 
-Set `SHARP_MODULE` to the installed Sharp module if needed. SVGs contain
-embedded badge-sheet data so the standard SVG exporter remains self-contained.
-Python `reference_badges.py` is the editable source for these wrappers and the
-new tooltip symbols. The render validator checks all 346,192 transparent
-art-window pixels per frame, dimensions and unchanged back symmetry.
+Set `SHARP_MODULE` if Sharp is installed outside the normal module path.
+`reference_frames.py` generates the continuous cloud surface with isolated trim.
+`reference_badges.py` generates the six tooltip glyphs; the exporter copies
+approved individual badges without resampling. No original references are
+needed to rebuild. Validation covers 23 exports and transparent art windows.
 
-`frame-layout.json` revision 4 and systems §6.2 define the contract: 562×616
-cover art, centered level rows with right clearance, larger reference badges,
-centered stat text and a single centered Spell/Trap type badge. Subtype icons
-are tooltip-only. Runtime CardView adoption remains Fable's work in #60.
-See [handoff](../../../docs/requests/card-reference-frames.md).
+See `frame-layout.json`, systems §6.2 and
+[handoff](../../../docs/requests/card-reference-frames.md). Subtype icons remain
+tooltip-only. CardView and tooltip integration remain Fable's responsibility.

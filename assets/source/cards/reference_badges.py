@@ -1,14 +1,7 @@
-"""Reference badge viewports plus original matching tooltip symbols."""
+"""Original matching tooltip symbols; approved main badges are stored separately."""
 import base64, math
 
 def write_badges(src,save,layer):
- def uri(name):return 'data:image/png;base64,'+base64.b64encode((src/'references'/name).read_bytes()).decode()
- sheet=uri('attributes.png')
- for name,col,row in [('wind',0,0),('water',1,0),('earth',2,0),('fire',0,1),('dark',1,1),('light',2,1),('divine',0,2),('spell',1,2),('trap',2,2)]:
-  prefix='st_' if name in ['spell','trap'] else 'attr_'
-  body=f'<defs><clipPath id="disc"><circle cx="64" cy="64" r="63"/></clipPath></defs><g clip-path="url(#disc)"><svg width="128" height="128" viewBox="{col*200} {row*200} 200 200"><image width="600" height="600" href="{sheet}"/></svg></g>'
-  save(prefix+name,128,128,layer('director-reference-badge',body))
- save('star',64,64,'<defs><clipPath id="disc"><circle cx="32" cy="32" r="31.8"/></clipPath></defs><g clip-path="url(#disc)"><svg width="64" height="64" viewBox="0 0 49 49"><image width="633" height="569" href="'+uri('levels.png')+'"/></svg></g>')
  symbols={
  'equip':'M40 26 L24 40 L34 56 L43 50 V100 H85 V50 L94 56 L104 40 L88 26 L78 40 H50 Z',
  'continuous':'M64 64 C31 20 12 48 24 72 C40 98 64 64 64 64 C97 20 116 48 104 72 C88 98 64 64 64 64',

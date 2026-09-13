@@ -1,22 +1,14 @@
-"""SVG viewport assembly of director-provided frames; runtime art/stat/icon slots cleared."""
+"""One continuous cloud field per frame, with approved isolated trim overlays."""
 import base64
 
 def write_frames(src,save,layer):
- for name in ['normal','effect','fusion','ritual','spell','trap']:
-  data=base64.b64encode((src/'references'/(name+'.jpg')).read_bytes()).decode()
-  # Reference layer is clipped away from runtime artwork. Other viewports replace
-  # variable text/badges with blank background strips from the same supplied frame.
-  defs='<defs><image id="reference" width="590" height="860" preserveAspectRatio="none" href="data:image/jpeg;base64,'+data+'"/><clipPath id="frame"><path clip-rule="evenodd" d="M0 0 H590 V860 H0 Z M14 14 V630 H576 V14 Z"/></clipPath></defs>'
-  body=defs+'<g clip-path="url(#frame)"><use href="#reference"/></g>'
-  def patch(x,y,w,h,sx,sy,sw,sh):
-   return f'<svg x="{x}" y="{y}" width="{w}" height="{h}" viewBox="{sx} {sy} {sw} {sh}" preserveAspectRatio="none"><use href="#reference"/></svg>'
-  if name in ['normal','effect','fusion']:
-   body+=patch(14,655,562,76,20,655,75,76)
-   for x in [54,326]:body+=patch(x,746,208,72,x,746,208,8)
-  elif name=='ritual':
-   body+=patch(14,655,562,74,20,655,75,74)
-   for x in [53,321]:body+=patch(x,745,216,71,x,742,216,6)
-  else:
-   # The central type badge is supplied dynamically; sample an empty part of its plate.
-   body+=patch(247,706,96,91,126,706,96,91)
-  save('frame_'+name,590,860,layer('reference-frame-and-cleared-slots',body))
+ palettes={'normal':('#ad9015','#fff394'),'effect':('#c97905','#ffd681'),'fusion':('#683280','#d4a6e8'),'ritual':('#22288f','#8392f0'),'spell':('#037e40','#a1d19a'),'trap':('#862361','#e0a2d0')}
+ for name,(base,light) in palettes.items():
+  # Identical noise coordinates/seed for every frame: no local repair rectangles.
+  defs='<defs><filter id="cloud" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".013 .024" numOctaves="3" seed="19"/><feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1.8 0 0 0 -.45"/><feGaussianBlur stdDeviation="2.8"/></filter></defs>'
+  body=defs+f'<rect y="645" width="590" height="215" fill="{base}"/><rect x="14" y="655" width="562" height="195" fill="{light}" opacity=".15"/><rect x="14" y="655" width="562" height="195" filter="url(#cloud)" opacity=".40"/>'
+  plates=[(54,743,210,78),(326,743,210,78)] if name in ['normal','effect','fusion'] else [(52,740,214,79),(321,740,214,79)] if name=='ritual' else [(53,698,485,100)]
+  for x,y,w,h in plates:body+=f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{light}" opacity=".72"/>'
+  trim=base64.b64encode((src/'trim'/(name+'.png')).read_bytes()).decode()
+  body+='<image width="590" height="860" href="data:image/png;base64,'+trim+'"/>'
+  save('frame_'+name,590,860,layer('continuous-cloud-field-and-approved-trim',body))
