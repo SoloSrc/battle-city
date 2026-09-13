@@ -47,11 +47,32 @@ public sealed record CardDefinition(
             Array.Empty<string>());
     }
 
+    /// <summary>Builds an Effect (or Flip) monster definition with the given effect ids.</summary>
+    public static CardDefinition EffectMonster(string id, string name, string type, MonsterAttribute attribute, int level, int atk, int def, MonsterCategory category, int tier, params string[] effects)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(id);
+        return new CardDefinition(id, name, CardKind.Monster, new MonsterStats(type, attribute, level, atk, def, category), null, null, string.Empty, 3, tier, effects, Array.Empty<string>());
+    }
+
     /// <summary>Builds a Normal Spell definition with the given effect ids.</summary>
     public static CardDefinition NormalSpell(string id, string name, string text, int limit, int tier, params string[] effects)
     {
         ArgumentException.ThrowIfNullOrEmpty(id);
-        return new CardDefinition(id, name, CardKind.Spell, null, new SpellInfo(SpellSubtype.Normal), null, text, limit, tier, effects, Array.Empty<string>());
+        return SpellCard(id, name, SpellSubtype.Normal, text, limit, tier, effects);
+    }
+
+    /// <summary>Builds a Spell definition of any subtype with the given effect ids.</summary>
+    public static CardDefinition SpellCard(string id, string name, SpellSubtype subtype, string text, int limit, int tier, params string[] effects)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(id);
+        return new CardDefinition(id, name, CardKind.Spell, null, new SpellInfo(subtype), null, text, limit, tier, effects, Array.Empty<string>());
+    }
+
+    /// <summary>Builds a Trap definition with the given effect ids.</summary>
+    public static CardDefinition TrapCard(string id, string name, TrapSubtype subtype, string text, int limit, int tier, params string[] effects)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(id);
+        return new CardDefinition(id, name, CardKind.Trap, null, null, new TrapInfo(subtype), text, limit, tier, effects, Array.Empty<string>());
     }
 
     public override string ToString() => Name;

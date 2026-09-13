@@ -253,8 +253,11 @@ record DuelState {
   Phase Phase; BattleStep BattleStep;
   Chain Chain;                // list of ChainLink, resolves LIFO
   int Priority;               // which player may act now
-  Queue<PendingTrigger> Triggers;
-  Flags: NormalSummonUsed, AttackDeclaredBy[], FirstTurn
+  Window Window;              // Open, Summon, AttackDeclared, DamageBeforeCalc, DamageAfterCalc
+  List<PendingTrigger> Triggers;   // fired, not on the chain yet
+  ChainLink? PendingLink;     // activation collecting cost/target answers
+  PendingChoice? PendingChoice;    // the question the engine waits on
+  Flags: NormalSummonUsed, BattlePhaseUsed, Attacker/AttackTarget, FirstTurn
 }
 record PlayerState {
   int LifePoints;
@@ -304,19 +307,35 @@ Names and text are stored as needed to implement the rules; no card art.
 interface IEffect {
   EffectKind Kind;            // Ignition, Trigger, Quick, Continuous, Flip, Activation (spell/trap), Condition
   SpellSpeed Speed;           // 1, 2, 3
-  bool CanActivate(DuelState s, CardInstance src, ActivationContext ctx);
-  IEnumerable<Choice> Costs(...);        // discard, tribute, LP, banish
-  IEnumerable<Choice> Targets(...);      // declared at activation
-  void Resolve(DuelState s, ChainLink link);
   bool IsMandatory;
-  TriggerWindow? Trigger;     // e.g. OnSummon, OnDestroyedByBattle, OnFlip, OnSentToGrave, Standby, EndPhase
+  TriggerWindow? Trigger;     // OnSummon, OnDestroyedByBattle, OnFlip, OnSentToGrave, Standby, EndPhase
+  bool UsableInDamageStep;    // speed 2 ATK/DEF modifiers may activate before damage calculation
+  bool CanActivate(DuelState s, CardInstance src, ActivationContext ctx);  // card-specific condition only
+  IReadOnlyList<Choice> Costs(DuelState s, CardInstance src);    // asked in order at activation
+  IReadOnlyList<Choice> Targets(DuelState s, CardInstance src);  // asked after the costs are paid
+  void PayCosts(DuelEngine e, ChainLink link);   // once, before targets; answers in link.Costs
+  void Resolve(DuelEngine e, ChainLink link);    // skipped for a negated link; answers in link.Targets
 }
 ```
 
-Choices are returned to the caller as structured prompts. The player UI
-renders them as modals; the AI answers them programmatically. Everything
-that asks the player something goes through `Choice`, so the UI has no
-card-specific code.
+`EffectBase` supplies defaults for everything an effect does not use. The
+engine owns the timing every effect shares (speed, priority, Set turn,
+Damage Step limits); `CanActivate` holds only the card's own condition and
+reads the window it needs from `DuelState.Window`, the chain, or the
+`ActivationContext` (the trigger window and, for graveyard triggers, the
+location the card came from).
+
+**Choice protocol.** Everything that asks a player something pauses the
+engine in a `PendingChoice { Player, Kind, Source, Choice }` and is
+answered with the `AnswerChoice(player, selected)` command; while one is
+pending no other command is legal and `LegalActions` enumerates every
+valid selection. Kinds: `Cost` and `Target` (the activation in progress
+collects the answers on its `ChainLink` before joining the chain),
+`OptionalTrigger` (activate this trigger, yes or no) and `TriggerOrder`
+(which of several mandatory triggers goes on the chain next). The player
+UI renders the prompt as a modal, the AI answers it programmatically, and
+no card needs UI code. `DuelEngine.Clone` copies pending state, so the AI
+can look ahead through a prompt.
 
 Continuous effects (Jinzo, Command Knight, equips) register `Modifier`s
 that the rules query when computing ATK/DEF, activation legality and
@@ -330,19 +349,29 @@ Phases and steps as in GDD §3.2. The engine implements 2005 rules:
 | --- | --- |
 | First player draws on turn 1 | `TurnFlow.Draw` has no first-turn exception |
 | No attack on the first player's first turn | `BattleRules.CanEnterBattlePhase` checks `TurnNumber == 1` |
-| Ignition-effect priority | After a summon, priority stays with the turn player; opponent's quick effects wait for a pass |
-| Spell speed chain rule | `ChainResolver.CanChain(link)` requires `Speed >= previous.Speed` and Counter traps only respond with speed 3 |
-| Set cards wait a turn | `SetThisTurn` blocks traps and Quick-Play spells |
-| Trigger ordering | Mandatory triggers first, turn player's first, then optional; 2005 had no formal SEGOC, so the engine asks the turn player to order theirs, then the opponent |
-| Damage Step | Sub-steps: StartDamage, BeforeCalc (ATK/DEF modifiers, Counter traps only), Calc, AfterCalc (flip effects, battle-destruction triggers), EndDamage |
+| Ignition-effect priority | A summon opens the `Summon` window with priority on the turn player, who may activate the monster's Ignition effects (and speed 2 cards) before passing; the opponent's responses to the summon wait for that pass |
+| Spell speed chain rule | `ChainResolver.CanChain(link)` requires `Speed >= previous.Speed`, so only speed 3 answers a Counter Trap; a negated link is skipped at resolution and its card still goes where it would have gone |
+| Set cards wait a turn | `SetThisTurn` blocks Traps and Set Quick-Play Spells; Quick-Play Spells from the hand need the turn player's own turn |
+| Trigger ordering | Fired triggers queue on `DuelState.Triggers`; mandatory ones go on the chain first (turn player's, then opponent's; a controller with several is asked to order them), then optional ones are offered one at a time in the same order. The opponent of the last link gets priority to respond |
+| Damage Step | Sub-steps: StartDamage, BeforeCalc (face-down target flips; only Counter Traps and effects flagged `UsableInDamageStep` may activate), Calc, AfterCalc (flip effects and battle-destruction triggers go on the chain; nothing else activates on an empty chain), EndDamage. Each half is a window closed by two passes |
 | Position changes | Once per turn, not on the turn summoned, not after attacking |
 | Tribute count | Level 5–6 one, 7+ two |
 | Fusion | Polymerization or Metamorphosis; result from FusionDeck |
 | Hand limit | 6 at End Phase; discard prompt |
 | Loss | LP ≤ 0, or draw with empty deck |
 
-Priority passes alternate until both players pass on an empty chain; the
-engine then advances the phase or resolves the chain.
+Priority passes alternate. Two consecutive passes resolve the chain; on an
+empty chain they close the current window: `Open` advances the phase or
+step, `Summon` returns to the open Main Phase, `AttackDeclared` enters the
+Damage Step, `DamageBeforeCalc` runs damage calculation, `DamageAfterCalc`
+ends the Damage Step. After an activation the opponent of the activator
+holds priority; after a chain resolves or a window closes, the turn player
+does. With `DuelOptions.AutoPass` (the default) the engine passes for a
+player whose only legal action is `Pass` in a window or in the Draw,
+Standby and End Phases and the Start and End Steps; the turn player is
+never passed for in the open Main Phase or Battle Step. An attack whose
+attacker or target left the field before the Damage Step is cancelled
+(`AttackCancelled`); there is no replay.
 
 ### 5.6 Implementation tiers → build order
 

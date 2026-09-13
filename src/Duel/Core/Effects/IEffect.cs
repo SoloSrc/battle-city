@@ -4,8 +4,11 @@ using BattleCity.Duel.Core.Model;
 namespace BattleCity.Duel.Core.Effects;
 
 /// <summary>
-/// A card effect keyed by id (systems.md §5.4). Tier 1 ships the interface
-/// and Pot of Greed; targets, costs and modifiers arrive with tier 2+.
+/// A card effect keyed by id (systems.md §5.4). The engine owns timing,
+/// speed and priority; an effect only states its own conditions, asks its
+/// questions through <see cref="Choice"/> and mutates the duel in
+/// <see cref="PayCosts"/> and <see cref="Resolve"/>. <see cref="EffectBase"/>
+/// supplies defaults for everything an effect does not use.
 /// </summary>
 public interface IEffect
 {
@@ -16,19 +19,27 @@ public interface IEffect
 
     SpellSpeed Speed { get; }
 
+    /// <summary>A mandatory Trigger effect activates without asking; an optional one asks its controller first.</summary>
     bool IsMandatory { get; }
 
+    /// <summary>The window a Trigger effect fires in; null for every other kind.</summary>
     TriggerWindow? Trigger { get; }
 
-    /// <summary>Whether the effect may be activated now by its controller (timing and activation conditions).</summary>
-    bool CanActivate(DuelState state, CardInstance source);
+    /// <summary>A speed 2 effect that changes ATK or DEF may also be activated before damage calculation (systems.md §5.5 Damage Step row).</summary>
+    bool UsableInDamageStep { get; }
 
-    /// <summary>Costs to pay at activation; empty for tier 1.</summary>
+    /// <summary>The card-specific condition: whether the effect may be activated now by its controller. Timing shared by every effect (speed, priority, Set turn) is checked by the engine.</summary>
+    bool CanActivate(DuelState state, CardInstance source, ActivationContext context);
+
+    /// <summary>Costs to choose at activation, asked in order; the answers land in <see cref="ChainLink.Costs"/>.</summary>
     IReadOnlyList<Choice> Costs(DuelState state, CardInstance source);
 
-    /// <summary>Targets declared at activation; empty for tier 1.</summary>
+    /// <summary>Targets declared at activation, asked after the costs are paid; the answers land in <see cref="ChainLink.Targets"/>.</summary>
     IReadOnlyList<Choice> Targets(DuelState state, CardInstance source);
 
-    /// <summary>Applies the effect when its chain link resolves.</summary>
+    /// <summary>Pays the chosen costs; runs once, before targets are asked and before the link joins the chain.</summary>
+    void PayCosts(DuelEngine engine, ChainLink link);
+
+    /// <summary>Applies the effect when its chain link resolves; not called for a negated link.</summary>
     void Resolve(DuelEngine engine, ChainLink link);
 }
