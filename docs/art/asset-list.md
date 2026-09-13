@@ -97,7 +97,7 @@ validation and remaining polish. Final modular bodies and disk art are separate.
 | 4.1 | Frames, back, icons | see §1 | | | |
 | 4.2 | Placeholder art | 72 | 512² flat-colour or silhouette per card, original, no third-party art | `cards/art/<card_id>.png` | review ([72 symbolic placeholders](../requests/card-placeholder-art.md)) |
 | 4.3 | Final art (P2) | 72 | Original illustrations, 512², central 80 % safe column | same | todo |
-| 4.4 | Hologram material | 1 | Emissive edge, hover bob, additive glow, per-side colour | `shaders/hologram.gdshader` (claude-fable) with artist parameters | todo |
+| 4.4 | Hologram material | 1 | Emissive edge, hover bob, additive glow, per-side colour | `shaders/hologram.gdshader` (claude-fable) with artist parameters | review (#27; parameters in `shaders/README.md`) |
 
 ## 5. Environment kit (P0 greybox, P1 dressed)
 

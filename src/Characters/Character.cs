@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BattleCity.Core;
+using BattleCity.Rendering;
 using Godot;
 
 namespace BattleCity.Characters;
@@ -159,6 +160,7 @@ public partial class Character : CharacterBody3D
             return null;
         }
 
+        ToonMaterials.Apply(body);
         HasBody = true;
         return skeleton;
     }

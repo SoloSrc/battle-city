@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BattleCity.Characters;
+using BattleCity.Rendering;
 using BattleCity.Ui;
 using BattleCity.World;
 using Godot;
@@ -199,6 +200,7 @@ public partial class Game : Node
         Level = packed.Instantiate<Node3D>();
         Level.Name = "Level";
         _world!.AddChild(Level);
+        ToonMaterials.Apply(Level);
         BakeNavigation(Level);
         EnsurePlayer();
 

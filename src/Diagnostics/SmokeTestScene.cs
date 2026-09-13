@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Text;
 using BattleCity.Characters;
 using BattleCity.Core;
+using BattleCity.Rendering;
 using Godot;
 
 namespace BattleCity.Diagnostics;
@@ -13,7 +14,11 @@ namespace BattleCity.Diagnostics;
 /// first-delivery assets if they exist, checks scale, collision, rig, mount and
 /// clips against the contract, and prints a report. Missing assets are skipped
 /// so the scene runs on a fresh clone; contract violations print
-/// <c>SmokeTest FAIL</c> lines, which CI treats as a failure.
+/// <c>SmokeTest FAIL</c> lines, which CI treats as a failure. It also loads the
+/// shared toon and hologram materials (issue #27), applies the toon material to
+/// every <c>toon_*</c> surface and floats three hologram cards at <see cref="CardSpot"/>;
+/// a shader that fails to compile prints an <c>ERROR</c> line, which CI catches
+/// even headless.
 /// </summary>
 public partial class SmokeTestScene : Node3D
 {
@@ -23,7 +28,6 @@ public partial class SmokeTestScene : Node3D
     private const int CharacterTriangleBudget = 12_000;
     private const int DiskTriangleBudget = 1_500;
     private const string MountBone = "LeftLowerArm";
-    private const string ToonMaterialPrefix = "toon_";
     private const int PoseCheckFrame = 20;
 
     private static readonly string[] _requiredHumanoidBones =
@@ -79,13 +83,9 @@ public partial class SmokeTestScene : Node3D
     [Export]
     public Camera3D? InspectCamera { get; set; }
 
-    /// <summary>
-    /// Material applied to every surface whose glTF material name starts with
-    /// <c>toon_</c> (architecture.md §6.4). A placeholder until issue #27 lands
-    /// the real toon shader; other materials stay as imported for review.
-    /// </summary>
+    /// <summary>Where the three sample hologram cards float (player attack, opponent defence, face-down).</summary>
     [Export]
-    public Material? ToonMaterial { get; set; }
+    public Node3D? CardSpot { get; set; }
 
     [ExportGroup("Playback")]
     [Export(PropertyHint.Range, "0,30,0.5")]
@@ -106,6 +106,12 @@ public partial class SmokeTestScene : Node3D
 
     public override void _Ready()
     {
+        if (Array.IndexOf(OS.GetCmdlineUserArgs(), "--inspect") >= 0 && InspectCamera is not null)
+        {
+            InspectCamera.Current = true;
+        }
+
+        CheckShaders();
         Node? cube = LoadAndPlace(CubePath, CubeSpot, "metric cube");
         if (cube is not null)
         {
@@ -397,7 +403,7 @@ public partial class SmokeTestScene : Node3D
         if (mounted is Node3D mounted3D)
         {
             mounted3D.Transform = LoadMountOffset();
-            ApplyToonMaterial(mounted3D);
+            ToonMaterials.Apply(mounted3D);
         }
 
         Pass($"disk mount: attached to {MountBone} with the {BodyType} offset from {Paths.DiskMountData}");
@@ -427,14 +433,9 @@ public partial class SmokeTestScene : Node3D
             for (int surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
             {
                 Material? material = mesh.Mesh.SurfaceGetMaterial(surface);
-                string name = material?.ResourceName ?? string.Empty;
-                if (name.StartsWith(ToonMaterialPrefix, StringComparison.Ordinal))
+                if (material is not null && ToonMaterials.IsToonNamed(material))
                 {
                     toon++;
-                    if (ToonMaterial is not null)
-                    {
-                        mesh.SetSurfaceOverrideMaterial(surface, ToonMaterial);
-                    }
                 }
                 else
                 {
@@ -443,34 +444,103 @@ public partial class SmokeTestScene : Node3D
             }
         }
 
+        int converted = ToonMaterials.Apply(root);
         Check(toon > 0, $"{label}: {toon} toon_ surface(s), {other} other (toon_ prefix gets the shared toon material, architecture §6.4)",
             fail: false);
+        Check(converted == toon, $"{label}: {converted} surface(s) now use shaders/toon.gdshader with the outline pass", fail: true);
     }
 
-    private void ApplyToonMaterial(Node root)
+    /// <summary>
+    /// Loads the shared materials (issue #27), checks the uniforms code relies on
+    /// exist, and floats three sample cards so the hologram look can be reviewed
+    /// next to the character. Shader compile errors surface as ERROR lines.
+    /// </summary>
+    private void CheckShaders()
     {
-        if (ToonMaterial is null)
+        ShaderMaterial? toon = ToonMaterials.Base;
+        Check(toon?.Shader is not null, $"shaders: {Paths.ToonMaterial} loads with its shader", fail: true);
+        Check(toon?.NextPass is ShaderMaterial, $"shaders: toon material has the outline pass ({Paths.OutlineMaterial})", fail: true);
+        if (toon?.Shader is Shader toonShader)
         {
+            CheckUniforms(toonShader, "toon", ToonParameters.Albedo, ToonParameters.AlbedoTexture, "bands", "shade_floor", "rim_strength");
+        }
+
+        ShaderMaterial? player = HologramCards.SideMaterial(HologramSide.Player);
+        ShaderMaterial? opponent = HologramCards.SideMaterial(HologramSide.Opponent);
+        Check(player?.Shader is not null && opponent?.Shader is not null,
+            "shaders: hologram_player.tres and hologram_opponent.tres load with shaders/hologram.gdshader", fail: true);
+        if (player?.Shader is Shader hologram)
+        {
+            CheckUniforms(hologram, "hologram", "face_texture", "back_texture", "edge_color", "edge_width", "scanline_density");
+            CheckInstanceUniforms(hologram, "hologram",
+                HologramCards.HoverPhase, HologramCards.Selected, HologramCards.Reveal, HologramCards.Dissolve);
+        }
+
+        if (CardSpot is null)
+        {
+            Skip("hologram cards: no CardSpot in the scene");
             return;
         }
 
-        foreach (MeshInstance3D mesh in FindAll<MeshInstance3D>(root))
-        {
-            if (mesh.Mesh is null)
-            {
-                continue;
-            }
+        Texture2D? normal = LoadTexture($"{Paths.CardFrames}/frame_normal.png");
+        Texture2D? effect = LoadTexture($"{Paths.CardFrames}/frame_effect.png");
+        MeshInstance3D attack = HologramCards.Create(HologramSide.Player, normal, 0.0f);
+        attack.Position = new Vector3(-0.3f, 0.0f, 0.0f);
+        MeshInstance3D defence = HologramCards.Create(HologramSide.Opponent, effect, 0.33f);
+        defence.Position = Vector3.Zero;
+        defence.RotationDegrees = new Vector3(0.0f, 0.0f, 90.0f);
+        MeshInstance3D faceDown = HologramCards.Create(HologramSide.Opponent, effect, 0.66f);
+        faceDown.Position = new Vector3(0.3f, 0.0f, 0.0f);
+        faceDown.RotationDegrees = new Vector3(0.0f, 180.0f, 0.0f);
+        HologramCards.SetSelected(attack, true);
+        CardSpot.AddChild(attack);
+        CardSpot.AddChild(defence);
+        CardSpot.AddChild(faceDown);
+        Info(FormattableString.Invariant(
+            $"hologram cards: 3 at CardSpot, {HologramCards.Width:F2} × {HologramCards.Height:F2} m (attack selected, defence, face-down), frames {(normal is null ? "missing" : "from assets/cards/frames")}"));
+    }
 
-            for (int surface = 0; surface < mesh.Mesh.GetSurfaceCount(); surface++)
+    private void CheckUniforms(Shader shader, string label, params string[] expected)
+    {
+        var names = new HashSet<string>(StringComparer.Ordinal);
+        foreach (Godot.Collections.Dictionary uniform in shader.GetShaderUniformList())
+        {
+            names.Add(uniform["name"].AsString());
+        }
+
+        var missing = new List<string>();
+        foreach (string name in expected)
+        {
+            if (!names.Contains(name))
             {
-                string name = mesh.Mesh.SurfaceGetMaterial(surface)?.ResourceName ?? string.Empty;
-                if (name.StartsWith(ToonMaterialPrefix, StringComparison.Ordinal))
-                {
-                    mesh.SetSurfaceOverrideMaterial(surface, ToonMaterial);
-                }
+                missing.Add(name);
             }
         }
+
+        Check(missing.Count == 0, missing.Count == 0
+            ? $"shaders: {label} exposes {string.Join(", ", expected)}"
+            : $"shaders: {label} is missing uniform(s) {string.Join(", ", missing)}", fail: true);
     }
+
+    /// <summary>Instance uniforms are not in the uniform list (they live per instance), so the source is checked.</summary>
+    private void CheckInstanceUniforms(Shader shader, string label, params string[] expected)
+    {
+        var missing = new List<string>();
+        foreach (string name in expected)
+        {
+            if (!shader.Code.Contains($"instance uniform float {name}", StringComparison.Ordinal))
+            {
+                missing.Add(name);
+            }
+        }
+
+        Check(missing.Count == 0, missing.Count == 0
+            ? $"shaders: {label} exposes instance uniforms {string.Join(", ", expected)}"
+            : $"shaders: {label} is missing instance uniform(s) {string.Join(", ", missing)}", fail: true);
+    }
+
+    private static Texture2D? LoadTexture(string path) =>
+        ResourceLoader.Exists(path) ? ResourceLoader.Load<Texture2D>(path) : null;
 
     /// <summary>Bounds of every mesh under <paramref name="root"/>, in the root's local space.</summary>
     private static Aabb? LocalBounds(Node root)
