@@ -33,6 +33,10 @@
       "price": 400
     },
     {
+      "card": "celtic_guardian",
+      "price": 100
+    },
+    {
       "card": "chaos_sorcerer",
       "price": 400
     },
@@ -69,6 +73,10 @@
       "price": 400
     },
     {
+      "card": "feral_imp",
+      "price": 100
+    },
+    {
       "card": "fissure",
       "price": 200
     },
@@ -81,6 +89,10 @@
       "price": 200
     },
     {
+      "card": "giant_soldier_of_stone",
+      "price": 100
+    },
+    {
       "card": "goblin_attack_force",
       "price": 200
     },
@@ -91,6 +103,14 @@
     {
       "card": "gravekeepers_spy",
       "price": 200
+    },
+    {
+      "card": "harpie_lady",
+      "price": 100
+    },
+    {
+      "card": "koumori_dragon",
+      "price": 100
     },
     {
       "card": "kycoo_the_ghost_destroyer",
@@ -129,6 +149,10 @@
       "price": 400
     },
     {
+      "card": "mystical_elf",
+      "price": 100
+    },
+    {
       "card": "nobleman_of_crossout",
       "price": 400
     },
@@ -139,6 +163,10 @@
     {
       "card": "reinforcement_of_the_army",
       "price": 200
+    },
+    {
+      "card": "rogue_doll",
+      "price": 100
     },
     {
       "card": "sakuretsu_armor",

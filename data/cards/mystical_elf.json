@@ -1,0 +1,19 @@
+{
+  "id": "mystical_elf",
+  "name": "Mystical Elf",
+  "kind": "monster",
+  "monster": {
+    "type": "Spellcaster",
+    "attribute": "LIGHT",
+    "level": 4,
+    "atk": 800,
+    "def": 2000,
+    "category": "normal"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "A delicate elf whose prayers raise a wall no attacker gets through.",
+  "limit": 3,
+  "tier": 1,
+  "effects": []
+}

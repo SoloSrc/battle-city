@@ -1,0 +1,19 @@
+{
+  "id": "giant_soldier_of_stone",
+  "name": "Giant Soldier of Stone",
+  "kind": "monster",
+  "monster": {
+    "type": "Rock",
+    "attribute": "EARTH",
+    "level": 3,
+    "atk": 1300,
+    "def": 2000,
+    "category": "normal"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "A giant of living stone whose thick body shrugs off attacks.",
+  "limit": 3,
+  "tier": 1,
+  "effects": []
+}
