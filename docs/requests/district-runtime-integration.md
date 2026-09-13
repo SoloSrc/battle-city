@@ -1,5 +1,9 @@
 # District runtime integration — #31 / #32
 
+Director WASD feedback: [geometry fixes and unresolved shadow/encounter review](keyboard-walkthrough-feedback.md).
+Physical gamepad acceptance is still outstanding.
+
+
 Latest: [artist shader review](shader-art-review.md) completes the visual review
 and proposes material/daylight tuning. Earlier pending-shader notes below are historical.
 
