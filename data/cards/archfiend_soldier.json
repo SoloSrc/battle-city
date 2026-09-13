@@ -1,0 +1,19 @@
+{
+  "id": "archfiend_soldier",
+  "name": "Archfiend Soldier",
+  "kind": "monster",
+  "monster": {
+    "type": "Fiend",
+    "attribute": "DARK",
+    "level": 4,
+    "atk": 1900,
+    "def": 1500,
+    "category": "normal"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "A skilled fiend warrior of the Archfiend forces.",
+  "limit": 3,
+  "tier": 1,
+  "effects": []
+}
