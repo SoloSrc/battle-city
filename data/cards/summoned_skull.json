@@ -1,0 +1,19 @@
+{
+  "id": "summoned_skull",
+  "name": "Summoned Skull",
+  "kind": "monster",
+  "monster": {
+    "type": "Fiend",
+    "attribute": "DARK",
+    "level": 6,
+    "atk": 2500,
+    "def": 1200,
+    "category": "normal"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "A fiend that strikes with lightning.",
+  "limit": 3,
+  "tier": 1,
+  "effects": []
+}
