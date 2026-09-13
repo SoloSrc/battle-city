@@ -1,7 +1,7 @@
 """Rebuild artist-owned, script-free district scenes (Python 3, no dependencies).
 
 Run from the repository root. Bake navigation with bake_navigation.gd afterwards.
-World coordinates follow docs/design/district-layout.md; kit instances retain scale 1.
+World coordinates follow docs/design/district-layout.md; kit instances retain scale 1; fractional boundary ends use sized primitive caps.
 """
 from pathlib import Path
 import math
@@ -34,13 +34,13 @@ class Scene:
     def kit(self, asset,x,z,y=0,yaw=0):
         folder = 'props' if asset.startswith('prop_') else 'kit'
         self.instance(asset+'_%03d'%len(self.nodes),'res://assets/%s/%s.glb'%(folder,asset),(x,y,z),yaw)
-    def box(self,name,pos,size,color, surface=None,collide=True):
-        mat=self.sub('StandardMaterial3D','albedo_color = Color(%s, 1)\nroughness = 0.95' % ', '.join(map(str,color)))
+    def box(self,name,pos,size,color, surface=None,collide=True,visible=True,material_name=None):
+        mat=self.sub('StandardMaterial3D',('resource_name = \"%s\"\n' % material_name if material_name else '')+'albedo_color = Color(%s, 1)\nroughness = 0.95' % ', '.join(map(str,color)))
         mesh=self.sub('BoxMesh','size = %s\nmaterial = %s'%(vec(size),mat))
         props='position = %s'%vec(pos)
         if surface is not None: props+='\nscript = %s\nKind = %d'%(self.ext('res://src/World/SurfaceTag.cs','Script'),surface)
         self.node(name,'StaticBody3D' if collide else 'Node3D',props=props)
-        self.node('Mesh','MeshInstance3D',name,'mesh = '+mesh)
+        if visible: self.node('Mesh','MeshInstance3D',name,'mesh = '+mesh)
         if collide:
             shape=self.sub('BoxShape3D','size = '+vec(size))
             self.node('Collision','CollisionShape3D',name,'shape = '+shape)
@@ -69,16 +69,24 @@ class Scene:
         site_id = {'d1':'nico','d2':'mara','d3':'arcade_owner'}[ident]
         self.instance(name,'res://scenes/world/EncounterSite.tscn',pos,props='Id = "%s"\nDuelistId = "%s"'%(site_id,ident))
     def boundary(self,name,x0,z0,x1,z1,asset='kit_bound_hedge'):
-        # Continuous blocking backing closes fractional seams; kit keeps its authored dimensions.
+        # Collision-only backing closes seams without drawing coplanar faces over the kit.
         dx,dz=x1-x0,z1-z0; length=abs(dx)+abs(dz)
-        self.box(name,((x0+x1)/2,.75,(z0+z1)/2),(max(abs(dx),.75),1.5,max(abs(dz),.75)),(.30,.43,.27))
-        for i in range(int(length//2)):
+        self.box(name,((x0+x1)/2,.75,(z0+z1)/2),(max(abs(dx),.75),1.5,max(abs(dz),.75)),(.30,.43,.27),visible=False)
+        for i in range(math.ceil(length/2)):
+            span=min(2,length-2*i)
+            if span < 2:
+                pos=(x0+2*i+span/2,.75,z0) if dx else (x0,.75,z0+2*i+span/2)
+                self.box(name+'EndCap',pos,(span,1.5,.75) if dx else (.75,1.5,span),(.32,.49,.25),collide=False,material_name='toon_grass')
+                continue
             if dx: self.kit(asset,x0+2*i,z0-.375)
-            else: self.kit(asset,x0-.375,z0+2*i+2,yaw=90)
+            else: self.kit(asset,x0-.375,z0+2*i+span,yaw=90)
     def building(self,name,x,z,w,d,door=False,arcade=False):
         # Solid exterior mass: transition doors are portals, not traversable exterior interiors.
         self.box(name,(x+w/2,1.75,z+d/2),(w,3.5,d),(.69,.62,.49))
-        for i in range(0,w,2): self.kit('kit_wall_window',x+i,z+d,y=0)
+        for i in range(0,w,2):
+            # Reserve the central four metres for the closed arcade doors.
+            if arcade and w/2-2 <= i < w/2+2: continue
+            self.kit('kit_wall_window',x+i,z+d,y=0)
         for i in range(0,w,2):
             for j in range(0,d,2): self.kit('kit_roof_flat_warm',x+i,z+j,y=3.5)
         if door:
@@ -86,6 +94,10 @@ class Scene:
             self.kit('kit_shop_sign',x+w/2-1,z+d+.05,y=3.05)
         if arcade:
             self.kit('kit_arcade_closed_doors',x+w/2-2,z+d)
+            # Contrasting jambs and a pair of handles make the closed doors read at gameplay scale.
+            self.box(name+'DoorSeam',(x+w/2,1.25,z+d+.27),(.05,2.5,.04),(.07,.08,.1),collide=False)
+            for side in [-1,1]:
+                self.box(name+'Handle'+str(side),(x+w/2+side*.35,1.25,z+d+.33),(.08,.65,.12),(.85,.76,.5),collide=False)
             self.kit('kit_arcade_marquee',x+w/2-2,z+d,y=2.5)
             self.kit('kit_arcade_sign',x+w/2-2,z+d,y=3.2)
     def save(self,path):
@@ -156,11 +168,12 @@ for area, pos, label in [
 for name,s in areas.items(): s.save('levels/district/areas/%s.tscn'%name)
 
 def light_and_nav(s,navpath):
+    indoor=s.name in ('StartRoom','ShopInterior')
     nav=s.ext(navpath,'NavigationMesh')
     s.node('Navigation','NavigationRegion3D',props='navigation_mesh = '+nav)
-    env=s.sub('Environment','background_mode = 1\nbackground_color = Color(0.61, 0.70, 0.76, 1)\nambient_light_source = 2\nambient_light_color = Color(0.83, 0.88, 1, 1)\nambient_light_energy = 0.35\ntonemap_mode = 0')
+    env=s.sub('Environment','background_mode = 1\nbackground_color = Color(0.61, 0.70, 0.76, 1)\nambient_light_source = 2\nambient_light_color = Color(0.83, 0.88, 1, 1)\nambient_light_energy = %s\ntonemap_mode = 0' % (0.2 if indoor else 0.35))
     s.node('WorldEnvironment','WorldEnvironment',props='environment = '+env)
-    s.node('Sun','DirectionalLight3D',props='rotation_degrees = Vector3(-65, -25, 0)\nlight_energy = 1.0\nshadow_enabled = true\ndirectional_shadow_max_distance = 25.0')
+    s.node('Sun','DirectionalLight3D',props='rotation_degrees = Vector3(-65, -25, 0)\nlight_energy = %s\nshadow_enabled = true\ndirectional_shadow_max_distance = 25.0' % (0.3 if indoor else 1.0))
 
 # Runtime root: Game creates and carries the player/camera across transitions.
 s=Scene('District')
