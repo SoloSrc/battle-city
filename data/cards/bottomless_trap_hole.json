@@ -1,0 +1,16 @@
+{
+  "id": "bottomless_trap_hole",
+  "name": "Bottomless Trap Hole",
+  "kind": "trap",
+  "monster": null,
+  "spell": null,
+  "trap": {
+    "subtype": "normal"
+  },
+  "text": "When monsters with 1500 or more ATK are Summoned: destroy and banish them.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "bottomless_trap_hole"
+  ]
+}

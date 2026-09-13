@@ -1,0 +1,16 @@
+{
+  "id": "sakuretsu_armor",
+  "name": "Sakuretsu Armor",
+  "kind": "trap",
+  "monster": null,
+  "spell": null,
+  "trap": {
+    "subtype": "normal"
+  },
+  "text": "When an opponent's monster declares an attack: destroy the attacking monster.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "sakuretsu_armor"
+  ]
+}

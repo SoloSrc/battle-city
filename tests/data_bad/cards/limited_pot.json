@@ -1,0 +1,16 @@
+{
+  "id": "limited_pot",
+  "name": "Limited Pot",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "",
+  "limit": 1,
+  "tier": 1,
+  "effects": [
+    "pot_of_greed"
+  ]
+}

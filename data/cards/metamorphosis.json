@@ -1,0 +1,16 @@
+{
+  "id": "metamorphosis",
+  "name": "Metamorphosis",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Tribute 1 monster: Special Summon 1 Fusion Monster of the same Level from your Fusion Deck.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "metamorphosis"
+  ]
+}

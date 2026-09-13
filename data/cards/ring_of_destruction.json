@@ -1,0 +1,16 @@
+{
+  "id": "ring_of_destruction",
+  "name": "Ring of Destruction",
+  "kind": "trap",
+  "monster": null,
+  "spell": null,
+  "trap": {
+    "subtype": "normal"
+  },
+  "text": "Destroy 1 face-up monster; both players take damage equal to its ATK.",
+  "limit": 1,
+  "tier": 3,
+  "effects": [
+    "ring_of_destruction"
+  ]
+}

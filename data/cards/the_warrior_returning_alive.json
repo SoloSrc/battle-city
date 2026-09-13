@@ -1,0 +1,16 @@
+{
+  "id": "the_warrior_returning_alive",
+  "name": "The Warrior Returning Alive",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Return 1 Warrior monster from your Graveyard to the hand.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "the_warrior_returning_alive"
+  ]
+}

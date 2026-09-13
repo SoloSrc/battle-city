@@ -1,0 +1,67 @@
+{
+  "name": {
+    "default": "Duelist",
+    "min_length": 1,
+    "max_length": 12,
+    "pattern": "^[A-Za-z0-9 ]+$"
+  },
+  "body_types": [
+    "a",
+    "b"
+  ],
+  "skin_tones": [
+    "#f6e0c8",
+    "#e8c39e",
+    "#d1a074",
+    "#a9754f",
+    "#7a4f30",
+    "#4b2e1b"
+  ],
+  "hair_styles": {
+    "a": [
+      "a_short",
+      "a_swept",
+      "a_spiky",
+      "a_long"
+    ],
+    "b": [
+      "b_bob",
+      "b_ponytail",
+      "b_braid",
+      "b_long"
+    ]
+  },
+  "hair_colors": [
+    "#1b1b1f",
+    "#4a2c17",
+    "#8b5a2b",
+    "#d9a441",
+    "#c8c8c8",
+    "#b22222",
+    "#2e5aac",
+    "#7b3fa0"
+  ],
+  "outfits": [
+    "street",
+    "school",
+    "duelist"
+  ],
+  "accent_colors": [
+    "#e63946",
+    "#f4a261",
+    "#ffd166",
+    "#2a9d8f",
+    "#3a86ff",
+    "#8338ec",
+    "#ff006e",
+    "#f1f1f1"
+  ],
+  "defaults": {
+    "body_type": "a",
+    "skin_tone": 2,
+    "hair_style": 0,
+    "hair_color": 0,
+    "outfit": 0,
+    "accent_color": 0
+  }
+}

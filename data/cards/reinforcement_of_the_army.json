@@ -1,0 +1,16 @@
+{
+  "id": "reinforcement_of_the_army",
+  "name": "Reinforcement of the Army",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Add 1 Level 4 or lower Warrior monster from your Deck to the hand.",
+  "limit": 2,
+  "tier": 2,
+  "effects": [
+    "reinforcement_of_the_army"
+  ]
+}

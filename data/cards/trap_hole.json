@@ -1,0 +1,16 @@
+{
+  "id": "trap_hole",
+  "name": "Trap Hole",
+  "kind": "trap",
+  "monster": null,
+  "spell": null,
+  "trap": {
+    "subtype": "normal"
+  },
+  "text": "When a monster with 1000 or more ATK is Normal or Flip Summoned: destroy it.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "trap_hole"
+  ]
+}

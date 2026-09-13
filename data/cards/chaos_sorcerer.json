@@ -1,0 +1,21 @@
+{
+  "id": "chaos_sorcerer",
+  "name": "Chaos Sorcerer",
+  "kind": "monster",
+  "monster": {
+    "type": "Spellcaster",
+    "attribute": "DARK",
+    "level": 6,
+    "atk": 2300,
+    "def": 2000,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Cannot be Normal Summoned or Set. Special Summon by banishing 1 LIGHT and 1 DARK monster from your Graveyard. Once per turn: banish 1 face-up monster; it cannot attack that turn.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "chaos_sorcerer"
+  ]
+}

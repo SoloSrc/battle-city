@@ -1,0 +1,19 @@
+{
+  "id": "good_elf",
+  "name": "Good Elf",
+  "kind": "monster",
+  "monster": {
+    "type": "Spellcaster",
+    "attribute": "EARTH",
+    "level": 4,
+    "atk": 1900,
+    "def": 900,
+    "category": "normal"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "",
+  "limit": 3,
+  "tier": 1,
+  "effects": []
+}

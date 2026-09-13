@@ -1,0 +1,21 @@
+{
+  "id": "breaker_the_magical_warrior",
+  "name": "Breaker the Magical Warrior",
+  "kind": "monster",
+  "monster": {
+    "type": "Spellcaster",
+    "attribute": "DARK",
+    "level": 4,
+    "atk": 1600,
+    "def": 1000,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "When Normal Summoned: place 1 Spell Counter on it (+300 ATK). Remove the counter: destroy 1 Spell or Trap Card.",
+  "limit": 1,
+  "tier": 3,
+  "effects": [
+    "breaker_the_magical_warrior"
+  ]
+}

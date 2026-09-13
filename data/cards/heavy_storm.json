@@ -1,0 +1,16 @@
+{
+  "id": "heavy_storm",
+  "name": "Heavy Storm",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Destroy all Spell and Trap Cards on the field.",
+  "limit": 1,
+  "tier": 2,
+  "effects": [
+    "heavy_storm"
+  ]
+}

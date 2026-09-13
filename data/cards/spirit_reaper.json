@@ -1,0 +1,21 @@
+{
+  "id": "spirit_reaper",
+  "name": "Spirit Reaper",
+  "kind": "monster",
+  "monster": {
+    "type": "Zombie",
+    "attribute": "DARK",
+    "level": 3,
+    "atk": 300,
+    "def": 200,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Cannot be destroyed by battle. Destroyed when targeted by a card effect. When it inflicts battle damage by a direct attack: discard 1 random card from the opponent's hand.",
+  "limit": 3,
+  "tier": 4,
+  "effects": [
+    "spirit_reaper"
+  ]
+}

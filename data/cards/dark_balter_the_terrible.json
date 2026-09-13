@@ -1,0 +1,25 @@
+{
+  "id": "dark_balter_the_terrible",
+  "name": "Dark Balter the Terrible",
+  "kind": "fusion",
+  "monster": {
+    "type": "Fiend",
+    "attribute": "DARK",
+    "level": 5,
+    "atk": 2000,
+    "def": 1200,
+    "category": "fusion"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Fusion only. Pay 1000 Life Points: negate the activation of a Normal Spell Card. Negates the effects of monsters it destroys by battle.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "dark_balter_the_terrible"
+  ],
+  "materials": [
+    "possessed_dark_soul",
+    "frontier_wiseman"
+  ]
+}

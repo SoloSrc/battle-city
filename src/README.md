@@ -1,6 +1,6 @@
 # src — C# game code (owner: claude-fable)
 
-One namespace per folder under `BattleCity.*` (architecture.md §2–§3). `Duel/` is a separate Godot-free project.
+One namespace per folder under `BattleCity.*` (architecture.md §2–§3). `Duel/` and `Data/` are separate Godot-free projects referenced by the game project.
 
 | Folder | Namespace | Contents |
 | --- | --- | --- |
@@ -10,4 +10,4 @@ One namespace per folder under `BattleCity.*` (architecture.md §2–§3). `Duel
 | Duel | BattleCity.Duel.Core / .Ai | rules engine and AI, no `using Godot;` |
 | DuelScene | BattleCity.DuelScene | staging, card views, HUD, VFX hooks |
 | Ui | BattleCity.Ui | menus, creator, shop, deck editor, dialogue |
-| Data | BattleCity.Data | loaders and records for `data/` JSON |
+| Data | BattleCity.Data | loaders and records for `data/` JSON (decks, duelists, shop, avatar; `GameData.Load`), no `using Godot;` |

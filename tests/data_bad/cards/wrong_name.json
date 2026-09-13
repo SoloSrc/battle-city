@@ -1,0 +1,16 @@
+{
+  "id": "other_id",
+  "name": "Wrong Name",
+  "kind": "monster",
+  "monster": {
+    "type": "Beast",
+    "attribute": "EARTH",
+    "level": 4,
+    "atk": 1,
+    "def": 1,
+    "category": "normal"
+  },
+  "limit": 3,
+  "tier": 1,
+  "effects": []
+}

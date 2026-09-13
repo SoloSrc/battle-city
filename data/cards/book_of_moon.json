@@ -1,0 +1,16 @@
+{
+  "id": "book_of_moon",
+  "name": "Book of Moon",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "quick"
+  },
+  "trap": null,
+  "text": "Flip 1 face-up monster on the field into face-down Defense Position.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "book_of_moon"
+  ]
+}

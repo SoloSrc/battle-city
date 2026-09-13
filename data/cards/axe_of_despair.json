@@ -1,0 +1,16 @@
+{
+  "id": "axe_of_despair",
+  "name": "Axe of Despair",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "equip"
+  },
+  "trap": null,
+  "text": "The equipped monster gains 1000 ATK. When sent to the Graveyard, tribute 1 monster to return it to the top of the Deck.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "axe_of_despair"
+  ]
+}

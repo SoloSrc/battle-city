@@ -1,0 +1,215 @@
+{
+  "stock": [
+    {
+      "card": "airknight_parshath",
+      "price": 400
+    },
+    {
+      "card": "archfiend_soldier",
+      "price": 100
+    },
+    {
+      "card": "asura_priest",
+      "price": 400
+    },
+    {
+      "card": "axe_of_despair",
+      "price": 200
+    },
+    {
+      "card": "berserk_gorilla",
+      "price": 200
+    },
+    {
+      "card": "blade_knight",
+      "price": 400
+    },
+    {
+      "card": "book_of_moon",
+      "price": 200
+    },
+    {
+      "card": "bottomless_trap_hole",
+      "price": 400
+    },
+    {
+      "card": "chaos_sorcerer",
+      "price": 400
+    },
+    {
+      "card": "command_knight",
+      "price": 400
+    },
+    {
+      "card": "creature_swap",
+      "price": 400
+    },
+    {
+      "card": "dark_balter_the_terrible",
+      "price": 400
+    },
+    {
+      "card": "dd_assailant",
+      "price": 400
+    },
+    {
+      "card": "don_zaloog",
+      "price": 400
+    },
+    {
+      "card": "dust_tornado",
+      "price": 200
+    },
+    {
+      "card": "enemy_controller",
+      "price": 400
+    },
+    {
+      "card": "enraged_battle_ox",
+      "price": 400
+    },
+    {
+      "card": "fissure",
+      "price": 200
+    },
+    {
+      "card": "gemini_elf",
+      "price": 100
+    },
+    {
+      "card": "giant_orc",
+      "price": 200
+    },
+    {
+      "card": "goblin_attack_force",
+      "price": 200
+    },
+    {
+      "card": "gravekeepers_guard",
+      "price": 200
+    },
+    {
+      "card": "gravekeepers_spy",
+      "price": 200
+    },
+    {
+      "card": "kycoo_the_ghost_destroyer",
+      "price": 400
+    },
+    {
+      "card": "luster_dragon",
+      "price": 100
+    },
+    {
+      "card": "mad_dog_of_darkness",
+      "price": 100
+    },
+    {
+      "card": "magician_of_faith",
+      "price": 200
+    },
+    {
+      "card": "marauding_captain",
+      "price": 400
+    },
+    {
+      "card": "metamorphosis",
+      "price": 400
+    },
+    {
+      "card": "mobius_the_frost_monarch",
+      "price": 200
+    },
+    {
+      "card": "mystic_swordsman_lv2",
+      "price": 400
+    },
+    {
+      "card": "mystic_tomato",
+      "price": 400
+    },
+    {
+      "card": "nobleman_of_crossout",
+      "price": 400
+    },
+    {
+      "card": "reaper_on_the_nightmare",
+      "price": 400
+    },
+    {
+      "card": "reinforcement_of_the_army",
+      "price": 200
+    },
+    {
+      "card": "sakuretsu_armor",
+      "price": 200
+    },
+    {
+      "card": "scapegoat",
+      "price": 400
+    },
+    {
+      "card": "shining_angel",
+      "price": 400
+    },
+    {
+      "card": "skilled_dark_magician",
+      "price": 400
+    },
+    {
+      "card": "smashing_ground",
+      "price": 200
+    },
+    {
+      "card": "spirit_reaper",
+      "price": 600
+    },
+    {
+      "card": "summoned_skull",
+      "price": 100
+    },
+    {
+      "card": "the_warrior_returning_alive",
+      "price": 200
+    },
+    {
+      "card": "thousand_eyes_restrict",
+      "price": 600
+    },
+    {
+      "card": "trap_hole",
+      "price": 200
+    },
+    {
+      "card": "tsukuyomi",
+      "price": 400
+    },
+    {
+      "card": "waboku",
+      "price": 400
+    },
+    {
+      "card": "widespread_ruin",
+      "price": 200
+    },
+    {
+      "card": "zaborg_the_thunder_monarch",
+      "price": 200
+    }
+  ],
+  "boosters": [
+    {
+      "id": "street_pack",
+      "name": "Street Pack",
+      "price": 300,
+      "count": 5,
+      "weights": {
+        "1": 40,
+        "2": 35,
+        "3": 20,
+        "4": 5
+      },
+      "limited_max": 1
+    }
+  ]
+}

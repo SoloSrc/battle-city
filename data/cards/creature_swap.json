@@ -1,0 +1,16 @@
+{
+  "id": "creature_swap",
+  "name": "Creature Swap",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Each player chooses 1 monster they control and switches control of them. They cannot change position this turn.",
+  "limit": 2,
+  "tier": 3,
+  "effects": [
+    "creature_swap"
+  ]
+}

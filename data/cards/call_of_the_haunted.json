@@ -1,0 +1,16 @@
+{
+  "id": "call_of_the_haunted",
+  "name": "Call of the Haunted",
+  "kind": "trap",
+  "monster": null,
+  "spell": null,
+  "trap": {
+    "subtype": "continuous"
+  },
+  "text": "Special Summon 1 monster from your Graveyard in Attack Position. When this card leaves the field, destroy the monster, and vice versa.",
+  "limit": 1,
+  "tier": 3,
+  "effects": [
+    "call_of_the_haunted"
+  ]
+}

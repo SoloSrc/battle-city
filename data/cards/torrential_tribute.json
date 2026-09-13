@@ -1,0 +1,16 @@
+{
+  "id": "torrential_tribute",
+  "name": "Torrential Tribute",
+  "kind": "trap",
+  "monster": null,
+  "spell": null,
+  "trap": {
+    "subtype": "normal"
+  },
+  "text": "When a monster is Summoned: destroy all monsters on the field.",
+  "limit": 1,
+  "tier": 2,
+  "effects": [
+    "torrential_tribute"
+  ]
+}

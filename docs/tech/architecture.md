@@ -280,8 +280,12 @@ door.
 # restore and build the C# solution (also validates data)
 dotnet build
 
-# unit tests for the duel engine
+# unit tests for the duel engine and the data loaders
 dotnet test tests/Duel.Core.Tests
+dotnet test tests/Data.Tests
+
+# validate data/ without a build
+python3 tools/validate_data.py --root data
 
 # run the game from the command line
 godot --path . 

@@ -1,0 +1,16 @@
+{
+  "id": "delinquent_duo",
+  "name": "Delinquent Duo",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Pay 1000 Life Points: the opponent discards 1 random card, then 1 card of their choice.",
+  "limit": 1,
+  "tier": 3,
+  "effects": [
+    "delinquent_duo"
+  ]
+}

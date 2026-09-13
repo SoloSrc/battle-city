@@ -335,7 +335,7 @@ the source for `data/cards/` in the systems document.
 | Shop only: Trap Hole | Trap | T2 | 3 | shop |
 | Shop only: Widespread Ruin | Trap | T2 | 3 | shop |
 
-Tier counts: T1 8 · T2 30 · T3 30 · T4 4. Total 72.
+Tier counts: T1 6 · T2 27 · T3 35 · T4 4. Total 72.
 
 Card names and effect text are Konami's; this project stores them only as
 game data needed to implement the rules, with no card art. See the IP
