@@ -79,7 +79,6 @@ godot --headless --path . res://tests/scenes/PlayerTest.tscn --fixed-fps 60 --qu
 
 ## Planned
 
-- `CameraFraming.tscn` (issue #21)
 - `Profiling.tscn` (later)
 
 ## CameraFraming.tscn (issue #21)
@@ -127,3 +126,21 @@ godot --headless --path . -s tools/level_check.gd -- res://tests/scenes/MarkersT
 spawns, overlapping reservations, a site without its duelist, a wall inside a
 clearance box, an unapplied scale, a door to a missing scene, an unknown gate
 flag, no CameraBounds). CI expects the checklist to exit 1 on it.
+
+## DistrictTest.tscn (issue #23)
+
+The acceptance path of the skeleton district through the real `Game`
+autoload: New Game → starting room → exit door (fade) → Plaza `arrival` →
+Nico's cone starts the tutorial encounter (exclamation, approach to the
+`nico` site's stand points, dialogue line, placeholder duel). Scripted mode
+loses the first duel (return to the encounter spot, no coin loss, 3 s cone
+disarm with no retrigger on the standing player), challenges Nico by
+interacting and wins (`defeated:d1`, Park gate opens, Mara unlocks, the cone
+stays off afterwards), then walks back into the room through its door.
+Phases advance on conditions with a timeout each. Live, it is simply the
+game from the starting room with the report label on top. `DistrictTest FAIL`
+lines fail CI.
+
+```bash
+godot --headless --path . res://tests/scenes/DistrictTest.tscn --fixed-fps 60 --quit-after 3600
+```
