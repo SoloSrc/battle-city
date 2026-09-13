@@ -1,0 +1,506 @@
+[
+  {
+    "id": "airknight_parshath",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "04df4734a02d448d0d021ca02e6e14f243ffe56c567915bce37a57d3df163cf8"
+  },
+  {
+    "id": "archfiend_soldier",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "8e30f81c58ea6bead740377d66319bb8c70bc23110b2c83d04715411dce93f2a"
+  },
+  {
+    "id": "asura_priest",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "294dd667068789a07f88fd2250296909bedcd531d73287cda3e9d1f31ea35068"
+  },
+  {
+    "id": "axe_of_despair",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "7cb94f9b5ccd24f8e45faa2df3a3ffb7b74ca6ebe3e2fffb6ecdd43e105f15fe"
+  },
+  {
+    "id": "berserk_gorilla",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "f15e61c4912496637692c8e3d6f93c5fb89ea28fe2f3dc7dd063763dfb361636"
+  },
+  {
+    "id": "black_luster_soldier_envoy_of_the_beginning",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "9bdc0c52b909a33c88880fd456fb29e31b758ea041c93247fca10a8070de02b2"
+  },
+  {
+    "id": "blade_knight",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "3962c43094f82a769f694dba73d4612ca01980e969e2c13eaea00f9f2e0daebb"
+  },
+  {
+    "id": "book_of_moon",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "4977866b5e26f6c4349537f6dd3d99a3d6f24dfbdd96897fdbcd5e29e9fadf4c"
+  },
+  {
+    "id": "bottomless_trap_hole",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "b8be21ec1ba22ffed59c3da24b984f8114a7e52865c0401370e4fa21849c0da0"
+  },
+  {
+    "id": "breaker_the_magical_warrior",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "66847a2878374d512bed73cf9268279516c845236eff9853b2c1f2715d7e5a22"
+  },
+  {
+    "id": "call_of_the_haunted",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "ae7a7914e3e1f1c15c316f39d13472d132d8e7cd4dedadb33d3ff031f33c7673"
+  },
+  {
+    "id": "chaos_sorcerer",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "0f87e7eb1a8b4a67d246d6a9cbb9c209b1d5799fd7bfc16e4e6673f37ba47f5b"
+  },
+  {
+    "id": "command_knight",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "b1bc8320d5f1a37c5abdd09c439458da653be0383e8710ade015a7db5b3631b4"
+  },
+  {
+    "id": "creature_swap",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "6f729566dd941f2b60021b1454d33418c56ab0f51fb0d5ffe5937a1ac845c26e"
+  },
+  {
+    "id": "cyber_jar",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "cbaf973e81bf6d23890db3903a2fce0eeda18c79025b6c983120121ad3ebfd23"
+  },
+  {
+    "id": "dark_balter_the_terrible",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "18253d2511741e0b154600151c4fe9691e1c6d05c9ded4939ce3d8d5d4658580"
+  },
+  {
+    "id": "dd_assailant",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "946363e5ac2876aa1f97db06d111542bcb81066577536321e903c752284c0b23"
+  },
+  {
+    "id": "dd_warrior_lady",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "9d90680ead79cd9e8a9ae66870b42b728aaba285c7eef8a6abcbea4ca2987c4a"
+  },
+  {
+    "id": "delinquent_duo",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "3c884eb007300401031993afd98b81dd64ed545bb4ff0865f62d327c049669b0"
+  },
+  {
+    "id": "don_zaloog",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "38cf116d801f107438794cb6f1c420a55bd58eca8f87eecbe59e42a15c8af547"
+  },
+  {
+    "id": "dust_tornado",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "18a804e09eb0125394d57788fbad8dfaaabbf13d1577954a197c9124451340f1"
+  },
+  {
+    "id": "enemy_controller",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "ee69382e715b8b643d334d6866ce8e979c128de383c0788dffe731e6782297a8"
+  },
+  {
+    "id": "enraged_battle_ox",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "cf20151e62295e5c442f2dc965d8aad1bb02b8d7daaefeca469d24263b4f14f2"
+  },
+  {
+    "id": "exiled_force",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "42c042b52dcd2ba7d4302634cbe98692c28517439d59d525b6086b3bef5a3f36"
+  },
+  {
+    "id": "fissure",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "00c6fca30548123fb7cee6d442e4c9d40a5ca2808db7856f4e644bbf8bac30ba"
+  },
+  {
+    "id": "gemini_elf",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "8eced4e65fe548bdd2df58daf47549c70210663a09c9a549c5cb8a2b2d9e4218"
+  },
+  {
+    "id": "giant_orc",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "b9cf87dfa789ebb9bf97699d51c1be27abf30a6ed9c1d4a29576d53858f317c3"
+  },
+  {
+    "id": "goblin_attack_force",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "1222dc5cce60a90ddb96e8e7b668e8753566fc5575f118e912af287d2b91d435"
+  },
+  {
+    "id": "graceful_charity",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "321a6f8e08a57e0a668e1c08bba5cab9fe3e3d04ebdbe82e8fb32ac4d370488f"
+  },
+  {
+    "id": "gravekeepers_guard",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "388a13729e0a8063b745c4a74c9559b648a7a66e2ef046c1b48a2156796ba0d2"
+  },
+  {
+    "id": "gravekeepers_spy",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "c5fa5a3506a68f7cda3881bf9b112a9b441c43b8ea4bdb88babe66c9845b1212"
+  },
+  {
+    "id": "heavy_storm",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "62e5a2a07dab639da55f78987c9addefc26c933e6ec88ce7d36349117abde88d"
+  },
+  {
+    "id": "jinzo",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "d9cb9c5320a45e15e44428cbbe7f619415a9a70ea683491b7ba6cf9444b7bef6"
+  },
+  {
+    "id": "kycoo_the_ghost_destroyer",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "6a38e0e2f96145ff94f33972a475fbdcec57fa7e4ab7e11920fb37f9459f45f4"
+  },
+  {
+    "id": "lightning_vortex",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "e5e544f90eaec41074bb3614e5a9062ef450c85595b8136ab6fbcb8e28b0e8cb"
+  },
+  {
+    "id": "luster_dragon",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "acde5d6329a235c14dce8a77e49a34f827ae6acb1d150546fcf308bb39db39c5"
+  },
+  {
+    "id": "mad_dog_of_darkness",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "a364cccfaa674755ee0a674abff09392121e67a55a11f88800ab1b4b7945c8eb"
+  },
+  {
+    "id": "magician_of_faith",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "e99e229625f4d2f7230ddc4c0e4cf13bf5470ad6ac650f63a6888298e0020a31"
+  },
+  {
+    "id": "marauding_captain",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "0dc20c020ec6f093aacb2a9cd10f2e2f215a314d6532a112e285e32264547663"
+  },
+  {
+    "id": "metamorphosis",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "b810770636ac707f1f30b263f374fe81ff37466d6c94f440ed70b552c3e3b3a9"
+  },
+  {
+    "id": "mirror_force",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "c501a7e7353c1131066a045ae488d45ba750f820eba7c708683671f954349da8"
+  },
+  {
+    "id": "mobius_the_frost_monarch",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "0d37bfa436396c8f3fac695f2e9b704f187ff6ef9ec8457cdfbdcf10f455e0d5"
+  },
+  {
+    "id": "morphing_jar",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "e05ff297811ca0d24dad28c73931c2ddeb25f49a08a33054f4322b4918313286"
+  },
+  {
+    "id": "mystic_swordsman_lv2",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "50e3aa3a0034c44c902de1c880f225899be1dec9dc0d2fb27f02933cc0c8f2d0"
+  },
+  {
+    "id": "mystic_tomato",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "22853a42b2c4914a4aa27ceb3a13b7ccc8bc3263e58b52d3d42e42feb8368882"
+  },
+  {
+    "id": "mystical_space_typhoon",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "adc18b768e547cb46645892595c7beaeb89ce0f5ce564765b34ba9509ede3635"
+  },
+  {
+    "id": "nobleman_of_crossout",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "d99b296d9e58bc7a8ffa8a79401c46c0a9d62a55410c6697815dfe80cbd3eba4"
+  },
+  {
+    "id": "pot_of_greed",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "d46a3d34a47d4b8a52c0fa09dcc83ff2f92d2dd1e79263e02e8d3e0ce1105639"
+  },
+  {
+    "id": "premature_burial",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "0bd4de90ebd9b41e8b88ffe7c55cf5da9a8ca3dd2c66828163b786294b089fb9"
+  },
+  {
+    "id": "reaper_on_the_nightmare",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "c9b70741f8758e309c6fc9349a0b2aaf5e8dba8e0a5d2616d8b5f12624d31aa6"
+  },
+  {
+    "id": "reinforcement_of_the_army",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "e50a9dd3ad3597fe6bcb35168822f1b7ebf2f4381e2998bc1232bf089f18764d"
+  },
+  {
+    "id": "ring_of_destruction",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "5f95c60f95121bcb4b20e6b594cd7ee48eef98755969be04613b3f02857d7b52"
+  },
+  {
+    "id": "sakuretsu_armor",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "080cf5bc84aa2b155024e01914d1674c53c11f33d2d6353c59dd44739811f657"
+  },
+  {
+    "id": "sangan",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "71bf3fdc92b255888e29e70bd16eedf400b34ecd7264a2d347e1a7dc573f8392"
+  },
+  {
+    "id": "scapegoat",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "f1091267c8d9a024f154fb14f4bc11db8d5fa714d6bb26d4bd0bc16d9716aa9b"
+  },
+  {
+    "id": "shining_angel",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "88e59d567a060841f36db69fd6973d83d80b691904958ce0ab08be19f98be01b"
+  },
+  {
+    "id": "sinister_serpent",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "113a2418bf51ac72a74263816e0cda9b4385f60ce21394bc36e76011604a69dd"
+  },
+  {
+    "id": "skilled_dark_magician",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "0aa6cba651e10534aadb3d8600312ca266119980cae16caab192995459b0f06f"
+  },
+  {
+    "id": "smashing_ground",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "4bce786fca1e624619c8c4a9d5afdaf25fae2cd246384704d55a97db5aec8eed"
+  },
+  {
+    "id": "snatch_steal",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "4562b4efcde9106c985a8231c74d9cc18d2a558505a43bec6849c725ddbf0653"
+  },
+  {
+    "id": "spirit_reaper",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "000e87afaa4f1b160129c6270962e51f2dcfd4f52a537ace7e4277905cc69b5f"
+  },
+  {
+    "id": "summoned_skull",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "dc2daf73f6dd09d8d67518beb7db33d17560920ccf048818177b39c6c93f6939"
+  },
+  {
+    "id": "swords_of_revealing_light",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "df7644524cc260a07c64f59ebd75c706d43cfdcd6902050643091101df680c23"
+  },
+  {
+    "id": "the_warrior_returning_alive",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "5155a041af7cff776ba7e56aa98935f90a89a82d6185a824421a2a838d5145ad"
+  },
+  {
+    "id": "thousand_eyes_restrict",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "f4a6ffc256ff555c070c8255c71ab5364785ffc29f5fd16533d5cb13bae073a9"
+  },
+  {
+    "id": "torrential_tribute",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "0b5a64ad4ec4d5c708df0069b41837450c2b65386db983586a7d63ed7872815b"
+  },
+  {
+    "id": "trap_hole",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "67ef8a09059be9246061ec6baeff7ae10bf8c36a10c39e9f33271626f9dfd58b"
+  },
+  {
+    "id": "tribe_infecting_virus",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "060690fa90057224135db5cc04ff137875de30c58aa3bc8938227a3acdad933d"
+  },
+  {
+    "id": "tsukuyomi",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "19a7eadf66c99bbc2824f3eb9cfda6a2d800ee46d9a2a221f9a988e3445b8806"
+  },
+  {
+    "id": "waboku",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "271d45518d7d160c7b9cf3eb58d8362413417da8c388e926766b99d8dddf78fe"
+  },
+  {
+    "id": "widespread_ruin",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "3efa53c71ac1b3077c813a0efb71fe862b4e42ba4a29cd8943bd460dbb1c2770"
+  },
+  {
+    "id": "zaborg_the_thunder_monarch",
+    "width": 512,
+    "height": 512,
+    "opaque": true,
+    "sha256": "01b36cb327d89accfa308b6c9fd6d414a509097845e1b99c6dddf3a81de2bd01"
+  }
+]

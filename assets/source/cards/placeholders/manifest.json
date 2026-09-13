@@ -1,0 +1,938 @@
+[
+  {
+    "id": "airknight_parshath",
+    "name": "Airknight Parshath",
+    "kind": "monster",
+    "motifs": [
+      "helm",
+      "wing"
+    ],
+    "source": "assets/source/cards/placeholders/airknight_parshath.svg",
+    "texture": "assets/cards/art/airknight_parshath.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "archfiend_soldier",
+    "name": "Archfiend Soldier",
+    "kind": "monster",
+    "motifs": [
+      "helm",
+      "flame"
+    ],
+    "source": "assets/source/cards/placeholders/archfiend_soldier.svg",
+    "texture": "assets/cards/art/archfiend_soldier.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "asura_priest",
+    "name": "Asura Priest",
+    "kind": "monster",
+    "motifs": [
+      "crown",
+      "ring"
+    ],
+    "source": "assets/source/cards/placeholders/asura_priest.svg",
+    "texture": "assets/cards/art/asura_priest.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "axe_of_despair",
+    "name": "Axe of Despair",
+    "kind": "spell",
+    "motifs": [
+      "axe",
+      "moon"
+    ],
+    "source": "assets/source/cards/placeholders/axe_of_despair.svg",
+    "texture": "assets/cards/art/axe_of_despair.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "berserk_gorilla",
+    "name": "Berserk Gorilla",
+    "kind": "monster",
+    "motifs": [
+      "beast",
+      "hand"
+    ],
+    "source": "assets/source/cards/placeholders/berserk_gorilla.svg",
+    "texture": "assets/cards/art/berserk_gorilla.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "black_luster_soldier_envoy_of_the_beginning",
+    "name": "Black Luster Soldier - Envoy of the Beginning",
+    "kind": "monster",
+    "motifs": [
+      "armor",
+      "star"
+    ],
+    "source": "assets/source/cards/placeholders/black_luster_soldier_envoy_of_the_beginning.svg",
+    "texture": "assets/cards/art/black_luster_soldier_envoy_of_the_beginning.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "blade_knight",
+    "name": "Blade Knight",
+    "kind": "monster",
+    "motifs": [
+      "helm",
+      "sword"
+    ],
+    "source": "assets/source/cards/placeholders/blade_knight.svg",
+    "texture": "assets/cards/art/blade_knight.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "book_of_moon",
+    "name": "Book of Moon",
+    "kind": "spell",
+    "motifs": [
+      "book",
+      "moon"
+    ],
+    "source": "assets/source/cards/placeholders/book_of_moon.svg",
+    "texture": "assets/cards/art/book_of_moon.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "bottomless_trap_hole",
+    "name": "Bottomless Trap Hole",
+    "kind": "trap",
+    "motifs": [
+      "portal",
+      "arrow"
+    ],
+    "source": "assets/source/cards/placeholders/bottomless_trap_hole.svg",
+    "texture": "assets/cards/art/bottomless_trap_hole.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "breaker_the_magical_warrior",
+    "name": "Breaker the Magical Warrior",
+    "kind": "monster",
+    "motifs": [
+      "sword",
+      "orb"
+    ],
+    "source": "assets/source/cards/placeholders/breaker_the_magical_warrior.svg",
+    "texture": "assets/cards/art/breaker_the_magical_warrior.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "call_of_the_haunted",
+    "name": "Call of the Haunted",
+    "kind": "trap",
+    "motifs": [
+      "cross",
+      "wave"
+    ],
+    "source": "assets/source/cards/placeholders/call_of_the_haunted.svg",
+    "texture": "assets/cards/art/call_of_the_haunted.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "chaos_sorcerer",
+    "name": "Chaos Sorcerer",
+    "kind": "monster",
+    "motifs": [
+      "hood",
+      "orb"
+    ],
+    "source": "assets/source/cards/placeholders/chaos_sorcerer.svg",
+    "texture": "assets/cards/art/chaos_sorcerer.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "command_knight",
+    "name": "Command Knight",
+    "kind": "monster",
+    "motifs": [
+      "helm",
+      "crown"
+    ],
+    "source": "assets/source/cards/placeholders/command_knight.svg",
+    "texture": "assets/cards/art/command_knight.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "creature_swap",
+    "name": "Creature Swap",
+    "kind": "spell",
+    "motifs": [
+      "arrow",
+      "beast"
+    ],
+    "source": "assets/source/cards/placeholders/creature_swap.svg",
+    "texture": "assets/cards/art/creature_swap.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "cyber_jar",
+    "name": "Cyber Jar",
+    "kind": "monster",
+    "motifs": [
+      "jar",
+      "bolt"
+    ],
+    "source": "assets/source/cards/placeholders/cyber_jar.svg",
+    "texture": "assets/cards/art/cyber_jar.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "dark_balter_the_terrible",
+    "name": "Dark Balter the Terrible",
+    "kind": "fusion",
+    "motifs": [
+      "skull",
+      "flame"
+    ],
+    "source": "assets/source/cards/placeholders/dark_balter_the_terrible.svg",
+    "texture": "assets/cards/art/dark_balter_the_terrible.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "dd_assailant",
+    "name": "D.D. Assailant",
+    "kind": "monster",
+    "motifs": [
+      "sword",
+      "portal"
+    ],
+    "source": "assets/source/cards/placeholders/dd_assailant.svg",
+    "texture": "assets/cards/art/dd_assailant.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "dd_warrior_lady",
+    "name": "D.D. Warrior Lady",
+    "kind": "monster",
+    "motifs": [
+      "armor",
+      "portal"
+    ],
+    "source": "assets/source/cards/placeholders/dd_warrior_lady.svg",
+    "texture": "assets/cards/art/dd_warrior_lady.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "delinquent_duo",
+    "name": "Delinquent Duo",
+    "kind": "spell",
+    "motifs": [
+      "hood",
+      "hood"
+    ],
+    "source": "assets/source/cards/placeholders/delinquent_duo.svg",
+    "texture": "assets/cards/art/delinquent_duo.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "don_zaloog",
+    "name": "Don Zaloog",
+    "kind": "monster",
+    "motifs": [
+      "hood",
+      "sword"
+    ],
+    "source": "assets/source/cards/placeholders/don_zaloog.svg",
+    "texture": "assets/cards/art/don_zaloog.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "dust_tornado",
+    "name": "Dust Tornado",
+    "kind": "trap",
+    "motifs": [
+      "wave",
+      "leaf"
+    ],
+    "source": "assets/source/cards/placeholders/dust_tornado.svg",
+    "texture": "assets/cards/art/dust_tornado.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "enemy_controller",
+    "name": "Enemy Controller",
+    "kind": "spell",
+    "motifs": [
+      "hand",
+      "bolt"
+    ],
+    "source": "assets/source/cards/placeholders/enemy_controller.svg",
+    "texture": "assets/cards/art/enemy_controller.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "enraged_battle_ox",
+    "name": "Enraged Battle Ox",
+    "kind": "monster",
+    "motifs": [
+      "beast",
+      "axe"
+    ],
+    "source": "assets/source/cards/placeholders/enraged_battle_ox.svg",
+    "texture": "assets/cards/art/enraged_battle_ox.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "exiled_force",
+    "name": "Exiled Force",
+    "kind": "monster",
+    "motifs": [
+      "shield",
+      "arrow"
+    ],
+    "source": "assets/source/cards/placeholders/exiled_force.svg",
+    "texture": "assets/cards/art/exiled_force.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "fissure",
+    "name": "Fissure",
+    "kind": "spell",
+    "motifs": [
+      "crack",
+      "portal"
+    ],
+    "source": "assets/source/cards/placeholders/fissure.svg",
+    "texture": "assets/cards/art/fissure.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "gemini_elf",
+    "name": "Gemini Elf",
+    "kind": "monster",
+    "motifs": [
+      "hood",
+      "leaf"
+    ],
+    "source": "assets/source/cards/placeholders/gemini_elf.svg",
+    "texture": "assets/cards/art/gemini_elf.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "giant_orc",
+    "name": "Giant Orc",
+    "kind": "monster",
+    "motifs": [
+      "beast",
+      "skull"
+    ],
+    "source": "assets/source/cards/placeholders/giant_orc.svg",
+    "texture": "assets/cards/art/giant_orc.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "goblin_attack_force",
+    "name": "Goblin Attack Force",
+    "kind": "monster",
+    "motifs": [
+      "sword",
+      "sword"
+    ],
+    "source": "assets/source/cards/placeholders/goblin_attack_force.svg",
+    "texture": "assets/cards/art/goblin_attack_force.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "graceful_charity",
+    "name": "Graceful Charity",
+    "kind": "spell",
+    "motifs": [
+      "hand",
+      "wing"
+    ],
+    "source": "assets/source/cards/placeholders/graceful_charity.svg",
+    "texture": "assets/cards/art/graceful_charity.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "gravekeepers_guard",
+    "name": "Gravekeeper's Guard",
+    "kind": "monster",
+    "motifs": [
+      "shield",
+      "cross"
+    ],
+    "source": "assets/source/cards/placeholders/gravekeepers_guard.svg",
+    "texture": "assets/cards/art/gravekeepers_guard.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "gravekeepers_spy",
+    "name": "Gravekeeper's Spy",
+    "kind": "monster",
+    "motifs": [
+      "eye",
+      "cross"
+    ],
+    "source": "assets/source/cards/placeholders/gravekeepers_spy.svg",
+    "texture": "assets/cards/art/gravekeepers_spy.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "heavy_storm",
+    "name": "Heavy Storm",
+    "kind": "spell",
+    "motifs": [
+      "wave",
+      "wave"
+    ],
+    "source": "assets/source/cards/placeholders/heavy_storm.svg",
+    "texture": "assets/cards/art/heavy_storm.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "jinzo",
+    "name": "Jinzo",
+    "kind": "monster",
+    "motifs": [
+      "armor",
+      "eye"
+    ],
+    "source": "assets/source/cards/placeholders/jinzo.svg",
+    "texture": "assets/cards/art/jinzo.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "kycoo_the_ghost_destroyer",
+    "name": "Kycoo the Ghost Destroyer",
+    "kind": "monster",
+    "motifs": [
+      "hood",
+      "cross"
+    ],
+    "source": "assets/source/cards/placeholders/kycoo_the_ghost_destroyer.svg",
+    "texture": "assets/cards/art/kycoo_the_ghost_destroyer.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "lightning_vortex",
+    "name": "Lightning Vortex",
+    "kind": "spell",
+    "motifs": [
+      "portal",
+      "bolt"
+    ],
+    "source": "assets/source/cards/placeholders/lightning_vortex.svg",
+    "texture": "assets/cards/art/lightning_vortex.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "luster_dragon",
+    "name": "Luster Dragon",
+    "kind": "monster",
+    "motifs": [
+      "serpent",
+      "wing"
+    ],
+    "source": "assets/source/cards/placeholders/luster_dragon.svg",
+    "texture": "assets/cards/art/luster_dragon.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "mad_dog_of_darkness",
+    "name": "Mad Dog of Darkness",
+    "kind": "monster",
+    "motifs": [
+      "beast",
+      "moon"
+    ],
+    "source": "assets/source/cards/placeholders/mad_dog_of_darkness.svg",
+    "texture": "assets/cards/art/mad_dog_of_darkness.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "magician_of_faith",
+    "name": "Magician of Faith",
+    "kind": "monster",
+    "motifs": [
+      "hood",
+      "star"
+    ],
+    "source": "assets/source/cards/placeholders/magician_of_faith.svg",
+    "texture": "assets/cards/art/magician_of_faith.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "marauding_captain",
+    "name": "Marauding Captain",
+    "kind": "monster",
+    "motifs": [
+      "helm",
+      "arrow"
+    ],
+    "source": "assets/source/cards/placeholders/marauding_captain.svg",
+    "texture": "assets/cards/art/marauding_captain.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "metamorphosis",
+    "name": "Metamorphosis",
+    "kind": "spell",
+    "motifs": [
+      "leaf",
+      "wing"
+    ],
+    "source": "assets/source/cards/placeholders/metamorphosis.svg",
+    "texture": "assets/cards/art/metamorphosis.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "mirror_force",
+    "name": "Mirror Force",
+    "kind": "trap",
+    "motifs": [
+      "shield",
+      "eye"
+    ],
+    "source": "assets/source/cards/placeholders/mirror_force.svg",
+    "texture": "assets/cards/art/mirror_force.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "mobius_the_frost_monarch",
+    "name": "Mobius the Frost Monarch",
+    "kind": "monster",
+    "motifs": [
+      "crown",
+      "wave"
+    ],
+    "source": "assets/source/cards/placeholders/mobius_the_frost_monarch.svg",
+    "texture": "assets/cards/art/mobius_the_frost_monarch.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "morphing_jar",
+    "name": "Morphing Jar",
+    "kind": "monster",
+    "motifs": [
+      "jar",
+      "arrow"
+    ],
+    "source": "assets/source/cards/placeholders/morphing_jar.svg",
+    "texture": "assets/cards/art/morphing_jar.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "mystic_swordsman_lv2",
+    "name": "Mystic Swordsman LV2",
+    "kind": "monster",
+    "motifs": [
+      "sword",
+      "leaf"
+    ],
+    "source": "assets/source/cards/placeholders/mystic_swordsman_lv2.svg",
+    "texture": "assets/cards/art/mystic_swordsman_lv2.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "mystic_tomato",
+    "name": "Mystic Tomato",
+    "kind": "monster",
+    "motifs": [
+      "leaf",
+      "eye"
+    ],
+    "source": "assets/source/cards/placeholders/mystic_tomato.svg",
+    "texture": "assets/cards/art/mystic_tomato.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "mystical_space_typhoon",
+    "name": "Mystical Space Typhoon",
+    "kind": "spell",
+    "motifs": [
+      "portal",
+      "wave"
+    ],
+    "source": "assets/source/cards/placeholders/mystical_space_typhoon.svg",
+    "texture": "assets/cards/art/mystical_space_typhoon.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "nobleman_of_crossout",
+    "name": "Nobleman of Crossout",
+    "kind": "spell",
+    "motifs": [
+      "sword",
+      "cross"
+    ],
+    "source": "assets/source/cards/placeholders/nobleman_of_crossout.svg",
+    "texture": "assets/cards/art/nobleman_of_crossout.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "pot_of_greed",
+    "name": "Pot of Greed",
+    "kind": "spell",
+    "motifs": [
+      "jar",
+      "hand"
+    ],
+    "source": "assets/source/cards/placeholders/pot_of_greed.svg",
+    "texture": "assets/cards/art/pot_of_greed.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "premature_burial",
+    "name": "Premature Burial",
+    "kind": "spell",
+    "motifs": [
+      "cross",
+      "hand"
+    ],
+    "source": "assets/source/cards/placeholders/premature_burial.svg",
+    "texture": "assets/cards/art/premature_burial.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "reaper_on_the_nightmare",
+    "name": "Reaper on the Nightmare",
+    "kind": "fusion",
+    "motifs": [
+      "skull",
+      "beast"
+    ],
+    "source": "assets/source/cards/placeholders/reaper_on_the_nightmare.svg",
+    "texture": "assets/cards/art/reaper_on_the_nightmare.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "reinforcement_of_the_army",
+    "name": "Reinforcement of the Army",
+    "kind": "spell",
+    "motifs": [
+      "shield",
+      "sword"
+    ],
+    "source": "assets/source/cards/placeholders/reinforcement_of_the_army.svg",
+    "texture": "assets/cards/art/reinforcement_of_the_army.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "ring_of_destruction",
+    "name": "Ring of Destruction",
+    "kind": "trap",
+    "motifs": [
+      "ring",
+      "flame"
+    ],
+    "source": "assets/source/cards/placeholders/ring_of_destruction.svg",
+    "texture": "assets/cards/art/ring_of_destruction.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "sakuretsu_armor",
+    "name": "Sakuretsu Armor",
+    "kind": "trap",
+    "motifs": [
+      "armor",
+      "crack"
+    ],
+    "source": "assets/source/cards/placeholders/sakuretsu_armor.svg",
+    "texture": "assets/cards/art/sakuretsu_armor.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "sangan",
+    "name": "Sangan",
+    "kind": "monster",
+    "motifs": [
+      "beast",
+      "eye"
+    ],
+    "source": "assets/source/cards/placeholders/sangan.svg",
+    "texture": "assets/cards/art/sangan.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "scapegoat",
+    "name": "Scapegoat",
+    "kind": "spell",
+    "motifs": [
+      "beast",
+      "wing"
+    ],
+    "source": "assets/source/cards/placeholders/scapegoat.svg",
+    "texture": "assets/cards/art/scapegoat.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "shining_angel",
+    "name": "Shining Angel",
+    "kind": "monster",
+    "motifs": [
+      "wing",
+      "star"
+    ],
+    "source": "assets/source/cards/placeholders/shining_angel.svg",
+    "texture": "assets/cards/art/shining_angel.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "sinister_serpent",
+    "name": "Sinister Serpent",
+    "kind": "monster",
+    "motifs": [
+      "serpent",
+      "wave"
+    ],
+    "source": "assets/source/cards/placeholders/sinister_serpent.svg",
+    "texture": "assets/cards/art/sinister_serpent.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "skilled_dark_magician",
+    "name": "Skilled Dark Magician",
+    "kind": "monster",
+    "motifs": [
+      "book",
+      "orb"
+    ],
+    "source": "assets/source/cards/placeholders/skilled_dark_magician.svg",
+    "texture": "assets/cards/art/skilled_dark_magician.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "smashing_ground",
+    "name": "Smashing Ground",
+    "kind": "spell",
+    "motifs": [
+      "hand",
+      "crack"
+    ],
+    "source": "assets/source/cards/placeholders/smashing_ground.svg",
+    "texture": "assets/cards/art/smashing_ground.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "snatch_steal",
+    "name": "Snatch Steal",
+    "kind": "spell",
+    "motifs": [
+      "hand",
+      "arrow"
+    ],
+    "source": "assets/source/cards/placeholders/snatch_steal.svg",
+    "texture": "assets/cards/art/snatch_steal.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "spirit_reaper",
+    "name": "Spirit Reaper",
+    "kind": "monster",
+    "motifs": [
+      "skull",
+      "moon"
+    ],
+    "source": "assets/source/cards/placeholders/spirit_reaper.svg",
+    "texture": "assets/cards/art/spirit_reaper.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "summoned_skull",
+    "name": "Summoned Skull",
+    "kind": "monster",
+    "motifs": [
+      "skull",
+      "bolt"
+    ],
+    "source": "assets/source/cards/placeholders/summoned_skull.svg",
+    "texture": "assets/cards/art/summoned_skull.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "swords_of_revealing_light",
+    "name": "Swords of Revealing Light",
+    "kind": "spell",
+    "motifs": [
+      "sword",
+      "star"
+    ],
+    "source": "assets/source/cards/placeholders/swords_of_revealing_light.svg",
+    "texture": "assets/cards/art/swords_of_revealing_light.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "the_warrior_returning_alive",
+    "name": "The Warrior Returning Alive",
+    "kind": "spell",
+    "motifs": [
+      "helm",
+      "cross"
+    ],
+    "source": "assets/source/cards/placeholders/the_warrior_returning_alive.svg",
+    "texture": "assets/cards/art/the_warrior_returning_alive.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "thousand_eyes_restrict",
+    "name": "Thousand-Eyes Restrict",
+    "kind": "fusion",
+    "motifs": [
+      "eye",
+      "ring"
+    ],
+    "source": "assets/source/cards/placeholders/thousand_eyes_restrict.svg",
+    "texture": "assets/cards/art/thousand_eyes_restrict.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "torrential_tribute",
+    "name": "Torrential Tribute",
+    "kind": "trap",
+    "motifs": [
+      "wave",
+      "cross"
+    ],
+    "source": "assets/source/cards/placeholders/torrential_tribute.svg",
+    "texture": "assets/cards/art/torrential_tribute.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "trap_hole",
+    "name": "Trap Hole",
+    "kind": "trap",
+    "motifs": [
+      "portal",
+      "crack"
+    ],
+    "source": "assets/source/cards/placeholders/trap_hole.svg",
+    "texture": "assets/cards/art/trap_hole.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "tribe_infecting_virus",
+    "name": "Tribe-Infecting Virus",
+    "kind": "monster",
+    "motifs": [
+      "orb",
+      "wave"
+    ],
+    "source": "assets/source/cards/placeholders/tribe_infecting_virus.svg",
+    "texture": "assets/cards/art/tribe_infecting_virus.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "tsukuyomi",
+    "name": "Tsukuyomi",
+    "kind": "monster",
+    "motifs": [
+      "hood",
+      "moon"
+    ],
+    "source": "assets/source/cards/placeholders/tsukuyomi.svg",
+    "texture": "assets/cards/art/tsukuyomi.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "waboku",
+    "name": "Waboku",
+    "kind": "trap",
+    "motifs": [
+      "shield",
+      "wing"
+    ],
+    "source": "assets/source/cards/placeholders/waboku.svg",
+    "texture": "assets/cards/art/waboku.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "widespread_ruin",
+    "name": "Widespread Ruin",
+    "kind": "trap",
+    "motifs": [
+      "crack",
+      "flame"
+    ],
+    "source": "assets/source/cards/placeholders/widespread_ruin.svg",
+    "texture": "assets/cards/art/widespread_ruin.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "zaborg_the_thunder_monarch",
+    "name": "Zaborg the Thunder Monarch",
+    "kind": "monster",
+    "motifs": [
+      "crown",
+      "bolt"
+    ],
+    "source": "assets/source/cards/placeholders/zaborg_the_thunder_monarch.svg",
+    "texture": "assets/cards/art/zaborg_the_thunder_monarch.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  }
+]
