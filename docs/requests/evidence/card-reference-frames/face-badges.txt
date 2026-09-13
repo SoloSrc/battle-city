@@ -1,0 +1,1 @@
+PASS: all 30 Spell/Trap cards have one main face badge and zero subtype badges.
