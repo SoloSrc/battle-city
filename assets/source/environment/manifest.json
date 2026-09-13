@@ -706,5 +706,17 @@
     "collision": true,
     "triangles": 84,
     "note": "Arcade-only 2 m wall; shallow 6 cm trim and recessed glazing."
+  },
+  {
+    "name": "kit_bound_river_edge_end",
+    "path": "assets/kit/kit_bound_river_edge_end.glb",
+    "size_xyz_m": [
+      1.25,
+      1.5,
+      0.5
+    ],
+    "collision": true,
+    "triangles": 48,
+    "note": "1.25 m closing segment for the river rail between hedge faces; place at scale 1."
   }
 ]

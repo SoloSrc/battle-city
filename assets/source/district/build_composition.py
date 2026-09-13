@@ -72,6 +72,14 @@ class Scene:
         # Collision-only backing closes seams without drawing coplanar faces over the kit.
         dx,dz=x1-x0,z1-z0; length=abs(dx)+abs(dz)
         self.box(name,((x0+x1)/2,.75,(z0+z1)/2),(max(abs(dx),.75),1.5,max(abs(dz),.75)),(.30,.43,.27),visible=False)
+        if asset == 'kit_bound_river_edge':
+            # Butt the visible rail against the inside hedge faces; backing stays continuous.
+            start_z=z0+.375
+            visible_length=length-.75
+            for i in range(math.ceil(visible_length/2)):
+                span=min(2,visible_length-2*i)
+                self.kit(asset if span == 2 else asset+'_end',x0-.375,start_z+2*i+span,yaw=90)
+            return
         for i in range(math.ceil(length/2)):
             span=min(2,length-2*i)
             if span < 2:

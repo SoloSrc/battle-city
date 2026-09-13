@@ -93,7 +93,8 @@ deliver('kit_arcade_closed_doors',arcade_doors,note='Closed arcade doors: inset 
 deliver('kit_bound_hedge',lambda:box(0,0,0,2,.75,1.5,'grass'))
 deliver('kit_bound_fence',lambda:(box(0,0,0,.125,.25,1.5,'metal'),box(1.875,0,0,.125,.25,1.5,'metal'),box(0,0,.5,2,.125,.125,'metal'),box(0,0,1.125,2,.125,.125,'metal')))
 deliver('kit_bound_construction',lambda:(box(0,0,0,.25,.75,.5,'metal'),box(1.75,0,0,.25,.75,.5,'metal'),box(0,.25,.5,2,.25,.75,'warm')))
-deliver('kit_bound_river_edge',lambda:(box(0,0,0,2,.5,.5,'stone'),box(0,0,.5,.125,.25,1,'metal'),box(1.875,0,.5,.125,.25,1,'metal'),box(0,0,1.25,2,.125,.25,'metal')),note='Solid edging plus rail; continuous rail blocks stepping into river.')
+deliver('kit_bound_river_edge',lambda:(box(0,0,0,2,.5,.5,'stone'),box(0,0,.5,.125,.25,.75,'metal'),box(1.875,0,.5,.125,.25,.75,'metal'),box(0,0,1.25,2,.125,.25,'metal')),note='Solid edging plus rail; continuous rail blocks stepping into river.')
+deliver('kit_bound_river_edge_end',lambda:(box(0,0,0,1.25,.5,.5,'stone'),box(0,0,.5,.125,.25,.75,'metal'),box(1.125,0,.5,.125,.25,.75,'metal'),box(0,0,1.25,1.25,.125,.25,'metal')),note='1.25 m closing segment for the river rail between hedge faces; place at scale 1.')
 deliver('kit_bound_river_water',lambda:box(0,0,0,2,2,.0625,'water'),collision=False,note='Visual surface only. Pair with river-edge collision and progression boundaries.')
 def bench():
  box(0,0,.5,2,.75,.125,'wood');box(0,0,.875,2,.125,.625,'wood')
@@ -118,7 +119,8 @@ deliver('prop_crate',lambda:(box(0,0,0,1,1,1,'wood'),box(0,0,0,1,.125,.125,'trim
 deliver('kit_int_counter',lambda:(box(0,0,0,2,.75,1,'wood'),box(0,0,1,2,1,.125,'trim')))
 def shelves():
  box(0,0,0,.125,.5,2);box(1.875,0,0,.125,.5,2)
- for z in [0,.625,1.25,1.875]:box(0,0,z,2,.5,.125,'wood')
+ # Shelf boards fit BETWEEN the uprights; overlapping front/top faces flicker.
+ for z in [0,.625,1.25,1.875]:box(.125,0,z,1.75,.5,.125,'wood')
 deliver('kit_int_shelves',shelves)
 deliver('kit_int_card_display',lambda:(box(0,0,0,1,.75,.875,'wood'),box(0,0,.875,1,.75,.125,'glass')))
 deliver('kit_int_floor',lambda:box(0,0,0,2,2,.25,'wood'))

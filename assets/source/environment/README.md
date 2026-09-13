@@ -1,6 +1,6 @@
 # Greybox environment kit — issue #32
 
-Owner: gpt-astra. 59 original procedural assets, MIT licensed under the repository
+Owner: gpt-astra. 60 original procedural assets, MIT licensed under the repository
 license. Editable Blender sources use Git LFS. Runtime meshes are in `assets/kit/`
 and `assets/props/`; `manifest.json` records exact exported dimensions, triangle
 counts, collision expectations and placement notes. No third-party assets used.
@@ -64,3 +64,7 @@ For selective regeneration, set
 This preserves unselected exports and merges updated manifest entries. Rebuild
 the review gallery after adding a kit asset. See
 [review and evidence](../../../docs/requests/arcade-geometry-followup.md).
+
+Shelf boards now fit between uprights. River rail posts end beneath the top bar;
+`kit_bound_river_edge_end` closes the hedge-to-hedge span without instance scaling.
+See [shelf/rail fix](../../../docs/requests/shelf-rail-fix.md).
