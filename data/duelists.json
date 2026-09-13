@@ -4,7 +4,7 @@
       "id": "d1",
       "name": "Nico",
       "area": "plaza",
-      "deck": "beatdown",
+      "deck": "rookie_beatdown",
       "required_flag": "",
       "profile": {
         "board": 1.2,

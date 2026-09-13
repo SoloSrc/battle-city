@@ -8,8 +8,8 @@ same rules at runtime (`Duel.Core` `CardLoader`, `BattleCity.Data` for the rest,
 
 | Path | Contents |
 | --- | --- |
-| `cards/<id>.json` | The 72-card slice subset (GDD §4.5). Tier 1 cards are playable; tier 2+ cards name their effect id (`effects: ["<card_id>"]`) as a stub until the effect class exists, and the engine refuses a deck that contains one |
-| `decks/<id>.json` | `beatdown`, `warrior_toolbox`, `goat_control` (GDD §4.2–§4.4) and `starter` (the Beatdown list). Card id → copy count, `main` and `fusion` |
+| `cards/<id>.json` | The 79-card slice subset (GDD §4.5: the 72-card table plus the seven rookie vanillas). Tier 1 cards are playable; tier 2+ cards name their effect id (`effects: ["<card_id>"]`) as a stub until the effect class exists, and the engine refuses a deck that contains one |
+| `decks/<id>.json` | `beatdown`, `warrior_toolbox`, `goat_control` (GDD §4.2–§4.4), `rookie_beatdown` (Nico's tutorial list) and `starter` (the Beatdown list). Card id → copy count, `main` and `fusion` |
 | `duelists.json` | `d1`–`d3`: area, deck, `required_flag`, AI profile weights (systems.md §7), dialogue lines, rewards (GDD §3.6) |
 | `shop.json` | Stock (every non-Limited card, priced by tier: 100/200/400/600) and the Street Pack booster (GDD §5.2) |
 | `avatar.json` | Creator option lists and defaults (GDD §1.1) |

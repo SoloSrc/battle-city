@@ -18,10 +18,10 @@ public class GameDataTests
         // Acceptance for issue #26: all data files load in a test.
         GameData data = GameData.Load(DataRoot);
 
-        Assert.Equal(72, data.Cards.Count);
-        Assert.Equal(new[] { "beatdown", "goat_control", "starter", "warrior_toolbox" }, data.Decks.Keys.OrderBy(k => k, StringComparer.Ordinal));
+        Assert.Equal(79, data.Cards.Count);
+        Assert.Equal(new[] { "beatdown", "goat_control", "rookie_beatdown", "starter", "warrior_toolbox" }, data.Decks.Keys.OrderBy(k => k, StringComparer.Ordinal));
         Assert.Equal(new[] { "d1", "d2", "d3" }, data.Duelists.Keys.OrderBy(k => k, StringComparer.Ordinal));
-        Assert.Equal(49, data.Shop.Stock.Count);
+        Assert.Equal(56, data.Shop.Stock.Count);
         Assert.Single(data.Shop.Boosters);
         Assert.Equal(2, data.Avatar.BodyTypes.Count);
     }
@@ -31,8 +31,8 @@ public class GameDataTests
     {
         GameData data = GameData.Load(DataRoot);
 
-        // Counted from the GDD §4.5 table rows (its summary line was corrected with #26).
-        Assert.Equal(6, data.Cards.All.Count(c => c.Tier == 1));
+        // Counted from the GDD §4.5 table rows (its summary line was corrected with #26; seven rookie vanillas added for Nico's deck).
+        Assert.Equal(13, data.Cards.All.Count(c => c.Tier == 1));
         Assert.Equal(27, data.Cards.All.Count(c => c.Tier == 2));
         Assert.Equal(35, data.Cards.All.Count(c => c.Tier == 3));
         Assert.Equal(4, data.Cards.All.Count(c => c.Tier == 4));
@@ -107,7 +107,7 @@ public class GameDataTests
     {
         GameData data = GameData.Load(DataRoot);
         var vanilla = data.Cards.All.Where(c => c.IsVanilla).ToList();
-        Deck deck = Deck.Repeat(vanilla, 8);
+        Deck deck = Deck.Repeat(vanilla, 4);
 
         DuelEngine engine = DuelEngine.Start(deck, deck, new DuelOptions { Seed = 9 });
         DuelRunner.Play(engine, new HeuristicAgent(data.Duelists["d1"].Profile, 1), new HeuristicAgent(data.Duelists["d2"].Profile, 2));

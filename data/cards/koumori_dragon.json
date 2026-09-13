@@ -1,0 +1,19 @@
+{
+  "id": "koumori_dragon",
+  "name": "Koumori Dragon",
+  "kind": "monster",
+  "monster": {
+    "type": "Dragon",
+    "attribute": "DARK",
+    "level": 4,
+    "atk": 1500,
+    "def": 1200,
+    "category": "normal"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "A vicious bat-winged dragon with a poisonous bite.",
+  "limit": 3,
+  "tier": 1,
+  "effects": []
+}

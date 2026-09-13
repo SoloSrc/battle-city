@@ -184,7 +184,7 @@ plays around set cards, whether it bluffs sets.
 
 | Id | Name | Where | Deck | Profile | Reward first win / rematch |
 | --- | --- | --- | --- | --- | --- |
-| `d1` | Nico | Plaza | Beatdown (§4.2) | aggressive, high jitter, ignores set cards | 600 / 200 coins, 1 booster |
+| `d1` | Nico | Plaza | Rookie Beatdown (§4.2) | aggressive, high jitter, ignores set cards | 600 / 200 coins, 1 booster |
 | `d2` | Mara | Park | Warrior Toolbox (§4.3) | balanced, medium jitter, plays around one set | 900 / 300 coins, 2 boosters |
 | `d3` | The Arcade Owner | Arcade | Goat Control (§4.4) | control, low jitter, bluffs | 1500 / 500 coins, 3 boosters, ending |
 
@@ -201,13 +201,14 @@ challengeable after beating `d1`; `d3` after beating `d2`.
 
 - Every card is Goat Format legal and respects the April 2005 list
   (Forbidden: 0, Limited: 1, Semi-Limited: 2 copies).
-- The subset supports three complete 40-card decks plus a starting deck and
-  shop stock, at **72 cards** total.
+- The subset supports three complete 40-card decks plus a starting deck,
+  Nico's rookie deck and shop stock, at **79 cards** total (the 72-card
+  table below plus seven rookie vanillas).
 - Each card is tagged with an **implementation tier** for the systems
   document: T1 vanilla or stat-only, T2 single simple effect, T3 targeting,
   costs or continuous effects, T4 replacement effects or unusual timing.
 
-### 4.2 Deck: Beatdown (Nico, and the player's starting deck)
+### 4.2 Deck: Beatdown (the player's starting deck) and Rookie Beatdown (Nico)
 
 Straightforward high-ATK monsters and removal. Teaches summon, attack,
 tribute, and the basic spells and traps.
@@ -220,6 +221,16 @@ Typhoon, Premature Burial, Snatch Steal, Nobleman of Crossout ×2, Smashing
 Ground ×2, Fissure ×2, Axe of Despair ×2
 Traps (6): Mirror Force, Torrential Tribute, Call of the Haunted, Sakuretsu
 Armor ×2, Dust Tornado
+
+**Rookie Beatdown** is Nico's copy of the list for the tutorial duel
+(director decision, 2026-09-13): the six Level 4 attackers are replaced by
+real vanilla monsters of 1600 ATK or less, so the player's 1900-ATK line
+wins most fights while Nico still shows every kind of card. Same spells and
+traps.
+
+Monsters (20): Rogue Doll ×3, Celtic Guardian ×3, Harpie Lady ×2, Feral
+Imp ×2, Koumori Dragon ×2, Giant Soldier of Stone ×2, Mystical Elf ×1,
+Summoned Skull ×2, Jinzo ×1, Sangan ×1, Cyber Jar ×1
 
 ### 4.3 Deck: Warrior Toolbox (Mara)
 
@@ -334,8 +345,16 @@ the source for `data/cards/` in the systems document.
 | Shop only: Waboku | Trap | T3 | 3 | shop |
 | Shop only: Trap Hole | Trap | T2 | 3 | shop |
 | Shop only: Widespread Ruin | Trap | T2 | 3 | shop |
+| Rogue Doll | Monster | T1 | 3 | RB |
+| Celtic Guardian | Monster | T1 | 3 | RB |
+| Harpie Lady | Monster | T1 | 3 | RB |
+| Feral Imp | Monster | T1 | 3 | RB |
+| Koumori Dragon | Monster | T1 | 3 | RB |
+| Giant Soldier of Stone | Monster | T1 | 3 | RB |
+| Mystical Elf | Monster | T1 | 3 | RB |
 
-Tier counts: T1 6 · T2 27 · T3 35 · T4 4. Total 72.
+Tier counts: T1 13 · T2 27 · T3 35 · T4 4. Total 79 (RB = Rookie Beatdown,
+also in the shop).
 
 Card names and effect text are Konami's; this project stores them only as
 game data needed to implement the rules, with no card art. See the IP
