@@ -1,0 +1,16 @@
+{
+  "id": "pot_of_greed",
+  "name": "Pot of Greed",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Draw 2 cards.",
+  "limit": 1,
+  "tier": 1,
+  "effects": [
+    "pot_of_greed"
+  ]
+}

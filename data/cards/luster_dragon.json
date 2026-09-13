@@ -1,0 +1,19 @@
+{
+  "id": "luster_dragon",
+  "name": "Luster Dragon",
+  "kind": "monster",
+  "monster": {
+    "type": "Dragon",
+    "attribute": "WIND",
+    "level": 4,
+    "atk": 1900,
+    "def": 1600,
+    "category": "normal"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "A dragon of sapphire scales that guards treasure.",
+  "limit": 3,
+  "tier": 1,
+  "effects": []
+}
