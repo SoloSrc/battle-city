@@ -1,0 +1,266 @@
+[gd_scene load_steps=20 format=3]
+
+[ext_resource type="Script" path="res://src/World/SurfaceTag.cs" id="1"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/CameraBounds.tscn" id="2"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/AmbientZone.tscn" id="3"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/PlayerSpawn.tscn" id="4"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/Door.tscn" id="5"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/EncounterSite.tscn" id="6"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/Duelist.tscn" id="7"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_fountain.glb" id="8"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_bench.glb" id="9"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_lamp_post.glb" id="10"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_wall_window.glb" id="11"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_roof_flat_warm.glb" id="12"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_wall_door.glb" id="13"]
+
+[sub_resource type="StandardMaterial3D" id="r1"]
+albedo_color = Color(0.6, 0.57, 0.49, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r2"]
+size = Vector3(36, 0.25, 38)
+material = SubResource("r1")
+
+[sub_resource type="BoxShape3D" id="r3"]
+size = Vector3(36, 0.25, 38)
+
+[sub_resource type="StandardMaterial3D" id="r4"]
+albedo_color = Color(0.69, 0.62, 0.49, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r5"]
+size = Vector3(12, 3.5, 6)
+material = SubResource("r4")
+
+[sub_resource type="BoxShape3D" id="r6"]
+size = Vector3(12, 3.5, 6)
+
+[node name="Plaza" type="Node3D"]
+
+
+[node name="PlazaPaving" type="StaticBody3D" parent="."]
+position = Vector3(58.0, -0.125, 85.0)
+script = ExtResource("1")
+Kind = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="PlazaPaving"]
+mesh = SubResource("r2")
+
+[node name="Collision" type="CollisionShape3D" parent="PlazaPaving"]
+shape = SubResource("r3")
+
+[node name="CameraBounds" parent="." instance=ExtResource("2")]
+position = Vector3(58.0, 2, 85.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(40, 12, 42)
+Interior = false
+Pitch = 57.0
+Distance = 12.0
+
+[node name="AmbientZone" parent="." instance=ExtResource("3")]
+position = Vector3(58.0, 2, 85.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(36, 10, 38)
+metadata/area_id = "plaza"
+
+[node name="Arrival" parent="." instance=ExtResource("4")]
+position = Vector3(58, 0, 98)
+rotation = Vector3(0, 0.0, 0)
+Id = "arrival"
+
+[node name="RoomReturn" parent="." instance=ExtResource("4")]
+position = Vector3(58, 0, 101)
+rotation = Vector3(0, 3.141593, 0)
+Id = "room_return"
+
+[node name="RoomDoor" parent="." instance=ExtResource("5")]
+position = Vector3(58, 0, 103.7)
+rotation = Vector3(0, 3.141593, 0)
+TargetScene = "res://levels/district/interiors/StartingRoom.tscn"
+TargetSpawn = "arrival"
+ReturnSpawn = "room_return"
+
+[node name="NicoSite" parent="." instance=ExtResource("6")]
+position = Vector3(58, 0, 88)
+rotation = Vector3(0, 0.0, 0)
+Id = "nicosite"
+DuelistId = "d1"
+
+[node name="Nico" parent="." instance=ExtResource("7")]
+position = Vector3(58, 0, 91)
+rotation = Vector3(0, 3.141593, 0)
+
+
+[node name="Marker" parent="Nico" index="5"]
+DuelistId = "d1"
+
+[node name="prop_fountain_012" parent="." instance=ExtResource("8")]
+position = Vector3(66, 0, 70)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="prop_bench_013" parent="." instance=ExtResource("9")]
+position = Vector3(44, 0, 72)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="prop_bench_014" parent="." instance=ExtResource("9")]
+position = Vector3(70, 0, 96)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="prop_lamp_post_015" parent="." instance=ExtResource("10")]
+position = Vector3(42, 0, 98)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="prop_lamp_post_016" parent="." instance=ExtResource("10")]
+position = Vector3(72, 0, 78)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="StartingRoomExterior" type="StaticBody3D" parent="."]
+position = Vector3(58.0, 1.75, 107.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="StartingRoomExterior"]
+mesh = SubResource("r5")
+
+[node name="Collision" type="CollisionShape3D" parent="StartingRoomExterior"]
+shape = SubResource("r6")
+
+[node name="kit_wall_window_020" parent="." instance=ExtResource("11")]
+position = Vector3(52, 0, 110)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_021" parent="." instance=ExtResource("11")]
+position = Vector3(54, 0, 110)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_022" parent="." instance=ExtResource("11")]
+position = Vector3(56, 0, 110)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_023" parent="." instance=ExtResource("11")]
+position = Vector3(58, 0, 110)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_024" parent="." instance=ExtResource("11")]
+position = Vector3(60, 0, 110)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_025" parent="." instance=ExtResource("11")]
+position = Vector3(62, 0, 110)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_026" parent="." instance=ExtResource("12")]
+position = Vector3(52, 3.5, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_027" parent="." instance=ExtResource("12")]
+position = Vector3(52, 3.5, 106)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_028" parent="." instance=ExtResource("12")]
+position = Vector3(52, 3.5, 108)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_029" parent="." instance=ExtResource("12")]
+position = Vector3(54, 3.5, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_030" parent="." instance=ExtResource("12")]
+position = Vector3(54, 3.5, 106)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_031" parent="." instance=ExtResource("12")]
+position = Vector3(54, 3.5, 108)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_032" parent="." instance=ExtResource("12")]
+position = Vector3(56, 3.5, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_033" parent="." instance=ExtResource("12")]
+position = Vector3(56, 3.5, 106)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_034" parent="." instance=ExtResource("12")]
+position = Vector3(56, 3.5, 108)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_035" parent="." instance=ExtResource("12")]
+position = Vector3(58, 3.5, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_036" parent="." instance=ExtResource("12")]
+position = Vector3(58, 3.5, 106)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_037" parent="." instance=ExtResource("12")]
+position = Vector3(58, 3.5, 108)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_038" parent="." instance=ExtResource("12")]
+position = Vector3(60, 3.5, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_039" parent="." instance=ExtResource("12")]
+position = Vector3(60, 3.5, 106)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_040" parent="." instance=ExtResource("12")]
+position = Vector3(60, 3.5, 108)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_041" parent="." instance=ExtResource("12")]
+position = Vector3(62, 3.5, 104)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_042" parent="." instance=ExtResource("12")]
+position = Vector3(62, 3.5, 106)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_043" parent="." instance=ExtResource("12")]
+position = Vector3(62, 3.5, 108)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_door_044" parent="." instance=ExtResource("13")]
+position = Vector3(56, 0, 103.75)
+rotation = Vector3(0, 0.0, 0)

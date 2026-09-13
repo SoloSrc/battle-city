@@ -1,0 +1,9 @@
+[gd_resource type="NavigationMesh" format=3]
+
+[resource]
+vertices = PackedVector3Array(0.75, 0.5, 5.5, 0.75, 0.5, 3.25, 2, 0.5, 3.25, 2.5, 0.5, 2.75, 5.75, 0.5, 2, 7.5, 0.5, 2, 7.5, 0.5, 5.5, 5.5, 0.5, 0.75, 2.5, 0.5, 0.75)
+polygons = [PackedInt32Array(0, 1, 2), PackedInt32Array(2, 3, 0), PackedInt32Array(0, 3, 4), PackedInt32Array(0, 4, 5), PackedInt32Array(0, 5, 6), PackedInt32Array(7, 4, 8), PackedInt32Array(8, 4, 3)]
+geometry_parsed_geometry_type = 1
+geometry_collision_mask = 1
+agent_height = 1.75
+filter_baking_aabb = AABB(-2, -1, -2, 124, 12, 124)

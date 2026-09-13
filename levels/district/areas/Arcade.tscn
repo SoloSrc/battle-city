@@ -1,0 +1,362 @@
+[gd_scene load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://src/World/SurfaceTag.cs" id="1"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/CameraBounds.tscn" id="2"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/AmbientZone.tscn" id="3"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_wall_window.glb" id="4"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_roof_flat_warm.glb" id="5"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_arcade_closed_doors.glb" id="6"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_arcade_marquee.glb" id="7"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_arcade_sign.glb" id="8"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/EncounterSite.tscn" id="9"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/Duelist.tscn" id="10"]
+
+[ext_resource type="PackedScene" path="res://assets/props/prop_planter_large.glb" id="11"]
+
+[sub_resource type="StandardMaterial3D" id="r1"]
+albedo_color = Color(0.49, 0.48, 0.47, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r2"]
+size = Vector3(60, 0.25, 32)
+material = SubResource("r1")
+
+[sub_resource type="BoxShape3D" id="r3"]
+size = Vector3(60, 0.25, 32)
+
+[sub_resource type="StandardMaterial3D" id="r4"]
+albedo_color = Color(0.69, 0.62, 0.49, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r5"]
+size = Vector3(16, 3.5, 10)
+material = SubResource("r4")
+
+[sub_resource type="BoxShape3D" id="r6"]
+size = Vector3(16, 3.5, 10)
+
+[node name="Arcade" type="Node3D"]
+
+
+[node name="ArcadePaving" type="StaticBody3D" parent="."]
+position = Vector3(70.0, -0.125, 24.0)
+script = ExtResource("1")
+Kind = 0
+
+[node name="Mesh" type="MeshInstance3D" parent="ArcadePaving"]
+mesh = SubResource("r2")
+
+[node name="Collision" type="CollisionShape3D" parent="ArcadePaving"]
+shape = SubResource("r3")
+
+[node name="CameraBounds" parent="." instance=ExtResource("2")]
+position = Vector3(70.0, 2, 24.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(64, 12, 36)
+Interior = false
+Pitch = 57.0
+Distance = 12.0
+
+[node name="AmbientZone" parent="." instance=ExtResource("3")]
+position = Vector3(70.0, 2, 24.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(60, 10, 32)
+metadata/area_id = "arcade"
+
+[node name="OldArcade" type="StaticBody3D" parent="."]
+position = Vector3(70.0, 1.75, 13.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="OldArcade"]
+mesh = SubResource("r5")
+
+[node name="Collision" type="CollisionShape3D" parent="OldArcade"]
+shape = SubResource("r6")
+
+[node name="kit_wall_window_009" parent="." instance=ExtResource("4")]
+position = Vector3(62, 0, 18)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_010" parent="." instance=ExtResource("4")]
+position = Vector3(64, 0, 18)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_011" parent="." instance=ExtResource("4")]
+position = Vector3(66, 0, 18)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_012" parent="." instance=ExtResource("4")]
+position = Vector3(68, 0, 18)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_013" parent="." instance=ExtResource("4")]
+position = Vector3(70, 0, 18)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_014" parent="." instance=ExtResource("4")]
+position = Vector3(72, 0, 18)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_015" parent="." instance=ExtResource("4")]
+position = Vector3(74, 0, 18)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_wall_window_016" parent="." instance=ExtResource("4")]
+position = Vector3(76, 0, 18)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_017" parent="." instance=ExtResource("5")]
+position = Vector3(62, 3.5, 8)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_018" parent="." instance=ExtResource("5")]
+position = Vector3(62, 3.5, 10)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_019" parent="." instance=ExtResource("5")]
+position = Vector3(62, 3.5, 12)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_020" parent="." instance=ExtResource("5")]
+position = Vector3(62, 3.5, 14)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_021" parent="." instance=ExtResource("5")]
+position = Vector3(62, 3.5, 16)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_022" parent="." instance=ExtResource("5")]
+position = Vector3(64, 3.5, 8)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_023" parent="." instance=ExtResource("5")]
+position = Vector3(64, 3.5, 10)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_024" parent="." instance=ExtResource("5")]
+position = Vector3(64, 3.5, 12)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_025" parent="." instance=ExtResource("5")]
+position = Vector3(64, 3.5, 14)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_026" parent="." instance=ExtResource("5")]
+position = Vector3(64, 3.5, 16)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_027" parent="." instance=ExtResource("5")]
+position = Vector3(66, 3.5, 8)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_028" parent="." instance=ExtResource("5")]
+position = Vector3(66, 3.5, 10)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_029" parent="." instance=ExtResource("5")]
+position = Vector3(66, 3.5, 12)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_030" parent="." instance=ExtResource("5")]
+position = Vector3(66, 3.5, 14)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_031" parent="." instance=ExtResource("5")]
+position = Vector3(66, 3.5, 16)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_032" parent="." instance=ExtResource("5")]
+position = Vector3(68, 3.5, 8)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_033" parent="." instance=ExtResource("5")]
+position = Vector3(68, 3.5, 10)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_034" parent="." instance=ExtResource("5")]
+position = Vector3(68, 3.5, 12)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_035" parent="." instance=ExtResource("5")]
+position = Vector3(68, 3.5, 14)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_036" parent="." instance=ExtResource("5")]
+position = Vector3(68, 3.5, 16)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_037" parent="." instance=ExtResource("5")]
+position = Vector3(70, 3.5, 8)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_038" parent="." instance=ExtResource("5")]
+position = Vector3(70, 3.5, 10)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_039" parent="." instance=ExtResource("5")]
+position = Vector3(70, 3.5, 12)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_040" parent="." instance=ExtResource("5")]
+position = Vector3(70, 3.5, 14)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_041" parent="." instance=ExtResource("5")]
+position = Vector3(70, 3.5, 16)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_042" parent="." instance=ExtResource("5")]
+position = Vector3(72, 3.5, 8)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_043" parent="." instance=ExtResource("5")]
+position = Vector3(72, 3.5, 10)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_044" parent="." instance=ExtResource("5")]
+position = Vector3(72, 3.5, 12)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_045" parent="." instance=ExtResource("5")]
+position = Vector3(72, 3.5, 14)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_046" parent="." instance=ExtResource("5")]
+position = Vector3(72, 3.5, 16)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_047" parent="." instance=ExtResource("5")]
+position = Vector3(74, 3.5, 8)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_048" parent="." instance=ExtResource("5")]
+position = Vector3(74, 3.5, 10)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_049" parent="." instance=ExtResource("5")]
+position = Vector3(74, 3.5, 12)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_050" parent="." instance=ExtResource("5")]
+position = Vector3(74, 3.5, 14)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_051" parent="." instance=ExtResource("5")]
+position = Vector3(74, 3.5, 16)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_052" parent="." instance=ExtResource("5")]
+position = Vector3(76, 3.5, 8)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_053" parent="." instance=ExtResource("5")]
+position = Vector3(76, 3.5, 10)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_054" parent="." instance=ExtResource("5")]
+position = Vector3(76, 3.5, 12)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_055" parent="." instance=ExtResource("5")]
+position = Vector3(76, 3.5, 14)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_roof_flat_warm_056" parent="." instance=ExtResource("5")]
+position = Vector3(76, 3.5, 16)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_arcade_closed_doors_057" parent="." instance=ExtResource("6")]
+position = Vector3(68.0, 0, 18)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_arcade_marquee_058" parent="." instance=ExtResource("7")]
+position = Vector3(68.0, 2.5, 18)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_arcade_sign_059" parent="." instance=ExtResource("8")]
+position = Vector3(68.0, 3.2, 18)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="ArcadeSite" parent="." instance=ExtResource("9")]
+position = Vector3(70, 0, 26)
+rotation = Vector3(0, 0.0, 0)
+Id = "arcadesite"
+DuelistId = "d3"
+
+[node name="ArcadeOwner" parent="." instance=ExtResource("10")]
+position = Vector3(74, 0, 27)
+rotation = Vector3(0, 2.356194, 0)
+
+
+[node name="Marker" parent="ArcadeOwner" index="5"]
+DuelistId = "d3"
+Armed = false
+Challengeable = false
+
+[node name="prop_planter_large_063" parent="." instance=ExtResource("11")]
+position = Vector3(46, 0, 14)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="prop_planter_large_064" parent="." instance=ExtResource("11")]
+position = Vector3(84, 0, 14)
+rotation = Vector3(0, 0.0, 0)

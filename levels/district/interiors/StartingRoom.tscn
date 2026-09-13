@@ -1,0 +1,210 @@
+[gd_scene load_steps=29 format=3]
+
+[ext_resource type="NavigationMesh" path="res://levels/district/navigation/StartingRoom.tres" id="1"]
+
+[ext_resource type="Script" path="res://src/World/SurfaceTag.cs" id="2"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_int_bed.glb" id="3"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_int_desk.glb" id="4"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/CameraBounds.tscn" id="5"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/AmbientZone.tscn" id="6"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/LevelBounds.tscn" id="7"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/PlayerSpawn.tscn" id="8"]
+
+[ext_resource type="PackedScene" path="res://scenes/world/Door.tscn" id="9"]
+
+[sub_resource type="Environment" id="r1"]
+background_mode = 1
+background_color = Color(0.61, 0.70, 0.76, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.83, 0.88, 1, 1)
+ambient_light_energy = 0.2
+tonemap_mode = 0
+
+[sub_resource type="StandardMaterial3D" id="r2"]
+albedo_color = Color(0.55, 0.42, 0.29, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r3"]
+size = Vector3(8, 0.25, 6)
+material = SubResource("r2")
+
+[sub_resource type="BoxShape3D" id="r4"]
+size = Vector3(8, 0.25, 6)
+
+[sub_resource type="StandardMaterial3D" id="r5"]
+albedo_color = Color(0.69, 0.65, 0.54, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r6"]
+size = Vector3(8, 3.5, 0.25)
+material = SubResource("r5")
+
+[sub_resource type="BoxShape3D" id="r7"]
+size = Vector3(8, 3.5, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="r8"]
+albedo_color = Color(0.69, 0.65, 0.54, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r9"]
+size = Vector3(0.25, 3.5, 6)
+material = SubResource("r8")
+
+[sub_resource type="BoxShape3D" id="r10"]
+size = Vector3(0.25, 3.5, 6)
+
+[sub_resource type="StandardMaterial3D" id="r11"]
+albedo_color = Color(0.69, 0.65, 0.54, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r12"]
+size = Vector3(0.25, 3.5, 6)
+material = SubResource("r11")
+
+[sub_resource type="BoxShape3D" id="r13"]
+size = Vector3(0.25, 3.5, 6)
+
+[sub_resource type="StandardMaterial3D" id="r14"]
+albedo_color = Color(0.69, 0.65, 0.54, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r15"]
+size = Vector3(3.0, 0.8, 0.25)
+material = SubResource("r14")
+
+[sub_resource type="BoxShape3D" id="r16"]
+size = Vector3(3.0, 0.8, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="r17"]
+albedo_color = Color(0.69, 0.65, 0.54, 1)
+roughness = 0.95
+
+[sub_resource type="BoxMesh" id="r18"]
+size = Vector3(3.0, 0.8, 0.25)
+material = SubResource("r17")
+
+[sub_resource type="BoxShape3D" id="r19"]
+size = Vector3(3.0, 0.8, 0.25)
+
+[node name="StartingRoom" type="Node3D"]
+
+
+[node name="Navigation" type="NavigationRegion3D" parent="."]
+navigation_mesh = ExtResource("1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("r1")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+rotation_degrees = Vector3(-65, -25, 0)
+light_energy = 0.3
+shadow_enabled = true
+directional_shadow_max_distance = 25.0
+
+[node name="WoodFloor" type="StaticBody3D" parent="Navigation"]
+position = Vector3(4.0, -0.125, 3.0)
+script = ExtResource("2")
+Kind = 2
+
+[node name="Mesh" type="MeshInstance3D" parent="Navigation/WoodFloor"]
+mesh = SubResource("r3")
+
+[node name="Collision" type="CollisionShape3D" parent="Navigation/WoodFloor"]
+shape = SubResource("r4")
+
+[node name="NorthWall" type="StaticBody3D" parent="Navigation"]
+position = Vector3(4.0, 1.75, -0.125)
+
+[node name="Mesh" type="MeshInstance3D" parent="Navigation/NorthWall"]
+mesh = SubResource("r6")
+
+[node name="Collision" type="CollisionShape3D" parent="Navigation/NorthWall"]
+shape = SubResource("r7")
+
+[node name="WestWall" type="StaticBody3D" parent="Navigation"]
+position = Vector3(-0.125, 1.75, 3.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Navigation/WestWall"]
+mesh = SubResource("r9")
+
+[node name="Collision" type="CollisionShape3D" parent="Navigation/WestWall"]
+shape = SubResource("r10")
+
+[node name="EastWall" type="StaticBody3D" parent="Navigation"]
+position = Vector3(8.125, 1.75, 3.0)
+
+[node name="Mesh" type="MeshInstance3D" parent="Navigation/EastWall"]
+mesh = SubResource("r12")
+
+[node name="Collision" type="CollisionShape3D" parent="Navigation/EastWall"]
+shape = SubResource("r13")
+
+[node name="SouthLeft" type="StaticBody3D" parent="Navigation"]
+position = Vector3(1.5, 0.4, 6.125)
+
+[node name="Mesh" type="MeshInstance3D" parent="Navigation/SouthLeft"]
+mesh = SubResource("r15")
+
+[node name="Collision" type="CollisionShape3D" parent="Navigation/SouthLeft"]
+shape = SubResource("r16")
+
+[node name="SouthRight" type="StaticBody3D" parent="Navigation"]
+position = Vector3(6.5, 0.4, 6.125)
+
+[node name="Mesh" type="MeshInstance3D" parent="Navigation/SouthRight"]
+mesh = SubResource("r18")
+
+[node name="Collision" type="CollisionShape3D" parent="Navigation/SouthRight"]
+shape = SubResource("r19")
+
+[node name="kit_int_bed_022" parent="Navigation" instance=ExtResource("3")]
+position = Vector3(0.75, 0, 0.5)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="kit_int_desk_023" parent="Navigation" instance=ExtResource("4")]
+position = Vector3(6, 0, 0.5)
+rotation = Vector3(0, 0.0, 0)
+
+
+[node name="CameraBounds" parent="." instance=ExtResource("5")]
+position = Vector3(4.0, 2, 3.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(12, 12, 10)
+Interior = true
+Pitch = 57.0
+Distance = 7.0
+
+[node name="AmbientZone" parent="." instance=ExtResource("6")]
+position = Vector3(4.0, 2, 3.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(8, 10, 6)
+metadata/area_id = "room"
+
+[node name="LevelBounds" parent="." instance=ExtResource("7")]
+position = Vector3(4.0, 0, 3.0)
+rotation = Vector3(0, 0.0, 0)
+Size = Vector3(10, 12, 8)
+
+[node name="Arrival" parent="." instance=ExtResource("8")]
+position = Vector3(4.0, 0, 4.5)
+rotation = Vector3(0, 0.0, 0)
+Id = "arrival"
+
+[node name="DoorReturn" parent="." instance=ExtResource("8")]
+position = Vector3(4.0, 0, 4.5)
+rotation = Vector3(0, 0.0, 0)
+Id = "exit_return"
+
+[node name="Exit" parent="." instance=ExtResource("9")]
+position = Vector3(4.0, 0, 6)
+rotation = Vector3(0, 3.141593, 0)
+TargetScene = "res://levels/review/DistrictComposition.tscn"
+TargetSpawn = "room_return"
+ReturnSpawn = "exit_return"

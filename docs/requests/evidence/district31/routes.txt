@@ -1,0 +1,33 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+
+Physical joypads reported: []
+PASS arrival is inside Nico's configured cone
+PASS Nico cone rejects points beyond 8 m
+PASS locked state still reaches shop
+PASS closed gates prevent all sampled Park/Arcade bypasses
+PASS d1 gate opening grants Park only
+PASS both gates opening grants Arcade
+PASS baked navigation connects arrival to (22.0, 0.0, 76.0)
+PASS baked navigation connects arrival to (94.0, 0.0, 68.0)
+PASS baked navigation connects arrival to (70.0, 0.0, 26.0)
+PASS arrival to Nico approach walk: 2.25 simulated seconds; endpoint (58.0, 0.000838, 93.07101)
+PASS plaza to shop walk: 23.32 simulated seconds; endpoint (22.00006, 0.000838, 75.06638)
+PASS Nico to Mara approach walk: 22.30 simulated seconds; endpoint (93.99973, 0.010834, 73.0715)
+PASS Mara to Arcade approach walk: 30.30 simulated seconds; endpoint (77.01499, 0.000832, 29.07078)
+PASS Arcade return to shop walk: 75.27 simulated seconds; endpoint (22.00016, 0.000839, 75.05164)
+PASS arrival to Nico approach run: 1.15 simulated seconds; endpoint (58.0, 0.000838, 92.9143)
+PASS plaza to shop run: 11.52 simulated seconds; endpoint (22.00214, 0.000117, 74.8962)
+PASS Nico to Mara approach run: 11.03 simulated seconds; endpoint (93.99771, 0.010032, 72.86988)
+PASS Mara to Arcade approach run: 15.13 simulated seconds; endpoint (76.98086, 0.000838, 28.87345)
+PASS Arcade return to shop run: 37.13 simulated seconds; endpoint (22.00224, 0.000839, 74.89603)
+PASS exterior room door: 0.67 simulated seconds; endpoint (58.0, 0.000838, 102.4459)
+PASS exterior room door interaction raises TransitionRequested
+PASS exterior shop door: 1.35 simulated seconds; endpoint (22.0, 0.000839, 75.05102)
+PASS exterior shop door interaction raises TransitionRequested
+PASS StartingRoom exit approach: 0.43 simulated seconds; endpoint (4.0, -0.000111, 5.432291)
+PASS StartingRoom exit interaction raises TransitionRequested
+PASS CardShop exit approach: 0.43 simulated seconds; endpoint (5.0, 0.000812, 7.432291)
+PASS CardShop exit interaction raises TransitionRequested
+PASS shop counter approach: 1.12 simulated seconds; endpoint (5.0, -0.000009, 3.56438)
+PASS shop counter raises ShopRequested through player interaction
+COMPOSITION AUDIT failures=0

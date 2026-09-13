@@ -1,0 +1,19 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+OpenGL API 4.1 Metal - 83 - Compatibility - Using Device: Apple - Apple M1
+
+VIEW overview: 2077 visible draw calls, 14994 primitives
+RENDER overview save=0
+VIEW nico: 32 visible draw calls, 10512 primitives
+RENDER nico save=0
+VIEW market: 143 visible draw calls, 5694 primitives
+RENDER market save=0
+VIEW edge: 99 visible draw calls, 9784 primitives
+RENDER edge save=0
+VIEW park: 37 visible draw calls, 10500 primitives
+RENDER park save=0
+VIEW arcade: 61 visible draw calls, 10488 primitives
+RENDER arcade save=0
+VIEW room: 33 visible draw calls, 120 primitives
+RENDER room save=0
+VIEW shop: 63 visible draw calls, 384 primitives
+RENDER shop save=0
