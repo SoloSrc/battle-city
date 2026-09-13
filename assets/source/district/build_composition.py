@@ -86,7 +86,7 @@ class Scene:
         for i in range(0,w,2):
             # Reserve the central four metres for the closed arcade doors.
             if arcade and w/2-2 <= i < w/2+2: continue
-            self.kit('kit_wall_window',x+i,z+d,y=0)
+            self.kit('kit_arcade_window' if arcade else 'kit_wall_window',x+i,z+d,y=0)
         for i in range(0,w,2):
             for j in range(0,d,2): self.kit('kit_roof_flat_warm',x+i,z+j,y=3.5)
         if door:
@@ -94,10 +94,6 @@ class Scene:
             self.kit('kit_shop_sign',x+w/2-1,z+d+.05,y=3.05)
         if arcade:
             self.kit('kit_arcade_closed_doors',x+w/2-2,z+d)
-            # Contrasting jambs and a pair of handles make the closed doors read at gameplay scale.
-            self.box(name+'DoorSeam',(x+w/2,1.25,z+d+.27),(.05,2.5,.04),(.07,.08,.1),collide=False)
-            for side in [-1,1]:
-                self.box(name+'Handle'+str(side),(x+w/2+side*.35,1.25,z+d+.33),(.08,.65,.12),(.85,.76,.5),collide=False)
             self.kit('kit_arcade_marquee',x+w/2-2,z+d,y=2.5)
             self.kit('kit_arcade_sign',x+w/2-2,z+d,y=3.2)
     def save(self,path):

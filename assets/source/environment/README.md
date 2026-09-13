@@ -1,6 +1,6 @@
 # Greybox environment kit — issue #32
 
-Owner: gpt-astra. 58 original procedural assets, MIT licensed under the repository
+Owner: gpt-astra. 59 original procedural assets, MIT licensed under the repository
 license. Editable Blender sources use Git LFS. Runtime meshes are in `assets/kit/`
 and `assets/props/`; `manifest.json` records exact exported dimensions, triangle
 counts, collision expectations and placement notes. No third-party assets used.
@@ -51,3 +51,16 @@ kit sources/exports; preserve manual edits before rebuilding. Blender may create
   not District.tscn, and its overview camera/floor are not gameplay settings.
 
 See [handoff](../../../docs/requests/environment-kit32.md) for outstanding checks.
+
+## Arcade geometry follow-up (after PR #69)
+
+The arcade uses `kit_arcade_window` for shallow framing; the original shared
+window stays unchanged. The marquee is 0.22 m thick and projects 0.55 m plus
+0.035 m face trim. Closed doors contain their own paired handles and central
+reveal; do not add duplicate door hardware in the level generator.
+
+For selective regeneration, set
+`KIT_ONLY=kit_arcade_window,kit_arcade_marquee,kit_arcade_closed_doors`.
+This preserves unselected exports and merges updated manifest entries. Rebuild
+the review gallery after adding a kit asset. See
+[review and evidence](../../../docs/requests/arcade-geometry-followup.md).
