@@ -95,8 +95,8 @@ validation and remaining polish. Final modular bodies and disk art are separate.
 | # | Asset | Count | Spec | Path | Status |
 | --- | --- | --- | --- | --- | --- |
 | 4.1 | Frames, back, icons | see §1 | | | |
-| 4.2 | Placeholder art | 72 | 512² flat-colour or silhouette per card, original, no third-party art | `cards/art/<card_id>.png` | review ([72 symbolic placeholders](../requests/card-placeholder-art.md)) |
-| 4.3 | Final art (P2) | 72 | Original illustrations, 512², central 80 % safe column | same | todo |
+| 4.2 | Placeholder art | 79 | 512² flat-colour or silhouette per card, original, no third-party art | `cards/art/<card_id>.png` | review ([72 symbolic placeholders](../requests/card-placeholder-art.md)); 7 rookie cards todo ([request](../requests/rookie-card-art.md)) |
+| 4.3 | Final art (P2) | 79 | Original illustrations, 512², central 80 % safe column | same | todo |
 | 4.4 | Hologram material | 1 | Emissive edge, hover bob, additive glow, per-side colour | `shaders/hologram.gdshader` (claude-fable) with artist parameters | review (#27; parameters in `shaders/README.md`) |
 
 ## 5. Environment kit (P0 greybox, P1 dressed)
@@ -181,7 +181,7 @@ Vector or layered sources plus PNG exports; 9-slice where noted.
 | Smoke test and direction | 12 | 0 | 0 |
 | Characters and animations | 32 | 3 | 0 |
 | Duel disk | 3 | 0 | 0 |
-| Cards | 15 | 72 placeholders | 72 final art |
+| Cards | 15 | 79 placeholders | 79 final art |
 | Environment kit | ~40 pieces greybox | dressed | |
 | VFX | 0 | 9 | 0 |
 | UI | 3 | 6 | 0 |

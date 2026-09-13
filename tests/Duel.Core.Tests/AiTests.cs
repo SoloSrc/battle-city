@@ -22,7 +22,7 @@ public class AiTests
         // Acceptance for issue #25: a scripted vanilla duel with the real tier 1 data runs to a winner.
         CardLibrary library = new CardLoader().LoadDirectory(Cards.DataDirectory);
         var monsters = library.All.Where(c => c.IsVanilla).ToList();
-        Deck deck = Deck.Repeat(monsters, Scenario.DeckSize / monsters.Count);
+        Deck deck = Deck.Repeat(monsters, (Scenario.DeckSize + monsters.Count - 1) / monsters.Count);
         DuelEngine engine = DuelEngine.Start(deck, deck, new DuelOptions { Seed = seed });
 
         int steps = DuelRunner.Play(engine, new HeuristicAgent(AiProfile.Nico, seed), new HeuristicAgent(AiProfile.Mara, seed + 100));

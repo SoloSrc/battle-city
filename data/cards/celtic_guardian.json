@@ -1,0 +1,19 @@
+{
+  "id": "celtic_guardian",
+  "name": "Celtic Guardian",
+  "kind": "monster",
+  "monster": {
+    "type": "Warrior",
+    "attribute": "EARTH",
+    "level": 4,
+    "atk": 1400,
+    "def": 1200,
+    "category": "normal"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "An elf swordsman who trained in the forest and strikes with quick slashes.",
+  "limit": 3,
+  "tier": 1,
+  "effects": []
+}

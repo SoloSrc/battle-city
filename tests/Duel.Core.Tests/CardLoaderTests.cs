@@ -14,9 +14,9 @@ public class CardLoaderTests
     {
         CardLibrary library = new CardLoader().LoadDirectory(Cards.DataDirectory);
 
-        Assert.Equal(72, library.Count);
-        Assert.Equal(5, library.All.Count(c => c.IsVanilla));
-        Assert.Equal(6, library.All.Count(c => c.Tier == 1));
+        Assert.Equal(79, library.Count);
+        Assert.Equal(12, library.All.Count(c => c.IsVanilla));
+        Assert.Equal(13, library.All.Count(c => c.Tier == 1));
         Assert.All(library.All.Where(c => c.Tier > 1), c => Assert.NotEmpty(c.Effects));
 
         CardDefinition elf = library["gemini_elf"];

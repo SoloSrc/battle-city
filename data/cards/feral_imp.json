@@ -1,0 +1,19 @@
+{
+  "id": "feral_imp",
+  "name": "Feral Imp",
+  "kind": "monster",
+  "monster": {
+    "type": "Fiend",
+    "attribute": "DARK",
+    "level": 4,
+    "atk": 1300,
+    "def": 1400,
+    "category": "normal"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "A playful little fiend that lurks in the dark and casts spells.",
+  "limit": 3,
+  "tier": 1,
+  "effects": []
+}
