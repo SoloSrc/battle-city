@@ -1,5 +1,9 @@
 # Greybox environment kit — #32
 
+Latest: [artist shader review](shader-art-review.md) completes the visual review
+and proposes material/daylight tuning. Earlier pending-shader notes below are historical.
+
+
 **2026-09-13 update:** #23 is merged and the composition is now integrated into
 the playable District. See [runtime integration](district-runtime-integration.md)
 for current results and remaining acceptance; delivery notes below are historical.

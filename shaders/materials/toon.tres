@@ -7,3 +7,5 @@
 resource_name = "toon"
 next_pass = ExtResource("2_outline")
 shader = ExtResource("1_toon")
+shader_parameter/rim_strength = 0.15
+shader_parameter/specular_strength = 0.0

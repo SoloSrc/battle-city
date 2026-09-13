@@ -129,3 +129,12 @@ Review against `docs/art/style-brief.md` and `docs/art/direction.md`
 ("two or three shade bands and thin contours", "retain colour in shadow",
 "narrow emissive edges; readable opaque faces"). Propose parameter changes as
 edits to the `.tres` files.
+
+## Artist material overrides (Skeleton review)
+
+The parameter tables above describe shader fallback defaults. The `.tres`
+resources now override toon `rim_strength=0.15`, `specular_strength=0.0`, and
+both hologram sides use `face_opacity=0.97`, `tint_strength=0.06`,
+`scanline_strength=0.08`. District daylight uses sun 1.0 and ambient 0.35.
+See [artist review and comparison captures](../docs/requests/shader-art-review.md)
+for the rationale, acceptance scope and reveal-direction follow-up.

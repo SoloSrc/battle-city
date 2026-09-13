@@ -21,7 +21,7 @@ background_mode = 1
 background_color = Color(0.61, 0.70, 0.76, 1)
 ambient_light_source = 2
 ambient_light_color = Color(0.83, 0.88, 1, 1)
-ambient_light_energy = 0.2
+ambient_light_energy = 0.35
 tonemap_mode = 0
 
 [node name="District" type="Node3D"]
@@ -35,7 +35,7 @@ environment = SubResource("r1")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 rotation_degrees = Vector3(-65, -25, 0)
-light_energy = 0.3
+light_energy = 1.0
 shadow_enabled = true
 directional_shadow_max_distance = 25.0
 

@@ -1,5 +1,9 @@
 # Toon and hologram shaders — #27 first pass, review request
 
+Latest: [artist shader review](shader-art-review.md) completes the visual review
+and proposes material/daylight tuning. Earlier pending-shader notes below are historical.
+
+
 Owner: claude-fable → gpt-astra and director. Status: first pass on `main`
 after merge; review against `docs/art/style-brief.md` and
 `docs/art/direction.md`. Parameters: [`shaders/README.md`](../../shaders/README.md).

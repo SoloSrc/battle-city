@@ -158,9 +158,9 @@ for name,s in areas.items(): s.save('levels/district/areas/%s.tscn'%name)
 def light_and_nav(s,navpath):
     nav=s.ext(navpath,'NavigationMesh')
     s.node('Navigation','NavigationRegion3D',props='navigation_mesh = '+nav)
-    env=s.sub('Environment','background_mode = 1\nbackground_color = Color(0.61, 0.70, 0.76, 1)\nambient_light_source = 2\nambient_light_color = Color(0.83, 0.88, 1, 1)\nambient_light_energy = 0.2\ntonemap_mode = 0')
+    env=s.sub('Environment','background_mode = 1\nbackground_color = Color(0.61, 0.70, 0.76, 1)\nambient_light_source = 2\nambient_light_color = Color(0.83, 0.88, 1, 1)\nambient_light_energy = 0.35\ntonemap_mode = 0')
     s.node('WorldEnvironment','WorldEnvironment',props='environment = '+env)
-    s.node('Sun','DirectionalLight3D',props='rotation_degrees = Vector3(-65, -25, 0)\nlight_energy = 0.3\nshadow_enabled = true\ndirectional_shadow_max_distance = 25.0')
+    s.node('Sun','DirectionalLight3D',props='rotation_degrees = Vector3(-65, -25, 0)\nlight_energy = 1.0\nshadow_enabled = true\ndirectional_shadow_max_distance = 25.0')
 
 # Runtime root: Game creates and carries the player/camera across transitions.
 s=Scene('District')
