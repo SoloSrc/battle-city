@@ -17,6 +17,13 @@ final character or disk art.
   untuned. Fable should apply A to `data/rig/disk_mount.json` after review.
 - `build_report.json`: counts, clip durations and proposed walk footstep times.
 
+## Animation carrier superseded
+
+The full motion blockout now lives in [../characters/animations](../characters/animations/README.md).
+This legacy builder overwrites the runtime animation carrier with its two smoke
+clips. After rebuilding smoke assets, rebuild the full animation set and apply
+its import settings before committing. The body and disk remain smoke assets.
+
 ## Rebuild
 
 Run from the repository root with Blender 5.2.1 (or compatible 5.2+):

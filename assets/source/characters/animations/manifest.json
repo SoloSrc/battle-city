@@ -1,0 +1,66 @@
+{
+  "license": "MIT",
+  "fps": 30,
+  "root_motion": false,
+  "stage": "authored motion blockout; director review pending",
+  "rig_source": "assets/source/smoke28/char_a_body.blend",
+  "clips": {
+    "idle": {
+      "seconds": 4,
+      "loop": true
+    },
+    "walk": {
+      "seconds": 1,
+      "loop": true
+    },
+    "run": {
+      "seconds": 0.7,
+      "loop": true
+    },
+    "turn_l": {
+      "seconds": 0.3,
+      "loop": false
+    },
+    "turn_r": {
+      "seconds": 0.3,
+      "loop": false
+    },
+    "talk": {
+      "seconds": 3,
+      "loop": true
+    },
+    "duel_ready": {
+      "seconds": 1.2,
+      "loop": false
+    },
+    "draw_card": {
+      "seconds": 0.8,
+      "loop": false
+    },
+    "play_card": {
+      "seconds": 0.9,
+      "loop": false
+    },
+    "card_to_grave": {
+      "seconds": 0.6,
+      "loop": false
+    },
+    "take_damage": {
+      "seconds": 0.7,
+      "loop": false
+    },
+    "win": {
+      "seconds": 2.5,
+      "loop": false
+    },
+    "lose": {
+      "seconds": 2.5,
+      "loop": false
+    },
+    "duel_idle": {
+      "seconds": 4,
+      "loop": true
+    }
+  },
+  "events_source": "data/rig/animation_events.json"
+}

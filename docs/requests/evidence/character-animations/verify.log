@@ -1,0 +1,59 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+
+AnimationSet PASS: idle duration
+AnimationSet PASS: idle loop mode
+AnimationSet PASS: idle has authored bone motion with fixed Root
+AnimationSet PASS: idle closes its loop
+AnimationSet PASS: walk duration
+AnimationSet PASS: walk loop mode
+AnimationSet PASS: walk has authored bone motion with fixed Root
+AnimationSet PASS: walk injects footstep_l at contracted time
+AnimationSet PASS: walk injects footstep_r at contracted time
+AnimationSet PASS: walk closes its loop
+AnimationSet PASS: run duration
+AnimationSet PASS: run loop mode
+AnimationSet PASS: run has authored bone motion with fixed Root
+AnimationSet PASS: run injects footstep_l at contracted time
+AnimationSet PASS: run injects footstep_r at contracted time
+AnimationSet PASS: run closes its loop
+AnimationSet PASS: turn_l duration
+AnimationSet PASS: turn_l loop mode
+AnimationSet PASS: turn_l has authored bone motion with fixed Root
+AnimationSet PASS: turn_r duration
+AnimationSet PASS: turn_r loop mode
+AnimationSet PASS: turn_r has authored bone motion with fixed Root
+AnimationSet PASS: talk duration
+AnimationSet PASS: talk loop mode
+AnimationSet PASS: talk has authored bone motion with fixed Root
+AnimationSet PASS: talk closes its loop
+AnimationSet PASS: duel_ready duration
+AnimationSet PASS: duel_ready loop mode
+AnimationSet PASS: duel_ready has authored bone motion with fixed Root
+AnimationSet PASS: duel_ready injects disk_deploy at contracted time
+AnimationSet PASS: draw_card duration
+AnimationSet PASS: draw_card loop mode
+AnimationSet PASS: draw_card has authored bone motion with fixed Root
+AnimationSet PASS: draw_card injects card_draw at contracted time
+AnimationSet PASS: play_card duration
+AnimationSet PASS: play_card loop mode
+AnimationSet PASS: play_card has authored bone motion with fixed Root
+AnimationSet PASS: play_card injects card_release at contracted time
+AnimationSet PASS: card_to_grave duration
+AnimationSet PASS: card_to_grave loop mode
+AnimationSet PASS: card_to_grave has authored bone motion with fixed Root
+AnimationSet PASS: card_to_grave injects card_to_grave at contracted time
+AnimationSet PASS: take_damage duration
+AnimationSet PASS: take_damage loop mode
+AnimationSet PASS: take_damage has authored bone motion with fixed Root
+AnimationSet PASS: take_damage injects hit at contracted time
+AnimationSet PASS: win duration
+AnimationSet PASS: win loop mode
+AnimationSet PASS: win has authored bone motion with fixed Root
+AnimationSet PASS: lose duration
+AnimationSet PASS: lose loop mode
+AnimationSet PASS: lose has authored bone motion with fixed Root
+AnimationSet PASS: duel_idle duration
+AnimationSet PASS: duel_idle loop mode
+AnimationSet PASS: duel_idle has authored bone motion with fixed Root
+AnimationSet PASS: duel_idle closes its loop
+AnimationSet summary: 0 failures
