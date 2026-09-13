@@ -1,0 +1,16 @@
+{
+  "id": "snatch_steal",
+  "name": "Snatch Steal",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "equip"
+  },
+  "trap": null,
+  "text": "Take control of an opponent's face-up monster. The opponent gains 1000 Life Points during each of their Standby Phases.",
+  "limit": 1,
+  "tier": 3,
+  "effects": [
+    "snatch_steal"
+  ]
+}

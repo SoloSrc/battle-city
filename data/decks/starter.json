@@ -1,0 +1,33 @@
+{
+  "id": "starter",
+  "name": "Starter",
+  "description": "The player's starting deck: the Beatdown list (GDD §4.2).",
+  "main": {
+    "gemini_elf": 3,
+    "archfiend_soldier": 3,
+    "luster_dragon": 3,
+    "mad_dog_of_darkness": 2,
+    "berserk_gorilla": 2,
+    "enraged_battle_ox": 2,
+    "summoned_skull": 2,
+    "jinzo": 1,
+    "sangan": 1,
+    "cyber_jar": 1,
+    "pot_of_greed": 1,
+    "graceful_charity": 1,
+    "heavy_storm": 1,
+    "mystical_space_typhoon": 1,
+    "premature_burial": 1,
+    "snatch_steal": 1,
+    "nobleman_of_crossout": 2,
+    "smashing_ground": 2,
+    "fissure": 2,
+    "axe_of_despair": 2,
+    "mirror_force": 1,
+    "torrential_tribute": 1,
+    "call_of_the_haunted": 1,
+    "sakuretsu_armor": 2,
+    "dust_tornado": 1
+  },
+  "fusion": {}
+}

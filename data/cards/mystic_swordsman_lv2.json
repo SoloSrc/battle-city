@@ -1,0 +1,21 @@
+{
+  "id": "mystic_swordsman_lv2",
+  "name": "Mystic Swordsman LV2",
+  "kind": "monster",
+  "monster": {
+    "type": "Warrior",
+    "attribute": "EARTH",
+    "level": 2,
+    "atk": 900,
+    "def": 0,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Cannot be Set. Destroys a face-down Defense Position monster it attacks at the start of the Damage Step, without flipping it.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "mystic_swordsman_lv2"
+  ]
+}

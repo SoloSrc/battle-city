@@ -1,0 +1,16 @@
+{
+  "id": "premature_burial",
+  "name": "Premature Burial",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "equip"
+  },
+  "trap": null,
+  "text": "Pay 800 Life Points: Special Summon 1 monster from your Graveyard in Attack Position and equip it with this card. When this card leaves the field, destroy the monster.",
+  "limit": 1,
+  "tier": 3,
+  "effects": [
+    "premature_burial"
+  ]
+}

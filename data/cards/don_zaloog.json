@@ -1,0 +1,21 @@
+{
+  "id": "don_zaloog",
+  "name": "Don Zaloog",
+  "kind": "monster",
+  "monster": {
+    "type": "Warrior",
+    "attribute": "DARK",
+    "level": 4,
+    "atk": 1400,
+    "def": 1500,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "When it inflicts battle damage: either discard 1 random card from the opponent's hand or send the top 2 cards of their Deck to the Graveyard.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "don_zaloog"
+  ]
+}

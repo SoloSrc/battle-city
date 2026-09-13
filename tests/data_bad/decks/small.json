@@ -1,0 +1,12 @@
+{
+  "id": "small",
+  "name": "Small",
+  "main": {
+    "good_elf": 3,
+    "limited_pot": 2,
+    "nobody": 1
+  },
+  "fusion": {
+    "good_elf": 1
+  }
+}

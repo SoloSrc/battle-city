@@ -1,0 +1,21 @@
+{
+  "id": "tsukuyomi",
+  "name": "Tsukuyomi",
+  "kind": "monster",
+  "monster": {
+    "type": "Spellcaster",
+    "attribute": "LIGHT",
+    "level": 4,
+    "atk": 1100,
+    "def": 1400,
+    "category": "spirit"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Spirit: cannot be Special Summoned; returns to the hand at the End Phase. When Summoned or flipped: flip 1 face-up monster face-down.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "tsukuyomi"
+  ]
+}

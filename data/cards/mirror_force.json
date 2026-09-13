@@ -1,0 +1,16 @@
+{
+  "id": "mirror_force",
+  "name": "Mirror Force",
+  "kind": "trap",
+  "monster": null,
+  "spell": null,
+  "trap": {
+    "subtype": "normal"
+  },
+  "text": "When an opponent's monster declares an attack: destroy all Attack Position monsters the opponent controls.",
+  "limit": 1,
+  "tier": 2,
+  "effects": [
+    "mirror_force"
+  ]
+}

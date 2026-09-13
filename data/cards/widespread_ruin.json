@@ -1,0 +1,16 @@
+{
+  "id": "widespread_ruin",
+  "name": "Widespread Ruin",
+  "kind": "trap",
+  "monster": null,
+  "spell": null,
+  "trap": {
+    "subtype": "normal"
+  },
+  "text": "When an opponent's monster declares an attack: destroy the Attack Position monster the opponent controls with the highest ATK.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "widespread_ruin"
+  ]
+}

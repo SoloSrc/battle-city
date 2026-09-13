@@ -1,0 +1,25 @@
+{
+  "id": "thousand_eyes_restrict",
+  "name": "Thousand-Eyes Restrict",
+  "kind": "fusion",
+  "monster": {
+    "type": "Spellcaster",
+    "attribute": "DARK",
+    "level": 1,
+    "atk": 0,
+    "def": 0,
+    "category": "fusion"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Other monsters cannot attack or change position. Once per turn: equip 1 monster on the field to this card; it gains that monster's ATK and DEF and can be destroyed in its place.",
+  "limit": 3,
+  "tier": 4,
+  "effects": [
+    "thousand_eyes_restrict"
+  ],
+  "materials": [
+    "relinquished",
+    "thousand_eyes_idol"
+  ]
+}

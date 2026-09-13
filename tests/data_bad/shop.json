@@ -1,0 +1,33 @@
+{
+  "stock": [
+    {
+      "card": "limited_pot",
+      "price": 100
+    },
+    {
+      "card": "good_elf",
+      "price": 0
+    },
+    {
+      "card": "good_elf",
+      "price": 5
+    },
+    {
+      "card": "nobody",
+      "price": 5
+    }
+  ],
+  "boosters": [
+    {
+      "id": "Pack",
+      "name": "",
+      "price": 0,
+      "count": 0,
+      "weights": {
+        "7": 1,
+        "1": 0
+      },
+      "limited_max": -1
+    }
+  ]
+}

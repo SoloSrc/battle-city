@@ -1,0 +1,16 @@
+{
+  "id": "lightning_vortex",
+  "name": "Lightning Vortex",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Discard 1 card: destroy all face-up monsters the opponent controls.",
+  "limit": 1,
+  "tier": 2,
+  "effects": [
+    "lightning_vortex"
+  ]
+}

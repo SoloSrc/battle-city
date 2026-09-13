@@ -1,0 +1,21 @@
+{
+  "id": "shining_angel",
+  "name": "Shining Angel",
+  "kind": "monster",
+  "monster": {
+    "type": "Fairy",
+    "attribute": "LIGHT",
+    "level": 4,
+    "atk": 1400,
+    "def": 800,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "When destroyed by battle: Special Summon 1 LIGHT monster with 1500 or less ATK from the Deck in face-up Attack Position.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "shining_angel"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "nobleman_of_crossout",
+  "name": "Nobleman of Crossout",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Banish 1 face-down monster on the field. If it was a Flip monster, both players banish every copy from their Decks.",
+  "limit": 2,
+  "tier": 3,
+  "effects": [
+    "nobleman_of_crossout"
+  ]
+}

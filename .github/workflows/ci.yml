@@ -27,12 +27,28 @@ jobs:
         run: dotnet build BattleCity.sln --no-restore --configuration Debug
       - name: Duel.Core tests
         run: dotnet test tests/Duel.Core.Tests --no-build --configuration Debug --logger "trx;LogFileName=duel-core.trx"
+      - name: Data tests
+        run: dotnet test tests/Data.Tests --no-build --configuration Debug --logger "trx;LogFileName=data.trx"
+      - name: Validate game data
+        run: python3 tools/validate_data.py --root data
+      - name: Validator catches bad data
+        run: |
+          set +e
+          python3 tools/validate_data.py --root tests/data_bad | tee bad.log
+          status=${PIPESTATUS[0]}
+          set -e
+          if [ "$status" -ne 1 ]; then echo "expected exit 1 on tests/data_bad, got $status"; exit 1; fi
+          for pattern in "does not match the file name" "copies, limit" "is not a known deck" "is Limited and only comes from boosters" "is not a #rrggbb colour" "tier 1 effect 'not_yet' is not implemented"; do
+            grep -F "$pattern" bad.log > /dev/null || { echo "missing expected failure: $pattern"; exit 1; }
+          done
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: duel-core-test-results
-          path: tests/Duel.Core.Tests/TestResults/*.trx
+          path: |
+            tests/Duel.Core.Tests/TestResults/*.trx
+            tests/Data.Tests/TestResults/*.trx
           if-no-files-found: ignore
 
   godot-import:

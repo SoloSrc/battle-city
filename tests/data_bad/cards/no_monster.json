@@ -1,0 +1,10 @@
+{
+  "id": "no_monster",
+  "name": "No Monster",
+  "kind": "fusion",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "no_monster"
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "duelists": [
+    {
+      "id": "d1",
+      "name": "Nico",
+      "area": "plaza",
+      "deck": "beatdown",
+      "required_flag": "",
+      "profile": {
+        "board": 1.2,
+        "cards": 0.6,
+        "life": 1.0,
+        "risk": 0.0,
+        "jitter": 0.6,
+        "bluff_set": 0.0
+      },
+      "challenge_line": "You look like you can take a hit. Let's duel!",
+      "win_line": "Not bad. Come back when you want a rematch.",
+      "lose_line": "Heh. Swing harder next time.",
+      "reward_first": {
+        "coins": 600,
+        "boosters": 1
+      },
+      "reward_rematch": {
+        "coins": 200,
+        "boosters": 1
+      },
+      "ending": false
+    },
+    {
+      "id": "d2",
+      "name": "Mara",
+      "area": "park",
+      "deck": "warrior_toolbox",
+      "required_flag": "defeated:d1",
+      "profile": {
+        "board": 1.0,
+        "cards": 1.0,
+        "life": 0.8,
+        "risk": 0.6,
+        "jitter": 0.3,
+        "bluff_set": 0.2
+      },
+      "challenge_line": "Nico sent you? Then you're ready for a real duel.",
+      "win_line": "Clean plays. The Arcade is waiting for you.",
+      "lose_line": "Read the field before you attack.",
+      "reward_first": {
+        "coins": 900,
+        "boosters": 2
+      },
+      "reward_rematch": {
+        "coins": 300,
+        "boosters": 2
+      },
+      "ending": false
+    },
+    {
+      "id": "d3",
+      "name": "The Arcade Owner",
+      "area": "arcade",
+      "deck": "goat_control",
+      "required_flag": "defeated:d2",
+      "profile": {
+        "board": 0.8,
+        "cards": 1.4,
+        "life": 0.5,
+        "risk": 1.0,
+        "jitter": 0.1,
+        "bluff_set": 0.5
+      },
+      "challenge_line": "Nobody beats the house. Shall we test that?",
+      "win_line": "...The house has a new champion.",
+      "lose_line": "Patience wins duels. Try again.",
+      "reward_first": {
+        "coins": 1500,
+        "boosters": 3
+      },
+      "reward_rematch": {
+        "coins": 500,
+        "boosters": 3
+      },
+      "ending": true
+    }
+  ]
+}

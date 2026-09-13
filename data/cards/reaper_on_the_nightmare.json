@@ -1,0 +1,25 @@
+{
+  "id": "reaper_on_the_nightmare",
+  "name": "Reaper on the Nightmare",
+  "kind": "fusion",
+  "monster": {
+    "type": "Zombie",
+    "attribute": "DARK",
+    "level": 5,
+    "atk": 800,
+    "def": 600,
+    "category": "fusion"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Fusion only. Can attack directly. Cannot be destroyed by battle. Destroyed when targeted by a card effect. When it inflicts battle damage by a direct attack: discard 1 random card from the opponent's hand.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "reaper_on_the_nightmare"
+  ],
+  "materials": [
+    "spirit_reaper",
+    "nightmare_horse"
+  ]
+}

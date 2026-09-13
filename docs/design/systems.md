@@ -484,8 +484,42 @@ Booster draw: weighted random by tier (T1 40 %, T2 35 %, T3 20 %, T4 5 %)
 with at most `limitedMax` Limited cards, from the seeded RNG so drops are
 reproducible from the save's seed counter.
 
-Rewards: `data/duelists.json` carries `rewardFirst`, `rewardRematch`
+Rewards: `data/duelists.json` carries `reward_first`, `reward_rematch`
 (coins, boosters).
+
+### 8.1 Data schemas (`data/`, issue #26)
+
+Keys are snake_case; ids match file names. `tools/validate_data.py` and the
+`BattleCity.Data` loaders enforce these.
+
+```json
+// data/decks/<id>.json — card id → copies; DeckRules: 40–60 main, copies ≤ limit, Fusion only in "fusion"
+{ "id": "beatdown", "name": "Beatdown", "description": "...",
+  "main": { "gemini_elf": 3, "pot_of_greed": 1 }, "fusion": {} }
+
+// data/duelists.json
+{ "duelists": [ { "id": "d1", "name": "Nico", "area": "plaza", "deck": "beatdown",
+    "required_flag": "", "profile": { "board": 1.2, "cards": 0.6, "life": 1.0, "risk": 0.0, "jitter": 0.6, "bluff_set": 0.0 },
+    "challenge_line": "...", "win_line": "...", "lose_line": "...",
+    "reward_first": { "coins": 600, "boosters": 1 }, "reward_rematch": { "coins": 200, "boosters": 1 },
+    "ending": false } ] }
+
+// data/shop.json — stock must not contain Limited cards (GDD §5.2)
+{ "stock": [ { "card": "gemini_elf", "price": 100 } ],
+  "boosters": [ { "id": "street_pack", "name": "Street Pack", "price": 300, "count": 5,
+                  "weights": { "1": 40, "2": 35, "3": 20, "4": 5 }, "limited_max": 1 } ] }
+
+// data/avatar.json — option lists per GDD §1.1; defaults index into them
+{ "name": { "default": "Duelist", "min_length": 1, "max_length": 12, "pattern": "^[A-Za-z0-9 ]+$" },
+  "body_types": ["a", "b"], "skin_tones": ["#f6e0c8", "..."], "hair_styles": { "a": ["a_short", "..."], "b": ["..."] },
+  "hair_colors": ["..."], "outfits": ["street", "school", "duelist"], "accent_colors": ["..."],
+  "defaults": { "body_type": "a", "skin_tone": 2, "hair_style": 0, "hair_color": 0, "outfit": 0, "accent_color": 0 } }
+```
+
+Card `effects` for tiers 2–4 name the effect id (the card id by convention)
+before the class exists; the loader accepts these stubs, the validator checks
+that tier 1 ids are implemented, and `DuelEngine.Start` rejects a deck whose
+effects are missing from the `EffectRegistry`.
 
 ---
 

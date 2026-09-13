@@ -1,0 +1,21 @@
+{
+  "id": "command_knight",
+  "name": "Command Knight",
+  "kind": "monster",
+  "monster": {
+    "type": "Warrior",
+    "attribute": "FIRE",
+    "level": 4,
+    "atk": 1200,
+    "def": 1900,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Warriors you control gain 400 ATK. The opponent cannot attack this card while you control another monster.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "command_knight"
+  ]
+}

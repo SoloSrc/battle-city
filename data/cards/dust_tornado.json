@@ -1,0 +1,16 @@
+{
+  "id": "dust_tornado",
+  "name": "Dust Tornado",
+  "kind": "trap",
+  "monster": null,
+  "spell": null,
+  "trap": {
+    "subtype": "normal"
+  },
+  "text": "Destroy 1 Spell or Trap Card the opponent controls, then you may Set 1 Spell or Trap Card from the hand.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "dust_tornado"
+  ]
+}

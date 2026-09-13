@@ -1,0 +1,34 @@
+{
+  "name": {
+    "default": "Duelist!",
+    "min_length": 0,
+    "max_length": 12,
+    "pattern": "^[A-Za-z]+$"
+  },
+  "body_types": [
+    "a"
+  ],
+  "skin_tones": [
+    "red"
+  ],
+  "hair_styles": {
+    "b": [
+      "x"
+    ]
+  },
+  "hair_colors": [
+    "#000000"
+  ],
+  "outfits": [],
+  "accent_colors": [
+    "#000000"
+  ],
+  "defaults": {
+    "body_type": "c",
+    "skin_tone": 9,
+    "hair_style": 0,
+    "hair_color": 0,
+    "outfit": 0,
+    "accent_color": 0
+  }
+}

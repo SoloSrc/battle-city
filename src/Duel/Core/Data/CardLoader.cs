@@ -12,8 +12,9 @@ namespace BattleCity.Duel.Core.Data;
 
 /// <summary>
 /// Reads <c>data/cards/&lt;id&gt;.json</c> (systems.md §5.3, architecture.md §5).
-/// Every effect id must exist in the <see cref="EffectRegistry"/>, so a
-/// card whose tier is not implemented yet fails here, not mid-duel.
+/// Tier 1 effects must exist in the <see cref="EffectRegistry"/>; higher
+/// tiers may name effects that are not implemented yet (stubs), and
+/// <see cref="DuelEngine.Start"/> refuses a deck that contains them.
 /// </summary>
 public sealed partial class CardLoader
 {
@@ -119,9 +120,14 @@ public sealed partial class CardLoader
         List<string> effects = dto.Effects ?? new List<string>();
         foreach (string effect in effects)
         {
-            if (!_effects.Contains(effect))
+            if (!IdPattern().IsMatch(effect))
             {
-                throw new CardDataException($"{source}: effect '{effect}' is not implemented (registered: {string.Join(", ", _effects.Ids)}).");
+                throw new CardDataException($"{source}: effect id '{effect}' must be snake_case.");
+            }
+
+            if (dto.Tier == 1 && !_effects.Contains(effect))
+            {
+                throw new CardDataException($"{source}: tier 1 effect '{effect}' is not implemented (registered: {string.Join(", ", _effects.Ids)}).");
             }
         }
 

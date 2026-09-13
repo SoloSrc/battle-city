@@ -1,0 +1,21 @@
+{
+  "id": "goblin_attack_force",
+  "name": "Goblin Attack Force",
+  "kind": "monster",
+  "monster": {
+    "type": "Warrior",
+    "attribute": "EARTH",
+    "level": 4,
+    "atk": 2300,
+    "def": 0,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "After it attacks it switches to Defense Position and cannot change position until the end of your next turn.",
+  "limit": 3,
+  "tier": 2,
+  "effects": [
+    "goblin_attack_force"
+  ]
+}

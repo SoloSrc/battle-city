@@ -1,0 +1,16 @@
+{
+  "id": "graceful_charity",
+  "name": "Graceful Charity",
+  "kind": "spell",
+  "monster": null,
+  "spell": {
+    "subtype": "normal"
+  },
+  "trap": null,
+  "text": "Draw 3 cards, then discard 2 cards.",
+  "limit": 1,
+  "tier": 2,
+  "effects": [
+    "graceful_charity"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "dd_assailant",
+  "name": "D.D. Assailant",
+  "kind": "monster",
+  "monster": {
+    "type": "Warrior",
+    "attribute": "EARTH",
+    "level": 4,
+    "atk": 1700,
+    "def": 1600,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "When destroyed by battle: banish it and the monster that destroyed it.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "dd_assailant"
+  ]
+}

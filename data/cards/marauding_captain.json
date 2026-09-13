@@ -1,0 +1,21 @@
+{
+  "id": "marauding_captain",
+  "name": "Marauding Captain",
+  "kind": "monster",
+  "monster": {
+    "type": "Warrior",
+    "attribute": "EARTH",
+    "level": 3,
+    "atk": 1200,
+    "def": 400,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "When Normal Summoned: Special Summon 1 Level 4 or lower monster from the hand. The opponent cannot attack other Warriors you control.",
+  "limit": 2,
+  "tier": 3,
+  "effects": [
+    "marauding_captain"
+  ]
+}

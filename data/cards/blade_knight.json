@@ -1,0 +1,21 @@
+{
+  "id": "blade_knight",
+  "name": "Blade Knight",
+  "kind": "monster",
+  "monster": {
+    "type": "Warrior",
+    "attribute": "LIGHT",
+    "level": 4,
+    "atk": 1600,
+    "def": 1000,
+    "category": "effect"
+  },
+  "spell": null,
+  "trap": null,
+  "text": "Gains 400 ATK while you have 1 or fewer cards in hand. Negates the Flip Effects of monsters it destroys while it is your only monster.",
+  "limit": 3,
+  "tier": 3,
+  "effects": [
+    "blade_knight"
+  ]
+}
