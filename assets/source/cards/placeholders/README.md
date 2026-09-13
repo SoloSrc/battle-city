@@ -28,8 +28,9 @@ existing `assets/source/.gdignore`.
 
 The exporter also builds `docs/art/previews/card-placeholders/index.html`, a
 contact sheet and six 177×258 frame samples. Review annotations use a system
-font, which is not distributed or baked into the runtime art. Contain is the
-review default; the HTML offers cover as a comparison. Neither sets runtime
-crop policy: systems §6.2 leaves that decision deferred. Existing approved frame
-assets and geometry are unchanged. Spell/trap type badges are omitted from the
-review composites, which are not intended to replace the runtime CardView.
+font, which is not distributed or baked into the runtime art. Centered cover is the
+director-approved default (2026-09-13); the HTML offers contain only for
+comparison. See systems §6.2 for the crop geometry. Existing approved frame
+assets and geometry are unchanged. Spell/trap type badges and applicable subtype glyphs are included at the
+approved positions. Normal spell/trap cards have no extra subtype glyph. These
+review composites do not replace runtime CardView.

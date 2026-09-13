@@ -1,0 +1,4 @@
+PASS: centered cover renders square art to the full 520x560 window.
+PASS: all 72 HTML review cards match card-data badge expectations; 38 type/subtype badges total.
+PASS: all HTML image and export links resolve.
+Visual review: six regenerated 177x258 samples, no letterboxing; Book of Moon shows spell and quick-play badges, Mirror Force shows trap badge.

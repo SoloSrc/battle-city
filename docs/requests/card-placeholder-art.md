@@ -10,7 +10,7 @@ animation delivery in PR #49. Branch: `gpt-astra`.
 
 [Searchable local review page](../art/previews/card-placeholders/index.html).
 Open from a repository checkout; GitHub displays HTML source rather than running
-it. The page includes contain/cover comparisons for review only.
+it. The page defaults to approved centered cover, with contain for comparison.
 
 ## Delivered assets
 
@@ -34,11 +34,15 @@ Load art using `res://assets/cards/art/<id>.png`. No JSON schema or card rules
 changed. The existing frames, back, stars and attributes are unchanged. This
 asset delivery does not implement CardView, texture lookup or the hologram shader.
 
-The runtime crop decision remains deferred under systems §6.2. Review composites
-contain the square in the approved 520×560 art window at (35,40); cover is an
-optional HTML comparison. Neither is a new director-approved crop contract.
+Director-approved correction (2026-09-13): use centered cover in the 520×560
+art window at (35,40). Scale the 512×512 source uniformly to 560×560, then clip
+20 pixels from each side. This removes the former top/bottom letterboxing
+without stretching or changing the frame. Implement the same fit in CardView;
+systems §6.2 now records the agreement.
 The samples retain the approved data-panel margins and display monster stars,
-attributes and numbers. Spell/trap badges are omitted from this art-only review.
+attributes and numbers. Spell/trap cards display the type badge at (60,665)
+and, when applicable, the subtype glyph at (198,665), both 104×104. Normal
+spell/trap cards display only the type badge; quick maps to st_quick_play.
 
 Integrate these textures when CardView lands, then check actual hand-size,
 selection and hologram readability. Keep #30 open until the shader acceptance
@@ -52,7 +56,8 @@ work is complete. No existing dependency issue is closed by this delivery.
   StandardMaterial3D. This is not hologram shader acceptance.
 - Card-data validation: 1,934 checks, zero failures.
 - Visual review: full inventory at 128px art size and six framed samples at
-  177×258; no subject cropping with the review's contain fit.
+  177×258; centered cover removes letterboxing while retaining the subjects.
+- All 72 HTML cards match the JSON type/subtype badge requirements (38 badges).
 - All local HTML image/export links resolve. Interactive browser testing was
   unavailable: browser security policy blocked opening the local file URL.
   Search and fit controls therefore remain unverified in-browser.
