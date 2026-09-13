@@ -139,6 +139,13 @@
     ]
   },
   {
+    "asset": "st_ritual",
+    "size": [
+      128,
+      128
+    ]
+  },
+  {
     "asset": "st_spell",
     "size": [
       128,

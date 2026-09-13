@@ -1,62 +1,38 @@
-# Card graphics — issue #30
+# Card graphics — reference revision 4
 
-Original SOLOSRC vector artwork, released under the repository MIT license.
-No external art or font files are included. The SVGs use named Inkscape layers
-(base, border, information band and type signature; badge and symbol for icons).
-Open them in a vector editor to change shapes, colours or layer visibility.
+The director's 2026-09-13 `~/Downloads/cards` examples supersede revision 3.
+Six SVG frame assemblies preserve supplied bevels, lower-panel textures and
+stat borders at 590×860. `reference_frames.py` clears art windows and replaces
+baked badge/number areas with blank strips from the same reference. The approved
+card back remains unchanged. Original illustrations are present in source
+references only; exported frame windows are fully transparent.
 
-Runtime PNGs live in `assets/cards/frames/` and `assets/cards/icons/`.
-`frame-layout.json` retains the documented art rectangle and proposes revised lower-band coordinates;
-it is a handoff reference, not an engine schema addition or art crop decision.
+`reference_badges.py` creates SVG viewports of the supplied attribute and level
+sheets, preserving their glyphs and glossy artwork. `references/attributes.png`
+and `references/levels.png` are user-provided reference assets. The full card references likewise retain their supplied artwork. Their original
+creator/license was not supplied; do not label these reference-derived frames or badges
+as original SOLOSRC MIT artwork. No reference monster illustration is used as runtime card art.
+The assembly code and six new tooltip glyphs are original SOLOSRC.
 
 ## Rebuild
-
-From the repository root, with Python 3, Node and the `sharp` package available:
 
 ```sh
 python3 assets/source/cards/build_cards.py
 node assets/source/cards/render_cards.cjs
+node assets/source/cards/placeholders/export.cjs
+node assets/source/cards/review_reference.cjs
 godot --headless --editor --import
 godot --headless --script assets/source/cards/verify_import.gd
 ```
 
-Set `CARDS_REPO` to build into another checkout. Set `SHARP_MODULE` to an absolute
-installed module path if Sharp is not on Node's search path. There are no font
-or raster references in the asset SVGs. The contact sheet uses a system font
-only for review annotations; it is not a game texture.
+Set `SHARP_MODULE` to the installed Sharp module if needed. SVGs contain
+embedded badge-sheet data so the standard SVG exporter remains self-contained.
+Python `reference_badges.py` is the editable source for these wrappers and the
+new tooltip symbols. The render validator checks all 346,192 transparent
+art-window pixels per frame, dimensions and unchanged back symmetry.
 
-The exporter verifies exact sizes, all 291,200 art-window pixels fully clear
-per frame, and approximate 180-degree raster symmetry of the back (mean channel
-error ≤0.75/255 to allow edge antialiasing). Its shapes are vector-symmetric.
-`validation.json` records the exported inventory. Godot verification checks the
-22 Texture2D resources and bindings to StandardMaterial3D; it cannot validate
-Fable's pending hologram shader.
-
-## Compositing — director-approved revision 03
-
-Use the exact dimensions, icon centres and text origins in `frame-layout.json`,
-now documented in systems.md §6.2. The art rectangle is `[35,40,520,560]`, and
-the data panel is `[28,608,534,224]`. Frames retain transparent windows/exterior
-corners, with cloud texture and inset bevelled number plates. The exporter
-checks all 291,200 art-window pixels per frame.
-
-Stars render at 32×32 centred `(68 + 34*i,656)`; attribute at 48×48 centred
-`(514,656)`. This leaves 24 px padding at the left/right edges and 32 px between
-the twelfth star and attribute. ATK/DEF text-box origins are `(68,726)` and
-`(338,726)` with a 56 px starting font size, adjusted using engine font metrics.
-Spell/trap use 104×104 badges at `(60,665)` and `(198,665)`.
-
-Compose art, frame, icons and text into CardView before mapping to a world quad.
-No stats, stars, attributes, name or rules text are baked into frames. The art
-crop policy remains deferred. Equip uses a breastplate; Counter a shield
-redirecting a strike. The director's supplied reference image is not committed.
-
-See [director-approved handoff](../../../docs/requests/card-layout-director-approved.md).
-
-## Card back — director-approved preview
-
-Approved in chat on 2026-09-09 for PR #40. The flat dark-brown field and broad
-cocoa/tan currents surround a softly integrated black elliptical opening. The
-local radial transition at the centre is intentional; it is not cloud shading.
-The warm-brown border and lack of event-horizon rings are retained. See
-[handoff](../../../docs/requests/card-back-black-hole.md).
+`frame-layout.json` revision 4 and systems §6.2 define the contract: 562×616
+cover art, centered level rows with right clearance, larger reference badges,
+centered stat text and a single centered Spell/Trap type badge. Subtype icons
+are tooltip-only. Runtime CardView adoption remains Fable's work in #60.
+See [handoff](../../../docs/requests/card-reference-frames.md).

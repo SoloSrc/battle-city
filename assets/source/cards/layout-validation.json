@@ -1,0 +1,92 @@
+{
+  "rows": [
+    {
+      "level": 1,
+      "left": 278,
+      "right": 312,
+      "attribute_left": 482,
+      "gap": 170
+    },
+    {
+      "level": 2,
+      "left": 260,
+      "right": 330,
+      "attribute_left": 482,
+      "gap": 152
+    },
+    {
+      "level": 3,
+      "left": 242,
+      "right": 348,
+      "attribute_left": 482,
+      "gap": 134
+    },
+    {
+      "level": 4,
+      "left": 224,
+      "right": 366,
+      "attribute_left": 482,
+      "gap": 116
+    },
+    {
+      "level": 5,
+      "left": 206,
+      "right": 384,
+      "attribute_left": 482,
+      "gap": 98
+    },
+    {
+      "level": 6,
+      "left": 188,
+      "right": 402,
+      "attribute_left": 482,
+      "gap": 80
+    },
+    {
+      "level": 7,
+      "left": 170,
+      "right": 420,
+      "attribute_left": 482,
+      "gap": 62
+    },
+    {
+      "level": 8,
+      "left": 152,
+      "right": 438,
+      "attribute_left": 482,
+      "gap": 44
+    },
+    {
+      "level": 9,
+      "left": 134,
+      "right": 456,
+      "attribute_left": 482,
+      "gap": 26
+    },
+    {
+      "level": 10,
+      "left": 102,
+      "right": 460,
+      "attribute_left": 482,
+      "gap": 22
+    },
+    {
+      "level": 11,
+      "left": 66,
+      "right": 460,
+      "attribute_left": 482,
+      "gap": 22
+    },
+    {
+      "level": 12,
+      "left": 30,
+      "right": 460,
+      "attribute_left": 482,
+      "gap": 22
+    }
+  ],
+  "subtypes_on_faces": 0,
+  "tooltip_subtypes": 6,
+  "frame_types": 6,
+  "ritual_sample": "layout fixture only; uses existing symbolic art, not a new card definition"
+}
