@@ -1,4 +1,5 @@
 using System;
+using BattleCity.Duel.Core.Effects;
 using BattleCity.Duel.Core.Events;
 using BattleCity.Duel.Core.Model;
 
@@ -48,6 +49,7 @@ internal static class Zones
         card.Loc = Location.Graveyard;
         engine.State.Player(card.Owner).Graveyard.Add(card);
         engine.Emit(new CardSentToGraveyard(card.Owner, card.Id, card.Def.Id, from));
+        engine.QueueTriggers(card, TriggerWindow.OnSentToGrave, from);
     }
 
     public static void PlaceMonster(DuelState state, CardInstance card, int player, int zone, Position position)

@@ -16,6 +16,7 @@ public sealed class DuelState
         Rng = rng ?? throw new ArgumentNullException(nameof(rng));
         Players = new[] { new PlayerState(0), new PlayerState(1) };
         Chain = new List<ChainLink>();
+        Triggers = new List<PendingTrigger>();
     }
 
     private DuelState(DuelState other)
@@ -23,18 +24,24 @@ public sealed class DuelState
         Rng = other.Rng.Clone();
         var copies = new Dictionary<Guid, CardInstance>();
         Players = other.Players.Select(p => p.Clone(copies)).ToArray();
-        Chain = other.Chain.Select(l => new ChainLink(l.Index, l.Player, copies[l.Source.Id], l.Effect)).ToList();
+        Chain = other.Chain.Select(l => l.Clone(copies[l.Source.Id])).ToList();
+        Triggers = other.Triggers.ToList();
+        PendingLink = other.PendingLink?.Clone(copies[other.PendingLink.Source.Id]);
+        PendingChoice = other.PendingChoice;
         TurnPlayer = other.TurnPlayer;
         TurnNumber = other.TurnNumber;
         Phase = other.Phase;
         BattleStep = other.BattleStep;
         DamageSubstep = other.DamageSubstep;
+        Window = other.Window;
+        WindowCard = other.WindowCard;
         Priority = other.Priority;
         ConsecutivePasses = other.ConsecutivePasses;
         NormalSummonUsed = other.NormalSummonUsed;
         BattlePhaseUsed = other.BattlePhaseUsed;
         Attacker = other.Attacker;
         AttackTarget = other.AttackTarget;
+        BattleFlipped = other.BattleFlipped;
         Winner = other.Winner;
         Outcome = other.Outcome;
     }
@@ -54,13 +61,28 @@ public sealed class DuelState
 
     public DamageSubstep DamageSubstep { get; set; }
 
+    /// <summary>The response window the duel is in (systems.md §5.5).</summary>
+    public Window Window { get; set; }
+
+    /// <summary>The monster a <see cref="Model.Window.Summon"/> window is about.</summary>
+    public Guid? WindowCard { get; set; }
+
     /// <summary>Chain links in activation order; resolves LIFO.</summary>
     public List<ChainLink> Chain { get; }
+
+    /// <summary>Trigger effects whose window fired and that are not on the chain yet, in the order they fired.</summary>
+    public List<PendingTrigger> Triggers { get; }
+
+    /// <summary>An activation collecting its cost and target answers before it joins the chain.</summary>
+    public ChainLink? PendingLink { get; set; }
+
+    /// <summary>The question the engine is waiting on; while set, only <c>AnswerChoice</c> from its player is legal.</summary>
+    public PendingChoice? PendingChoice { get; set; }
 
     /// <summary>The player who may act now.</summary>
     public int Priority { get; set; }
 
-    /// <summary>Consecutive priority passes; two in a row resolve the chain, run a pending attack or advance the phase.</summary>
+    /// <summary>Consecutive priority passes; two in a row resolve the chain or close the window.</summary>
     public int ConsecutivePasses { get; set; }
 
     public bool NormalSummonUsed { get; set; }
@@ -68,11 +90,14 @@ public sealed class DuelState
     /// <summary>The turn player entered the Battle Phase this turn (it cannot be entered twice).</summary>
     public bool BattlePhaseUsed { get; set; }
 
-    /// <summary>Attacking monster while an attack is being resolved.</summary>
+    /// <summary>Attacking monster from the attack declaration to the end of the Damage Step.</summary>
     public Guid? Attacker { get; set; }
 
     /// <summary>Attack target; null for a direct attack.</summary>
     public Guid? AttackTarget { get; set; }
+
+    /// <summary>The attack target flipped face-up by this Damage Step; its flip effect fires after damage calculation.</summary>
+    public Guid? BattleFlipped { get; set; }
 
     public int? Winner { get; set; }
 
@@ -81,6 +106,9 @@ public sealed class DuelState
     public bool IsOver => Outcome != DuelOutcome.None;
 
     public bool FirstTurn => TurnNumber == 1;
+
+    /// <summary>A pending choice or an activation in progress: no other command is accepted.</summary>
+    public bool IsPaused => PendingChoice is not null || PendingLink is not null;
 
     public PlayerState Player(int index) => Players[index];
 

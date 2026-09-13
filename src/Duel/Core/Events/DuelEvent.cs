@@ -19,6 +19,9 @@ public sealed record BattleStepChanged(BattleStep Step) : DuelEvent;
 
 public sealed record DamageSubstepChanged(DamageSubstep Substep) : DuelEvent;
 
+/// <summary>A response window opened or closed (systems.md §5.5).</summary>
+public sealed record WindowChanged(Window Window, Guid? Card) : DuelEvent;
+
 public sealed record PriorityPassed(int Player) : DuelEvent;
 
 public sealed record MonsterSummoned(int Player, Guid Card, string CardId, int Zone, Position Position, IReadOnlyList<Guid> Tributes) : DuelEvent;
@@ -36,13 +39,28 @@ public sealed record SpellTrapSet(int Player, Guid Card, int Zone) : DuelEvent;
 
 public sealed record SpellActivated(int Player, Guid Card, string CardId, int Zone) : DuelEvent;
 
+public sealed record TrapActivated(int Player, Guid Card, string CardId, int Zone) : DuelEvent;
+
+/// <summary>A monster's Ignition, Quick or Trigger effect was activated.</summary>
+public sealed record EffectActivated(int Player, Guid Card, string CardId, string EffectId) : DuelEvent;
+
+/// <summary>The engine asked <see cref="Player"/> a question; it waits for <c>AnswerChoice</c>.</summary>
+public sealed record ChoiceRequested(int Player, ChoiceKind Kind, Guid? Source, string Prompt, IReadOnlyList<Guid> Options, int Min, int Max) : DuelEvent;
+
+public sealed record ChoiceAnswered(int Player, ChoiceKind Kind, IReadOnlyList<Guid> Selected) : DuelEvent;
+
 public sealed record ChainLinkAdded(int Link, int Player, Guid Card, string EffectId) : DuelEvent;
+
+public sealed record ChainLinkNegated(int Link, Guid Card, string EffectId) : DuelEvent;
 
 public sealed record ChainLinkResolved(int Link, Guid Card, string EffectId) : DuelEvent;
 
 public sealed record BattlePhaseEntered(int Player) : DuelEvent;
 
 public sealed record AttackDeclared(int Player, Guid Attacker, Guid? Target) : DuelEvent;
+
+/// <summary>The attack ended before damage calculation because the attacker or its target left the field.</summary>
+public sealed record AttackCancelled(Guid Attacker) : DuelEvent;
 
 public sealed record BattleDamage(int Player, int Amount, Guid Source) : DuelEvent;
 
