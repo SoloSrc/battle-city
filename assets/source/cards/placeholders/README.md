@@ -4,7 +4,7 @@ Owner: gpt-astra. MIT, original SOLOSRC vector shapes. No published card art,
 traced imagery, external fonts or raster references are included. These are
 semantic emblems for gameplay testing, not final monster/spell illustrations.
 
-Each of the 72 card IDs in `data/cards` has an editable SVG, an opaque 512×512
+Each of the 79 card IDs in `data/cards` has an editable SVG, an opaque 512×512
 PNG at `assets/cards/art/<id>.png`, and an entry in `manifest.json`. The primary
 and secondary motif pairs are explicit in `build.py`; colors group attributes
 and spell/trap types. Do not infer mechanics from the artwork alone.
@@ -22,12 +22,12 @@ Use the repository root for the commands above. `SHARP_MODULE` may point to an
 installed Sharp module if it is outside Node's normal search path. The source
 builder fails if its explicitly authored motif roster differs from card data.
 The exporter checks dimensions, full opacity and unique decoded pixel hashes;
-`validation.json` records the results. Godot verification checks all 72 textures
+`validation.json` records the results. Godot verification checks all 79 textures
 and StandardMaterial3D bindings. Source files stay excluded from Godot by the
 existing `assets/source/.gdignore`.
 
 The exporter also builds `docs/art/previews/card-placeholders/index.html`, a
-contact sheet and six 177×258 frame samples. Review annotations use a system
+contact sheet, six original frame samples and seven Rookie Beatdown frame samples. Review annotations use a system
 font, which is not distributed or baked into the runtime art. Centered cover is the
 director-approved default (2026-09-13); the HTML offers contain only for
 comparison. See systems §6.2 for the crop geometry. Existing approved frame

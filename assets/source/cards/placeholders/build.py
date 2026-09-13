@@ -36,9 +36,25 @@ M={
 'ring':'<circle r="101" fill="none" stroke="currentColor" stroke-width="30"/>',
 'armor':path('M -54 -117 L 54 -117 L 65 -86 L 116 -66 L 80 4 L 58 -11 L 75 119 L -75 119 L -58 -11 L -80 4 L -116 -66 L -65 -86 Z')+path('M 0 -69 L 0 85 M -42 -45 L 0 -20 L 42 -45',stroke='#f8d8a0',width=10),
 }
+M.update({
+'doll':circle(0,-96,33)+path('M -36 -51 L 36 -51 L 46 38 L -46 38 Z M -32 57 L -38 131 L -68 131 L -60 54 Z M 32 57 L 60 54 L 68 131 L 38 131 Z M -58 -43 L -104 8 L -124 -10 L -82 -62 Z M 58 -43 L 86 -103 L 109 -90 L 82 -23 Z')+circle(-48,46,11)+circle(48,46,11),
+'elf':path('M -66 -44 L -118 -89 L -88 14 L -52 40 L -36 100 L 36 100 L 52 40 L 88 14 L 118 -89 L 66 -44 Q 0 -137 -66 -44 Z')+path('M -38 -5 L -12 4 M 38 -5 L 12 4',stroke='#f8d8a0',width=8),
+'imp':path('M -61 -48 L -102 -137 L -16 -93 L 16 -93 L 102 -137 L 61 -48 Q 123 51 37 113 L -37 113 Q -123 51 -61 -48 Z')+path('M -47 -5 L -20 9 M 47 -5 L 20 9 M -42 46 Q 0 89 42 46',stroke='#f8d8a0',width=10),
+'bat':path('M 0 -31 Q -74 -112 -145 -119 L -111 15 Q -82 -15 -59 39 Q -33 17 0 100 Q 33 17 59 39 Q 82 -15 111 15 L 145 -119 Q 74 -112 0 -31 Z'),
+'giant':path('M -45 -129 L 45 -129 L 51 -62 L -51 -62 Z M -66 -49 L 66 -49 L 53 54 L -53 54 Z M -79 -42 L -125 -35 L -133 72 L -86 72 Z M 79 -42 L 125 -35 L 133 72 L 86 72 Z M -51 68 L -10 68 L -10 135 L -63 135 Z M 10 68 L 51 68 L 63 135 L 10 135 Z')+path('M -28 -92 L -9 -92 M 28 -92 L 9 -92',stroke='#f8d8a0',width=9),
+'prayer':circle(0,-89,32)+path('M -32 -49 L -67 -12 L -104 122 L 104 122 L 67 -12 L 32 -49 L 17 -9 L 50 31 L 22 57 L 0 16 L -22 57 L -50 31 L -17 -9 Z'),
+'claw':path('M -65 -110 L -44 9 L -103 94 L -43 63 L -19 30 L -8 125 L 17 60 L 22 16 L 95 94 L 75 33 L 48 -17 L 60 -110 L 25 -82 L 1 -26 L -21 -77 Z'),
+})
 # Main silhouette + secondary symbol: semantic, original emblems, not depictions
 # of the licensed card illustrations. No text, stats or gameplay icons in art.
-SPEC='''airknight_parshath helm wing
+SPEC='''rogue_doll doll sword
+celtic_guardian elf sword
+harpie_lady wing claw
+feral_imp imp moon
+koumori_dragon serpent bat
+giant_soldier_of_stone giant shield
+mystical_elf prayer ring
+airknight_parshath helm wing
 archfiend_soldier helm flame
 asura_priest crown ring
 axe_of_despair axe moon

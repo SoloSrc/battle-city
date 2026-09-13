@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://vfx/DuelEffect.gd" id="1"]
+
+[node name="CardSelected" type="Node3D"]
+script = ExtResource("1")
+effect = "CardSelected"
+duration = 0
+color = Color(0.4745, 0.8471, 1, 1)

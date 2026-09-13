@@ -143,6 +143,19 @@
     "license": "MIT"
   },
   {
+    "id": "celtic_guardian",
+    "name": "Celtic Guardian",
+    "kind": "monster",
+    "motifs": [
+      "elf",
+      "sword"
+    ],
+    "source": "assets/source/cards/placeholders/celtic_guardian.svg",
+    "texture": "assets/cards/art/celtic_guardian.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
     "id": "chaos_sorcerer",
     "name": "Chaos Sorcerer",
     "kind": "monster",
@@ -312,6 +325,19 @@
     "license": "MIT"
   },
   {
+    "id": "feral_imp",
+    "name": "Feral Imp",
+    "kind": "monster",
+    "motifs": [
+      "imp",
+      "moon"
+    ],
+    "source": "assets/source/cards/placeholders/feral_imp.svg",
+    "texture": "assets/cards/art/feral_imp.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
     "id": "fissure",
     "name": "Fissure",
     "kind": "spell",
@@ -347,6 +373,19 @@
     ],
     "source": "assets/source/cards/placeholders/giant_orc.svg",
     "texture": "assets/cards/art/giant_orc.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "giant_soldier_of_stone",
+    "name": "Giant Soldier of Stone",
+    "kind": "monster",
+    "motifs": [
+      "giant",
+      "shield"
+    ],
+    "source": "assets/source/cards/placeholders/giant_soldier_of_stone.svg",
+    "texture": "assets/cards/art/giant_soldier_of_stone.png",
     "stage": "symbolic placeholder",
     "license": "MIT"
   },
@@ -403,6 +442,19 @@
     "license": "MIT"
   },
   {
+    "id": "harpie_lady",
+    "name": "Harpie Lady",
+    "kind": "monster",
+    "motifs": [
+      "wing",
+      "claw"
+    ],
+    "source": "assets/source/cards/placeholders/harpie_lady.svg",
+    "texture": "assets/cards/art/harpie_lady.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
     "id": "heavy_storm",
     "name": "Heavy Storm",
     "kind": "spell",
@@ -425,6 +477,19 @@
     ],
     "source": "assets/source/cards/placeholders/jinzo.svg",
     "texture": "assets/cards/art/jinzo.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "koumori_dragon",
+    "name": "Koumori Dragon",
+    "kind": "monster",
+    "motifs": [
+      "serpent",
+      "bat"
+    ],
+    "source": "assets/source/cards/placeholders/koumori_dragon.svg",
+    "texture": "assets/cards/art/koumori_dragon.png",
     "stage": "symbolic placeholder",
     "license": "MIT"
   },
@@ -585,6 +650,19 @@
     "license": "MIT"
   },
   {
+    "id": "mystical_elf",
+    "name": "Mystical Elf",
+    "kind": "monster",
+    "motifs": [
+      "prayer",
+      "ring"
+    ],
+    "source": "assets/source/cards/placeholders/mystical_elf.svg",
+    "texture": "assets/cards/art/mystical_elf.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
     "id": "mystical_space_typhoon",
     "name": "Mystical Space Typhoon",
     "kind": "spell",
@@ -672,6 +750,19 @@
     ],
     "source": "assets/source/cards/placeholders/ring_of_destruction.svg",
     "texture": "assets/cards/art/ring_of_destruction.png",
+    "stage": "symbolic placeholder",
+    "license": "MIT"
+  },
+  {
+    "id": "rogue_doll",
+    "name": "Rogue Doll",
+    "kind": "monster",
+    "motifs": [
+      "doll",
+      "sword"
+    ],
+    "source": "assets/source/cards/placeholders/rogue_doll.svg",
+    "texture": "assets/cards/art/rogue_doll.png",
     "stage": "symbolic placeholder",
     "license": "MIT"
   },

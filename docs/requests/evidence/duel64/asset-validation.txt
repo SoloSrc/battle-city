@@ -1,0 +1,9 @@
+PASS: all 72 existing card pixel hashes unchanged; 7 new cards; 79 total.
+PASS: draw: 48 kHz / 24-bit mono, 0.25 s, -9 dBFS peak, unique PCM, faded endpoints.
+PASS: summon: 48 kHz / 24-bit mono, 0.75 s, -9 dBFS peak, unique PCM, faded endpoints.
+PASS: set: 48 kHz / 24-bit mono, 0.2 s, -9 dBFS peak, unique PCM, faded endpoints.
+PASS: attack: 48 kHz / 24-bit mono, 0.48 s, -9 dBFS peak, unique PCM, faded endpoints.
+PASS: hit: 48 kHz / 24-bit mono, 0.35 s, -9 dBFS peak, unique PCM, faded endpoints.
+PASS: activate: 48 kHz / 24-bit mono, 0.65 s, -9 dBFS peak, unique PCM, faded endpoints.
+PASS: win: 48 kHz / 24-bit mono, 3.0 s, -9 dBFS peak, unique PCM, faded endpoints.
+PASS: lose: 48 kHz / 24-bit mono, 2.5 s, -9 dBFS peak, unique PCM, faded endpoints.

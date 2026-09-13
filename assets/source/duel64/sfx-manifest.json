@@ -1,0 +1,98 @@
+[
+  {
+    "cue": "draw",
+    "path": "assets/audio/sfx/duel_draw.wav",
+    "seconds": 0.25,
+    "sample_rate": 48000,
+    "bits": 24,
+    "channels": 1,
+    "peak_dbfs": -9,
+    "rms_dbfs": -20.81,
+    "license": "MIT",
+    "origin": "original deterministic synthesis; no samples"
+  },
+  {
+    "cue": "summon",
+    "path": "assets/audio/sfx/duel_summon.wav",
+    "seconds": 0.75,
+    "sample_rate": 48000,
+    "bits": 24,
+    "channels": 1,
+    "peak_dbfs": -9,
+    "rms_dbfs": -20.06,
+    "license": "MIT",
+    "origin": "original deterministic synthesis; no samples"
+  },
+  {
+    "cue": "set",
+    "path": "assets/audio/sfx/duel_set.wav",
+    "seconds": 0.2,
+    "sample_rate": 48000,
+    "bits": 24,
+    "channels": 1,
+    "peak_dbfs": -9,
+    "rms_dbfs": -21.05,
+    "license": "MIT",
+    "origin": "original deterministic synthesis; no samples"
+  },
+  {
+    "cue": "attack",
+    "path": "assets/audio/sfx/duel_attack.wav",
+    "seconds": 0.48,
+    "sample_rate": 48000,
+    "bits": 24,
+    "channels": 1,
+    "peak_dbfs": -9,
+    "rms_dbfs": -19.98,
+    "license": "MIT",
+    "origin": "original deterministic synthesis; no samples"
+  },
+  {
+    "cue": "hit",
+    "path": "assets/audio/sfx/duel_hit.wav",
+    "seconds": 0.35,
+    "sample_rate": 48000,
+    "bits": 24,
+    "channels": 1,
+    "peak_dbfs": -9,
+    "rms_dbfs": -23.56,
+    "license": "MIT",
+    "origin": "original deterministic synthesis; no samples"
+  },
+  {
+    "cue": "activate",
+    "path": "assets/audio/sfx/duel_activate.wav",
+    "seconds": 0.65,
+    "sample_rate": 48000,
+    "bits": 24,
+    "channels": 1,
+    "peak_dbfs": -9,
+    "rms_dbfs": -21.15,
+    "license": "MIT",
+    "origin": "original deterministic synthesis; no samples"
+  },
+  {
+    "cue": "win",
+    "path": "assets/audio/sfx/duel_win.wav",
+    "seconds": 3.0,
+    "sample_rate": 48000,
+    "bits": 24,
+    "channels": 1,
+    "peak_dbfs": -9,
+    "rms_dbfs": -24.07,
+    "license": "MIT",
+    "origin": "original deterministic synthesis; no samples"
+  },
+  {
+    "cue": "lose",
+    "path": "assets/audio/sfx/duel_lose.wav",
+    "seconds": 2.5,
+    "sample_rate": 48000,
+    "bits": 24,
+    "channels": 1,
+    "peak_dbfs": -9,
+    "rms_dbfs": -24.3,
+    "license": "MIT",
+    "origin": "original deterministic synthesis; no samples"
+  }
+]
