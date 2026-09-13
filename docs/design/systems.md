@@ -413,10 +413,14 @@ The stat plates occupy x=50/320, y=704, size 210×102; inner number areas are
 x=57/327, y=711, size 196×88. Spell/trap use a 104×104 type badge at (60,665)
 and subtype glyph at (198,665), with no stat numbers.
 
-Source art remains 512×512. **The square-art crop policy is deferred until after
-Skeleton.** This change fixes frame geometry only; the former 4:5 crop and central
-80% rule are not binding for this new window. Fable will implement the eventual
-crop policy separately. The "6 mm border" note on sheet 05 remains superseded
+Source art remains 512×512. **Director-approved crop revision (2026-09-13):
+use centered cover** in the 520×560 window. Uniformly scale the square source to
+560×560, center it, and clip 20 output pixels from each side. This fills the
+window without stretching or top/bottom letterboxing. In source coordinates,
+the visible rectangle is approximately (18.286, 0, 475.429, 512); keep essential
+content inside it. This supersedes the deferred crop decision and the older
+4:5 crop proposal. Fable will implement this fit in CardView; the artist's
+placeholder samples already demonstrate it. The "6 mm border" note on sheet 05 remains superseded
 by approximately 6% side inset. The old sheet is a style reference; this section
 is authoritative for pixel geometry.
 
