@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using BattleCity.Core;
+using BattleCity.Rendering;
 using Godot;
 
 namespace BattleCity.Characters;
@@ -47,6 +48,7 @@ public partial class DuelDisk : Node3D
         Node prop = packed.Instantiate();
         prop.Name = "Prop";
         AddChild(prop);
+        ToonMaterials.Apply(prop);
         IsLoaded = true;
         CollectMarkers(prop);
         _player = FindPlayer(prop);

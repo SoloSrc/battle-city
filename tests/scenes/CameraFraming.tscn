@@ -44,7 +44,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[node name="CameraFraming" type="Node3D" node_paths=PackedStringArray("Player", "Controller", "Rig", "Plaza", "Interior", "Cubes", "ReportLabel")]
+[node name="CameraFraming" type="Node3D" node_paths=PackedStringArray("Player", "Controller", "Rig", "Plaza", "Interior", "Cubes", "Duelist", "ReportLabel")]
 script = ExtResource("1_test")
 Player = NodePath("Player")
 Controller = NodePath("Player/Controller")
@@ -52,6 +52,7 @@ Rig = NodePath("CameraRig")
 Plaza = NodePath("Bounds/Plaza")
 Interior = NodePath("Bounds/Interior")
 Cubes = NodePath("Cubes")
+Duelist = NodePath("Duelist")
 ReportLabel = NodePath("Hud/ReportPanel/Report")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

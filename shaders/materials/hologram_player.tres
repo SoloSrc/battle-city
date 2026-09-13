@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://c0holoplayer001"]
+
+[ext_resource type="Shader" path="res://shaders/hologram.gdshader" id="1_hologram"]
+[ext_resource type="Texture2D" path="res://assets/cards/frames/card_back.png" id="2_back"]
+
+[resource]
+resource_name = "hologram_player"
+shader = ExtResource("1_hologram")
+shader_parameter/edge_color = Color(0.4745, 0.8471, 1, 1)
+shader_parameter/back_texture = ExtResource("2_back")
