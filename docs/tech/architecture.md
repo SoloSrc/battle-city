@@ -243,9 +243,10 @@ is required to make a level work.
    site, `ProgressionGate` at each gate, `Door` for each interior.
 5. Bake navigation (toolbar button on the `NavigationRegion3D`).
 6. Run the level checklist (§7.3) from the Project → Tools menu.
-7. Press Play with `tests/scenes/SmokeTest.tscn` set as the run scene; it
-   loads the district with a placeholder avatar and prints the checklist
-   result to the output.
+7. Press Play (F5). `Boot.tscn` starts a New Game in the starting room and
+   the district loads through its door with the placeholder avatar;
+   `tests/scenes/DistrictTest.tscn` runs the same path scripted and is what
+   CI checks (§8.1).
 8. Open a pull request. Screenshots of each encounter site from the duel
    camera are attached (the `EncounterSite` inspector has a "Capture duel
    camera" button).

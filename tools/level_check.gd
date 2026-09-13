@@ -30,6 +30,7 @@ func _run(scene: Node, path: String) -> void:
 	await process_frame
 	root.add_child(scene)
 	await process_frame
+	_bake_if_needed(scene)
 	var checker := LevelChecker.new()
 	var results: Array = await checker.run(scene)
 	print("level_check %s" % path)
@@ -40,3 +41,15 @@ func _run(scene: Node, path: String) -> void:
 			print("level_check %s: %s" % [r.level, r.text])
 	print(checker.summary(results))
 	quit(1 if checker.has_failures(results) else 0)
+
+
+## Levels are committed without baked navigation data; bake here the way Game does at load.
+func _bake_if_needed(scene: Node) -> void:
+	for child in scene.get_children():
+		if child is NavigationRegion3D:
+			var region: NavigationRegion3D = child
+			if region.navigation_mesh == null:
+				region.navigation_mesh = NavigationMesh.new()
+			if region.navigation_mesh.get_polygon_count() == 0:
+				region.bake_navigation_mesh(false)
+				print("level_check INFO: navmesh baked at load, %d polygons" % region.navigation_mesh.get_polygon_count())
