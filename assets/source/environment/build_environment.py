@@ -7,6 +7,7 @@ from mathutils import Vector
 ROOT=Path(os.environ.get('KIT_REPO',str(Path(__file__).resolve().parents[3])))
 SRC=ROOT/'assets/source/environment';SRC.mkdir(parents=True,exist_ok=True)
 REPORT=[]
+ONLY=set(filter(None,os.environ.get("KIT_ONLY", "").split(",")))
 COLORS={'stone':(.66,.66,.61),'plaster':(.83,.77,.63),'trim':(.9,.88,.78),'road':(.31,.35,.42),'grass':(.32,.49,.25),'path':(.66,.56,.4),'blue':(.16,.32,.56),'glass':(.25,.46,.53),'wood':(.37,.25,.15),'metal':(.17,.20,.24),'warm':(.64,.30,.18),'green':(.23,.42,.28),'water':(.24,.52,.66),'light':(.95,.82,.40)}
 def start():
  bpy.ops.wm.read_factory_settings(use_empty=True);bpy.context.scene.unit_settings.system='METRIC';bpy.context.scene.unit_settings.scale_length=1
@@ -26,6 +27,7 @@ def wedge(w,l,h,mat):
  mesh=bpy.data.meshes.new('wedge');mesh.from_pydata(v,[],f);mesh.update();o=bpy.data.objects.new('wedge',mesh);bpy.context.collection.objects.link(o);o.data.materials.append(M[mat]);return o
 
 def deliver(name,build,collision=True,note='',group='kit'):
+ if ONLY and name not in ONLY:return
  start();build();objs=[o for o in bpy.context.scene.objects if o.type=='MESH'];bpy.ops.object.select_all(action='DESELECT')
  for o in objs:o.select_set(True)
  bpy.context.view_layer.objects.active=objs[0];bpy.ops.object.join();o=bpy.context.object;o.name=name+('-col' if collision else '');bpy.context.scene.cursor.location=(0,0,0);bpy.ops.object.origin_set(type='ORIGIN_CURSOR')
@@ -54,6 +56,15 @@ def wall(kind):
    box(.25,.25,1,1.5,.125,1.5,'trim');box(.375,.375,1.125,1.25,.0625,1.25,'glass')
    box(.9375,.4375,1.125,.125,.0625,1.25,'trim')
 for kind in ['plain','window','door','shop_front','corner']:deliver('kit_wall_'+kind,lambda k=kind:wall(k),note='4 m module with 2 m clear opening.' if kind=='door' else '3.5 m storey; place front details toward +Z.')
+def arcade_window():
+ # Arcade-only shallow frame. Glazing is recessed behind four trim rails.
+ box(0,0,0,2,.25,3.5,'plaster')
+ box(.25,.25,1,1.5,.06,.10,'trim');box(.25,.25,2.40,1.5,.06,.10,'trim')
+ box(.25,.25,1.10,.10,.06,1.30,'trim');box(1.65,.25,1.10,.10,.06,1.30,'trim')
+ box(.35,.25,1.10,1.30,.025,1.30,'glass')
+ box(.96,.275,1.10,.08,.035,1.30,'trim')
+deliver('kit_arcade_window',arcade_window,note='Arcade-only 2 m wall; shallow 6 cm trim and recessed glazing.')
+
 def roof(kind,mat):
  if kind=='flat':box(0,0,0,2,2,.25,mat)
  elif kind=='ridge':box(0,0,0,2,.25,.25,mat)
@@ -70,8 +81,15 @@ def arcade_sign():
  box(0,0,0,4,.25,1,'metal');box(.25,.25,.25,3.5,.125,.5,'warm')
  for x in [.125,1,2,3,3.75]:box(x,.25,.8125,.125,.125,.125,'light')
 deliver('kit_arcade_sign',arcade_sign,note='Blank central sign region; light blocks are non-emissive greybox markers.')
-deliver('kit_arcade_marquee',lambda:(box(0,0,0,4,1,.5,'warm'),box(.25,1,.125,3.5,.125,.25,'light')))
-deliver('kit_arcade_closed_doors',lambda:(box(0,0,0,2,.25,2.5,'metal'),box(2,0,0,2,.25,2.5,'metal'),box(1.875,.25,.75,.25,.125,1,'warm')))
+deliver('kit_arcade_marquee',lambda:(box(0,0,0,4,.55,.22,'warm'),box(.18,.55,.06,3.64,.035,.10,'light')),note='Thin 22 cm canopy; 55 cm projection plus 3.5 cm face trim.')
+def arcade_doors():
+ # Full closed leaves remain collidable; reveal and matching handles are part of the asset.
+ box(0,0,0,4,.20,2.5,'metal')
+ for x in [.08,2.03]:box(x,.20,.12,1.89,.02,2.28,'blue')
+ for x in [0,3.94]:box(x,.20,0,.06,.035,2.5,'trim')
+ box(0,.20,2.44,4,.035,.06,'trim')
+ for x in [1.65,2.29]:box(x,.22,.95,.06,.08,.55,'light')
+deliver('kit_arcade_closed_doors',arcade_doors,note='Closed arcade doors: inset blue leaf panels, central reveal, two matching handles. No explorable interior.')
 deliver('kit_bound_hedge',lambda:box(0,0,0,2,.75,1.5,'grass'))
 deliver('kit_bound_fence',lambda:(box(0,0,0,.125,.25,1.5,'metal'),box(1.875,0,0,.125,.25,1.5,'metal'),box(0,0,.5,2,.125,.125,'metal'),box(0,0,1.125,2,.125,.125,'metal')))
 deliver('kit_bound_construction',lambda:(box(0,0,0,.25,.75,.5,'metal'),box(1.75,0,0,.25,.75,.5,'metal'),box(0,.25,.5,2,.25,.75,'warm')))
@@ -108,4 +126,8 @@ deliver('kit_int_wall',lambda:box(0,0,0,2,.25,3.5,'plaster'))
 deliver('kit_int_bed',lambda:(box(0,0,0,1,2,.375,'wood'),box(0,0,.375,1,2,.25,'trim'),box(0,0,.625,1,.5,.125,'blue')))
 deliver('kit_int_desk',lambda:(box(0,0,.75,1.5,.75,.125,'wood'),box(0,0,0,.125,.75,.75,'metal'),box(1.375,0,0,.125,.75,.75,'metal')))
 deliver('kit_int_door',lambda:box(0,0,0,2,.125,2.5,'wood'),note='Separate leaf. Use kit_wall_door for the 2 m clear portal.')
+if ONLY:
+ previous=json.loads((SRC/'manifest.json').read_text())
+ revised={entry['name']:entry for entry in REPORT}
+ REPORT=[revised.pop(entry['name'],entry) for entry in previous]+list(revised.values())
 (SRC/'manifest.json').write_text(json.dumps(REPORT,indent=2)+'\n');print('DELIVERED',len(REPORT),'assets')

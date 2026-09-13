@@ -388,12 +388,12 @@
     "path": "assets/kit/kit_arcade_marquee.glb",
     "size_xyz_m": [
       4.0,
-      0.5,
-      1.125
+      0.22,
+      0.585
     ],
     "collision": true,
     "triangles": 24,
-    "note": ""
+    "note": "Thin 22 cm canopy; 55 cm projection plus 3.5 cm face trim."
   },
   {
     "name": "kit_arcade_closed_doors",
@@ -401,11 +401,11 @@
     "size_xyz_m": [
       4.0,
       2.5,
-      0.375
+      0.3
     ],
     "collision": true,
-    "triangles": 36,
-    "note": ""
+    "triangles": 96,
+    "note": "Closed arcade doors: inset blue leaf panels, central reveal, two matching handles. No explorable interior."
   },
   {
     "name": "kit_bound_hedge",
@@ -694,5 +694,17 @@
     "collision": true,
     "triangles": 12,
     "note": "Separate leaf. Use kit_wall_door for the 2 m clear portal."
+  },
+  {
+    "name": "kit_arcade_window",
+    "path": "assets/kit/kit_arcade_window.glb",
+    "size_xyz_m": [
+      2.0,
+      3.5,
+      0.31
+    ],
+    "collision": true,
+    "triangles": 84,
+    "note": "Arcade-only 2 m wall; shallow 6 cm trim and recessed glazing."
   }
 ]
