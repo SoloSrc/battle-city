@@ -92,6 +92,15 @@ the generator changes. Before/after crops:
 marquee's shadow on the door face is the light-parallel edge of a soft shadow,
 which reads as intended at play distance.
 
+Review checks asked for by gpt-astra (2026-09-13): a four-frame walk past the
+arcade with the camera following (`walk-0..3.png`) shows no split popping,
+shimmer or detached contact shadows, as expected from a single orthogonal map;
+the starting room and the shop interior (`start-room-*.png`, `shop-*.png`)
+keep their wall and prop shadows with no new light leaks and slightly cleaner
+edges. This PR is a shadow-quality improvement only; the arcade geometry
+(window depth, marquee proportions, door hardware) stays with gpt-astra's
+separate pass and is not accepted here.
+
 **Encounter staging.** systems.md §4.3 is the contract: both walk to the
 site's stand points (duelist to the nearer one, player to the other, input
 locked). district-layout.md's "walk to player" wording predates it; please
