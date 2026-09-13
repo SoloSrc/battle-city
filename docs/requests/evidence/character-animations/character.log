@@ -1,0 +1,14 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+
+CharacterTest PASS: body loaded
+CharacterTest PASS: clips loaded from the carrier
+CharacterTest INFO: clip aliases:
+CharacterTest INFO: events injected: walk:footstep_l@0.00, walk:footstep_r@0.50, run:footstep_l@0.00, run:footstep_r@0.35, duel_ready:disk_deploy@0.50, draw_card:card_draw@0.40, play_card:card_release@0.50, card_to_grave:card_to_grave@0.30, take_damage:hit@0.10
+CharacterTest PASS: skeleton has LeftLowerArm
+CharacterTest PASS: DuelDiskMount attached
+CharacterTest PASS: duel disk loaded, markers bay_1, bay_2, bay_3, bay_4, bay_5, banished, deck, graveyard
+CharacterTest PASS: moved 9.30 m over the walk/run schedule (expected 9.30)
+CharacterTest PASS: skeleton left rest pose while walking
+CharacterTest PASS: footstep events fired (8 events: footstep_r@Locomotion, footstep_l@Locomotion, footstep_r@Locomotion, footstep_l@Locomotion, footstep_r@Locomotion, footstep_l@Locomotion, footstep_r@Locomotion, disk_deploy@DuelReady)
+CharacterTest PASS: state after DuelReady travel: DuelReady
+CharacterTest summary: 6 pass, 0 fail

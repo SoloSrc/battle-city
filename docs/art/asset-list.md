@@ -64,19 +64,23 @@ off, call-method events per systems §3.2.
 
 | Clip | Length | Events | Status |
 | --- | --- | --- | --- |
-| idle | 4 s loop | | todo |
-| walk | 1 s loop | footstep_l, footstep_r | todo |
-| run | 0.7 s loop | footstep_l, footstep_r | todo |
-| turn_l, turn_r | 0.3 s | | todo |
-| talk | 3 s loop | | todo |
-| duel_ready | 1.2 s | disk_deploy at 0.5 s | todo |
-| draw_card | 0.8 s | card_draw at 0.4 s | todo |
-| play_card | 0.9 s | card_release at 0.5 s | todo |
-| card_to_grave | 0.6 s | card_to_grave at 0.3 s | todo |
-| take_damage | 0.7 s | hit at 0.1 s | todo |
-| win | 2.5 s | | todo |
-| lose | 2.5 s | | todo |
-| duel_idle | 4 s loop | | todo |
+| idle | 4 s loop | | review (motion blockout) |
+| walk | 1 s loop | footstep_l, footstep_r | review (motion blockout) |
+| run | 0.7 s loop | footstep_l, footstep_r | review (motion blockout) |
+| turn_l, turn_r | 0.3 s | | review (motion blockout) |
+| talk | 3 s loop | | review (motion blockout) |
+| duel_ready | 1.2 s | disk_deploy at 0.5 s | review (motion blockout) |
+| draw_card | 0.8 s | card_draw at 0.4 s | review (motion blockout) |
+| play_card | 0.9 s | card_release at 0.5 s | review (motion blockout) |
+| card_to_grave | 0.6 s | card_to_grave at 0.3 s | review (motion blockout) |
+| take_damage | 0.7 s | hit at 0.1 s | review (motion blockout) |
+| win | 2.5 s | | review (motion blockout) |
+| lose | 2.5 s | | review (motion blockout) |
+| duel_idle | 4 s loop | | review (motion blockout) |
+
+Original 14-clip motion blockout delivered on the existing shared rig. See
+[animation handoff](../requests/character-animation-set.md) for previews,
+validation and remaining polish. Final modular bodies and disk art are separate.
 
 ## 3. Duel disk (P0)
 

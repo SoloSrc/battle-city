@@ -1,5 +1,5 @@
 {
-  "comment": "Call-method events per clip, seconds from clip start (systems.md §3.2). glTF cannot carry Godot method tracks, so the engine injects these when it builds a character's AnimationLibrary. Times come from gpt-astra's build_report.json for delivered clips; the rest are the asset-list §2.9 targets until those clips land.",
+  "comment": "Call-method events per clip, seconds from clip start (systems.md §3.2). glTF cannot carry Godot method tracks, so the engine injects these when it builds a character's AnimationLibrary. Times match the authored 14-clip motion blockout in assets/source/characters/animations/manifest.json and asset-list §2.9; verify.gd checks the injected runtime tracks.",
   "walk": { "footstep_l": 0.0, "footstep_r": 0.5 },
   "run": { "footstep_l": 0.0, "footstep_r": 0.35 },
   "duel_ready": { "disk_deploy": 0.5 },
