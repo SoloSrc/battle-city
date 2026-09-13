@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3]
+[gd_scene load_steps=56 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/world/CameraBounds.tscn" id="1"]
 
@@ -10,11 +10,13 @@
 
 [ext_resource type="PackedScene" path="res://assets/kit/kit_bound_river_edge.glb" id="5"]
 
-[ext_resource type="PackedScene" path="res://scenes/world/ProgressionGate.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://assets/kit/kit_bound_river_edge_end.glb" id="6"]
 
-[ext_resource type="PackedScene" path="res://scenes/world/TalkNpc.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/world/ProgressionGate.tscn" id="7"]
 
-[ext_resource type="PackedScene" path="res://assets/kit/kit_bound_construction.glb" id="8"]
+[ext_resource type="PackedScene" path="res://scenes/world/TalkNpc.tscn" id="8"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_bound_construction.glb" id="9"]
 
 [sub_resource type="StandardMaterial3D" id="r1"]
 albedo_color = Color(0.3, 0.43, 0.27, 1)
@@ -1544,176 +1546,176 @@ position = Vector3(112.0, 0.75, 72.0)
 shape = SubResource("r46")
 
 [node name="kit_bound_river_edge_283" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 42)
+position = Vector3(111.625, 0, 42.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_284" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 44)
+position = Vector3(111.625, 0, 44.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_285" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 46)
+position = Vector3(111.625, 0, 46.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_286" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 48)
+position = Vector3(111.625, 0, 48.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_287" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 50)
+position = Vector3(111.625, 0, 50.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_288" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 52)
+position = Vector3(111.625, 0, 52.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_289" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 54)
+position = Vector3(111.625, 0, 54.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_290" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 56)
+position = Vector3(111.625, 0, 56.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_291" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 58)
+position = Vector3(111.625, 0, 58.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_292" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 60)
+position = Vector3(111.625, 0, 60.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_293" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 62)
+position = Vector3(111.625, 0, 62.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_294" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 64)
+position = Vector3(111.625, 0, 64.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_295" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 66)
+position = Vector3(111.625, 0, 66.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_296" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 68)
+position = Vector3(111.625, 0, 68.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_297" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 70)
+position = Vector3(111.625, 0, 70.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_298" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 72)
+position = Vector3(111.625, 0, 72.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_299" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 74)
+position = Vector3(111.625, 0, 74.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_300" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 76)
+position = Vector3(111.625, 0, 76.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_301" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 78)
+position = Vector3(111.625, 0, 78.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_302" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 80)
+position = Vector3(111.625, 0, 80.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_303" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 82)
+position = Vector3(111.625, 0, 82.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_304" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 84)
+position = Vector3(111.625, 0, 84.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_305" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 86)
+position = Vector3(111.625, 0, 86.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_306" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 88)
+position = Vector3(111.625, 0, 88.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_307" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 90)
+position = Vector3(111.625, 0, 90.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_308" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 92)
+position = Vector3(111.625, 0, 92.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_309" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 94)
+position = Vector3(111.625, 0, 94.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_310" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 96)
+position = Vector3(111.625, 0, 96.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_311" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 98)
+position = Vector3(111.625, 0, 98.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_312" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 100)
+position = Vector3(111.625, 0, 100.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
 [node name="kit_bound_river_edge_313" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 102)
+position = Vector3(111.625, 0, 102.375)
 rotation = Vector3(0, 1.570796, 0)
 
 
-[node name="kit_bound_river_edge_314" parent="." instance=ExtResource("5")]
-position = Vector3(111.625, 0, 104)
+[node name="kit_bound_river_edge_end_314" parent="." instance=ExtResource("6")]
+position = Vector3(111.625, 0, 103.625)
 rotation = Vector3(0, 1.570796, 0)
 
 
-[node name="ParkGate" parent="." instance=ExtResource("6")]
+[node name="ParkGate" parent="." instance=ExtResource("7")]
 position = Vector3(76, 0, 88)
 rotation = Vector3(0, 1.570796, 0)
 RequiredFlag = "defeated:d1"
 
-[node name="ArcadeGate" parent="." instance=ExtResource("6")]
+[node name="ArcadeGate" parent="." instance=ExtResource("7")]
 position = Vector3(94, 0, 40)
 rotation = Vector3(0, 0.0, 0)
 RequiredFlag = "defeated:d2"
 
-[node name="ConstructionWorker" parent="." instance=ExtResource("7")]
+[node name="ConstructionWorker" parent="." instance=ExtResource("8")]
 position = Vector3(36, 0, 58)
 rotation = Vector3(0, 3.141593, 0)
 
@@ -1721,26 +1723,26 @@ rotation = Vector3(0, 3.141593, 0)
 [node name="Talk" parent="ConstructionWorker" index="5"]
 DialogueId = "edge_construction"
 
-[node name="kit_bound_construction_319" parent="." instance=ExtResource("8")]
+[node name="kit_bound_construction_319" parent="." instance=ExtResource("9")]
 position = Vector3(30, 0, 48)
 rotation = Vector3(0, 0.0, 0)
 
 
-[node name="kit_bound_construction_320" parent="." instance=ExtResource("8")]
+[node name="kit_bound_construction_320" parent="." instance=ExtResource("9")]
 position = Vector3(32, 0, 48)
 rotation = Vector3(0, 0.0, 0)
 
 
-[node name="kit_bound_construction_321" parent="." instance=ExtResource("8")]
+[node name="kit_bound_construction_321" parent="." instance=ExtResource("9")]
 position = Vector3(34, 0, 48)
 rotation = Vector3(0, 0.0, 0)
 
 
-[node name="kit_bound_construction_322" parent="." instance=ExtResource("8")]
+[node name="kit_bound_construction_322" parent="." instance=ExtResource("9")]
 position = Vector3(36, 0, 48)
 rotation = Vector3(0, 0.0, 0)
 
 
-[node name="kit_bound_construction_323" parent="." instance=ExtResource("8")]
+[node name="kit_bound_construction_323" parent="." instance=ExtResource("9")]
 position = Vector3(38, 0, 48)
 rotation = Vector3(0, 0.0, 0)

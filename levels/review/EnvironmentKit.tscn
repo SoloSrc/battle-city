@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3]
+[gd_scene load_steps=67 format=3]
 
 [ext_resource type="PackedScene" path="res://assets/kit/kit_ground_street.glb" id="1"]
 
@@ -117,6 +117,8 @@
 [ext_resource type="PackedScene" path="res://assets/kit/kit_int_door.glb" id="58"]
 
 [ext_resource type="PackedScene" path="res://assets/kit/kit_arcade_window.glb" id="59"]
+
+[ext_resource type="PackedScene" path="res://assets/kit/kit_bound_river_edge_end.glb" id="60"]
 
 [sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
 sky_top_color = Color(0.38, 0.58, 0.77, 1)
@@ -916,6 +918,19 @@ position = Vector3(12, 0, 42)
 position = Vector3(13, 0.06, 45.4)
 rotation_degrees = Vector3(-90, 0, 0)
 text = "arcade window"
+font_size = 28
+pixel_size = 0.012
+outline_size = 5
+modulate = Color(0.95, 0.95, 0.9, 1)
+
+
+[node name="kit_bound_river_edge_end" parent="." instance=ExtResource("60")]
+position = Vector3(18, 0, 42)
+
+[node name="Label_59" type="Label3D" parent="."]
+position = Vector3(19, 0.06, 45.4)
+rotation_degrees = Vector3(-90, 0, 0)
+text = "bound river edge end"
 font_size = 28
 pixel_size = 0.012
 outline_size = 5
