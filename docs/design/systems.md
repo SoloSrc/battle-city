@@ -327,7 +327,7 @@ interface IEffect {
   IReadOnlyList<Choice> Costs(DuelState s, CardInstance src);    // asked in order at activation
   IReadOnlyList<Choice> Targets(DuelState s, CardInstance src);  // asked after the costs are paid
   void PayCosts(DuelEngine e, ChainLink link);   // once, before targets; answers in link.Costs
-  void Resolve(DuelEngine e, ChainLink link);    // skipped for a negated link; answers in link.Targets
+  void Resolve(DuelEngine e, ChainLink link);    // skipped for a negated link; answers in link.Targets; may ask more through e.Ask(link, choice)
   IEnumerable<Modifier> Modifiers(DuelState s, CardInstance src);   // what the card grants while face-up on the field
   void OnLeftField(DuelEngine e, CardInstance src, Location from, Guid? equippedTo);   // continuous consequences, no chain
 }
@@ -337,8 +337,10 @@ interface IEffect {
 engine owns the timing every effect shares (speed, priority, Set turn,
 Damage Step limits); `CanActivate` holds only the card's own condition and
 reads the window it needs from `DuelState.Window`, the chain, or the
-`ActivationContext` (the trigger window and, for graveyard triggers, the
-location the card came from).
+`ActivationContext` (the trigger window, for graveyard triggers the
+location the card came from, for summon triggers the `SummonKind`: Normal,
+Tribute, Flip or Special; the summon window also records it in
+`DuelState.LastSummon` for Trap Hole).
 
 **Choice protocol.** Everything that asks a player something pauses the
 engine in a `PendingChoice { Player, Kind, Source, Choice }` and is
@@ -351,6 +353,20 @@ collects the answers on its `ChainLink` before joining the chain),
 UI renders the prompt as a modal, the AI answers it programmatically, and
 no card needs UI code. `DuelEngine.Clone` copies pending state, so the AI
 can look ahead through a prompt.
+
+**Questions during resolution.** Costs and targets are settled before a
+link joins the chain, but Graceful Charity discards after drawing, Sangan
+picks from the Deck and Dust Tornado offers a Set only after the destroy.
+A resolving effect asks with `engine.Ask(link, choice)`: when the answer is
+already in `ChainLink.Answers` it comes straight back; otherwise the
+question becomes a `PendingChoice` of kind `Resolution`, the link parks on
+`DuelState.ResolvingLink`, chain resolution stops and the effect returns.
+The answer re-runs `Resolve` from the top, where the same `Ask` now
+returns it; work done before the question is guarded with
+`ChainLink.Stage` so it is not repeated. Once the link finishes, the rest
+of the chain resolves. Clones copy the answers and the stage, so the AI's
+one-step lookahead evaluates each answer like any other prompt. A
+question with no options answers itself with an empty selection.
 
 **Modifier registry.** Two sources feed one computation. A resolved effect
 that lasts ("gains 700 ATK until the End Phase", "cannot change position
@@ -380,8 +396,9 @@ fires summon triggers and opens the summon window), `CreateToken`,
 `ChangeControl` (permanent or until the End Phase of a turn; needs a free
 zone; control always returns when the monster leaves the field), `Equip`
 (an Equip Spell that attached to nothing is spent), `FlipFaceDown` (Book
-of Moon; destroys the monster's equips), `AddCounter`, `AddModifier`,
-`Negate`. When a monster leaves the field its equips are destroyed and its
+of Moon; destroys the monster's equips), `SetSpellTrap` (from the hand by
+an effect, Dust Tornado), `AddCounter`, `AddModifier`, `Negate`, `Ask`
+(a question while a link resolves). When a monster leaves the field its equips are destroyed and its
 effects' `OnLeftField` hooks run (Snatch Steal returns control, Premature
 Burial destroys its monster) before its field state is cleared.
 
@@ -398,8 +415,11 @@ Phases and steps as in GDD §3.2. The engine implements 2005 rules:
 | Set cards wait a turn | `SetThisTurn` blocks Traps and Set Quick-Play Spells; Quick-Play Spells from the hand need the turn player's own turn |
 | Trigger ordering | Fired triggers queue on `DuelState.Triggers`; mandatory ones go on the chain first (turn player's, then opponent's; a controller with several is asked to order them), then optional ones are offered one at a time in the same order. The opponent of the last link gets priority to respond |
 | Damage Step | Sub-steps: StartDamage, BeforeCalc (face-down target flips; only Counter Traps and effects flagged `UsableInDamageStep` may activate), Calc, AfterCalc (flip effects and battle-destruction triggers go on the chain; nothing else activates on an empty chain), EndDamage. Each half is a window closed by two passes |
-| Position changes | Once per turn, not on the turn summoned, not after attacking, not under a `CannotChangePosition` modifier (position locks carry a turn number) |
+| Position changes | Once per turn, not on the turn summoned, not after attacking, not under a `CannotChangePosition` modifier (position locks carry a turn number); a monster flagged `DestroyedInDefensePosition` (Berserk Gorilla) is destroyed when its controller switches it to Defense Position |
 | Battle restrictions | `CannotAttack`, `CannotBeAttacked` and `CanAttackDirectly` shape the legal attacks; `CannotBeDestroyedByBattle` and `NoBattleDamage` apply in damage calculation; a `Piercing` attacker inflicts the difference over a Defense Position target |
+| Must attack | A face-up Attack Position monster flagged `MustAttack` (Berserk Gorilla) that could attack blocks its controller's `Pass` in Main Phase 1 (while the Battle Phase can still be entered) and in the Battle Step, so the attack cannot be skipped; `LegalActions` leaves the pass out |
+| After attacking | Monsters flagged `DefenseAfterAttack` (Goblin Attack Force, Giant Orc) that attacked switch to Defense Position when the Battle Phase ends and get a `CannotChangePosition` modifier until the end of their controller's next turn |
+| Summon responses | The summon window records `LastSummon`; Torrential Tribute answers any summon, Trap Hole only the opponent's Normal, Tribute and Flip Summons of 1000+ ATK; the Monarchs' triggers fire only with `ActivationContext.Summon == Tribute` |
 | Once per turn | `IEffect.OncePerTurn`; activations are counted per card and effect on `CardInstance.ActivationsThisTurn` and reset with the turn or when the card leaves the field |
 | End of turn | Entering the End Phase expires timed modifiers, returns temporary control and sends Spirit monsters Normal Summoned or flipped face-up this turn back to the hand, before the End Phase triggers fire |
 | Tokens | Never tributed for a Tribute Summon when flagged `CannotBeTributed`; removed from the duel on leaving the field |
@@ -432,6 +452,13 @@ attacker or target left the field before the Damage Step is cancelled
 
 Build the engine T1 → T4; each tier has a test suite. The Beatdown duel is
 playable at T2, Warrior Toolbox at T3, Goat Control at T4.
+
+Status: T1 (issue #25) and T2 (issue #56: the 27 tier 2 cards of the pool,
+`Effects/Cards/`, one scenario test each in `TierTwoTests`) are
+implemented; the heuristic agents play the Beatdown list without its tier
+3–4 cards to a winner. Axe of Despair carries two effect ids (`axe_of_despair`
+for the equip, `axe_of_despair_recycle` for the trigger in the Graveyard);
+Goblin Attack Force and Giant Orc share one class registered under both ids.
 
 ### 5.7 Tests
 
@@ -666,9 +693,10 @@ Keys are snake_case; ids match file names. `tools/validate_data.py` and the
   "defaults": { "body_type": "a", "skin_tone": 2, "hair_style": 0, "hair_color": 0, "outfit": 0, "accent_color": 0 } }
 ```
 
-Card `effects` for tiers 2–4 name the effect id (the card id by convention)
+Card `effects` for tiers 3–4 name the effect id (the card id by convention)
 before the class exists; the loader accepts these stubs, the validator checks
-that tier 1 ids are implemented, and `DuelEngine.Start` rejects a deck whose
+that tier 1 and tier 2 ids are implemented (`IMPLEMENTED_EFFECTS` in
+`tools/validate_data.py`), and `DuelEngine.Start` rejects a deck whose
 effects are missing from the `EffectRegistry`.
 
 ---

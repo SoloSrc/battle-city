@@ -332,7 +332,7 @@ public sealed class DuelEngine
         Emit(new MonsterSpecialSummoned(player, card.Id, card.Def.Id, zone, position, from));
         if (card.IsFaceUp)
         {
-            SummonRules.Summoned(this, card);
+            SummonRules.Summoned(this, card, SummonKind.Special);
         }
 
         return true;
@@ -357,7 +357,7 @@ public sealed class DuelEngine
         Zones.PlaceMonster(this, token, player, zone, position);
         token.ArrivedThisTurn = true;
         Emit(new TokenCreated(player, token.Id, definition.Id, zone, position));
-        SummonRules.Summoned(this, token);
+        SummonRules.Summoned(this, token, SummonKind.Special);
         return token;
     }
 
@@ -467,6 +467,53 @@ public sealed class DuelEngine
         Refresh();
     }
 
+    /// <summary>Sets a Spell or Trap from the hand face-down by an effect (Dust Tornado); false when the card is not a Spell or Trap in the hand or there is no free zone.</summary>
+    public bool SetSpellTrap(CardInstance card)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        int zone = State.Player(card.Owner).FirstFreeSpellTrapZone();
+        if (card.Loc != Location.Hand || (!card.Def.IsSpell && !card.Def.IsTrap) || card.Def.Spell?.Subtype == SpellSubtype.Field || zone < 0)
+        {
+            return false;
+        }
+
+        Zones.PlaceSpellTrap(this, card, card.Owner, zone, Position.FaceDown);
+        card.SetThisTurn = true;
+        card.ArrivedThisTurn = true;
+        Emit(new SpellTrapSet(card.Owner, card.Id, zone));
+        return true;
+    }
+
+    /// <summary>
+    /// Asks <paramref name="link"/>'s player a question while the link
+    /// resolves. Returns the answer when it is already known; otherwise the
+    /// question becomes the pending choice and null comes back, and the
+    /// effect must return at once. Once answered, <see cref="IEffect.Resolve"/>
+    /// runs again from the top and the same call returns the answer, so an
+    /// effect guards the work it did before asking with <see cref="ChainLink.Stage"/>.
+    /// A question with no options answers itself with an empty selection.
+    /// </summary>
+    public IReadOnlyList<Guid>? Ask(ChainLink link, Choice choice)
+    {
+        ArgumentNullException.ThrowIfNull(link);
+        ArgumentNullException.ThrowIfNull(choice);
+        if (link.NextAnswer < link.Answers.Count)
+        {
+            return link.Answers[link.NextAnswer++];
+        }
+
+        if (choice.Options.Count == 0)
+        {
+            link.Answers.Add(Array.Empty<Guid>());
+            link.NextAnswer++;
+            return Array.Empty<Guid>();
+        }
+
+        State.ResolvingLink = link;
+        Ask(link.Player, ChoiceKind.Resolution, link.Source.Id, choice);
+        return null;
+    }
+
     /// <summary>Recomputes the modifiers (systems.md §5.4); the engine calls it after every state change.</summary>
     public void Refresh() => Modifiers.Recompute(this);
 
@@ -522,14 +569,14 @@ public sealed class DuelEngine
     }
 
     /// <summary>Queues every Trigger effect of <paramref name="card"/> that fires in <paramref name="window"/> and whose condition holds.</summary>
-    internal void QueueTriggers(CardInstance card, TriggerWindow window, Location? from = null)
+    internal void QueueTriggers(CardInstance card, TriggerWindow window, Location? from = null, SummonKind? summon = null)
     {
-        var context = new ActivationContext(window, from);
+        var context = new ActivationContext(window, from, summon);
         foreach (IEffect effect in EffectsOf(card))
         {
             if (effect.Kind is EffectKind.Trigger or EffectKind.Flip && effect.Trigger == window && Usable(card, effect) && effect.CanActivate(State, card, context))
             {
-                State.Triggers.Add(new PendingTrigger(card.Controller, card.Id, effect.Id, window, from, effect.IsMandatory));
+                State.Triggers.Add(new PendingTrigger(card.Controller, card.Id, effect.Id, context, effect.IsMandatory));
             }
         }
     }
@@ -573,6 +620,7 @@ public sealed class DuelEngine
         {
             State.PendingChoice = null;
             State.PendingLink = null;
+            State.ResolvingLink = null;
             State.Triggers.Clear();
             return;
         }
@@ -654,13 +702,13 @@ public sealed class DuelEngine
 
         IEffect effect = EffectsOf(card).First(e => e.Id == trigger.EffectId);
         Emit(new EffectActivated(trigger.Player, card.Id, card.Def.Id, effect.Id));
-        BeginActivation(trigger.Player, card, effect, new ActivationContext(trigger.Window, trigger.From));
+        BeginActivation(trigger.Player, card, effect, trigger.Context);
     }
 
     private bool StillFires(PendingTrigger trigger, CardInstance card)
     {
         IEffect? effect = EffectsOf(card).FirstOrDefault(e => e.Id == trigger.EffectId);
-        return effect is not null && Usable(card, effect) && effect.CanActivate(State, card, new ActivationContext(trigger.Window, trigger.From));
+        return effect is not null && Usable(card, effect) && effect.CanActivate(State, card, trigger.Context);
     }
 
     private void Ask(int player, ChoiceKind kind, Guid? source, Choice choice)
@@ -722,6 +770,11 @@ public sealed class DuelEngine
                     Activate(trigger);
                     break;
                 }
+
+            case ChoiceKind.Resolution:
+                State.ResolvingLink!.Answers.Add(answer.Selected);
+                ChainResolver.Resume(this);
+                break;
         }
     }
 

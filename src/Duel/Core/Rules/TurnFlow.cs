@@ -52,7 +52,7 @@ internal static class TurnFlow
             return $"discard down to {options.HandLimit} cards before ending the turn";
         }
 
-        return null;
+        return BattleRules.MustAttackWith(s, player) is { } attacker ? $"{attacker.Def.Name} must attack" : null;
     }
 
     public static void Pass(DuelEngine engine, int player)
@@ -259,6 +259,7 @@ internal static class TurnFlow
                 SetBattleStep(engine, BattleStep.End);
                 break;
             case BattleStep.End:
+                BattleRules.EndOfBattlePhase(engine);
                 s.BattleStep = BattleStep.None;
                 SetPhase(engine, Phase.Main2);
                 break;

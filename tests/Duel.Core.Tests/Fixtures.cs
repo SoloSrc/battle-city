@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using BattleCity.Duel.Core.Commands;
+using BattleCity.Duel.Core.Data;
 using BattleCity.Duel.Core.Model;
 
 namespace BattleCity.Duel.Core.Tests;
@@ -53,7 +54,17 @@ internal static class Cards
     public static readonly CardDefinition BookOfMoon = CardDefinition.SpellCard("test_book_of_moon", "Book of Moon", SpellSubtype.Quick, "Flip a face-up monster face-down.", 3, 2, TestEffects.FlipDown.EffectId);
     public static readonly CardDefinition Burial = CardDefinition.SpellCard("test_burial", "Burial", SpellSubtype.Equip, "Pay 800 Life Points: Special Summon from your Graveyard and equip.", 1, 3, TestEffects.Burial.EffectId);
 
+    private static readonly Lazy<CardLibrary> _library = new(() => new CardLoader().LoadDirectory(DataDirectory));
+
     public static string DataDirectory => Path.Combine(AppContext.BaseDirectory, "data", "cards");
+
+    public static string DecksDirectory => Path.Combine(AppContext.BaseDirectory, "data", "decks");
+
+    /// <summary>The real card pool loaded from <c>data/cards/</c>.</summary>
+    public static CardLibrary Library => _library.Value;
+
+    /// <summary>A real card definition by id (tier 2 scenario tests).</summary>
+    public static CardDefinition Real(string id) => _library.Value[id];
 }
 
 /// <summary>Builds engines in known states. Decks are unshuffled, so the top cards are scripted.</summary>
@@ -128,6 +139,14 @@ internal static class Scenario
         };
         p.SpellTrapZones[zone] = card;
         engine.Refresh();
+        return card;
+    }
+
+    /// <summary>Puts a card at the bottom of <paramref name="player"/>'s Deck, where the scripted draws do not reach it.</summary>
+    public static CardInstance InDeck(DuelEngine engine, int player, CardDefinition def)
+    {
+        var card = new CardInstance(Guid.NewGuid(), def, player);
+        engine.State.Player(player).Deck.Insert(0, card);
         return card;
     }
 

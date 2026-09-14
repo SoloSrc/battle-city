@@ -17,6 +17,9 @@ public enum ChoiceKind
 
     /// <summary>Which of several mandatory Trigger effects goes on the chain next.</summary>
     TriggerOrder,
+
+    /// <summary>A question asked while a chain link resolves (<see cref="DuelState.ResolvingLink"/>): the cards to discard, the card to search, whether to Set a card.</summary>
+    Resolution,
 }
 
 /// <summary>

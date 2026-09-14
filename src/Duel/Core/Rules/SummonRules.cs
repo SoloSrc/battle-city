@@ -91,7 +91,7 @@ internal static class SummonRules
         else
         {
             engine.Emit(new MonsterSummoned(player, card.Id, card.Def.Id, zone, position, tributes));
-            Summoned(engine, card);
+            Summoned(engine, card, tributes.Count > 0 ? SummonKind.Tribute : SummonKind.Normal);
         }
 
         // Ignition-effect priority: the turn player keeps priority after a summon (systems.md §5.5).
@@ -128,6 +128,11 @@ internal static class SummonRules
         card.ChangedPositionThisTurn = true;
         engine.Emit(new PositionChanged(player, card.Id, from, card.Pos));
         engine.Refresh();
+        if (card.IsInDefensePosition && card.Has(Restriction.DestroyedInDefensePosition))
+        {
+            engine.Destroy(card, DestroyReason.Effect);
+        }
+
         TurnFlow.GivePriorityToTurnPlayer(engine.State);
     }
 
@@ -161,15 +166,16 @@ internal static class SummonRules
         card.FlippedThisTurn = true;
         engine.Emit(new MonsterFlipSummoned(player, card.Id, card.Def.Id));
         engine.Refresh();
-        Summoned(engine, card);
+        Summoned(engine, card, SummonKind.Flip);
         engine.QueueTriggers(card, TriggerWindow.OnFlip);
         TurnFlow.GivePriorityToTurnPlayer(engine.State);
     }
 
-    /// <summary>A monster arrived face-up: its summon triggers fire and, in an open state, the summon window opens for responses.</summary>
-    public static void Summoned(DuelEngine engine, CardInstance card)
+    /// <summary>A monster arrived face-up: its summon triggers fire with <paramref name="kind"/> and, in an open state, the summon window opens for responses.</summary>
+    public static void Summoned(DuelEngine engine, CardInstance card, SummonKind kind)
     {
-        engine.QueueTriggers(card, TriggerWindow.OnSummon);
+        engine.State.LastSummon = kind;
+        engine.QueueTriggers(card, TriggerWindow.OnSummon, summon: kind);
         if (engine.State.Window == Window.Open)
         {
             TurnFlow.SetWindow(engine, Window.Summon, card.Id);

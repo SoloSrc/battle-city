@@ -21,6 +21,7 @@ public sealed class ChainLink
         Context = context ?? ActivationContext.None;
         Costs = new List<IReadOnlyList<Guid>>();
         Targets = new List<IReadOnlyList<Guid>>();
+        Answers = new List<IReadOnlyList<Guid>>();
     }
 
     private ChainLink(ChainLink other, CardInstance source)
@@ -32,8 +33,11 @@ public sealed class ChainLink
         Context = other.Context;
         Costs = other.Costs.Select(c => (IReadOnlyList<Guid>)c.ToList()).ToList();
         Targets = other.Targets.Select(t => (IReadOnlyList<Guid>)t.ToList()).ToList();
+        Answers = other.Answers.Select(a => (IReadOnlyList<Guid>)a.ToList()).ToList();
         CostsPaid = other.CostsPaid;
         Negated = other.Negated;
+        Stage = other.Stage;
+        NextAnswer = other.NextAnswer;
     }
 
     /// <summary>1-based chain link number.</summary>
@@ -54,8 +58,22 @@ public sealed class ChainLink
     /// <summary>Answers to <see cref="IEffect.Targets"/>, one list per choice.</summary>
     public List<IReadOnlyList<Guid>> Targets { get; }
 
+    /// <summary>
+    /// Answers to the questions <see cref="DuelEngine.Ask(ChainLink, Choice)"/> asked
+    /// while this link resolves, in the order they were asked. The effect's
+    /// <see cref="IEffect.Resolve"/> runs again from the top after each answer
+    /// and reads them back in the same order.
+    /// </summary>
+    public List<IReadOnlyList<Guid>> Answers { get; }
+
     /// <summary>Set once <see cref="IEffect.PayCosts"/> ran; costs are paid before targets are declared.</summary>
     public bool CostsPaid { get; set; }
+
+    /// <summary>Free for the effect: how far its resolution got before it asked a question, so the work already done is not repeated when it resumes.</summary>
+    public int Stage { get; set; }
+
+    /// <summary>The next entry of <see cref="Answers"/> that <see cref="DuelEngine.Ask(ChainLink, Choice)"/> hands out; reset by the engine each time the resolution (re)starts.</summary>
+    public int NextAnswer { get; set; }
 
     /// <summary>A negated link is skipped when the chain resolves; its card still goes where it would have gone.</summary>
     public bool Negated { get; set; }
