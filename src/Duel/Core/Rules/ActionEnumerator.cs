@@ -41,7 +41,7 @@ internal static class ActionEnumerator
             return actions;
         }
 
-        actions.Add(new Pass(player));
+        Add(engine, actions, new Pass(player));
         AddResponses(engine, player, actions);
         if (player != s.TurnPlayer || s.Chain.Count > 0)
         {

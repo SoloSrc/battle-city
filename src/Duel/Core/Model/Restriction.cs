@@ -15,6 +15,15 @@ public enum Restriction
     Piercing = 1 << 5,
     CanAttackDirectly = 1 << 6,
     EffectsNegated = 1 << 7,
+
+    /// <summary>Must attack when able: its controller cannot pass over an attack it could make (Berserk Gorilla).</summary>
+    MustAttack = 1 << 8,
+
+    /// <summary>Destroyed when its battle position is changed to Defense Position (Berserk Gorilla).</summary>
+    DestroyedInDefensePosition = 1 << 9,
+
+    /// <summary>Switched to Defense Position at the end of a Battle Phase in which it attacked, then locked until the end of its controller's next turn (Goblin Attack Force, Giant Orc).</summary>
+    DefenseAfterAttack = 1 << 10,
 }
 
 /// <summary>What the active modifiers impose on a player; recomputed by the engine, read by the rules.</summary>

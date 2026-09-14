@@ -149,6 +149,9 @@ internal static class Modifiers
                     ModifierKind.Piercing => Restriction.Piercing,
                     ModifierKind.CanAttackDirectly => Restriction.CanAttackDirectly,
                     ModifierKind.EffectsNegated => Restriction.EffectsNegated,
+                    ModifierKind.MustAttack => Restriction.MustAttack,
+                    ModifierKind.DestroyedInDefensePosition => Restriction.DestroyedInDefensePosition,
+                    ModifierKind.DefenseAfterAttack => Restriction.DefenseAfterAttack,
                     _ => Restriction.None,
                 };
                 break;

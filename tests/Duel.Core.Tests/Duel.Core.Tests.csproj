@@ -19,6 +19,7 @@
   <ItemGroup>
     <!-- Real card data for the loader and the scripted duel tests. -->
     <None Include="../../data/cards/*.json" Link="data/cards/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="../../data/decks/*.json" Link="data/decks/%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="../../src/Duel/Duel.Core.csproj" />

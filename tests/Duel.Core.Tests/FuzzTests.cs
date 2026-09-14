@@ -32,6 +32,17 @@ public class FuzzTests
         Cards.Shield, Cards.Piercer, Cards.Reaper, Cards.Banisher, Cards.BookOfMoon, Cards.Burial, Cards.AttackTrap, Cards.Avenger,
     };
 
+    /// <summary>Every real tier 2 card (issue #56) with vanilla monsters to fight over.</summary>
+    private static readonly CardDefinition[] _tier2Pool = new[]
+    {
+        "gemini_elf", "celtic_guardian", "giant_soldier_of_stone", "summoned_skull", "mystical_elf",
+        "graceful_charity", "morphing_jar", "fissure", "smashing_ground", "heavy_storm", "mystical_space_typhoon", "lightning_vortex",
+        "dust_tornado", "mirror_force", "sakuretsu_armor", "widespread_ruin", "torrential_tribute", "trap_hole",
+        "zaborg_the_thunder_monarch", "mobius_the_frost_monarch", "exiled_force", "sangan", "reinforcement_of_the_army",
+        "the_warrior_returning_alive", "gravekeepers_spy", "magician_of_faith", "axe_of_despair", "book_of_moon",
+        "berserk_gorilla", "goblin_attack_force", "giant_orc", "gravekeepers_guard",
+    }.Select(Cards.Real).ToArray();
+
     public static IEnumerable<object[]> Seeds() => Enumerable.Range(1, 20).Select(i => new object[] { (ulong)i });
 
     [Theory]
@@ -56,6 +67,17 @@ public class FuzzTests
 
         Assert.Empty(engine.State.Chain);
         Assert.Null(engine.State.PendingChoice);
+    }
+
+    [Theory]
+    [MemberData(nameof(Seeds))]
+    public void RandomDuelsWithTierTwoCardsKeepTheInvariantsAndEnd(ulong seed)
+    {
+        DuelEngine engine = Run(seed, _tier2Pool);
+
+        Assert.Empty(engine.State.Chain);
+        Assert.Null(engine.State.PendingChoice);
+        Assert.Null(engine.State.ResolvingLink);
     }
 
     private static DuelEngine Run(ulong seed, CardDefinition[] pool, CardDefinition[]? fusion = null)
@@ -124,7 +146,7 @@ public class FuzzTests
                 }
                 else
                 {
-                    bool activating = s.Chain.Any(l => l.Source == st) || s.PendingLink?.Source == st;
+                    bool activating = s.Chain.Any(l => l.Source == st) || s.PendingLink?.Source == st || s.ResolvingLink?.Source == st;
                     Assert.True(st.Def.Spell?.Subtype != SpellSubtype.Equip || st.IsFaceDown || activating, $"{st} is a face-up Equip Spell attached to nothing");
                 }
             }

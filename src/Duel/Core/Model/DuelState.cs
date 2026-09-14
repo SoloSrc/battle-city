@@ -29,6 +29,7 @@ public sealed class DuelState
         Triggers = other.Triggers.ToList();
         Modifiers = other.Modifiers.ToList();
         PendingLink = other.PendingLink?.Clone(copies[other.PendingLink.Source.Id]);
+        ResolvingLink = other.ResolvingLink?.Clone(copies[other.ResolvingLink.Source.Id]);
         PendingChoice = other.PendingChoice;
         TurnPlayer = other.TurnPlayer;
         TurnNumber = other.TurnNumber;
@@ -37,6 +38,7 @@ public sealed class DuelState
         DamageSubstep = other.DamageSubstep;
         Window = other.Window;
         WindowCard = other.WindowCard;
+        LastSummon = other.LastSummon;
         Priority = other.Priority;
         ConsecutivePasses = other.ConsecutivePasses;
         NormalSummonUsed = other.NormalSummonUsed;
@@ -69,6 +71,9 @@ public sealed class DuelState
     /// <summary>The monster a <see cref="Model.Window.Summon"/> window is about.</summary>
     public Guid? WindowCard { get; set; }
 
+    /// <summary>How <see cref="WindowCard"/> was Summoned (Trap Hole answers Normal and Flip Summons only).</summary>
+    public SummonKind? LastSummon { get; set; }
+
     /// <summary>Chain links in activation order; resolves LIFO.</summary>
     public List<ChainLink> Chain { get; }
 
@@ -80,6 +85,9 @@ public sealed class DuelState
 
     /// <summary>An activation collecting its cost and target answers before it joins the chain.</summary>
     public ChainLink? PendingLink { get; set; }
+
+    /// <summary>A chain link whose resolution stopped to ask its player something; it resumes when the answer arrives, then the rest of the chain resolves.</summary>
+    public ChainLink? ResolvingLink { get; set; }
 
     /// <summary>The question the engine is waiting on; while set, only <c>AnswerChoice</c> from its player is legal.</summary>
     public PendingChoice? PendingChoice { get; set; }
@@ -113,7 +121,7 @@ public sealed class DuelState
     public bool FirstTurn => TurnNumber == 1;
 
     /// <summary>A pending choice or an activation in progress: no other command is accepted.</summary>
-    public bool IsPaused => PendingChoice is not null || PendingLink is not null;
+    public bool IsPaused => PendingChoice is not null || PendingLink is not null || ResolvingLink is not null;
 
     public PlayerState Player(int index) => Players[index];
 

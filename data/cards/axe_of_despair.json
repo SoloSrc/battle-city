@@ -11,6 +11,7 @@
   "limit": 3,
   "tier": 2,
   "effects": [
-    "axe_of_despair"
+    "axe_of_despair",
+    "axe_of_despair_recycle"
   ]
 }

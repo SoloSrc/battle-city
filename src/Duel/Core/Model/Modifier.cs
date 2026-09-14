@@ -29,7 +29,8 @@ public sealed record Modifier(ModifierKind Kind, int Value, Guid Source, Guid? C
     public bool IsCardKind => Kind is ModifierKind.Atk or ModifierKind.Def
         or ModifierKind.CannotAttack or ModifierKind.CannotBeAttacked or ModifierKind.CannotChangePosition
         or ModifierKind.CannotBeDestroyedByBattle or ModifierKind.CannotBeTributed
-        or ModifierKind.Piercing or ModifierKind.CanAttackDirectly or ModifierKind.EffectsNegated;
+        or ModifierKind.Piercing or ModifierKind.CanAttackDirectly or ModifierKind.EffectsNegated
+        or ModifierKind.MustAttack or ModifierKind.DestroyedInDefensePosition or ModifierKind.DefenseAfterAttack;
 }
 
 /// <summary>What a <see cref="Modifier"/> changes.</summary>
@@ -60,6 +61,15 @@ public enum ModifierKind
 
     /// <summary>The card's effects are negated: it contributes no modifiers and its links are skipped.</summary>
     EffectsNegated,
+
+    /// <summary>Must attack when able (Berserk Gorilla).</summary>
+    MustAttack,
+
+    /// <summary>Destroyed when switched to Defense Position (Berserk Gorilla).</summary>
+    DestroyedInDefensePosition,
+
+    /// <summary>Switches to Defense Position at the end of the Battle Phase after attacking and stays locked until the end of its controller's next turn (Goblin Attack Force, Giant Orc).</summary>
+    DefenseAfterAttack,
 
     /// <summary>The player takes no battle damage (player kind).</summary>
     NoBattleDamage,

@@ -17,7 +17,12 @@ public class CardLoaderTests
         Assert.Equal(79, library.Count);
         Assert.Equal(12, library.All.Count(c => c.IsVanilla));
         Assert.Equal(13, library.All.Count(c => c.Tier == 1));
+        Assert.Equal(27, library.All.Count(c => c.Tier == 2));
         Assert.All(library.All.Where(c => c.Tier > 1), c => Assert.NotEmpty(c.Effects));
+
+        // Every tier 1 and 2 effect is implemented; the acceptance of issue #56.
+        EffectRegistry registry = EffectRegistry.CreateDefault();
+        Assert.All(library.All.Where(c => c.Tier <= 2).SelectMany(c => c.Effects), e => Assert.True(registry.Contains(e), $"effect '{e}' is not implemented"));
 
         CardDefinition elf = library["gemini_elf"];
         Assert.Equal("Gemini Elf", elf.Name);
@@ -77,12 +82,12 @@ public class CardLoaderTests
     public void StubEffectsLoadButCannotBeDuelled()
     {
         CardLibrary library = new CardLoader().LoadDirectory(Cards.DataDirectory);
-        CardDefinition mirrorForce = library["mirror_force"];
-        var deck = new Deck(Enumerable.Repeat(mirrorForce, 40).ToList());
+        CardDefinition jinzo = library["jinzo"];
+        var deck = new Deck(Enumerable.Repeat(jinzo, 40).ToList());
 
-        Assert.Equal(new[] { "mirror_force" }, mirrorForce.Effects);
+        Assert.Equal(new[] { "jinzo" }, jinzo.Effects);
         var error = Assert.Throws<System.ArgumentException>(() => DuelEngine.Start(deck, deck));
-        Assert.Contains("effects that are not implemented: mirror_force", error.Message);
+        Assert.Contains("effects that are not implemented: jinzo", error.Message);
     }
 
     [Fact]
@@ -91,6 +96,6 @@ public class CardLoaderTests
         EffectRegistry registry = EffectRegistry.CreateDefault();
 
         Assert.True(registry.Contains(PotOfGreedEffect.EffectId));
-        Assert.Throws<System.Collections.Generic.KeyNotFoundException>(() => registry.Create("mirror_force"));
+        Assert.Throws<System.Collections.Generic.KeyNotFoundException>(() => registry.Create("jinzo"));
     }
 }

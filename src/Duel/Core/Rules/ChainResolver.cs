@@ -208,7 +208,7 @@ internal static class ChainResolver
         TurnFlow.GivePriorityToTurnPlayer(s);
     }
 
-    /// <summary>Resolves the whole chain last in, first out; negated links, and Trap links under a Trap negation, are skipped. Spells and Traps that are spent go to the Graveyard after their link.</summary>
+    /// <summary>Resolves the whole chain last in, first out; negated links, and Trap links under a Trap negation, are skipped. Spells and Traps that are spent go to the Graveyard after their link. Stops when a link asks its player something (<see cref="DuelState.ResolvingLink"/>) and carries on from <see cref="Resume"/>.</summary>
     public static void ResolveAll(DuelEngine engine)
     {
         DuelState s = engine.State;
@@ -216,17 +216,45 @@ internal static class ChainResolver
         {
             ChainLink link = s.Chain[^1];
             s.Chain.RemoveAt(s.Chain.Count - 1);
-            if (!link.Negated && !IsSilenced(s, link))
+            if (!Resolve(engine, link))
             {
-                link.Effect.Resolve(engine, link);
+                return;
             }
-
-            engine.Emit(new ChainLinkResolved(link.Index, link.Source.Id, link.Effect.Id));
-            engine.Refresh();
-            Discharge(engine, link.Source);
         }
 
         s.Chain.Clear();
+    }
+
+    /// <summary>Continues the resolution of <see cref="DuelState.ResolvingLink"/> after its question was answered, then the rest of the chain.</summary>
+    public static void Resume(DuelEngine engine)
+    {
+        DuelState s = engine.State;
+        ChainLink link = s.ResolvingLink ?? throw new InvalidOperationException("no chain link is waiting for an answer");
+        s.ResolvingLink = null;
+        if (Resolve(engine, link))
+        {
+            ResolveAll(engine);
+        }
+    }
+
+    /// <summary>Resolves one link; false when it stopped to ask a question.</summary>
+    private static bool Resolve(DuelEngine engine, ChainLink link)
+    {
+        DuelState s = engine.State;
+        if (!link.Negated && !IsSilenced(s, link))
+        {
+            link.NextAnswer = 0;
+            link.Effect.Resolve(engine, link);
+            if (s.ResolvingLink == link)
+            {
+                return false;
+            }
+        }
+
+        engine.Emit(new ChainLinkResolved(link.Index, link.Source.Id, link.Effect.Id));
+        engine.Refresh();
+        Discharge(engine, link.Source);
+        return true;
     }
 
     /// <summary>A Trap link resolving while its controller's Traps are negated (Jinzo), or a monster whose effects are negated, does nothing.</summary>

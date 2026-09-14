@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using BattleCity.Duel.Core.Events;
 using BattleCity.Duel.Core.Model;
 
@@ -113,6 +114,54 @@ internal static class BattleRules
         }
 
         return target.Has(Restriction.CannotBeAttacked) ? $"{target.Def.Name} cannot be attacked" : null;
+    }
+
+    /// <summary>
+    /// A monster of <paramref name="player"/> that must attack and still can (Berserk Gorilla): its
+    /// controller may not pass over the attack. In Main Phase 1 that means the Battle Phase can
+    /// still be entered; in the Battle Step that an attack can be declared now. Null when nothing forces an attack.
+    /// </summary>
+    public static CardInstance? MustAttackWith(DuelState s, int player)
+    {
+        if (player != s.TurnPlayer || s.Chain.Count > 0 || s.Window != Window.Open)
+        {
+            return null;
+        }
+
+        bool canEnter = s.Phase == Phase.Main1 && ValidateEnterBattlePhase(s, player) is null;
+        bool canDeclare = s.Phase == Phase.Battle && s.BattleStep == BattleStep.Battle && s.Attacker is null;
+        if (!canEnter && !canDeclare)
+        {
+            return null;
+        }
+
+        return s.Player(player).Monsters.FirstOrDefault(m => m.Has(Restriction.MustAttack) && CanAttackNow(s, m));
+    }
+
+    /// <summary>Whether <paramref name="attacker"/> could declare some attack now, ignoring the phase: face-up in Attack Position, not spent, not forbidden, with a legal target or a direct attack.</summary>
+    public static bool CanAttackNow(DuelState s, CardInstance attacker)
+    {
+        if (attacker.Pos != Position.FaceUpAttack || attacker.AttackedThisTurn || attacker.Has(Restriction.CannotAttack))
+        {
+            return false;
+        }
+
+        PlayerState opponent = s.Opponent(attacker.Controller);
+        return opponent.MonsterCount == 0 || attacker.Has(Restriction.CanAttackDirectly) || opponent.Monsters.Any(t => !t.Has(Restriction.CannotBeAttacked));
+    }
+
+    /// <summary>The Battle Phase ends: monsters flagged <see cref="Restriction.DefenseAfterAttack"/> that attacked switch to Defense Position and stay locked until the end of their controller's next turn (Goblin Attack Force).</summary>
+    public static void EndOfBattlePhase(DuelEngine engine)
+    {
+        DuelState s = engine.State;
+        foreach (CardInstance card in s.Players.SelectMany(p => p.Monsters).Where(m => m.Has(Restriction.DefenseAfterAttack) && m.AttackedThisTurn && m.Pos == Position.FaceUpAttack).ToList())
+        {
+            card.Pos = Position.FaceUpDefense;
+            engine.Emit(new PositionChanged(card.Controller, card.Id, Position.FaceUpAttack, Position.FaceUpDefense));
+            engine.AddModifier(Modifier.OnCard(ModifierKind.CannotChangePosition, card.Id, card.Id, 0, s.NextTurnOf(card.Controller)));
+        }
+
+        engine.Refresh();
     }
 
     public static void DeclareAttack(DuelEngine engine, int player, Guid attackerId, Guid? targetId)
