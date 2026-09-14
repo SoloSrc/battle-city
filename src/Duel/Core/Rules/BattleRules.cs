@@ -95,13 +95,24 @@ internal static class BattleRules
             return $"{attacker.Def.Name} already attacked this turn";
         }
 
+        if (attacker.Has(Restriction.CannotAttack))
+        {
+            return $"{attacker.Def.Name} cannot attack";
+        }
+
         PlayerState opponent = s.Opponent(player);
         if (targetId is null)
         {
-            return opponent.MonsterCount == 0 ? null : "direct attacks are only possible when the opponent controls no monsters";
+            return opponent.MonsterCount == 0 || attacker.Has(Restriction.CanAttackDirectly) ? null : "direct attacks are only possible when the opponent controls no monsters";
         }
 
-        return Zones.OnField(s, 1 - player, targetId.Value) is null ? "the target is not an opponent's monster" : null;
+        CardInstance? target = Zones.OnField(s, 1 - player, targetId.Value);
+        if (target is null)
+        {
+            return "the target is not an opponent's monster";
+        }
+
+        return target.Has(Restriction.CannotBeAttacked) ? $"{target.Def.Name} cannot be attacked" : null;
     }
 
     public static void DeclareAttack(DuelEngine engine, int player, Guid attackerId, Guid? targetId)

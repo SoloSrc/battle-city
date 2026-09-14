@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using BattleCity.Duel.Core.Effects;
 using BattleCity.Duel.Core.Events;
 using BattleCity.Duel.Core.Model;
@@ -35,8 +36,10 @@ internal static class DamageStep
         if (target is { IsFaceDown: true })
         {
             target.Pos = Position.FaceUpDefense;
+            target.FlippedThisTurn = true;
             s.BattleFlipped = target.Id;
             engine.Emit(new MonsterFlipped(target.Controller, target.Id, target.Def.Id));
+            engine.Refresh();
         }
 
         TurnFlow.SetWindow(engine, Window.DamageBeforeCalc, null);
@@ -56,7 +59,7 @@ internal static class DamageStep
         }
 
         SetSubstep(engine, DamageSubstep.AfterCalc);
-        foreach (CardInstance card in destroyed)
+        foreach (CardInstance card in destroyed.Where(c => !c.Has(Restriction.CannotBeDestroyedByBattle)))
         {
             engine.Destroy(card, DestroyReason.Battle);
         }
@@ -81,7 +84,7 @@ internal static class DamageStep
         Finish(engine);
     }
 
-    /// <summary>Damage calculation (GDD §3.2). Returns the monsters destroyed by battle.</summary>
+    /// <summary>Damage calculation (GDD §3.2): a piercing attacker inflicts the difference over a Defense Position target. Returns the monsters battle would destroy.</summary>
     private static List<CardInstance> Resolve(DuelEngine engine, CardInstance attacker, CardInstance? target)
     {
         var destroyed = new List<CardInstance>();
@@ -120,6 +123,10 @@ internal static class DamageStep
             if (diff > 0)
             {
                 destroyed.Add(target);
+                if (attacker.Has(Restriction.Piercing))
+                {
+                    engine.Damage(defenderPlayer, diff, attacker.Id);
+                }
             }
             else if (diff < 0)
             {

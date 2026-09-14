@@ -257,23 +257,35 @@ record DuelState {
   List<PendingTrigger> Triggers;   // fired, not on the chain yet
   ChainLink? PendingLink;     // activation collecting cost/target answers
   PendingChoice? PendingChoice;    // the question the engine waits on
+  List<Modifier> Modifiers;   // timed modifiers from resolved effects (the registry)
   Flags: NormalSummonUsed, BattlePhaseUsed, Attacker/AttackTarget, FirstTurn
 }
 record PlayerState {
   int LifePoints;
   Zone Deck, Hand, Graveyard, Banished, FusionDeck;
   Zone[] MonsterZones (5), SpellTrapZones (5);
-  Zone FieldZone;             // present, unused in the slice
+  Zone FieldZone;             // the Field Spell in play
+  PlayerRestriction Restrictions;  // computed: NoBattleDamage, TrapsNegated
 }
 record CardInstance {
   Guid Id; CardDefinition Def; int Owner; int Controller;
   Location Loc; int ZoneIndex;
   Position Pos;               // FaceUpAttack, FaceUpDefense, FaceDownDefense, FaceDown (S/T), FaceUp (S/T)
-  int AtkMod, DefMod; List<Modifier> Modifiers;
-  bool SetThisTurn; bool ChangedPositionThisTurn; bool AttackedThisTurn;
-  Dictionary<string,int> Counters;
+  int AtkBonus, DefBonus; Restriction Restrictions;   // computed from the modifiers, never written by effects
+  Guid? EquippedTo;           // equips: the monster this card is attached to
+  int? ControlReturnsAfterTurn;    // temporary control changes
+  bool SetThisTurn; bool ArrivedThisTurn; bool FlippedThisTurn; bool ChangedPositionThisTurn; bool AttackedThisTurn;
+  Dictionary<string,int> Counters; Dictionary<string,int> ActivationsThisTurn;   // once-per-turn tracking
 }
+record Modifier(ModifierKind Kind, int Value, Guid Source, Guid? Card, int? Player, int? ExpiresAfterTurn);
+// Kinds: Atk, Def, CannotAttack, CannotBeAttacked, CannotChangePosition, CannotBeDestroyedByBattle,
+// CannotBeTributed, Piercing, CanAttackDirectly, EffectsNegated (card kinds); NoBattleDamage, TrapsNegated (player kinds).
+// Scope: one card, one player (their monsters for card kinds), or the whole duel.
 ```
+
+Tokens are `CardInstance`s whose definition has `IsToken`; they are created
+on the field and leave the duel the moment they leave it (`TokenRemoved`),
+so they never appear in a hand, Deck, Graveyard or Banished pile.
 
 ### 5.3 Card definition schema (`data/cards/<id>.json`)
 
@@ -310,11 +322,14 @@ interface IEffect {
   bool IsMandatory;
   TriggerWindow? Trigger;     // OnSummon, OnDestroyedByBattle, OnFlip, OnSentToGrave, Standby, EndPhase
   bool UsableInDamageStep;    // speed 2 ATK/DEF modifiers may activate before damage calculation
+  bool OncePerTurn;           // the engine counts activations per card and turn
   bool CanActivate(DuelState s, CardInstance src, ActivationContext ctx);  // card-specific condition only
   IReadOnlyList<Choice> Costs(DuelState s, CardInstance src);    // asked in order at activation
   IReadOnlyList<Choice> Targets(DuelState s, CardInstance src);  // asked after the costs are paid
   void PayCosts(DuelEngine e, ChainLink link);   // once, before targets; answers in link.Costs
   void Resolve(DuelEngine e, ChainLink link);    // skipped for a negated link; answers in link.Targets
+  IEnumerable<Modifier> Modifiers(DuelState s, CardInstance src);   // what the card grants while face-up on the field
+  void OnLeftField(DuelEngine e, CardInstance src, Location from, Guid? equippedTo);   // continuous consequences, no chain
 }
 ```
 
@@ -337,9 +352,38 @@ UI renders the prompt as a modal, the AI answers it programmatically, and
 no card needs UI code. `DuelEngine.Clone` copies pending state, so the AI
 can look ahead through a prompt.
 
-Continuous effects (Jinzo, Command Knight, equips) register `Modifier`s
-that the rules query when computing ATK/DEF, activation legality and
-targeting. Modifiers are recomputed after every state change.
+**Modifier registry.** Two sources feed one computation. A resolved effect
+that lasts ("gains 700 ATK until the End Phase", "cannot change position
+until the end of your next turn", Waboku) registers a timed `Modifier` on
+`DuelState.Modifiers` with `engine.AddModifier`; it expires at the End
+Phase of `ExpiresAfterTurn` (`DuelState.NextTurnOf(player)` gives "your
+next turn") or when its card leaves the field or is flipped face-down. A
+Continuous effect or an equip (Jinzo, Command Knight, Axe of Despair)
+returns its modifiers from `IEffect.Modifiers` every time they are asked
+for, so nothing stored points at a card that left. `Modifiers.Recompute`
+runs after every state change (every card move, position or control
+change, draw, counter, life point change and chain link) and projects both
+onto the computed fields the rules read: `CardInstance.AtkBonus`,
+`DefBonus` and `Restrictions`, `PlayerState.Restrictions`. Effects never
+write those fields. A card whose effects are negated contributes nothing
+and its links resolve to nothing; while a player's Traps are negated they
+cannot activate Traps, their Continuous Traps contribute nothing and their
+Trap links resolve to nothing.
+
+**Engine helpers for card effects.** `Draw`, `Damage` (battle) and
+`InflictDamage` (effect), `PayLifePoints` (a cost; paying the last point
+loses), `GainLifePoints`, `Destroy`, `SendToGraveyard`, `Discard`,
+`DiscardRandom` (through `DuelRng`, so replays match), `Banish`,
+`ReturnToHand`, `ReturnToDeck`, `ShuffleDeck`, `SpecialSummon` (hand,
+Deck, Graveyard, Banished or Fusion Deck; refuses Spirits and full fields;
+fires summon triggers and opens the summon window), `CreateToken`,
+`ChangeControl` (permanent or until the End Phase of a turn; needs a free
+zone; control always returns when the monster leaves the field), `Equip`
+(an Equip Spell that attached to nothing is spent), `FlipFaceDown` (Book
+of Moon; destroys the monster's equips), `AddCounter`, `AddModifier`,
+`Negate`. When a monster leaves the field its equips are destroyed and its
+effects' `OnLeftField` hooks run (Snatch Steal returns control, Premature
+Burial destroys its monster) before its field state is cleared.
 
 ### 5.5 Turn flow and timing
 
@@ -354,7 +398,11 @@ Phases and steps as in GDD §3.2. The engine implements 2005 rules:
 | Set cards wait a turn | `SetThisTurn` blocks Traps and Set Quick-Play Spells; Quick-Play Spells from the hand need the turn player's own turn |
 | Trigger ordering | Fired triggers queue on `DuelState.Triggers`; mandatory ones go on the chain first (turn player's, then opponent's; a controller with several is asked to order them), then optional ones are offered one at a time in the same order. The opponent of the last link gets priority to respond |
 | Damage Step | Sub-steps: StartDamage, BeforeCalc (face-down target flips; only Counter Traps and effects flagged `UsableInDamageStep` may activate), Calc, AfterCalc (flip effects and battle-destruction triggers go on the chain; nothing else activates on an empty chain), EndDamage. Each half is a window closed by two passes |
-| Position changes | Once per turn, not on the turn summoned, not after attacking |
+| Position changes | Once per turn, not on the turn summoned, not after attacking, not under a `CannotChangePosition` modifier (position locks carry a turn number) |
+| Battle restrictions | `CannotAttack`, `CannotBeAttacked` and `CanAttackDirectly` shape the legal attacks; `CannotBeDestroyedByBattle` and `NoBattleDamage` apply in damage calculation; a `Piercing` attacker inflicts the difference over a Defense Position target |
+| Once per turn | `IEffect.OncePerTurn`; activations are counted per card and effect on `CardInstance.ActivationsThisTurn` and reset with the turn or when the card leaves the field |
+| End of turn | Entering the End Phase expires timed modifiers, returns temporary control and sends Spirit monsters Normal Summoned or flipped face-up this turn back to the hand, before the End Phase triggers fire |
+| Tokens | Never tributed for a Tribute Summon when flagged `CannotBeTributed`; removed from the duel on leaving the field |
 | Tribute count | Level 5–6 one, 7+ two |
 | Fusion | Polymerization or Metamorphosis; result from FusionDeck |
 | Hand limit | 6 at End Phase; discard prompt |

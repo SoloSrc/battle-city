@@ -17,6 +17,7 @@ public sealed class DuelState
         Players = new[] { new PlayerState(0), new PlayerState(1) };
         Chain = new List<ChainLink>();
         Triggers = new List<PendingTrigger>();
+        Modifiers = new List<Modifier>();
     }
 
     private DuelState(DuelState other)
@@ -26,6 +27,7 @@ public sealed class DuelState
         Players = other.Players.Select(p => p.Clone(copies)).ToArray();
         Chain = other.Chain.Select(l => l.Clone(copies[l.Source.Id])).ToList();
         Triggers = other.Triggers.ToList();
+        Modifiers = other.Modifiers.ToList();
         PendingLink = other.PendingLink?.Clone(copies[other.PendingLink.Source.Id]);
         PendingChoice = other.PendingChoice;
         TurnPlayer = other.TurnPlayer;
@@ -73,6 +75,9 @@ public sealed class DuelState
     /// <summary>Trigger effects whose window fired and that are not on the chain yet, in the order they fired.</summary>
     public List<PendingTrigger> Triggers { get; }
 
+    /// <summary>Modifiers registered by resolved effects (systems.md §5.4); those from Continuous effects and equips are recomputed instead of stored.</summary>
+    public List<Modifier> Modifiers { get; }
+
     /// <summary>An activation collecting its cost and target answers before it joins the chain.</summary>
     public ChainLink? PendingLink { get; set; }
 
@@ -118,6 +123,9 @@ public sealed class DuelState
 
     /// <summary>Finds a card anywhere on either side; null when the id is unknown.</summary>
     public CardInstance? Find(Guid id) => Players.SelectMany(p => p.AllCards).FirstOrDefault(c => c.Id == id);
+
+    /// <summary>The number of <paramref name="player"/>'s next turn: "until the end of your next turn" expires after it.</summary>
+    public int NextTurnOf(int player) => TurnPlayer == player ? TurnNumber + 2 : TurnNumber + 1;
 
     public DuelState Clone() => new(this);
 }

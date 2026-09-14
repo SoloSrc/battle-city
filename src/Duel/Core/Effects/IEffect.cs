@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using BattleCity.Duel.Core.Model;
 
@@ -28,6 +29,9 @@ public interface IEffect
     /// <summary>A speed 2 effect that changes ATK or DEF may also be activated before damage calculation (systems.md §5.5 Damage Step row).</summary>
     bool UsableInDamageStep { get; }
 
+    /// <summary>The effect activates once per turn per card; the engine counts activations in <see cref="CardInstance.ActivationsThisTurn"/>.</summary>
+    bool OncePerTurn { get; }
+
     /// <summary>The card-specific condition: whether the effect may be activated now by its controller. Timing shared by every effect (speed, priority, Set turn) is checked by the engine.</summary>
     bool CanActivate(DuelState state, CardInstance source, ActivationContext context);
 
@@ -42,4 +46,10 @@ public interface IEffect
 
     /// <summary>Applies the effect when its chain link resolves; not called for a negated link.</summary>
     void Resolve(DuelEngine engine, ChainLink link);
+
+    /// <summary>The modifiers this card grants while face-up on the field (Continuous effects, equips); recomputed by the engine after every state change, never stored.</summary>
+    IEnumerable<Modifier> Modifiers(DuelState state, CardInstance source);
+
+    /// <summary>Runs as <paramref name="source"/> leaves the field, before its field state is cleared: <paramref name="equippedTo"/> is the monster it was attached to. Continuous consequences only (return control, destroy the attached monster); it does not use the chain.</summary>
+    void OnLeftField(DuelEngine engine, CardInstance source, Location from, Guid? equippedTo);
 }

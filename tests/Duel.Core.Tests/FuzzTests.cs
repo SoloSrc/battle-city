@@ -24,6 +24,14 @@ public class FuzzTests
         Cards.Drawer, Cards.Avenger, Cards.Flipper, Cards.Destroyer, Cards.Searcher, Cards.StandbyDrawer,
     };
 
+    /// <summary>Every #55 mechanism on top of the vanilla pool: continuous and timed modifiers, equips, control, tokens, counters, costs, Special Summons, Spirits, locks.</summary>
+    private static readonly CardDefinition[] _mechanicsPool =
+    {
+        Cards.GeminiElf, Cards.Squire, Cards.Weakling, Cards.Knight, Cards.Axe, Cards.Snatch, Cards.Controller, Cards.Goats,
+        Cards.Breaker, Cards.LifeDraw, Cards.Duo, Cards.Reborn, Cards.FusionCall, Cards.Spirit, Cards.Lock, Cards.Jinzo,
+        Cards.Shield, Cards.Piercer, Cards.Reaper, Cards.Banisher, Cards.BookOfMoon, Cards.Burial, Cards.AttackTrap, Cards.Avenger,
+    };
+
     public static IEnumerable<object[]> Seeds() => Enumerable.Range(1, 20).Select(i => new object[] { (ulong)i });
 
     [Theory]
@@ -40,9 +48,19 @@ public class FuzzTests
         Assert.Null(engine.State.PendingChoice);
     }
 
-    private static DuelEngine Run(ulong seed, CardDefinition[] pool)
+    [Theory]
+    [MemberData(nameof(Seeds))]
+    public void RandomDuelsWithMechanismsKeepTheInvariantsAndEnd(ulong seed)
     {
-        var deck = new Deck(Enumerable.Range(0, Scenario.DeckSize).Select(i => pool[i % pool.Length]).ToList());
+        DuelEngine engine = Run(seed, _mechanicsPool, new[] { Cards.FusionBeast });
+
+        Assert.Empty(engine.State.Chain);
+        Assert.Null(engine.State.PendingChoice);
+    }
+
+    private static DuelEngine Run(ulong seed, CardDefinition[] pool, CardDefinition[]? fusion = null)
+    {
+        var deck = new Deck(Enumerable.Range(0, Scenario.DeckSize).Select(i => pool[i % pool.Length]).ToList(), fusion ?? Array.Empty<CardDefinition>());
         DuelEngine engine = DuelEngine.Start(deck, deck, new DuelOptions { Seed = seed }, TestEffects.Registry());
         CheckInvariants(engine);
 
@@ -59,13 +77,18 @@ public class FuzzTests
         var seen = new HashSet<Guid>();
         foreach (PlayerState p in s.Players)
         {
-            Assert.InRange(p.LifePoints, 0, DuelCoreInfo.StartingLifePoints);
+            Assert.InRange(p.LifePoints, 0, int.MaxValue);
             var cards = p.AllCards.ToList();
-            Assert.Equal(Scenario.DeckSize, cards.Count);
+            var everything = s.Players.SelectMany(q => q.AllCards).ToList();
+            // The 40 main-deck cards a player owns are all somewhere; tokens exist only on the field; a card off the field is with its owner, under its owner's control.
+            Assert.Equal(Scenario.DeckSize, everything.Count(c => c.Owner == p.Index && !c.IsToken && c.Def.Kind != CardKind.Fusion));
+            Assert.DoesNotContain(p.Deck.Concat(p.Hand).Concat(p.Graveyard).Concat(p.Banished), c => c.IsToken);
             foreach (CardInstance card in cards)
             {
                 Assert.True(seen.Add(card.Id), $"{card} appears twice");
-                Assert.Equal(p.Index, card.Owner);
+                Assert.True(card.IsOnField ? card.Controller == p.Index : card.Owner == p.Index, $"{card} is held by player {p.Index}");
+                Assert.True(card.IsOnField || card.Controller == card.Owner, $"{card} off the field is still controlled by {card.Controller}");
+                Assert.True(card.Atk >= 0 && card.DefValue >= 0, $"{card} has negative stats");
             }
 
             for (int i = 0; i < PlayerState.ZoneCount; i++)
@@ -89,7 +112,28 @@ public class FuzzTests
             Assert.All(p.Hand, c => Assert.Equal(Location.Hand, c.Loc));
             Assert.All(p.Deck, c => Assert.Equal(Location.Deck, c.Loc));
             Assert.All(p.Graveyard, c => Assert.Equal(Location.Graveyard, c.Loc));
+            Assert.All(p.Banished, c => Assert.Equal(Location.Banished, c.Loc));
+            Assert.All(p.FusionDeck, c => Assert.Equal(Location.FusionDeck, c.Loc));
+
+            // Equips are attached to a face-up monster on the field or gone; nothing off the field keeps an attachment or counters.
+            foreach (CardInstance st in p.SpellTraps)
+            {
+                if (st.EquippedTo is { } target)
+                {
+                    Assert.True(s.Find(target) is { Loc: Location.MonsterZone, IsFaceUp: true }, $"{st} is equipped to a monster that is not face-up on the field");
+                }
+                else
+                {
+                    bool activating = s.Chain.Any(l => l.Source == st) || s.PendingLink?.Source == st;
+                    Assert.True(st.Def.Spell?.Subtype != SpellSubtype.Equip || st.IsFaceDown || activating, $"{st} is a face-up Equip Spell attached to nothing");
+                }
+            }
+
+            Assert.All(cards.Where(c => !c.IsOnField), c => Assert.True(c.EquippedTo is null && c.Counters.Count == 0 && c.AtkBonus == 0 && c.Restrictions == Restriction.None, $"{c} kept field state off the field"));
         }
+
+        // Every stored modifier on a card names a card on the field.
+        Assert.All(s.Modifiers.Where(m => m.Card is not null), m => Assert.True(s.Find(m.Card!.Value) is { IsOnField: true }, $"modifier {m.Kind} points at a card off the field"));
 
         // Chain links and the pending activation point at cards that exist; link numbers count up from 1.
         Assert.Equal(Enumerable.Range(1, s.Chain.Count), s.Chain.Select(l => l.Index));

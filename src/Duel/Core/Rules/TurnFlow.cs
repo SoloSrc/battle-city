@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using BattleCity.Duel.Core.Effects;
 using BattleCity.Duel.Core.Events;
@@ -154,12 +155,23 @@ internal static class TurnFlow
         engine.Emit(new WindowChanged(window, card));
     }
 
-    /// <summary>Enters a phase; the Standby and End Phases fire the triggers of every face-up card on the field, turn player's side first.</summary>
+    /// <summary>
+    /// Enters a phase. The End Phase first ends what lasts "until the end of
+    /// the turn": timed modifiers expire, temporary control returns and
+    /// Spirit monsters Summoned or flipped this turn go back to the hand;
+    /// then the Standby and End Phases fire the triggers of every face-up
+    /// card on the field, turn player's side first.
+    /// </summary>
     public static void SetPhase(DuelEngine engine, Phase phase)
     {
         DuelState s = engine.State;
         s.Phase = phase;
         engine.Emit(new PhaseChanged(phase));
+        if (phase == Phase.End)
+        {
+            EndOfTurn(engine);
+        }
+
         TriggerWindow? window = phase switch
         {
             Phase.Standby => TriggerWindow.Standby,
@@ -179,6 +191,28 @@ internal static class TurnFlow
             }
         }
     }
+
+    private static void EndOfTurn(DuelEngine engine)
+    {
+        DuelState s = engine.State;
+        Modifiers.Expire(engine);
+        foreach (CardInstance card in s.Players.SelectMany(p => p.Monsters).Where(m => m.ControlReturnsAfterTurn is { } t && t <= s.TurnNumber).ToList())
+        {
+            engine.ChangeControl(card, card.Owner);
+        }
+
+        foreach (CardInstance card in s.Players.SelectMany(p => p.Monsters).Where(IsSpiritGoingHome).ToList())
+        {
+            engine.Emit(new SpiritReturned(card.Controller, card.Id, card.Def.Id));
+            engine.ReturnToHand(card);
+        }
+
+        engine.Refresh();
+    }
+
+    /// <summary>A face-up Spirit monster Normal Summoned or flipped face-up this turn returns to the hand at the End Phase.</summary>
+    private static bool IsSpiritGoingHome(CardInstance card) =>
+        card.IsFaceUp && card.Def.Monster?.Category == MonsterCategory.Spirit && (card.ArrivedThisTurn || card.FlippedThisTurn);
 
     public static void SetBattleStep(DuelEngine engine, BattleStep step)
     {

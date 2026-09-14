@@ -48,9 +48,15 @@ internal static class SummonRules
 
         foreach (Guid id in tributes)
         {
-            if (Zones.OnField(s, player, id) is null)
+            CardInstance? tribute = Zones.OnField(s, player, id);
+            if (tribute is null)
             {
                 return "tributes must be monsters you control";
+            }
+
+            if (tribute.Has(Restriction.CannotBeTributed))
+            {
+                return $"{tribute.Def.Name} cannot be tributed";
             }
         }
 
@@ -74,7 +80,7 @@ internal static class SummonRules
 
         int zone = s.Player(player).FirstFreeMonsterZone();
         Position position = set ? Position.FaceDownDefense : Position.FaceUpAttack;
-        Zones.PlaceMonster(s, card, player, zone, position);
+        Zones.PlaceMonster(engine, card, player, zone, position);
         card.ArrivedThisTurn = true;
         card.SetThisTurn = set;
         s.NormalSummonUsed = true;
@@ -121,6 +127,7 @@ internal static class SummonRules
         card.Pos = from == Position.FaceUpAttack ? Position.FaceUpDefense : Position.FaceUpAttack;
         card.ChangedPositionThisTurn = true;
         engine.Emit(new PositionChanged(player, card.Id, from, card.Pos));
+        engine.Refresh();
         TurnFlow.GivePriorityToTurnPlayer(engine.State);
     }
 
@@ -151,7 +158,9 @@ internal static class SummonRules
         CardInstance card = Zones.OnField(engine.State, player, cardId)!;
         card.Pos = Position.FaceUpAttack;
         card.ChangedPositionThisTurn = true;
+        card.FlippedThisTurn = true;
         engine.Emit(new MonsterFlipSummoned(player, card.Id, card.Def.Id));
+        engine.Refresh();
         Summoned(engine, card);
         engine.QueueTriggers(card, TriggerWindow.OnFlip);
         TurnFlow.GivePriorityToTurnPlayer(engine.State);
@@ -167,9 +176,14 @@ internal static class SummonRules
         }
     }
 
-    /// <summary>Position changes: once per turn, not on the turn the monster arrived, not after it attacked (systems.md §5.5).</summary>
+    /// <summary>Position changes: once per turn, not on the turn the monster arrived, not after it attacked, not under a position lock (systems.md §5.5).</summary>
     private static string? ValidatePositionChangeTiming(CardInstance card)
     {
+        if (card.Has(Restriction.CannotChangePosition))
+        {
+            return $"{card.Def.Name} cannot change its battle position";
+        }
+
         if (card.ArrivedThisTurn)
         {
             return "a monster cannot change position on the turn it was Summoned or Set";
