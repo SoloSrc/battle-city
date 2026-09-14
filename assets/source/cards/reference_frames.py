@@ -5,8 +5,8 @@ def bevel(x,y,w,h,b,colors):
     points=[[(x,y),(x+w,y),(x+w-b,y+b),(x+b,y+b)],[(x+w,y),(x+w,y+h),(x+w-b,y+h-b),(x+w-b,y+b)],[(x,y+h),(x+b,y+h-b),(x+w-b,y+h-b),(x+w,y+h)],[(x,y),(x+b,y+b),(x+b,y+h-b),(x,y+h)]]
     return ''.join('<polygon points="'+ ' '.join(f'{a},{b}' for a,b in p)+'" fill="'+c+'"/>' for p,c in zip(points,colors))
 
-def plate(x,y,w,h):
-    body=f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#fff5d7" fill-opacity=".48" stroke="#5e3119" stroke-width="7"/>'
+def plate(x,y,w,h,opacity):
+    body=f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#fff5d7" fill-opacity="{opacity}" stroke="#5e3119" stroke-width="7"/>'
     body+=f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="none" stroke="url(#gold)" stroke-width="4"/>'
     for cx,cy in [(x,y),(x+w,y),(x,y+h),(x+w,y+h)]:
         body+=f'<rect x="{cx-6}" y="{cy-6}" width="12" height="12" fill="url(#gold)" stroke="#6a3815" stroke-width="2"/><path d="M{cx-3},{cy+3}v-6h6" fill="none" stroke="#fff1a4" stroke-width="2"/>'
@@ -23,5 +23,5 @@ def write_frames(src,save,layer):
         body+=bevel(0,0,590,630,10,['#b9b9b9','#777777','#656565','#939393'])
         body+=bevel(0,630,590,230,10,[light,dark,dark,light])
         plates=[(34,738,244,94),(312,738,244,94)] if name not in ['spell','trap'] else [(34,693,522,104)]
-        body+=''.join(plate(*p) for p in plates)
+        body+=''.join(plate(*p, .48 if name in ['spell','trap'] else .20) for p in plates)
         save('frame_'+name,590,860,layer('muted-clouds-thin-bevel-and-translucent-gold-plates',body))

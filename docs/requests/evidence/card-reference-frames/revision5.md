@@ -13,3 +13,8 @@
 - Six-type exported sheet visually inspected for cloud continuity, muted palettes,
   matched bevel widths, upright large numbers and unclipped icons.
 - git diff --check passed. This is asset validation, not runtime CardView testing.
+
+Follow-up: monster stat-plate fill reduced from 48% to 20%. Regenerated all
+exports/review samples; visually verified cloud detail through the Fusion
+number plates. Export and layout validation passed again. Spell/Trap frame
+PNGs are byte-identical to the preceding revision.
