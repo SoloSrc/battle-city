@@ -1,65 +1,72 @@
 {
-  "revision": 4,
+  "revision": 5,
   "size": [
     590,
     860
   ],
+  "bevel_width": 10,
   "art_window": [
-    14,
-    14,
-    562,
-    616
+    10,
+    10,
+    570,
+    610
   ],
   "data_panel": [
     0,
-    645,
+    630,
     590,
-    215
+    230
   ],
   "star_size": [
     34,
     34
   ],
-  "star_step": 36,
-  "star_row_y": 696,
+  "star_step": 37,
+  "star_row_y": 686,
   "star_row_center_x": 295,
-  "star_row_right_max": 460,
+  "star_row_right_max": 467,
   "attribute": [
-    514,
-    696
+    524,
+    686
   ],
   "attribute_size": [
-    64,
-    64
+    66,
+    66
   ],
   "atk": [
-    158,
-    781
+    156,
+    785
   ],
   "def": [
-    430,
-    781
+    434,
+    785
   ],
   "stat_alignment": "center",
-  "stat_font_px": 70,
+  "stat_font_px": 80,
   "stat_font_style": "normal",
   "stat_plates": [
     [
-      46,
-      735,
-      224,
-      92
+      34,
+      738,
+      244,
+      94
     ],
     [
-      318,
-      735,
-      224,
-      92
+      312,
+      738,
+      244,
+      94
     ]
+  ],
+  "spell_trap_plate": [
+    34,
+    693,
+    522,
+    104
   ],
   "spell_trap_badge": [
     295,
-    750
+    745
   ],
   "spell_trap_badge_size": [
     72,

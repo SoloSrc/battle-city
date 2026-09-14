@@ -1,58 +1,46 @@
-# Director reference card frames — revision 4
+# Generated card frames — director-approved revision 5
 
-Owner: gpt-astra. Receiver: director and claude-fable. Status: PR review.
+Owner: gpt-astra. Receiver: claude-fable and director. Status: PR #73 review;
+CardView integration remains Fable's responsibility.
 
-The director supplied six card-type examples and attribute/level sheets in
-`~/Downloads/cards` on 2026-09-13, requesting their appearance and moving all
-subtype badges off card faces. This supersedes the previous card layout.
+The director approved the generated design on 2026-09-13 and asked to commit its
+artwork for future visual consistency checks. These are generated review images,
+not the supplied third-party reference files. The final authority and supporting
+studies are in [the reference archive](../art/references/card-design/README.md).
 
-![Six styles and icon inventory](../art/previews/cards30/card-set-review.png)
+![Current exported six-style review](../art/previews/cards30/card-set-review.png)
 
-The six frames preserve isolated approved bevel/stat-border artwork and share
-one continuous procedural cloud field in their respective colors. Plate interiors
-lighten that same field. The director's correction removes the square patch
-from Spell/Trap and applies the shared pattern to all monster frames.
-Numbers are upright serif, not italic. The approved star, attributes and all
-type/subtype icons are byte-identical to the previous PR revision.
-Full reference cards/sheets are removed, including embedded SVG copies.
-Only isolated trim and approved individual badge assets are retained.
+## Fable handoff — agreed with the director
 
-Continuous, Equip, Quick-Play, Counter, Field and Ritual get new original bronze
-medallion icons with ivory symbols, for tooltips/inspectors only. Spell and Trap
-faces contain only their centered main badge. Normal subtypes need no glyph.
-The card back and all 79 symbolic card artworks retain their prior pixels.
-The Ritual sample demonstrates a layout only; it is not a new card definition.
+Adopt `assets/source/cards/frame-layout.json` revision 5 and systems §6.2.
 
-## Fable handoff — director-requested contract
+- Retain 590×860 exports. Art window [10,10,570,610], centered cover.
+- Matched 10px gray/colored bevels; lower panel [0,630,590,230].
+- Soft muted continuous cloud texture across all six types. Gold plates have
+  translucent interiors. Old cropped trim and its ghost edges are removed.
+- Star size 34², step 37, center y=686; center ordinary rows and shift long rows
+  left per the contract. Level 12 has 26px left margin and 24px attribute gap.
+- Attribute 66² at (524,686). Stars and attribute are vertically aligned.
+- Lowered ATK/DEF plates; centers (156,785)/(434,785), 80px upright serif.
+- Spell/Trap: plate [34,693,522,104] and 72² badge centered at (295,745).
+  Equal 63px top/bottom margins from the panel bounds to the rectangle path.
+- Six subtype icons belong only in tooltips/inspectors, never card faces.
 
-Read systems §6.2 and `assets/source/cards/frame-layout.json` revision 4.
+Approved icons remain byte-identical. The existing back and 79 gameplay art PNGs
+remain unchanged. Generated illustration references are not new game assets or
+card definitions. Runtime CardView and tooltip hookup are not changed here.
 
-- Art: [14,14,562,616], centered cover; square source becomes 616² and clips
-  27 pixels on each side. No stretching or letterboxing.
-- Stars: 34², 36 px spacing, y center 696. Center the row where possible; shift
-  long rows left using the formula in §6.2 to keep the attribute clear.
-- Attribute: 64² at center (514,696).
-- ATK/DEF: centers (158,781)/(430,781), 70 px upright serif starting size.
-  These replace the previous top-left coordinate semantics.
-- Spell/Trap: one 72² main badge at center (295,750).
-- Subtypes: use the six `st_*` icons only in tooltips/inspectors. Preserve rules
-  and data; this changes presentation only. The new subtype file is `st_ritual`.
+Rebuild/validation instructions are in the source README. PNG review composition
+uses the shared layout contract. Verify in CardView before closing integration:
+all six frame types, levels 1 and 12, equal bevel widths, attribute/star alignment,
+stat legibility, centered Spell/Trap plates, and no art-window letterboxing.
 
-No shared engine code was changed. CardView integration and tooltip hookup are
-Fable's work; the preview compositor demonstrates the requested behavior.
+## Provenance
 
-## Source provenance and validation
-
-Tooltip symbols and code are original SOLOSRC work. Frames, stars and main badges are reference-derived.
-The attribute and level sheets were provided by the director; their original
-creator/license was not included. They are identified as reference-derived
-assets, not claimed as original MIT artwork. Full card examples are not included; rebuilds use isolated trim and individual badges. Reference filenames used for visual comparison:
-`level6_normal_dark.jpg`, `level2_effect_dark.jpg`, `level8_ritual_dark.jpg`,
-`level9_fusion_dark.jpg`, `spell.jpg`, `trap.jpg`; the other monster examples
-were also inspected for level-row placement.
-
-Validation: 23 frame/icon/back textures import and bind in Godot 4.7.2;
-all six art windows are transparent; levels 1/6/8/9/12 preserve attribute
-clearance; all 79 art pixel hashes and the approved back are unchanged.
-See source `validation.json` and `layout-validation.json`, and
-[evidence](evidence/card-reference-frames/). Runtime acceptance awaits CardView.
+Generated source/reference imagery is recorded in the archive README. Frame
+geometry and tooltip glyph code are original SOLOSRC. Approved main badges and
+stars remain reference-derived from director inputs whose original license was
+not supplied; they are not claimed as original MIT artwork. Supplied full card
+examples and sheets are absent from the proposed tree. No outside reference
+files are required to rebuild. See validation evidence in
+[evidence/card-reference-frames](evidence/card-reference-frames/).

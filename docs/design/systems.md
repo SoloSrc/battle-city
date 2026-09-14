@@ -416,76 +416,84 @@ Defence = rotated 90° about Y, face-down = flipped, with a 0.15 s tween.
 
 ### 6.2 Card face layout and art window
 
-**Director-approved reference change (2026-09-13):** follow the six frame
-styles and badge sheets supplied in `~/Downloads/cards`. This supersedes the
-layout in PR #39 and the previous subtype placement on Spell/Trap faces.
-The card remains 590×860; source monster art remains 512×512.
+**Director-approved generated design (2026-09-13):** the final visual authority
+is [the approved sheet](../art/references/card-design/approved-final-layout.png).
+This supersedes reference-cropped frames and prior front layout specifications.
+See [reference provenance and review guide](../art/references/card-design/README.md).
+The exported card remains 590×860; source gameplay art remains 512×512.
 
-The layout contract is `assets/source/cards/frame-layout.json`, revision 4:
+The exact contract is `assets/source/cards/frame-layout.json`, revision 5:
 
 ```json
 {
-  "revision": 4,
+  "revision": 5,
   "size": [
     590,
     860
   ],
+  "bevel_width": 10,
   "art_window": [
-    14,
-    14,
-    562,
-    616
+    10,
+    10,
+    570,
+    610
   ],
   "data_panel": [
     0,
-    645,
+    630,
     590,
-    215
+    230
   ],
   "star_size": [
     34,
     34
   ],
-  "star_step": 36,
-  "star_row_y": 696,
+  "star_step": 37,
+  "star_row_y": 686,
   "star_row_center_x": 295,
-  "star_row_right_max": 460,
+  "star_row_right_max": 467,
   "attribute": [
-    514,
-    696
+    524,
+    686
   ],
   "attribute_size": [
-    64,
-    64
+    66,
+    66
   ],
   "atk": [
-    158,
-    781
+    156,
+    785
   ],
   "def": [
-    430,
-    781
+    434,
+    785
   ],
   "stat_alignment": "center",
-  "stat_font_px": 70,
+  "stat_font_px": 80,
   "stat_font_style": "normal",
   "stat_plates": [
     [
-      46,
-      735,
-      224,
-      92
+      34,
+      738,
+      244,
+      94
     ],
     [
-      318,
-      735,
-      224,
-      92
+      312,
+      738,
+      244,
+      94
     ]
+  ],
+  "spell_trap_plate": [
+    34,
+    693,
+    522,
+    104
   ],
   "spell_trap_badge": [
     295,
-    750
+    745
   ],
   "spell_trap_badge_size": [
     72,
@@ -495,28 +503,28 @@ The layout contract is `assets/source/cards/frame-layout.json`, revision 4:
 }
 ```
 
-The art window is [14,14,562,616], with a thin beveled border. Centered cover
-scales square art to 616² and clips 27 pixels from each side, without stretching.
-The visible source region is approximately [22.44,0,467.12,512]. Keep essential
-art inside this safe region. The lower panel begins at y=645. All six types use the same continuous cloud field, tinted by type; no patch rectangles. Stat text must be upright, never italic.
+The art window uses centered cover: square art scales to 610² and clips 20px
+on each side, without stretching or letterboxing. Both the gray artwork bevel
+and colored outer bevel are 10px wide. The 230px lower panel occupies 26.7% of
+the face, matching the director-approved shortened-panel iteration. Use soft
+muted cloud mottling, not bright emissive veins; keep plate interiors translucent.
 
-For a level L, star row width is `(L-1)*36+34`. Center the row at
-`min(295,460-width/2)`; its left edge is that center minus half the width.
-Stars are 34² at top y=679. This centers ordinary levels and shifts long rows
-left to preserve clearance from the 64² attribute centered at (514,696).
-ATK/DEF are centered inside their plates, using a 70 px upright serif starting
-size; use font metrics to vertically center rather than assuming a baseline.
-The coordinate fields `atk`/`def` now denote centers, not top-left origins.
+For level L, row width is `(L-1)*37+34`; center at `min(295,467-width/2)`.
+The left edge is that center minus half the width. Stars and attribute share
+center y=686. Level 12 starts at x=26, ends at x=467 and leaves 24px before the
+attribute at x=491. Keep the attribute clear of the lowered stat plates.
+ATK/DEF positions denote centers. Use 80px upright serif starting size and font
+metrics for vertical centering; never italicize or enlarge the plate to fit.
 
-Spell/Trap faces contain one 72² main type badge centered at (295,750),
-inside a single ornate plate. **Do not draw subtype badges on card faces.**
-Continuous, Equip, Quick-Play, Counter, Field and Ritual subtype icons are
-for tooltips/inspectors only. Normal subtypes need no extra glyph. This is a
-presentation change; card data and subtype rules are unchanged.
+Spell/Trap's single rectangle and main badge are exactly centered within the
+colored panel at (295,745). Subtype badges remain tooltip/inspector-only:
+Continuous, Equip, Quick-Play, Counter, Field and Ritual. Normal needs no glyph.
+Card data and gameplay rules are unchanged. Example level-12 Fusion and Ritual
+review cards are layout fixtures, not new game card definitions.
 
-Fable must apply this contract to CardView and tooltips when #60 lands.
-See [reference frame handoff](../requests/card-reference-frames.md) for preview,
-asset provenance and integration details.
+Fable must adopt revision 5 in CardView and tooltips during #60 integration.
+See [handoff](../requests/card-reference-frames.md). Static previews and texture
+import validation do not constitute runtime CardView acceptance.
 
 ### 6.3 HUD and input
 

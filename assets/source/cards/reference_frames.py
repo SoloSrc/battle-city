@@ -1,14 +1,27 @@
-"""One continuous cloud field per frame, with approved isolated trim overlays."""
+"""Generated cloud source with deterministic original bevels and gold plates."""
 import base64
 
+def bevel(x,y,w,h,b,colors):
+    points=[[(x,y),(x+w,y),(x+w-b,y+b),(x+b,y+b)],[(x+w,y),(x+w,y+h),(x+w-b,y+h-b),(x+w-b,y+b)],[(x,y+h),(x+b,y+h-b),(x+w-b,y+h-b),(x+w,y+h)],[(x,y),(x+b,y+b),(x+b,y+h-b),(x,y+h)]]
+    return ''.join('<polygon points="'+ ' '.join(f'{a},{b}' for a,b in p)+'" fill="'+c+'"/>' for p,c in zip(points,colors))
+
+def plate(x,y,w,h):
+    body=f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#fff5d7" fill-opacity=".48" stroke="#5e3119" stroke-width="7"/>'
+    body+=f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="none" stroke="url(#gold)" stroke-width="4"/>'
+    for cx,cy in [(x,y),(x+w,y),(x,y+h),(x+w,y+h)]:
+        body+=f'<rect x="{cx-6}" y="{cy-6}" width="12" height="12" fill="url(#gold)" stroke="#6a3815" stroke-width="2"/><path d="M{cx-3},{cy+3}v-6h6" fill="none" stroke="#fff1a4" stroke-width="2"/>'
+    return body
+
 def write_frames(src,save,layer):
- palettes={'normal':('#ad9015','#fff394'),'effect':('#c97905','#ffd681'),'fusion':('#683280','#d4a6e8'),'ritual':('#22288f','#8392f0'),'spell':('#037e40','#a1d19a'),'trap':('#862361','#e0a2d0')}
- for name,(base,light) in palettes.items():
-  # Identical noise coordinates/seed for every frame: no local repair rectangles.
-  defs='<defs><filter id="cloud" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".013 .024" numOctaves="3" seed="19"/><feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1.8 0 0 0 -.45"/><feGaussianBlur stdDeviation="2.8"/></filter></defs>'
-  body=defs+f'<rect y="645" width="590" height="215" fill="{base}"/><rect x="14" y="655" width="562" height="195" fill="{light}" opacity=".15"/><rect x="14" y="655" width="562" height="195" filter="url(#cloud)" opacity=".40"/>'
-  plates=[(54,743,210,78),(326,743,210,78)] if name in ['normal','effect','fusion'] else [(52,740,214,79),(321,740,214,79)] if name=='ritual' else [(53,698,485,100)]
-  for x,y,w,h in plates:body+=f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="{light}" opacity=".72"/>'
-  trim=base64.b64encode((src/'trim'/(name+'.png')).read_bytes()).decode()
-  body+='<image width="590" height="860" href="data:image/png;base64,'+trim+'"/>'
-  save('frame_'+name,590,860,layer('continuous-cloud-field-and-approved-trim',body))
+    palettes={'normal':('#9e8023','#deca72'),'effect':('#af682e','#e1ad72'),'fusion':('#633da3','#b99bd4'),'ritual':('#354c9b','#99aed6'),'spell':('#258457','#9ac7a1'),'trap':('#a14276','#d6a0b8')}
+    cloud=base64.b64encode((src/'cloud-mottle.png').read_bytes()).decode()
+    for name,(dark,light) in palettes.items():
+        lo=[int(dark[i:i+2],16)/255 for i in (1,3,5)];hi=[int(light[i:i+2],16)/255 for i in (1,3,5)]
+        funcs=''.join(f'<feFunc{c} type="linear" slope="{(b-a)*2.6}" intercept="{a-(b-a)*.8}"/>' for c,a,b in zip('RGB',lo,hi))
+        defs='<defs><filter id="tint" color-interpolation-filters="sRGB"><feComponentTransfer>'+funcs+'</feComponentTransfer></filter><clipPath id="panel"><rect y="630" width="590" height="230"/></clipPath><linearGradient id="gold" x2="0" y2="1"><stop stop-color="#fff0a0"/><stop offset=".35" stop-color="#dba934"/><stop offset=".6" stop-color="#9b541a"/><stop offset="1" stop-color="#f8d76d"/></linearGradient></defs>'
+        body=defs+f'<rect y="630" width="590" height="230" fill="{dark}"/><g clip-path="url(#panel)"><image y="460" width="590" height="590" filter="url(#tint)" href="data:image/png;base64,{cloud}"/></g>'
+        body+=bevel(0,0,590,630,10,['#b9b9b9','#777777','#656565','#939393'])
+        body+=bevel(0,630,590,230,10,[light,dark,dark,light])
+        plates=[(34,738,244,94),(312,738,244,94)] if name not in ['spell','trap'] else [(34,693,522,104)]
+        body+=''.join(plate(*p) for p in plates)
+        save('frame_'+name,590,860,layer('muted-clouds-thin-bevel-and-translucent-gold-plates',body))

@@ -1,4 +1,4 @@
-"""SOLOSRC assembly code. Reference-derived frames and badges: see README provenance."""
+"""SOLOSRC assembly code. Generated frames; reference-derived badges: see README provenance."""
 from pathlib import Path
 import json,math,os
 ROOT=Path(os.environ.get('CARDS_REPO',str(Path(__file__).resolve().parents[3])))
@@ -35,8 +35,8 @@ flow='<g clip-path="url(#back-field)"><g id="broad-currents">'+''.join(ribbons)+
 # A warm-dark transition fades inward into the same ellipse as the tips.
 well='<defs><radialGradient id="inward-dark"><stop offset="0" stop-color="#050505"/><stop offset=".57" stop-color="#050505"/><stop offset=".66" stop-color="#160f0b"/><stop offset=".82" stop-color="#382619"/><stop offset="1" stop-color="#513927" stop-opacity="0"/></radialGradient></defs><ellipse cx="295" cy="430" rx="147" ry="205" transform="rotate(-18 295 430)" fill="url(#inward-dark)"/>'
 save('card_back',590,860,layer('matte-brown-frame',back)+layer('inward-transition',well)+layer('broad-currents',flow))
-# Exact reference badges are isolated by SVG viewports in reference_badges.py.
+# Original tooltip glyphs; approved main badges are copied by the exporter.
 from reference_badges import write_badges
 write_badges(SRC, save, layer)
-(SRC/'frame-layout.json').write_text(json.dumps({'revision':4,'size':[590,860],'art_window':[14,14,562,616],'data_panel':[0,645,590,215],'star_size':[34,34],'star_step':36,'star_row_y':696,'star_row_center_x':295,'star_row_right_max':460,'attribute':[514,696],'attribute_size':[64,64],'atk':[158,781],'def':[430,781],'stat_alignment':'center','stat_font_px':70,'stat_font_style':'normal','stat_plates':[[46,735,224,92],[318,735,224,92]],'spell_trap_badge':[295,750],'spell_trap_badge_size':[72,72],'subtype_placement':'tooltip_only'},indent=2)+'\n')
-print('Wrote card source revision 4')
+(SRC/'frame-layout.json').write_text(json.dumps({'revision': 5, 'size': [590, 860], 'bevel_width': 10, 'art_window': [10, 10, 570, 610], 'data_panel': [0, 630, 590, 230], 'star_size': [34, 34], 'star_step': 37, 'star_row_y': 686, 'star_row_center_x': 295, 'star_row_right_max': 467, 'attribute': [524, 686], 'attribute_size': [66, 66], 'atk': [156, 785], 'def': [434, 785], 'stat_alignment': 'center', 'stat_font_px': 80, 'stat_font_style': 'normal', 'stat_plates': [[34, 738, 244, 94], [312, 738, 244, 94]], 'spell_trap_plate': [34, 693, 522, 104], 'spell_trap_badge': [295, 745], 'spell_trap_badge_size': [72, 72], 'subtype_placement': 'tooltip_only'},indent=2)+'\n')
+print('Wrote card source revision 5')
