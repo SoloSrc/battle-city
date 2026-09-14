@@ -18,3 +18,9 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Optional third-party artwork and download metadata (never source assets)
+/local-card-art/
+
+# Python tool bytecode
+__pycache__/
