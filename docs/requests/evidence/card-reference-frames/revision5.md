@@ -18,3 +18,8 @@ Follow-up: monster stat-plate fill reduced from 48% to 20%. Regenerated all
 exports/review samples; visually verified cloud detail through the Fusion
 number plates. Export and layout validation passed again. Spell/Trap frame
 PNGs are byte-identical to the preceding revision.
+
+Second follow-up: director found 20% too transparent; adjusted monster fill to
+35%. Shifted all six types’ decorative plate borders from yellow to orange-red
+copper. Regenerated samples, visually inspected all six types, and reran export
+and layout checks successfully. Spell/Trap fill remains 48%.

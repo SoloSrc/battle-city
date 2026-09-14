@@ -44,3 +44,8 @@ reference for visual drift. Check all six types, level 12, margins, equal bevel
 widths, centered Spell/Trap rectangles and larger upright stats. Attribute/star
 and subtype icon source pixels stay approved and unchanged; imagegen's rendered
 badges in the concept sheet must not replace those assets.
+
+Director follow-up: monster plate fill settled at 35% after reviewing 48% and
+20%. Decorative plate borders use orange-red copper tones, closer to the
+supplied references, instead of the generated sheet’s bright yellow gold.
+These refinements supersede those two details in the archived mockup.
