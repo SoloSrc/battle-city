@@ -19,6 +19,7 @@ public sealed class CardInstance
         ZoneIndex = -1;
         Pos = Position.FaceDown;
         Counters = new Dictionary<string, int>(StringComparer.Ordinal);
+        ActivationsThisTurn = new Dictionary<string, int>(StringComparer.Ordinal);
     }
 
     private CardInstance(CardInstance other)
@@ -30,13 +31,18 @@ public sealed class CardInstance
         Loc = other.Loc;
         ZoneIndex = other.ZoneIndex;
         Pos = other.Pos;
-        AtkMod = other.AtkMod;
-        DefMod = other.DefMod;
+        AtkBonus = other.AtkBonus;
+        DefBonus = other.DefBonus;
+        Restrictions = other.Restrictions;
+        EquippedTo = other.EquippedTo;
+        ControlReturnsAfterTurn = other.ControlReturnsAfterTurn;
         SetThisTurn = other.SetThisTurn;
         ArrivedThisTurn = other.ArrivedThisTurn;
+        FlippedThisTurn = other.FlippedThisTurn;
         ChangedPositionThisTurn = other.ChangedPositionThisTurn;
         AttackedThisTurn = other.AttackedThisTurn;
         Counters = new Dictionary<string, int>(other.Counters, StringComparer.Ordinal);
+        ActivationsThisTurn = new Dictionary<string, int>(other.ActivationsThisTurn, StringComparer.Ordinal);
     }
 
     public Guid Id { get; }
@@ -54,9 +60,20 @@ public sealed class CardInstance
 
     public Position Pos { get; set; }
 
-    public int AtkMod { get; set; }
+    /// <summary>ATK change from the active modifiers; written by the engine's recompute, never by effects.</summary>
+    public int AtkBonus { get; internal set; }
 
-    public int DefMod { get; set; }
+    /// <summary>DEF change from the active modifiers; written by the engine's recompute, never by effects.</summary>
+    public int DefBonus { get; internal set; }
+
+    /// <summary>What the active modifiers forbid or grant this card; written by the engine's recompute.</summary>
+    public Restriction Restrictions { get; internal set; }
+
+    /// <summary>For an Equip Spell (or a card that attaches like one) on the field: the monster it is attached to.</summary>
+    public Guid? EquippedTo { get; set; }
+
+    /// <summary>Control goes back to the owner at the End Phase of this turn number (temporary control changes).</summary>
+    public int? ControlReturnsAfterTurn { get; set; }
 
     /// <summary>Set (monster or Spell/Trap) this turn: blocks Flip Summons, Trap and Quick-Play activation.</summary>
     public bool SetThisTurn { get; set; }
@@ -64,17 +81,33 @@ public sealed class CardInstance
     /// <summary>Summoned or Set on the field this turn: blocks position changes (systems.md §5.5).</summary>
     public bool ArrivedThisTurn { get; set; }
 
+    /// <summary>Turned face-up this turn by a Flip Summon or by battle (Spirit monsters return at the End Phase).</summary>
+    public bool FlippedThisTurn { get; set; }
+
     public bool ChangedPositionThisTurn { get; set; }
 
     public bool AttackedThisTurn { get; set; }
 
     public Dictionary<string, int> Counters { get; }
 
-    public int Atk => (Def.Monster?.Atk ?? 0) + AtkMod;
+    /// <summary>Activations of each of this card's effects this turn, by effect id (once-per-turn tracking).</summary>
+    public Dictionary<string, int> ActivationsThisTurn { get; }
 
-    public int DefValue => (Def.Monster?.Def ?? 0) + DefMod;
+    /// <summary>Current ATK: printed plus the active modifiers, never below 0.</summary>
+    public int Atk => Math.Max(0, (Def.Monster?.Atk ?? 0) + AtkBonus);
+
+    /// <summary>Current DEF: printed plus the active modifiers, never below 0.</summary>
+    public int DefValue => Math.Max(0, (Def.Monster?.Def ?? 0) + DefBonus);
 
     public bool IsMonster => Def.IsMonster;
+
+    public bool IsToken => Def.IsToken;
+
+    public bool Has(Restriction restriction) => (Restrictions & restriction) != 0;
+
+    public int Counter(string name) => Counters.TryGetValue(name, out int count) ? count : 0;
+
+    public int Activations(string effectId) => ActivationsThisTurn.TryGetValue(effectId, out int count) ? count : 0;
 
     public bool IsFaceUp => Pos is Position.FaceUpAttack or Position.FaceUpDefense or Position.FaceUp;
 
@@ -91,16 +124,21 @@ public sealed class CardInstance
     {
         SetThisTurn = false;
         ArrivedThisTurn = false;
+        FlippedThisTurn = false;
         ChangedPositionThisTurn = false;
         AttackedThisTurn = false;
+        ActivationsThisTurn.Clear();
     }
 
     /// <summary>Clears field-only state when the card leaves the field.</summary>
     public void ResetFieldState()
     {
         Controller = Owner;
-        AtkMod = 0;
-        DefMod = 0;
+        AtkBonus = 0;
+        DefBonus = 0;
+        Restrictions = Restriction.None;
+        EquippedTo = null;
+        ControlReturnsAfterTurn = null;
         ZoneIndex = -1;
         Pos = Position.FaceDown;
         Counters.Clear();

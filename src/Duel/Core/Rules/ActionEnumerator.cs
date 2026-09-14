@@ -65,7 +65,7 @@ internal static class ActionEnumerator
         }
         else if (s.Phase == Phase.Battle && s.BattleStep == BattleStep.Battle)
         {
-            AddAttacks(s, player, actions);
+            AddAttacks(engine, player, actions);
         }
 
         return actions;
@@ -143,7 +143,7 @@ internal static class ActionEnumerator
                 }
             }
 
-            if (card.Def.Spell?.Subtype == SpellSubtype.Normal)
+            if (card.Def.Spell is { Subtype: not SpellSubtype.Quick })
             {
                 Add(engine, actions, new ActivateSpell(player, card.Id));
             }
@@ -161,7 +161,7 @@ internal static class ActionEnumerator
 
         foreach (CardInstance card in p.SpellTraps)
         {
-            if (card.IsFaceDown && card.Def.Spell?.Subtype == SpellSubtype.Normal)
+            if (card.IsFaceDown && card.Def.Spell is { Subtype: not SpellSubtype.Quick })
             {
                 Add(engine, actions, new ActivateSpell(player, card.Id));
             }
@@ -185,8 +185,9 @@ internal static class ActionEnumerator
         }
     }
 
-    private static void AddAttacks(DuelState s, int player, List<PlayerCommand> actions)
+    private static void AddAttacks(DuelEngine engine, int player, List<PlayerCommand> actions)
     {
+        DuelState s = engine.State;
         var targets = s.Opponent(player).Monsters.ToList();
         foreach (CardInstance attacker in s.Player(player).Monsters)
         {
@@ -195,13 +196,14 @@ internal static class ActionEnumerator
                 continue;
             }
 
-            if (targets.Count == 0)
+            if (targets.Count == 0 || attacker.Has(Restriction.CanAttackDirectly))
             {
-                actions.Add(new DeclareAttack(player, attacker.Id, null));
+                Add(engine, actions, new DeclareAttack(player, attacker.Id, null));
             }
-            else
+
+            foreach (CardInstance target in targets)
             {
-                actions.AddRange(targets.Select(t => new DeclareAttack(player, attacker.Id, t.Id)));
+                Add(engine, actions, new DeclareAttack(player, attacker.Id, target.Id));
             }
         }
     }

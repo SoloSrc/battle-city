@@ -40,9 +40,9 @@ internal static class ChainResolver
             return $"{card.Def.Name} is not a Spell";
         }
 
-        if (card.Def.Spell.Subtype is not (SpellSubtype.Normal or SpellSubtype.Quick))
+        if (card.Def.Spell.Subtype == SpellSubtype.Ritual)
         {
-            return $"{card.Def.Spell.Subtype} Spells arrive with #55";
+            return "Ritual Spells are not in the card pool";
         }
 
         if (card.Loc == Location.SpellTrapZone && card.IsFaceUp)
@@ -50,7 +50,7 @@ internal static class ChainResolver
             return $"{card.Def.Name} is already active";
         }
 
-        if (card.Loc == Location.Hand && s.Player(player).SpellTrapCount >= PlayerState.ZoneCount)
+        if (card.Loc == Location.Hand && card.Def.Spell.Subtype != SpellSubtype.Field && s.Player(player).SpellTrapCount >= PlayerState.ZoneCount)
         {
             return "no free Spell & Trap Zone";
         }
@@ -68,8 +68,24 @@ internal static class ChainResolver
     {
         DuelState s = engine.State;
         CardInstance card = Zones.InHand(s, player, cardId) ?? Zones.OnSpellTrapZone(s, player, cardId)!;
-        int zone = card.Loc == Location.SpellTrapZone ? card.ZoneIndex : s.Player(player).FirstFreeSpellTrapZone();
-        Zones.PlaceSpellTrap(s, card, player, zone, Position.FaceUp);
+        int zone;
+        if (card.Def.Spell!.Subtype == SpellSubtype.Field)
+        {
+            // A new Field Spell replaces the one in play.
+            if (s.Player(player).FieldZone is { } previous)
+            {
+                engine.Destroy(previous, DestroyReason.Effect);
+            }
+
+            Zones.PlaceField(engine, card, player);
+            zone = 0;
+        }
+        else
+        {
+            zone = card.Loc == Location.SpellTrapZone ? card.ZoneIndex : s.Player(player).FirstFreeSpellTrapZone();
+            Zones.PlaceSpellTrap(engine, card, player, zone, Position.FaceUp);
+        }
+
         engine.Emit(new SpellActivated(player, card.Id, card.Def.Id, zone));
         engine.BeginActivation(player, card, engine.EffectsOf(card).First(e => e.Kind == EffectKind.Activation), ActivationContext.None);
     }
@@ -93,6 +109,11 @@ internal static class ChainResolver
             return $"{card.Def.Name} is already active";
         }
 
+        if (s.Player(player).Has(PlayerRestriction.TrapsNegated))
+        {
+            return "Trap Cards cannot be activated";
+        }
+
         IEffect? activation = engine.EffectsOf(card).FirstOrDefault(e => e.Kind == EffectKind.Activation);
         if (activation is null)
         {
@@ -107,6 +128,7 @@ internal static class ChainResolver
         CardInstance card = Zones.OnSpellTrapZone(engine.State, player, cardId)!;
         card.Pos = Position.FaceUp;
         engine.Emit(new TrapActivated(player, card.Id, card.Def.Id, card.ZoneIndex));
+        engine.Refresh();
         engine.BeginActivation(player, card, engine.EffectsOf(card).First(e => e.Kind == EffectKind.Activation), ActivationContext.None);
     }
 
@@ -134,6 +156,11 @@ internal static class ChainResolver
         if (effect.Kind is not (EffectKind.Ignition or EffectKind.Quick))
         {
             return $"{card.Def.Name}'s {effect.Kind} effect is not activated by hand";
+        }
+
+        if (card.Has(Restriction.EffectsNegated))
+        {
+            return $"{card.Def.Name}'s effects are negated";
         }
 
         return ValidateTiming(s, player, card, effect);
@@ -174,14 +201,14 @@ internal static class ChainResolver
         DuelState s = engine.State;
         CardInstance card = Zones.InHand(s, player, cardId)!;
         int zone = s.Player(player).FirstFreeSpellTrapZone();
-        Zones.PlaceSpellTrap(s, card, player, zone, Position.FaceDown);
+        Zones.PlaceSpellTrap(engine, card, player, zone, Position.FaceDown);
         card.SetThisTurn = true;
         card.ArrivedThisTurn = true;
         engine.Emit(new SpellTrapSet(player, card.Id, zone));
         TurnFlow.GivePriorityToTurnPlayer(s);
     }
 
-    /// <summary>Resolves the whole chain last in, first out; negated links are skipped. Spells and Traps that are spent go to the Graveyard after their link.</summary>
+    /// <summary>Resolves the whole chain last in, first out; negated links, and Trap links under a Trap negation, are skipped. Spells and Traps that are spent go to the Graveyard after their link.</summary>
     public static void ResolveAll(DuelEngine engine)
     {
         DuelState s = engine.State;
@@ -189,17 +216,23 @@ internal static class ChainResolver
         {
             ChainLink link = s.Chain[^1];
             s.Chain.RemoveAt(s.Chain.Count - 1);
-            if (!link.Negated)
+            if (!link.Negated && !IsSilenced(s, link))
             {
                 link.Effect.Resolve(engine, link);
             }
 
             engine.Emit(new ChainLinkResolved(link.Index, link.Source.Id, link.Effect.Id));
+            engine.Refresh();
             Discharge(engine, link.Source);
         }
 
         s.Chain.Clear();
     }
+
+    /// <summary>A Trap link resolving while its controller's Traps are negated (Jinzo), or a monster whose effects are negated, does nothing.</summary>
+    private static bool IsSilenced(DuelState s, ChainLink link) =>
+        (link.Source.Def.IsTrap && s.Player(link.Player).Has(PlayerRestriction.TrapsNegated))
+        || (link.Source.IsOnField && link.Source.Has(Restriction.EffectsNegated));
 
     /// <summary>The timing every activation shares: speed 1 in the turn player's open Main Phase (Ignition effects also under summon priority), speed 2+ on priority with the Set-turn and Damage Step limits, then the card's own condition.</summary>
     private static string? ValidateTiming(DuelState s, int player, CardInstance card, IEffect effect)
@@ -255,10 +288,15 @@ internal static class ChainResolver
             return "spell speed too low to chain";
         }
 
+        if (effect.OncePerTurn && card.Activations(effect.Id) > 0)
+        {
+            return $"{card.Def.Name}'s effect was already used this turn";
+        }
+
         return effect.CanActivate(s, card, ActivationContext.None) ? null : $"{card.Def.Name} cannot be activated now";
     }
 
-    /// <summary>Where a card goes once its activation resolved: one-shot Spells and Traps to the Graveyard; Continuous, Equip and Field cards and monsters stay.</summary>
+    /// <summary>Where a card goes once its activation resolved: one-shot Spells and Traps to the Graveyard, an Equip Spell that attached to nothing too; Continuous and Field cards, attached equips and monsters stay.</summary>
     private static void Discharge(DuelEngine engine, CardInstance card)
     {
         if (card.Loc != Location.SpellTrapZone || card.IsFaceDown)
@@ -267,6 +305,7 @@ internal static class ChainResolver
         }
 
         bool spent = card.Def.Spell?.Subtype is SpellSubtype.Normal or SpellSubtype.Quick or SpellSubtype.Ritual
+            || (card.Def.Spell?.Subtype == SpellSubtype.Equip && card.EquippedTo is null)
             || card.Def.Trap?.Subtype is TrapSubtype.Normal or TrapSubtype.Counter;
         if (spent)
         {

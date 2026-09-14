@@ -34,6 +34,7 @@ public sealed class PlayerState
         MonsterZones = other.MonsterZones.Select(c => c is null ? null : Copy(c, copies)).ToArray();
         SpellTrapZones = other.SpellTrapZones.Select(c => c is null ? null : Copy(c, copies)).ToArray();
         FieldZone = other.FieldZone is null ? null : Copy(other.FieldZone, copies);
+        Restrictions = other.Restrictions;
     }
 
     public int Index { get; }
@@ -55,8 +56,13 @@ public sealed class PlayerState
 
     public CardInstance?[] SpellTrapZones { get; }
 
-    /// <summary>Present per the state model; unused in the slice.</summary>
+    /// <summary>The Field Spell in play, if any.</summary>
     public CardInstance? FieldZone { get; set; }
+
+    /// <summary>What the active modifiers impose on this player; written by the engine's recompute.</summary>
+    public PlayerRestriction Restrictions { get; internal set; }
+
+    public bool Has(PlayerRestriction restriction) => (Restrictions & restriction) != 0;
 
     public IEnumerable<CardInstance> Monsters => MonsterZones.Where(c => c is not null)!;
 

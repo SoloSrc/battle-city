@@ -68,6 +68,51 @@ public sealed record LifePointsChanged(int Player, int From, int To) : DuelEvent
 
 public sealed record MonsterDestroyed(int Player, Guid Card, string CardId, DestroyReason Reason) : DuelEvent;
 
+public sealed record SpellTrapDestroyed(int Player, Guid Card, string CardId) : DuelEvent;
+
+/// <summary>A monster arrived on the field by an effect: from the hand, Deck, Graveyard or Fusion Deck.</summary>
+public sealed record MonsterSpecialSummoned(int Player, Guid Card, string CardId, int Zone, Position Position, Location From) : DuelEvent;
+
+/// <summary>A token was created on <see cref="Player"/>'s field.</summary>
+public sealed record TokenCreated(int Player, Guid Card, string CardId, int Zone, Position Position) : DuelEvent;
+
+/// <summary>A token left the field and with it the duel.</summary>
+public sealed record TokenRemoved(int Player, Guid Card, string CardId) : DuelEvent;
+
+public sealed record CardBanished(int Player, Guid Card, string CardId, Location From) : DuelEvent;
+
+public sealed record CardReturnedToHand(int Player, Guid Card, string CardId, Location From) : DuelEvent;
+
+/// <summary>A card went back to its owner's Deck, on top or at the bottom.</summary>
+public sealed record CardReturnedToDeck(int Player, Guid Card, string CardId, Location From, bool Top) : DuelEvent;
+
+public sealed record DeckShuffled(int Player) : DuelEvent;
+
+/// <summary>A monster changed sides; <see cref="ReturnsAfterTurn"/> is set for a temporary change.</summary>
+public sealed record ControlChanged(Guid Card, string CardId, int From, int To, int Zone, int? ReturnsAfterTurn) : DuelEvent;
+
+public sealed record CardEquipped(int Player, Guid Equip, string EquipId, Guid Target) : DuelEvent;
+
+/// <summary>A face-up monster was turned face-down (Book of Moon); its equips are destroyed.</summary>
+public sealed record MonsterFlippedFaceDown(int Player, Guid Card, string CardId) : DuelEvent;
+
+/// <summary>A Spirit monster went back to the hand at the End Phase.</summary>
+public sealed record SpiritReturned(int Player, Guid Card, string CardId) : DuelEvent;
+
+public sealed record CounterChanged(Guid Card, string CardId, string Counter, int Count) : DuelEvent;
+
+public sealed record LifePointsPaid(int Player, int Amount, Guid Source) : DuelEvent;
+
+public sealed record LifePointsGained(int Player, int Amount, Guid Source) : DuelEvent;
+
+/// <summary>Damage from a card effect rather than battle.</summary>
+public sealed record EffectDamage(int Player, int Amount, Guid Source) : DuelEvent;
+
+public sealed record ModifierAdded(Modifier Modifier) : DuelEvent;
+
+/// <summary>A timed modifier ran out at the End Phase, or lost its card.</summary>
+public sealed record ModifierRemoved(Modifier Modifier) : DuelEvent;
+
 public sealed record CardSentToGraveyard(int Player, Guid Card, string CardId, Location From) : DuelEvent;
 
 public sealed record CardDiscarded(int Player, Guid Card, string CardId) : DuelEvent;

@@ -20,6 +20,9 @@ public sealed record CardDefinition(
     IReadOnlyList<string> Effects,
     IReadOnlyList<string> Materials)
 {
+    /// <summary>A token: created on the field by an effect and removed from the duel when it leaves it.</summary>
+    public bool IsToken { get; init; }
+
     public bool IsMonster => Kind is CardKind.Monster or CardKind.Fusion;
 
     public bool IsSpell => Kind == CardKind.Spell;
@@ -46,6 +49,10 @@ public sealed record CardDefinition(
             Array.Empty<string>(),
             Array.Empty<string>());
     }
+
+    /// <summary>Builds a token definition: a Normal monster that exists only on the field.</summary>
+    public static CardDefinition Token(string id, string name, string type, MonsterAttribute attribute, int level, int atk, int def) =>
+        Vanilla(id, name, type, attribute, level, atk, def) with { IsToken = true, Limit = 0 };
 
     /// <summary>Builds an Effect (or Flip) monster definition with the given effect ids.</summary>
     public static CardDefinition EffectMonster(string id, string name, string type, MonsterAttribute attribute, int level, int atk, int def, MonsterCategory category, int tier, params string[] effects)

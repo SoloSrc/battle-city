@@ -166,10 +166,55 @@ public sealed class DuelEngine
             p.Hand.Add(card);
             Emit(new CardDrawn(player, card.Id, card.Def.Id));
         }
+
+        Refresh();
     }
 
-    /// <summary>Subtracts life points and ends the duel when they reach 0.</summary>
+    /// <summary>Battle damage: subtracts life points (unless the player takes no battle damage) and ends the duel when they reach 0.</summary>
     public void Damage(int player, int amount, Guid source)
+    {
+        if (amount <= 0 || State.Player(player).Has(PlayerRestriction.NoBattleDamage))
+        {
+            return;
+        }
+
+        Emit(new BattleDamage(player, amount, source));
+        LoseLifePoints(player, amount);
+    }
+
+    /// <summary>Effect damage (Ring of Destruction): subtracts life points and ends the duel when they reach 0.</summary>
+    public void InflictDamage(int player, int amount, Guid source)
+    {
+        if (amount <= 0)
+        {
+            return;
+        }
+
+        Emit(new EffectDamage(player, amount, source));
+        LoseLifePoints(player, amount);
+    }
+
+    /// <summary>Whether <paramref name="player"/> can pay <paramref name="amount"/> life points as a cost.</summary>
+    public bool CanPayLifePoints(int player, int amount) => State.Player(player).LifePoints >= amount;
+
+    /// <summary>Pays life points as a cost; paying the last point loses the duel.</summary>
+    public void PayLifePoints(int player, int amount, Guid source)
+    {
+        if (amount <= 0)
+        {
+            return;
+        }
+
+        if (!CanPayLifePoints(player, amount))
+        {
+            throw new InvalidOperationException($"player {player} cannot pay {amount} life points");
+        }
+
+        Emit(new LifePointsPaid(player, amount, source));
+        LoseLifePoints(player, amount);
+    }
+
+    public void GainLifePoints(int player, int amount, Guid source)
     {
         if (amount <= 0)
         {
@@ -178,13 +223,9 @@ public sealed class DuelEngine
 
         PlayerState p = State.Player(player);
         int from = p.LifePoints;
-        p.LifePoints = Math.Max(0, from - amount);
-        Emit(new BattleDamage(player, amount, source));
+        p.LifePoints = from + amount;
+        Emit(new LifePointsGained(player, amount, source));
         Emit(new LifePointsChanged(player, from, p.LifePoints));
-        if (p.LifePoints == 0)
-        {
-            Lose(player, DuelOutcome.LifePoints);
-        }
     }
 
     /// <summary>Destroys a card on the field: it goes to the Graveyard and its battle-destruction triggers fire when <paramref name="reason"/> is battle.</summary>
@@ -201,6 +242,10 @@ public sealed class DuelEngine
         {
             Emit(new MonsterDestroyed(card.Controller, card.Id, card.Def.Id, reason));
         }
+        else
+        {
+            Emit(new SpellTrapDestroyed(card.Controller, card.Id, card.Def.Id));
+        }
 
         Zones.ToGraveyard(this, card);
         if (reason == DestroyReason.Battle)
@@ -209,11 +254,232 @@ public sealed class DuelEngine
         }
     }
 
-    /// <summary>Sends a card from anywhere to its owner's Graveyard (discards, tributes, costs).</summary>
+    /// <summary>Sends a card from anywhere to its owner's Graveyard (tributes, costs, mills).</summary>
     public void SendToGraveyard(CardInstance card)
     {
         ArgumentNullException.ThrowIfNull(card);
         Zones.ToGraveyard(this, card);
+    }
+
+    /// <summary>Discards a card from the hand by an effect or cost.</summary>
+    public void Discard(CardInstance card)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        if (card.Loc != Location.Hand)
+        {
+            return;
+        }
+
+        Emit(new CardDiscarded(card.Owner, card.Id, card.Def.Id));
+        Zones.ToGraveyard(this, card);
+    }
+
+    /// <summary>Discards <paramref name="count"/> cards chosen at random from <paramref name="player"/>'s hand through <see cref="DuelState.Rng"/>, so a replay picks the same cards.</summary>
+    public void DiscardRandom(int player, int count)
+    {
+        PlayerState p = State.Player(player);
+        for (int i = 0; i < count && p.Hand.Count > 0; i++)
+        {
+            Discard(p.Hand[State.Rng.Next(p.Hand.Count)]);
+        }
+    }
+
+    /// <summary>Banishes a card from anywhere; a token is removed instead.</summary>
+    public void Banish(CardInstance card)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        Zones.ToBanished(this, card);
+    }
+
+    /// <summary>Returns a card from the field, Graveyard or Banished pile to its owner's hand; a token is removed instead.</summary>
+    public void ReturnToHand(CardInstance card)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        Zones.ToHand(this, card);
+    }
+
+    /// <summary>Returns a card to its owner's Deck, on top or at the bottom; a token is removed instead.</summary>
+    public void ReturnToDeck(CardInstance card, bool top)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        Zones.ToDeck(this, card, top);
+    }
+
+    public void ShuffleDeck(int player)
+    {
+        State.Rng.Shuffle(State.Player(player).Deck);
+        Emit(new DeckShuffled(player));
+    }
+
+    /// <summary>
+    /// Special Summons a monster from the hand, Deck, Graveyard, Banished pile
+    /// or Fusion Deck to <paramref name="player"/>'s field. Returns false, with
+    /// nothing changed, when there is no free zone, the card is not a monster
+    /// or it is a Spirit (systems.md §5.5).
+    /// </summary>
+    public bool SpecialSummon(CardInstance card, int player, Position position)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        int zone = State.Player(player).FirstFreeMonsterZone();
+        if (zone < 0 || !card.IsMonster || card.IsOnField || card.Def.Monster!.Category == MonsterCategory.Spirit)
+        {
+            return false;
+        }
+
+        Location from = card.Loc;
+        Zones.PlaceMonster(this, card, player, zone, position);
+        card.ArrivedThisTurn = true;
+        Emit(new MonsterSpecialSummoned(player, card.Id, card.Def.Id, zone, position, from));
+        if (card.IsFaceUp)
+        {
+            SummonRules.Summoned(this, card);
+        }
+
+        return true;
+    }
+
+    /// <summary>Creates a token on <paramref name="player"/>'s field; null when there is no free zone.</summary>
+    public CardInstance? CreateToken(int player, CardDefinition definition, Position position)
+    {
+        ArgumentNullException.ThrowIfNull(definition);
+        if (!definition.IsToken)
+        {
+            throw new ArgumentException($"{definition.Name} is not a token.", nameof(definition));
+        }
+
+        int zone = State.Player(player).FirstFreeMonsterZone();
+        if (zone < 0)
+        {
+            return null;
+        }
+
+        var token = new CardInstance(Guid.NewGuid(), definition, player);
+        Zones.PlaceMonster(this, token, player, zone, position);
+        token.ArrivedThisTurn = true;
+        Emit(new TokenCreated(player, token.Id, definition.Id, zone, position));
+        SummonRules.Summoned(this, token);
+        return token;
+    }
+
+    /// <summary>
+    /// Gives <paramref name="player"/> control of a monster; with
+    /// <paramref name="untilEndOfTurn"/> it goes back to its owner at the End
+    /// Phase of that turn number. Control always returns when the monster
+    /// leaves the field. Returns false, with nothing changed, when the new
+    /// controller has no free zone.
+    /// </summary>
+    public bool ChangeControl(CardInstance card, int player, int? untilEndOfTurn = null)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        if (card.Loc != Location.MonsterZone)
+        {
+            return false;
+        }
+
+        int from = card.Controller;
+        if (from == player)
+        {
+            card.ControlReturnsAfterTurn = player == card.Owner ? null : untilEndOfTurn;
+            return true;
+        }
+
+        if (!Zones.MoveToSide(this, card, player))
+        {
+            return false;
+        }
+
+        card.ControlReturnsAfterTurn = player == card.Owner ? null : untilEndOfTurn;
+        Emit(new ControlChanged(card.Id, card.Def.Id, from, player, card.ZoneIndex, card.ControlReturnsAfterTurn));
+        return true;
+    }
+
+    /// <summary>Attaches an Equip Spell on the field to a face-up monster; false when the target is not a face-up monster on the field.</summary>
+    public bool Equip(CardInstance equip, CardInstance target)
+    {
+        ArgumentNullException.ThrowIfNull(equip);
+        ArgumentNullException.ThrowIfNull(target);
+        if (equip.Loc != Location.SpellTrapZone || target.Loc != Location.MonsterZone || !target.IsFaceUp)
+        {
+            return false;
+        }
+
+        equip.EquippedTo = target.Id;
+        Emit(new CardEquipped(equip.Controller, equip.Id, equip.Def.Id, target.Id));
+        Refresh();
+        return true;
+    }
+
+    /// <summary>Turns a face-up monster face-down in Defense Position (Book of Moon): its equips are destroyed and its modifiers drop.</summary>
+    public void FlipFaceDown(CardInstance card)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        if (card.Loc != Location.MonsterZone || card.IsFaceDown)
+        {
+            return;
+        }
+
+        foreach (CardInstance equip in State.Players.SelectMany(p => p.SpellTraps).Where(e => e.EquippedTo == card.Id).ToList())
+        {
+            Destroy(equip, DestroyReason.Effect);
+        }
+
+        Modifiers.RemoveFor(this, card);
+        card.Pos = Position.FaceDownDefense;
+        Emit(new MonsterFlippedFaceDown(card.Controller, card.Id, card.Def.Id));
+        Refresh();
+    }
+
+    /// <summary>Registers a timed modifier from a resolved effect (systems.md §5.4).</summary>
+    public void AddModifier(Modifier modifier)
+    {
+        ArgumentNullException.ThrowIfNull(modifier);
+        if (modifier.Card is { } id && State.Find(id) is not { IsOnField: true })
+        {
+            return;
+        }
+
+        State.Modifiers.Add(modifier);
+        Emit(new ModifierAdded(modifier));
+        Refresh();
+    }
+
+    /// <summary>Changes a counter on a card on the field; the count never drops below 0 and the counter disappears at 0.</summary>
+    public void AddCounter(CardInstance card, string counter, int delta)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        ArgumentException.ThrowIfNullOrEmpty(counter);
+        if (!card.IsOnField)
+        {
+            return;
+        }
+
+        int count = Math.Max(0, card.Counter(counter) + delta);
+        if (count == 0)
+        {
+            card.Counters.Remove(counter);
+        }
+        else
+        {
+            card.Counters[counter] = count;
+        }
+
+        Emit(new CounterChanged(card.Id, card.Def.Id, counter, count));
+        Refresh();
+    }
+
+    /// <summary>Recomputes the modifiers (systems.md §5.4); the engine calls it after every state change.</summary>
+    public void Refresh() => Modifiers.Recompute(this);
+
+    private void LoseLifePoints(int player, int amount)
+    {
+        PlayerState p = State.Player(player);
+        int from = p.LifePoints;
+        p.LifePoints = Math.Max(0, from - amount);
+        Emit(new LifePointsChanged(player, from, p.LifePoints));
+        if (p.LifePoints == 0)
+        {
+            Lose(player, DuelOutcome.LifePoints);
+        }
     }
 
     /// <summary>Negates a chain link: it is skipped when the chain resolves.</summary>
@@ -261,12 +527,16 @@ public sealed class DuelEngine
         var context = new ActivationContext(window, from);
         foreach (IEffect effect in EffectsOf(card))
         {
-            if (effect.Kind is EffectKind.Trigger or EffectKind.Flip && effect.Trigger == window && effect.CanActivate(State, card, context))
+            if (effect.Kind is EffectKind.Trigger or EffectKind.Flip && effect.Trigger == window && Usable(card, effect) && effect.CanActivate(State, card, context))
             {
                 State.Triggers.Add(new PendingTrigger(card.Controller, card.Id, effect.Id, window, from, effect.IsMandatory));
             }
         }
     }
+
+    /// <summary>Once-per-turn and negation checks shared by activations and triggers.</summary>
+    internal bool Usable(CardInstance card, IEffect effect) =>
+        !(effect.OncePerTurn && card.Activations(effect.Id) > 0) && !(card.IsOnField && card.Has(Restriction.EffectsNegated));
 
     /// <summary>Starts an activation: the link collects its cost and target answers in <see cref="Settle"/> before joining the chain.</summary>
     internal void BeginActivation(int player, CardInstance card, IEffect effect, ActivationContext context)
@@ -339,6 +609,7 @@ public sealed class DuelEngine
 
         State.PendingLink = null;
         State.Chain.Add(link);
+        link.Source.ActivationsThisTurn[link.Effect.Id] = link.Source.Activations(link.Effect.Id) + 1;
         Emit(new ChainLinkAdded(link.Index, link.Player, link.Source.Id, link.Effect.Id));
     }
 
@@ -389,7 +660,7 @@ public sealed class DuelEngine
     private bool StillFires(PendingTrigger trigger, CardInstance card)
     {
         IEffect? effect = EffectsOf(card).FirstOrDefault(e => e.Id == trigger.EffectId);
-        return effect is not null && effect.CanActivate(State, card, new ActivationContext(trigger.Window, trigger.From));
+        return effect is not null && Usable(card, effect) && effect.CanActivate(State, card, new ActivationContext(trigger.Window, trigger.From));
     }
 
     private void Ask(int player, ChoiceKind kind, Guid? source, Choice choice)
