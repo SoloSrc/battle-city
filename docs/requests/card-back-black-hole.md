@@ -1,22 +1,29 @@
-# Card back: brown black hole
+# Card back: flat brown field and dark ellipse
 
-Owner: gpt-astra. Status: preview approved by the director on 2026-09-09;
-applying the approved artwork to PR #40.
+Owner: gpt-astra. Status: director-requested replacement, 2026-09-13; PR review.
 
-The approved back uses dark brown, cocoa and muted tan currents tapering around
-a soft elliptical black opening. A local warm-dark transition integrates the
-centre into the swirl instead of placing a hard black shape over it. This is
-the exact preview the director approved in chat. The brown field remains flat:
-no cloud texture, fiery streaks or event-horizon outlines. The outer contour
-is warm dark brown (#2d2017).
+Supersedes the 2026-09-09 swirl design from PR #40. The director supplied a
+735×1072 image and requested this appearance exactly. The editable SVG
+reconstructs its simple shapes and sampled dominant colors at the existing
+590×860 runtime resolution:
 
-Runtime path remains `assets/cards/frames/card_back.png` (590×860). Editable
-source and builder remain under `assets/source/cards/`. Fable needs no code,
-UV, layout or import-path changes. All front frames and icons are unchanged.
+- Full tan outer field `#b7885a`.
+- Brown inset `#563121`, at [21,21,548,818], corner radius 6; thin 2px
+  outline `#0b0000`.
+- Upright dark ellipse `#1d1d1d`, center (295,430), radii (112,212), 2px black outline.
 
-![Back](../../assets/cards/frames/card_back.png)
+No swirl, gradient, glow or cloud texture. Source image antialiasing and minor
+compression colors are not replicated; the flat shapes, palette and relative
+proportions are preserved. The original supplied attachment is not committed.
 
-The full-set preview is refreshed for comparison with the approved faces.
-Validation: exact match to the approved preview, exported dimensions, transparent
-front windows, rotational symmetry and Godot texture loading. Original SOLOSRC
-vector artwork under the repository MIT license.
+![Current back](../../assets/cards/frames/card_back.png)
+
+Runtime path remains `assets/cards/frames/card_back.png`; editable source is
+`assets/source/cards/card_back.svg`, reproduced by `build_cards.py` and
+`render_cards.cjs`. Fable needs no code, UV, front-layout or import-path changes.
+All fronts, icons and gameplay illustration PNGs are unchanged.
+
+Validation: 590×860 export, rotational symmetry, front-window/export validation
+and visual comparison with the supplied attachment. This is an editable vector
+reconstruction of director-provided artwork; attachment creator/license was not
+specified. Generator code remains MIT.
