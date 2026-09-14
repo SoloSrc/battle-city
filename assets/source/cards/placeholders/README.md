@@ -30,7 +30,5 @@ The exporter also builds `docs/art/previews/card-placeholders/index.html`, a
 contact sheet, six original frame samples and seven Rookie Beatdown frame samples. Review annotations use a system
 font, which is not distributed or baked into the runtime art. Centered cover is the
 director-approved default (2026-09-13); the HTML offers contain only for
-comparison. See systems §6.2 for the crop geometry. Existing approved frame
-assets and geometry are unchanged. Spell/trap type badges and applicable subtype glyphs are included at the
-approved positions. Normal spell/trap cards have no extra subtype glyph. These
+comparison. See systems §6.2 for the crop geometry. Frame revision 4 follows the new director references. Only the main Spell/Trap badge appears on the face; all subtype glyphs are tooltip-only. These
 review composites do not replace runtime CardView.

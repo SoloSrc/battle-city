@@ -13,5 +13,5 @@ func _initialize():
    material.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
    if material.albedo_texture!=t:quit(1);return
    count+=1
- print("CARD_TEXTURE_CHECK ",count," imported textures, expected sizes and StandardMaterial3D bindings passed. Shared hologram shader pending #27.")
- quit(0 if count==22 else 1)
+ print("CARD_TEXTURE_CHECK ",count," imported textures, expected sizes and StandardMaterial3D bindings passed. Asset import check; runtime CardView integration is separate.")
+ quit(0 if count==23 else 1)

@@ -1,0 +1,2 @@
+PASS: all 79 symbolic card art hashes unchanged.
+PASS: approved card-back PNG and SVG byte-identical.

@@ -1,0 +1,2 @@
+PASS: all 16 icon/star PNGs byte-identical to approved PR revision 4e4b8c9.
+PASS: full reference images and full-sheet SVG embeddings removed.

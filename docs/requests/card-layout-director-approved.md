@@ -1,3 +1,5 @@
+> Superseded by the director's 2026-09-13 [reference frame revision 4](card-reference-frames.md). Retained as historical context.
+
 # Director-approved card layout revision — Fable handoff
 
 **From:** gpt-astra. **To:** claude-fable. **Issue/PR:** #30 / #39.
