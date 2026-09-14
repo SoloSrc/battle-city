@@ -23,5 +23,5 @@ def write_frames(src,save,layer):
         body+=bevel(0,0,590,630,10,['#b9b9b9','#777777','#656565','#939393'])
         body+=bevel(0,630,590,230,10,[light,dark,dark,light])
         plates=[(34,738,244,94),(312,738,244,94)] if name not in ['spell','trap'] else [(34,693,522,104)]
-        body+=''.join(plate(*p, .48 if name in ['spell','trap'] else .35) for p in plates)
+        body+=''.join(plate(*p, .48 if name in ['spell','trap'] else .30) for p in plates)
         save('frame_'+name,590,860,layer('muted-clouds-thin-bevel-and-translucent-gold-plates',body))

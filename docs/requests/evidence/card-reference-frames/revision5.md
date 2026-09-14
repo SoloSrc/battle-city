@@ -23,3 +23,6 @@ Second follow-up: director found 20% too transparent; adjusted monster fill to
 35%. Shifted all six types’ decorative plate borders from yellow to orange-red
 copper. Regenerated samples, visually inspected all six types, and reran export
 and layout checks successfully. Spell/Trap fill remains 48%.
+
+Final director adjustment: monster plate fill 30%; Spell/Trap remains 48%.
+Exports and layout validation rerun after regeneration.

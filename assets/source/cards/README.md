@@ -8,7 +8,7 @@ lower panel is 230px high (26.7%), matching the approved shortened-panel preview
 `reference_frames.py` builds original deterministic 10px mitered bevels and
 translucent, gold-edged stat/type plates. It tints `cloud-mottle.png`, a grayscale
 texture produced by OpenAI image generation from the approved cloud appearance.
-Monster plate fill opacity is 35%, preserving visible cloud detail beneath the
+Monster plate fill opacity is 30%, preserving visible cloud detail beneath the
 upright numbers; Spell/Trap plate fill stays at 48%. No old cropped trim remains. All six frames share the same continuous texture.
 
 The generated source and reference sheets are SOLOSRC project art made with AI

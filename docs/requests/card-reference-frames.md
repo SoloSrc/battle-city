@@ -17,7 +17,7 @@ Adopt `assets/source/cards/frame-layout.json` revision 5 and systems §6.2.
 - Retain 590×860 exports. Art window [10,10,570,610], centered cover.
 - Matched 10px gray/colored bevels; lower panel [0,630,590,230].
 - Soft muted continuous cloud texture across all six types. Gold plates have
-  translucent interiors (35% fill for monster stats; 48% for Spell/Trap). Old cropped trim and its ghost edges are removed.
+  translucent interiors (30% fill for monster stats; 48% for Spell/Trap). Old cropped trim and its ghost edges are removed.
 - Star size 34², step 37, center y=686; center ordinary rows and shift long rows
   left per the contract. Level 12 has 26px left margin and 24px attribute gap.
 - Attribute 66² at (524,686). Stars and attribute are vertically aligned.
