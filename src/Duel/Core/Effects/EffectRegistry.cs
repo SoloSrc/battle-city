@@ -14,7 +14,7 @@ public sealed class EffectRegistry
 {
     private readonly Dictionary<string, Func<IEffect>> _factories = new(StringComparer.Ordinal);
 
-    /// <summary>Every effect implemented so far: tier 1 (Pot of Greed), tier 2 (issue #56, 27 cards) and tier 3 (issue #57, 35 cards) of systems.md §5.6.</summary>
+    /// <summary>Every effect implemented so far: tier 1 (Pot of Greed), tier 2 (issue #56, 27 cards), tier 3 (issue #57, 35 cards) and tier 4 (issue #58, 4 cards): the whole pool of systems.md §5.6.</summary>
     public static EffectRegistry CreateDefault()
     {
         var registry = new EffectRegistry();
@@ -64,7 +64,7 @@ public sealed class EffectRegistry
         registry.Register(MaraudingCaptainEffect.EffectId, static () => new MaraudingCaptainEffect());
         registry.Register(AsuraPriestEffect.EffectId, static () => new AsuraPriestEffect());
         registry.Register(MysticSwordsmanLv2Effect.EffectId, static () => new MysticSwordsmanLv2Effect());
-        registry.Register(ReaperOnTheNightmareEffect.EffectId, static () => new ReaperOnTheNightmareEffect());
+        registry.Register(ReaperEffect.ReaperOnTheNightmareId, static () => new ReaperEffect(ReaperEffect.ReaperOnTheNightmareId, attacksDirectly: true));
         registry.Register(DarkBalterEffect.EffectId, static () => new DarkBalterEffect());
 
         // Tier 3: battle triggers.
@@ -79,7 +79,7 @@ public sealed class EffectRegistry
         // Tier 3: counters, summons and the Graveyard.
         registry.Register(BreakerEffect.EffectId, static () => new BreakerEffect());
         registry.Register(BreakerDestroyEffect.EffectId, static () => new BreakerDestroyEffect());
-        registry.Register(ChaosSorcererSummonEffect.EffectId, static () => new ChaosSorcererSummonEffect());
+        registry.Register(ChaosSummonEffect.ChaosSorcererId, static () => new ChaosSummonEffect(ChaosSummonEffect.ChaosSorcererId));
         registry.Register(ChaosSorcererBanishEffect.EffectId, static () => new ChaosSorcererBanishEffect());
         registry.Register(SkilledDarkMagicianCounterEffect.EffectId, static () => new SkilledDarkMagicianCounterEffect());
         registry.Register(SkilledDarkMagicianSummonEffect.EffectId, static () => new SkilledDarkMagicianSummonEffect());
@@ -104,6 +104,15 @@ public sealed class EffectRegistry
         registry.Register(CallOfTheHauntedEffect.EffectId, static () => new CallOfTheHauntedEffect());
         registry.Register(BottomlessTrapHoleEffect.EffectId, static () => new BottomlessTrapHoleEffect());
         registry.Register(WabokuEffect.EffectId, static () => new WabokuEffect());
+
+        // Tier 4 (issue #58).
+        registry.Register(ReaperEffect.SpiritReaperId, static () => new ReaperEffect(ReaperEffect.SpiritReaperId, attacksDirectly: false));
+        registry.Register(ChaosSummonEffect.BlackLusterSoldierId, static () => new ChaosSummonEffect(ChaosSummonEffect.BlackLusterSoldierId));
+        registry.Register(BlackLusterSoldierBanishEffect.EffectId, static () => new BlackLusterSoldierBanishEffect());
+        registry.Register(BlackLusterSoldierDoubleAttackEffect.EffectId, static () => new BlackLusterSoldierDoubleAttackEffect());
+        registry.Register(ThousandEyesRestrictEffect.EffectId, static () => new ThousandEyesRestrictEffect());
+        registry.Register(ThousandEyesAbsorbEffect.EffectId, static () => new ThousandEyesAbsorbEffect());
+        registry.Register(CyberJarEffect.EffectId, static () => new CyberJarEffect());
         return registry;
     }
 

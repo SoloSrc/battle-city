@@ -57,6 +57,17 @@ public class FuzzTests
 
     private static readonly CardDefinition[] _tier3Fusion = new[] { "dark_balter_the_terrible", "reaper_on_the_nightmare" }.Select(Cards.Real).ToArray();
 
+    /// <summary>The tier 4 cards (issue #58) in a Goat Control-shaped pool: Chaos fuel, Scapegoat and Metamorphosis for Thousand-Eyes Restrict, jars and reapers.</summary>
+    private static readonly CardDefinition[] _tier4Pool = new[]
+    {
+        "gemini_elf", "mystical_elf", "sangan", "magician_of_faith", "tsukuyomi", "dd_warrior_lady", "chaos_sorcerer",
+        "cyber_jar", "spirit_reaper", "black_luster_soldier_envoy_of_the_beginning",
+        "scapegoat", "metamorphosis", "book_of_moon", "nobleman_of_crossout", "premature_burial", "snatch_steal",
+        "mirror_force", "torrential_tribute", "ring_of_destruction", "call_of_the_haunted",
+    }.Select(Cards.Real).ToArray();
+
+    private static readonly CardDefinition[] _tier4Fusion = new[] { "thousand_eyes_restrict", "dark_balter_the_terrible", "reaper_on_the_nightmare" }.Select(Cards.Real).ToArray();
+
     public static IEnumerable<object[]> Seeds() => Enumerable.Range(1, 20).Select(i => new object[] { (ulong)i });
 
     [Theory]
@@ -99,6 +110,17 @@ public class FuzzTests
     public void RandomDuelsWithTierThreeCardsKeepTheInvariantsAndEnd(ulong seed)
     {
         DuelEngine engine = Run(seed, _tier3Pool, _tier3Fusion);
+
+        Assert.Empty(engine.State.Chain);
+        Assert.Null(engine.State.PendingChoice);
+        Assert.Null(engine.State.ResolvingLink);
+    }
+
+    [Theory]
+    [MemberData(nameof(Seeds))]
+    public void RandomDuelsWithTierFourCardsKeepTheInvariantsAndEnd(ulong seed)
+    {
+        DuelEngine engine = Run(seed, _tier4Pool, _tier4Fusion);
 
         Assert.Empty(engine.State.Chain);
         Assert.Null(engine.State.PendingChoice);
@@ -153,6 +175,7 @@ public class FuzzTests
                 {
                     Assert.Equal(Location.SpellTrapZone, st.Loc);
                     Assert.Equal(i, st.ZoneIndex);
+                    Assert.True(!st.IsMonster || st.EquippedTo is not null, $"{st} is a monster in a Spell & Trap Zone attached to nothing");
                 }
             }
 
@@ -171,7 +194,8 @@ public class FuzzTests
                 }
                 else
                 {
-                    bool activating = s.Chain.Any(l => l.Source == st) || s.PendingLink?.Source == st || s.ResolvingLink?.Source == st;
+                    // An equip whose activation is in progress attaches later; one whose player paid their last life points as its cost stays where it was when the duel ended.
+                    bool activating = s.Chain.Any(l => l.Source == st) || s.PendingLink?.Source == st || s.ResolvingLink?.Source == st || s.IsOver;
                     Assert.True(st.Def.Spell?.Subtype != SpellSubtype.Equip || st.IsFaceDown || activating, $"{st} is a face-up Equip Spell attached to nothing");
                 }
             }

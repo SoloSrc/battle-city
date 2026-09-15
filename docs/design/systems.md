@@ -485,15 +485,23 @@ attacker or target left the field before the Damage Step is cancelled
 Build the engine T1 → T4; each tier has a test suite. The Beatdown duel is
 playable at T2, Warrior Toolbox at T3, Goat Control at T4.
 
-Status: T1 (issue #25), T2 (issue #56: 27 cards, `TierTwoTests`) and T3
-(issue #57: 35 cards, `TierThreeTests`) are implemented in
-`Effects/Cards/` with one scenario test each; the heuristic agents play
-Rookie Beatdown, Beatdown and Warrior Toolbox (without Cyber Jar, tier 4)
-to a winner. Cards with two activatable effects carry two ids: Axe of
+Status: all four tiers are implemented (T1 issue #25, T2 #56
+`TierTwoTests`, T3 #57 `TierThreeTests`, T4 #58 `TierFourTests`) in
+`Effects/Cards/` with one scenario test each; every list in `data/decks/`
+is accepted by `DuelEngine.Start` and the heuristic agents play all of
+them to a winner. The validator requires every effect id to be
+implemented. Cards with two activatable effects carry two ids: Axe of
 Despair (`axe_of_despair_recycle`), Breaker (`_destroy`), Chaos Sorcerer
-(`_banish`), Skilled Dark Magician (`_summon`), Snatch Steal (`_upkeep`);
-Goblin Attack Force and Giant Orc, and Mystic Tomato and Shining Angel,
-share one class registered under both ids. Scapegoat's Sheep Tokens are
+(`_banish`), Skilled Dark Magician (`_summon`), Snatch Steal (`_upkeep`),
+Black Luster Soldier (`_banish`, `_double_attack`), Thousand-Eyes
+Restrict (`_absorb`); Goblin Attack Force and Giant Orc, Mystic Tomato and
+Shining Angel, Chaos Sorcerer and Black Luster Soldier, Spirit Reaper and
+Reaper on the Nightmare share one class registered under both ids.
+Thousand-Eyes Restrict's absorbed monster becomes an Equip Card in a
+Spell & Trap Zone (`DuelEngine.AbsorbMonster`, `MonsterAbsorbed`): its own
+effects are off (`IsAbsorbed`), it is destroyed in the Restrict's place
+when battle would destroy it, and it leaves with it. Cyber Jar reveals
+with `CardsRevealed` and summons in Attack Position. Scapegoat's Sheep Tokens are
 defined in code (`sheep_token`), not in `data/cards/`. Skilled Dark
 Magician's summon looks for a card named "Dark Magician", which the pool
 does not contain.

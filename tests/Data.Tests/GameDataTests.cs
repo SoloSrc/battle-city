@@ -116,13 +116,16 @@ public class GameDataTests
     }
 
     [Fact]
-    public void FullDuelistDecksAreNotDuellableUntilTheirEffectsExist()
+    public void EveryDuelistDeckIsDuellable()
     {
         GameData data = GameData.Load(DataRoot);
-        Deck beatdown = data.Decks["beatdown"].ToDeck(data.Cards);
 
-        var error = Assert.Throws<ArgumentException>(() => DuelEngine.Start(beatdown, beatdown));
-        Assert.Contains("not implemented", error.Message);
+        foreach (DeckDefinition definition in data.Decks.Values)
+        {
+            Deck deck = definition.ToDeck(data.Cards);
+            DuelEngine engine = DuelEngine.Start(deck, deck, new DuelOptions { Seed = 9 });
+            Assert.False(engine.State.IsOver);
+        }
     }
 
     [Fact]

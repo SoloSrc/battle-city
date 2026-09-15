@@ -80,7 +80,7 @@ internal static class Modifiers
 
     private static void Contribute(DuelEngine engine, DuelState s, List<CardInstance> field, CardInstance card)
     {
-        if (!card.IsFaceUp || card.Has(Restriction.EffectsNegated))
+        if (!card.IsFaceUp || card.Has(Restriction.EffectsNegated) || DuelEngine.IsAbsorbed(card))
         {
             return;
         }

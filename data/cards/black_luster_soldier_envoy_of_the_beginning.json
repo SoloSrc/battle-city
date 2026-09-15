@@ -16,6 +16,8 @@
   "limit": 1,
   "tier": 4,
   "effects": [
-    "black_luster_soldier_envoy_of_the_beginning"
+    "black_luster_soldier_envoy_of_the_beginning",
+    "black_luster_soldier_envoy_of_the_beginning_banish",
+    "black_luster_soldier_envoy_of_the_beginning_double_attack"
   ]
 }

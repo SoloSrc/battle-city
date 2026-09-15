@@ -244,6 +244,13 @@ public sealed class DuelEngine
             return;
         }
 
+        if (reason == DestroyReason.Battle && card.IsMonster && AbsorbedBy(card) is { } absorbed)
+        {
+            // Thousand-Eyes Restrict: the monster it absorbed is destroyed in its place.
+            Destroy(absorbed, DestroyReason.Effect);
+            return;
+        }
+
         Location from = card.Loc;
         if (card.IsMonster)
         {
@@ -648,7 +655,44 @@ public sealed class DuelEngine
 
     /// <summary>Once-per-turn and negation checks shared by activations and triggers.</summary>
     internal bool Usable(CardInstance card, IEffect effect) =>
-        !(effect.OncePerTurn && card.Activations(effect.Id) > 0) && !(card.IsOnField && card.Has(Restriction.EffectsNegated));
+        !(effect.OncePerTurn && card.Activations(effect.Id) > 0) && !(card.IsOnField && card.Has(Restriction.EffectsNegated)) && !IsAbsorbed(card);
+
+    /// <summary>A monster sitting in a Spell &amp; Trap Zone as an Equip Card (Thousand-Eyes Restrict): its own effects are off.</summary>
+    public static bool IsAbsorbed(CardInstance card)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        return card.IsMonster && card.Loc == Location.SpellTrapZone;
+    }
+
+    /// <summary>The monster equipped to <paramref name="card"/> as an Equip Card (Thousand-Eyes Restrict), or null.</summary>
+    public CardInstance? AbsorbedBy(CardInstance card)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        return State.Players.SelectMany(p => p.SpellTraps).FirstOrDefault(e => e.IsMonster && e.EquippedTo == card.Id);
+    }
+
+    /// <summary>
+    /// Turns a monster on the field into an Equip Card attached to <paramref name="target"/>
+    /// (Thousand-Eyes Restrict): it moves to a free Spell &amp; Trap Zone of the target's
+    /// controller, face-up, and is destroyed in the target's place when battle would destroy
+    /// it. False, with nothing changed, for a token or without a free zone.
+    /// </summary>
+    public bool AbsorbMonster(CardInstance monster, CardInstance target)
+    {
+        ArgumentNullException.ThrowIfNull(monster);
+        ArgumentNullException.ThrowIfNull(target);
+        int zone = State.Player(target.Controller).FirstFreeSpellTrapZone();
+        if (monster.Loc != Location.MonsterZone || target.Loc != Location.MonsterZone || monster == target || monster.IsToken || zone < 0)
+        {
+            return false;
+        }
+
+        Zones.PlaceSpellTrap(this, monster, target.Controller, zone, Position.FaceUp);
+        monster.EquippedTo = target.Id;
+        Emit(new MonsterAbsorbed(target.Controller, monster.Id, monster.Def.Id, zone, target.Id));
+        Refresh();
+        return true;
+    }
 
     /// <summary>Starts an activation: the link collects its cost and target answers in <see cref="Settle"/> before joining the chain.</summary>
     internal void BeginActivation(int player, CardInstance card, IEffect effect, ActivationContext context)

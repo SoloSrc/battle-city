@@ -23,8 +23,7 @@ CATEGORIES = {"normal", "effect", "fusion", "ritual", "flip", "spirit", "toon", 
 ATTRIBUTES = {"DARK", "LIGHT", "EARTH", "WATER", "FIRE", "WIND", "DIVINE"}
 SPELL_SUBTYPES = {"normal", "quick", "equip", "continuous", "field", "ritual"}
 TRAP_SUBTYPES = {"normal", "continuous", "counter"}
-# Effects implemented in Duel.Core's EffectRegistry (tiers 1–3); every tier 1 effect must be here,
-# and a tier 2 or 3 card may only name ids from this set.
+# Effects implemented in Duel.Core's EffectRegistry (tiers 1–4, the whole pool): every effect id a card names must be here.
 IMPLEMENTED_EFFECTS = {
     "pot_of_greed",
     # Tier 2 (issue #56).
@@ -44,6 +43,9 @@ IMPLEMENTED_EFFECTS = {
     "delinquent_duo", "premature_burial", "snatch_steal", "snatch_steal_upkeep", "nobleman_of_crossout", "enemy_controller",
     "scapegoat", "metamorphosis", "swords_of_revealing_light", "creature_swap",
     "ring_of_destruction", "call_of_the_haunted", "bottomless_trap_hole", "waboku",
+    # Tier 4 (issue #58).
+    "spirit_reaper", "black_luster_soldier_envoy_of_the_beginning", "black_luster_soldier_envoy_of_the_beginning_banish",
+    "black_luster_soldier_envoy_of_the_beginning_double_attack", "thousand_eyes_restrict", "thousand_eyes_restrict_absorb", "cyber_jar",
 }
 MIN_DECK, MAX_DECK = 40, 60
 
@@ -106,8 +108,7 @@ def validate_card(report: Report, path: str, doc) -> dict | None:
     if report.check(isinstance(effects, list) and all(isinstance(e, str) for e in effects), path, "'effects' must be a list of ids"):
         for effect in effects:
             report.check(bool(SNAKE.match(effect)), path, f"effect id '{effect}' must be snake_case")
-            if tier in (1, 2, 3):
-                report.check(effect in IMPLEMENTED_EFFECTS, path, f"tier {tier} effect '{effect}' is not implemented in Duel.Core")
+            report.check(effect in IMPLEMENTED_EFFECTS, path, f"tier {tier} effect '{effect}' is not implemented in Duel.Core")
         if tier is not None and tier != 1:
             report.check(len(effects) > 0, path, "a tier 2+ card names at least one effect id (stub or implemented)")
     if isinstance(monster, dict):
