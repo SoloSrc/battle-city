@@ -26,6 +26,15 @@ public interface IEffect
     /// <summary>The window a Trigger effect fires in; null for every other kind.</summary>
     TriggerWindow? Trigger { get; }
 
+    /// <summary>Whether the effect fires in <paramref name="window"/>: <see cref="Trigger"/> by default, more than one window for a card like Tsukuyomi ("when Summoned or flipped").</summary>
+    bool FiresIn(TriggerWindow window);
+
+    /// <summary>How the card may not be Summoned (cannot be Normal Summoned, cannot be Set); read by the summon rules.</summary>
+    SummonLimit Limits { get; }
+
+    /// <summary>A Spell that stays on the field after its activation resolved instead of being spent (Swords of Revealing Light).</summary>
+    bool RemainsOnField { get; }
+
     /// <summary>A speed 2 effect that changes ATK or DEF may also be activated before damage calculation (systems.md §5.5 Damage Step row).</summary>
     bool UsableInDamageStep { get; }
 

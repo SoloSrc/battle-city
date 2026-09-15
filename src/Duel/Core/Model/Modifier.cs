@@ -30,7 +30,9 @@ public sealed record Modifier(ModifierKind Kind, int Value, Guid Source, Guid? C
         or ModifierKind.CannotAttack or ModifierKind.CannotBeAttacked or ModifierKind.CannotChangePosition
         or ModifierKind.CannotBeDestroyedByBattle or ModifierKind.CannotBeTributed
         or ModifierKind.Piercing or ModifierKind.CanAttackDirectly or ModifierKind.EffectsNegated
-        or ModifierKind.MustAttack or ModifierKind.DestroyedInDefensePosition or ModifierKind.DefenseAfterAttack;
+        or ModifierKind.MustAttack or ModifierKind.DestroyedInDefensePosition or ModifierKind.DefenseAfterAttack
+        or ModifierKind.NegatesFlipEffectsOfDestroyed or ModifierKind.NegatesEffectsOfDestroyed or ModifierKind.DestroysFaceDownTargets
+        or ModifierKind.AttacksEveryMonster or ModifierKind.DestroyedWhenTargeted;
 }
 
 /// <summary>What a <see cref="Modifier"/> changes.</summary>
@@ -71,9 +73,30 @@ public enum ModifierKind
     /// <summary>Switches to Defense Position at the end of the Battle Phase after attacking and stays locked until the end of its controller's next turn (Goblin Attack Force, Giant Orc).</summary>
     DefenseAfterAttack,
 
+    /// <summary>The Flip Effects of monsters it destroys by battle do not fire (Blade Knight).</summary>
+    NegatesFlipEffectsOfDestroyed,
+
+    /// <summary>The effects of monsters it destroys by battle are negated (Dark Balter the Terrible).</summary>
+    NegatesEffectsOfDestroyed,
+
+    /// <summary>Destroys a face-down monster it attacks at the start of the Damage Step without flipping it (Mystic Swordsman LV2).</summary>
+    DestroysFaceDownTargets,
+
+    /// <summary>May attack every monster the opponent controls once each (Asura Priest).</summary>
+    AttacksEveryMonster,
+
+    /// <summary>Destroyed when targeted by a card effect (Reaper on the Nightmare).</summary>
+    DestroyedWhenTargeted,
+
     /// <summary>The player takes no battle damage (player kind).</summary>
     NoBattleDamage,
 
     /// <summary>The player cannot activate Trap Cards and their Traps' effects are negated (player kind).</summary>
     TrapsNegated,
+
+    /// <summary>The player cannot banish cards from either Graveyard (player kind; Kycoo the Ghost Destroyer).</summary>
+    CannotBanishFromGraveyard,
+
+    /// <summary>The player cannot Normal, Flip or Special Summon (player kind; Scapegoat, for the turn).</summary>
+    CannotSummon,
 }

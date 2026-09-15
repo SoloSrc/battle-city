@@ -10,9 +10,10 @@ namespace BattleCity.Duel.Core.Rules;
 /// <summary>Normal Summon, Set, position changes and Flip Summons (GDD §3.2, systems.md §5.5).</summary>
 internal static class SummonRules
 {
-    public static string? ValidateNormalSummon(DuelState s, int player, Guid cardId, IReadOnlyList<Guid> tributes, bool set)
+    public static string? ValidateNormalSummon(DuelEngine engine, int player, Guid cardId, IReadOnlyList<Guid> tributes, bool set)
     {
         ArgumentNullException.ThrowIfNull(tributes);
+        DuelState s = engine.State;
         string? error = TurnFlow.ValidateMainPhaseAction(s, player);
         if (error is not null)
         {
@@ -33,6 +34,17 @@ internal static class SummonRules
         if (card.Def.Kind != CardKind.Monster)
         {
             return $"{card.Def.Name} is not a monster";
+        }
+
+        if (!set && s.Player(player).Has(PlayerRestriction.CannotSummon))
+        {
+            return "you cannot Summon this turn";
+        }
+
+        SummonLimit limits = engine.EffectsOf(card).Aggregate(SummonLimit.None, (all, e) => all | e.Limits);
+        if (set ? limits.HasFlag(SummonLimit.CannotBeSet) : limits.HasFlag(SummonLimit.CannotBeNormalSummoned))
+        {
+            return $"{card.Def.Name} cannot be {(set ? "Set" : "Normal Summoned")}";
         }
 
         int required = card.Def.Monster!.TributesRequired;
@@ -123,16 +135,8 @@ internal static class SummonRules
     public static void ChangePosition(DuelEngine engine, int player, Guid cardId)
     {
         CardInstance card = Zones.OnField(engine.State, player, cardId)!;
-        Position from = card.Pos;
-        card.Pos = from == Position.FaceUpAttack ? Position.FaceUpDefense : Position.FaceUpAttack;
         card.ChangedPositionThisTurn = true;
-        engine.Emit(new PositionChanged(player, card.Id, from, card.Pos));
-        engine.Refresh();
-        if (card.IsInDefensePosition && card.Has(Restriction.DestroyedInDefensePosition))
-        {
-            engine.Destroy(card, DestroyReason.Effect);
-        }
-
+        engine.SwitchPosition(card);
         TurnFlow.GivePriorityToTurnPlayer(engine.State);
     }
 
@@ -155,6 +159,11 @@ internal static class SummonRules
             return "only a face-down monster can be Flip Summoned";
         }
 
+        if (s.Player(player).Has(PlayerRestriction.CannotSummon))
+        {
+            return "you cannot Summon this turn";
+        }
+
         return ValidatePositionChangeTiming(card);
     }
 
@@ -167,7 +176,7 @@ internal static class SummonRules
         engine.Emit(new MonsterFlipSummoned(player, card.Id, card.Def.Id));
         engine.Refresh();
         Summoned(engine, card, SummonKind.Flip);
-        engine.QueueTriggers(card, TriggerWindow.OnFlip);
+        engine.QueueTriggers(card, TriggerWindow.OnFlip, summon: SummonKind.Flip);
         TurnFlow.GivePriorityToTurnPlayer(engine.State);
     }
 

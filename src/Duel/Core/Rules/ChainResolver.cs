@@ -88,6 +88,10 @@ internal static class ChainResolver
 
         engine.Emit(new SpellActivated(player, card.Id, card.Def.Id, zone));
         engine.BeginActivation(player, card, engine.EffectsOf(card).First(e => e.Kind == EffectKind.Activation), ActivationContext.None);
+        foreach (CardInstance monster in s.Players.SelectMany(p => p.Monsters).Where(m => m.IsFaceUp).ToList())
+        {
+            engine.QueueTriggers(monster, TriggerWindow.SpellActivated);
+        }
     }
 
     public static string? ValidateActivateTrap(DuelEngine engine, int player, Guid cardId)
@@ -135,15 +139,10 @@ internal static class ChainResolver
     public static string? ValidateActivateEffect(DuelEngine engine, int player, Guid cardId, int effectIndex)
     {
         DuelState s = engine.State;
-        CardInstance? card = Zones.OnField(s, player, cardId);
-        if (card is null)
+        CardInstance? card = Zones.OnField(s, player, cardId) ?? Zones.InHand(s, player, cardId);
+        if (card is null || !card.IsMonster)
         {
             return "the monster is not on your field";
-        }
-
-        if (card.IsFaceDown)
-        {
-            return "a face-down monster's effects cannot be activated";
         }
 
         IReadOnlyList<IEffect> effects = engine.EffectsOf(card);
@@ -153,6 +152,36 @@ internal static class ChainResolver
         }
 
         IEffect effect = effects[effectIndex];
+        if (effect.Kind == EffectKind.SummonProcedure)
+        {
+            if (card.Loc != Location.Hand)
+            {
+                return $"{card.Def.Name} is Special Summoned from the hand";
+            }
+
+            if (s.Player(player).MonsterCount >= PlayerState.ZoneCount)
+            {
+                return "no free Monster Zone";
+            }
+
+            if (s.Player(player).Has(PlayerRestriction.CannotSummon))
+            {
+                return "you cannot Summon this turn";
+            }
+
+            return ValidateTiming(s, player, card, effect);
+        }
+
+        if (card.Loc == Location.Hand)
+        {
+            return "the monster is not on your field";
+        }
+
+        if (card.IsFaceDown)
+        {
+            return "a face-down monster's effects cannot be activated";
+        }
+
         if (effect.Kind is not (EffectKind.Ignition or EffectKind.Quick))
         {
             return $"{card.Def.Name}'s {effect.Kind} effect is not activated by hand";
@@ -168,7 +197,7 @@ internal static class ChainResolver
 
     public static void ActivateEffect(DuelEngine engine, int player, Guid cardId, int effectIndex)
     {
-        CardInstance card = Zones.OnField(engine.State, player, cardId)!;
+        CardInstance card = Zones.OnField(engine.State, player, cardId) ?? Zones.InHand(engine.State, player, cardId)!;
         IEffect effect = engine.EffectsOf(card)[effectIndex];
         engine.Emit(new EffectActivated(player, card.Id, card.Def.Id, effect.Id));
         engine.BeginActivation(player, card, effect, ActivationContext.None);
@@ -253,7 +282,7 @@ internal static class ChainResolver
 
         engine.Emit(new ChainLinkResolved(link.Index, link.Source.Id, link.Effect.Id));
         engine.Refresh();
-        Discharge(engine, link.Source);
+        Discharge(engine, link.Source, resolved: !link.Negated && !IsSilenced(s, link));
         return true;
     }
 
@@ -324,15 +353,16 @@ internal static class ChainResolver
         return effect.CanActivate(s, card, ActivationContext.None) ? null : $"{card.Def.Name} cannot be activated now";
     }
 
-    /// <summary>Where a card goes once its activation resolved: one-shot Spells and Traps to the Graveyard, an Equip Spell that attached to nothing too; Continuous and Field cards, attached equips and monsters stay.</summary>
-    private static void Discharge(DuelEngine engine, CardInstance card)
+    /// <summary>Where a card goes once its activation resolved: one-shot Spells and Traps to the Graveyard, an Equip Spell that attached to nothing too; Continuous and Field cards, attached equips, monsters and Spells flagged <see cref="IEffect.RemainsOnField"/> stay.</summary>
+    private static void Discharge(DuelEngine engine, CardInstance card, bool resolved)
     {
         if (card.Loc != Location.SpellTrapZone || card.IsFaceDown)
         {
             return;
         }
 
-        bool spent = card.Def.Spell?.Subtype is SpellSubtype.Normal or SpellSubtype.Quick or SpellSubtype.Ritual
+        bool remains = resolved && engine.EffectsOf(card).Any(e => e.RemainsOnField);
+        bool spent = (card.Def.Spell?.Subtype is SpellSubtype.Normal or SpellSubtype.Quick or SpellSubtype.Ritual && !remains)
             || (card.Def.Spell?.Subtype == SpellSubtype.Equip && card.EquippedTo is null)
             || card.Def.Trap?.Subtype is TrapSubtype.Normal or TrapSubtype.Counter;
         if (spent)

@@ -317,10 +317,13 @@ Names and text are stored as needed to implement the rules; no card art.
 
 ```csharp
 interface IEffect {
-  EffectKind Kind;            // Ignition, Trigger, Quick, Continuous, Flip, Activation (spell/trap), Condition
+  EffectKind Kind;            // Ignition, Trigger, Quick, Continuous, Flip, Activation (spell/trap), Condition, SummonProcedure
   SpellSpeed Speed;           // 1, 2, 3
   bool IsMandatory;
-  TriggerWindow? Trigger;     // OnSummon, OnDestroyedByBattle, OnFlip, OnSentToGrave, Standby, EndPhase
+  TriggerWindow? Trigger;     // OnSummon, OnDestroyedByBattle, OnFlip, OnSentToGrave, Standby, EndPhase, OnBattle, OnBattleDamage, SpellActivated
+  bool FiresIn(TriggerWindow w);  // Trigger == w by default; Tsukuyomi fires in OnSummon and OnFlip
+  SummonLimit Limits;         // CannotBeNormalSummoned, CannotBeSet (Chaos Sorcerer, Mystic Swordsman LV2)
+  bool RemainsOnField;        // a Spell that stays after resolving (Swords of Revealing Light)
   bool UsableInDamageStep;    // speed 2 ATK/DEF modifiers may activate before damage calculation
   bool OncePerTurn;           // the engine counts activations per card and turn
   bool CanActivate(DuelState s, CardInstance src, ActivationContext ctx);  // card-specific condition only
@@ -340,7 +343,22 @@ reads the window it needs from `DuelState.Window`, the chain, or the
 `ActivationContext` (the trigger window, for graveyard triggers the
 location the card came from, for summon triggers the `SummonKind`: Normal,
 Tribute, Flip or Special; the summon window also records it in
-`DuelState.LastSummon` for Trap Hole).
+`DuelState.LastSummon` for Trap Hole; for battle triggers `Battled`, the
+monster it fought, null for a direct attack). `OnBattle` fires after damage
+calculation for both monsters wherever they ended up (D.D. Warrior Lady),
+`OnBattleDamage` for a monster that inflicted battle damage to a player
+(Don Zaloog, Airknight Parshath, Kycoo, Reaper on the Nightmare),
+`SpellActivated` for every face-up monster when a Spell is activated
+(Skilled Dark Magician). Standby and End Phase triggers are also offered to
+cards in the Graveyards (Sinister Serpent). A `SummonProcedure` effect is
+an inherent Special Summon from the hand (Chaos Sorcerer): it is activated
+like an Ignition effect, its costs are the materials, then the monster
+arrives with no chain link. A card whose effects list a `SummonLimit`
+cannot be Normal Summoned or Set accordingly. An effect may carry
+`Modifiers` whatever its kind, so a Trigger monster with a continuous side
+(Airknight's piercing, Reaper's protection) is one class; a card with two
+activatable effects carries two ids (Breaker, Chaos Sorcerer, Skilled Dark
+Magician, Snatch Steal's upkeep).
 
 **Choice protocol.** Everything that asks a player something pauses the
 engine in a `PendingChoice { Player, Kind, Source, Choice }` and is
@@ -357,7 +375,9 @@ can look ahead through a prompt.
 **Questions during resolution.** Costs and targets are settled before a
 link joins the chain, but Graceful Charity discards after drawing, Sangan
 picks from the Deck and Dust Tornado offers a Set only after the destroy.
-A resolving effect asks with `engine.Ask(link, choice)`: when the answer is
+A resolving effect asks with `engine.Ask(link, choice)` (or
+`engine.Ask(link, choice, player)` to put the question to the other player:
+Delinquent Duo's discard, Creature Swap's second pick): when the answer is
 already in `ChainLink.Answers` it comes straight back; otherwise the
 question becomes a `PendingChoice` of kind `Resolution`, the link parks on
 `DuelState.ResolvingLink`, chain resolution stops and the effect returns.
@@ -396,11 +416,20 @@ fires summon triggers and opens the summon window), `CreateToken`,
 `ChangeControl` (permanent or until the End Phase of a turn; needs a free
 zone; control always returns when the monster leaves the field), `Equip`
 (an Equip Spell that attached to nothing is spent), `FlipFaceDown` (Book
-of Moon; destroys the monster's equips), `SetSpellTrap` (from the hand by
-an effect, Dust Tornado), `AddCounter`, `AddModifier`, `Negate`, `Ask`
-(a question while a link resolves). When a monster leaves the field its equips are destroyed and its
-effects' `OnLeftField` hooks run (Snatch Steal returns control, Premature
-Burial destroys its monster) before its field state is cleared.
+of Moon; the equips are destroyed once the monster is face-down, so
+Premature Burial and Call of the Haunted leave it alone), `FlipFaceUp`
+(Swords of Revealing Light; the Flip Effect fires), `SwitchPosition`
+(Enemy Controller; destroys a Berserk Gorilla), `SwapControl` (Creature
+Swap; the two monsters trade zones, so no free zone is needed),
+`SetSpellTrap` (from the hand by an effect, Dust Tornado), `AddCounter`,
+`AddModifier`, `Negate`, `Ask` (a question while a link resolves).
+`Damage` returns whether damage was inflicted, `Destroy` takes the monster
+that destroyed it by battle and a flag that silences every trigger of the
+destroyed card (Dark Balter). When a monster leaves the field its equips
+are destroyed and its effects' `OnLeftField` hooks run (Snatch Steal
+returns control, Premature Burial and Call of the Haunted destroy their
+monster) before its field state is cleared. A card with `LeavesAfterTurn`
+set (Swords of Revealing Light) is destroyed at that turn's End Phase.
 
 ### 5.5 Turn flow and timing
 
@@ -416,7 +445,10 @@ Phases and steps as in GDD §3.2. The engine implements 2005 rules:
 | Trigger ordering | Fired triggers queue on `DuelState.Triggers`; mandatory ones go on the chain first (turn player's, then opponent's; a controller with several is asked to order them), then optional ones are offered one at a time in the same order. The opponent of the last link gets priority to respond |
 | Damage Step | Sub-steps: StartDamage, BeforeCalc (face-down target flips; only Counter Traps and effects flagged `UsableInDamageStep` may activate), Calc, AfterCalc (flip effects and battle-destruction triggers go on the chain; nothing else activates on an empty chain), EndDamage. Each half is a window closed by two passes |
 | Position changes | Once per turn, not on the turn summoned, not after attacking, not under a `CannotChangePosition` modifier (position locks carry a turn number); a monster flagged `DestroyedInDefensePosition` (Berserk Gorilla) is destroyed when its controller switches it to Defense Position |
-| Battle restrictions | `CannotAttack`, `CannotBeAttacked` and `CanAttackDirectly` shape the legal attacks; `CannotBeDestroyedByBattle` and `NoBattleDamage` apply in damage calculation; a `Piercing` attacker inflicts the difference over a Defense Position target |
+| Battle restrictions | `CannotAttack`, `CannotBeAttacked` and `CanAttackDirectly` shape the legal attacks; `CannotBeDestroyedByBattle` and `NoBattleDamage` apply in damage calculation; a `Piercing` attacker inflicts the difference over a Defense Position target; an `AttacksEveryMonster` monster (Asura Priest) may attack each of the opponent's monsters once (`CardInstance.AttackTargetsThisTurn`); a `DestroysFaceDownTargets` attacker (Mystic Swordsman LV2) destroys a face-down target at the start of the Damage Step with no flip and no damage calculation |
+| Negation by battle | A monster destroyed by battle by a `NegatesEffectsOfDestroyed` monster (Dark Balter) fires no flip, battle-destruction or graveyard trigger; one destroyed by a `NegatesFlipEffectsOfDestroyed` monster (a lone Blade Knight) fires no Flip Effect |
+| Targeting | A monster flagged `DestroyedWhenTargeted` (Reaper on the Nightmare) is destroyed the moment it is chosen as a `Target` |
+| Summon locks | `PlayerRestriction.CannotSummon` (Scapegoat, for the turn) blocks Normal, Flip and Special Summons but not Sets; `CannotBanishFromGraveyard` (Kycoo's opponent) blocks Chaos Sorcerer's summon |
 | Must attack | A face-up Attack Position monster flagged `MustAttack` (Berserk Gorilla) that could attack blocks its controller's `Pass` in Main Phase 1 (while the Battle Phase can still be entered) and in the Battle Step, so the attack cannot be skipped; `LegalActions` leaves the pass out |
 | After attacking | Monsters flagged `DefenseAfterAttack` (Goblin Attack Force, Giant Orc) that attacked switch to Defense Position when the Battle Phase ends and get a `CannotChangePosition` modifier until the end of their controller's next turn |
 | Summon responses | The summon window records `LastSummon`; Torrential Tribute answers any summon, Trap Hole only the opponent's Normal, Tribute and Flip Summons of 1000+ ATK; the Monarchs' triggers fire only with `ActivationContext.Summon == Tribute` |
@@ -453,12 +485,18 @@ attacker or target left the field before the Damage Step is cancelled
 Build the engine T1 → T4; each tier has a test suite. The Beatdown duel is
 playable at T2, Warrior Toolbox at T3, Goat Control at T4.
 
-Status: T1 (issue #25) and T2 (issue #56: the 27 tier 2 cards of the pool,
-`Effects/Cards/`, one scenario test each in `TierTwoTests`) are
-implemented; the heuristic agents play the Beatdown list without its tier
-3–4 cards to a winner. Axe of Despair carries two effect ids (`axe_of_despair`
-for the equip, `axe_of_despair_recycle` for the trigger in the Graveyard);
-Goblin Attack Force and Giant Orc share one class registered under both ids.
+Status: T1 (issue #25), T2 (issue #56: 27 cards, `TierTwoTests`) and T3
+(issue #57: 35 cards, `TierThreeTests`) are implemented in
+`Effects/Cards/` with one scenario test each; the heuristic agents play
+Rookie Beatdown, Beatdown and Warrior Toolbox (without Cyber Jar, tier 4)
+to a winner. Cards with two activatable effects carry two ids: Axe of
+Despair (`axe_of_despair_recycle`), Breaker (`_destroy`), Chaos Sorcerer
+(`_banish`), Skilled Dark Magician (`_summon`), Snatch Steal (`_upkeep`);
+Goblin Attack Force and Giant Orc, and Mystic Tomato and Shining Angel,
+share one class registered under both ids. Scapegoat's Sheep Tokens are
+defined in code (`sheep_token`), not in `data/cards/`. Skilled Dark
+Magician's summon looks for a card named "Dark Magician", which the pool
+does not contain.
 
 ### 5.7 Tests
 

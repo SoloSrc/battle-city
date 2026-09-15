@@ -28,6 +28,15 @@ internal static class Field
 
     public static bool IsGravekeeper(CardInstance card) => card.IsMonster && card.Def.Name.StartsWith("Gravekeeper's", StringComparison.Ordinal);
 
+    public static bool HasType(CardInstance card, params string[] types) => card.Def.Monster is { } m && types.Contains(m.Type, StringComparer.Ordinal);
+
+    /// <summary>On the field or in a Graveyard: where a monster that just battled can still be found.</summary>
+    public static bool OnFieldOrInGraveyard(CardInstance card) => card.IsOnField || card.Loc == Location.Graveyard;
+
+    /// <summary>The monsters in <paramref name="p"/>'s Graveyard that a Special Summon can bring back (Fusion monsters and Spirits excluded).</summary>
+    public static IEnumerable<CardInstance> Revivable(PlayerState p) =>
+        p.Graveyard.Where(c => c.Def.Kind == CardKind.Monster && c.Def.Monster!.Category != MonsterCategory.Spirit);
+
     /// <summary>
     /// The monsters sharing the extreme of <paramref name="key"/> among <paramref name="candidates"/>
     /// ("the face-up monster with the lowest ATK"): one card, or several that tie.
@@ -46,10 +55,10 @@ internal static class Field
 
     /// <summary>
     /// Picks one of <paramref name="candidates"/> for a link that resolves: a single candidate needs no
-    /// question, a tie is put to the link's player. Null when there is no candidate, or when the
-    /// question was just asked and the effect must return (see <see cref="DuelEngine.Ask(ChainLink, Choice)"/>).
+    /// question, a choice is put to the link's player (or <paramref name="player"/>). Null when there is no candidate, or when the
+    /// question was just asked and the effect must return (see <see cref="DuelEngine.Ask(ChainLink, Choice, int?)"/>).
     /// </summary>
-    public static CardInstance? PickOne(DuelEngine engine, ChainLink link, IReadOnlyList<CardInstance> candidates, string prompt)
+    public static CardInstance? PickOne(DuelEngine engine, ChainLink link, IReadOnlyList<CardInstance> candidates, string prompt, int? player = null)
     {
         if (candidates.Count == 0)
         {
@@ -61,7 +70,7 @@ internal static class Field
             return candidates[0];
         }
 
-        IReadOnlyList<Guid>? answer = engine.Ask(link, new Choice(prompt, Ids(candidates), 1, 1));
+        IReadOnlyList<Guid>? answer = engine.Ask(link, new Choice(prompt, Ids(candidates), 1, 1), player);
         return answer is null ? null : engine.State.Find(answer[0]);
     }
 }

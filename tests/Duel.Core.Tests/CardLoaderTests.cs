@@ -18,11 +18,12 @@ public class CardLoaderTests
         Assert.Equal(12, library.All.Count(c => c.IsVanilla));
         Assert.Equal(13, library.All.Count(c => c.Tier == 1));
         Assert.Equal(27, library.All.Count(c => c.Tier == 2));
+        Assert.Equal(35, library.All.Count(c => c.Tier == 3));
         Assert.All(library.All.Where(c => c.Tier > 1), c => Assert.NotEmpty(c.Effects));
 
-        // Every tier 1 and 2 effect is implemented; the acceptance of issue #56.
+        // Every tier 1, 2 and 3 effect is implemented; the acceptance of issues #56 and #57.
         EffectRegistry registry = EffectRegistry.CreateDefault();
-        Assert.All(library.All.Where(c => c.Tier <= 2).SelectMany(c => c.Effects), e => Assert.True(registry.Contains(e), $"effect '{e}' is not implemented"));
+        Assert.All(library.All.Where(c => c.Tier <= 3).SelectMany(c => c.Effects), e => Assert.True(registry.Contains(e), $"effect '{e}' is not implemented"));
 
         CardDefinition elf = library["gemini_elf"];
         Assert.Equal("Gemini Elf", elf.Name);
@@ -82,12 +83,12 @@ public class CardLoaderTests
     public void StubEffectsLoadButCannotBeDuelled()
     {
         CardLibrary library = new CardLoader().LoadDirectory(Cards.DataDirectory);
-        CardDefinition jinzo = library["jinzo"];
-        var deck = new Deck(Enumerable.Repeat(jinzo, 40).ToList());
+        CardDefinition jar = library["cyber_jar"];
+        var deck = new Deck(Enumerable.Repeat(jar, 40).ToList());
 
-        Assert.Equal(new[] { "jinzo" }, jinzo.Effects);
+        Assert.Equal(new[] { "cyber_jar" }, jar.Effects);
         var error = Assert.Throws<System.ArgumentException>(() => DuelEngine.Start(deck, deck));
-        Assert.Contains("effects that are not implemented: jinzo", error.Message);
+        Assert.Contains("effects that are not implemented: cyber_jar", error.Message);
     }
 
     [Fact]
@@ -96,6 +97,6 @@ public class CardLoaderTests
         EffectRegistry registry = EffectRegistry.CreateDefault();
 
         Assert.True(registry.Contains(PotOfGreedEffect.EffectId));
-        Assert.Throws<System.Collections.Generic.KeyNotFoundException>(() => registry.Create("jinzo"));
+        Assert.Throws<System.Collections.Generic.KeyNotFoundException>(() => registry.Create("cyber_jar"));
     }
 }

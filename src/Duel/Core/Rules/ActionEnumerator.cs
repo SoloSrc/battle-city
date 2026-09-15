@@ -170,14 +170,16 @@ internal static class ActionEnumerator
         Add(engine, actions, new EnterBattlePhase(player));
     }
 
+    /// <summary>Ignition effects of face-up monsters and the summon procedures of monsters in the hand (Chaos Sorcerer).</summary>
     private static void AddIgnitionEffects(DuelEngine engine, int player, List<PlayerCommand> actions)
     {
-        foreach (CardInstance card in engine.State.Player(player).Monsters.Where(m => m.IsFaceUp))
+        PlayerState p = engine.State.Player(player);
+        foreach (CardInstance card in p.Monsters.Where(m => m.IsFaceUp).Concat(p.Hand.Where(c => c.IsMonster)))
         {
             IReadOnlyList<IEffect> effects = engine.EffectsOf(card);
             for (int i = 0; i < effects.Count; i++)
             {
-                if (effects[i].Kind == EffectKind.Ignition)
+                if (effects[i].Kind == (card.Loc == Location.Hand ? EffectKind.SummonProcedure : EffectKind.Ignition))
                 {
                     Add(engine, actions, new ActivateEffect(player, card.Id, i));
                 }
@@ -191,7 +193,7 @@ internal static class ActionEnumerator
         var targets = s.Opponent(player).Monsters.ToList();
         foreach (CardInstance attacker in s.Player(player).Monsters)
         {
-            if (attacker.Pos != Position.FaceUpAttack || attacker.AttackedThisTurn)
+            if (attacker.Pos != Position.FaceUpAttack || (attacker.AttackedThisTurn && !attacker.Has(Restriction.AttacksEveryMonster)))
             {
                 continue;
             }

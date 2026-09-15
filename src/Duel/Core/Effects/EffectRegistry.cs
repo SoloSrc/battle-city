@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BattleCity.Duel.Core.Effects.Cards;
+using BattleCity.Duel.Core.Model;
 
 namespace BattleCity.Duel.Core.Effects;
 
@@ -13,7 +14,7 @@ public sealed class EffectRegistry
 {
     private readonly Dictionary<string, Func<IEffect>> _factories = new(StringComparer.Ordinal);
 
-    /// <summary>Every effect implemented so far: tier 1 (Pot of Greed) and tier 2 (issue #56, the 27 cards of systems.md §5.6).</summary>
+    /// <summary>Every effect implemented so far: tier 1 (Pot of Greed), tier 2 (issue #56, 27 cards) and tier 3 (issue #57, 35 cards) of systems.md §5.6.</summary>
     public static EffectRegistry CreateDefault()
     {
         var registry = new EffectRegistry();
@@ -54,6 +55,55 @@ public sealed class EffectRegistry
         registry.Register(DefenseAfterAttackEffect.GoblinAttackForceId, static () => new DefenseAfterAttackEffect(DefenseAfterAttackEffect.GoblinAttackForceId));
         registry.Register(DefenseAfterAttackEffect.GiantOrcId, static () => new DefenseAfterAttackEffect(DefenseAfterAttackEffect.GiantOrcId));
         registry.Register(GravekeepersGuardEffect.EffectId, static () => new GravekeepersGuardEffect());
+
+        // Tier 3: continuous monsters.
+        registry.Register(EnragedBattleOxEffect.EffectId, static () => new EnragedBattleOxEffect());
+        registry.Register(JinzoEffect.EffectId, static () => new JinzoEffect());
+        registry.Register(BladeKnightEffect.EffectId, static () => new BladeKnightEffect());
+        registry.Register(CommandKnightEffect.EffectId, static () => new CommandKnightEffect());
+        registry.Register(MaraudingCaptainEffect.EffectId, static () => new MaraudingCaptainEffect());
+        registry.Register(AsuraPriestEffect.EffectId, static () => new AsuraPriestEffect());
+        registry.Register(MysticSwordsmanLv2Effect.EffectId, static () => new MysticSwordsmanLv2Effect());
+        registry.Register(ReaperOnTheNightmareEffect.EffectId, static () => new ReaperOnTheNightmareEffect());
+        registry.Register(DarkBalterEffect.EffectId, static () => new DarkBalterEffect());
+
+        // Tier 3: battle triggers.
+        registry.Register(DonZaloogEffect.EffectId, static () => new DonZaloogEffect());
+        registry.Register(DDWarriorLadyEffect.EffectId, static () => new DDWarriorLadyEffect());
+        registry.Register(DDAssailantEffect.EffectId, static () => new DDAssailantEffect());
+        registry.Register(AirknightParshathEffect.EffectId, static () => new AirknightParshathEffect());
+        registry.Register(KycooEffect.EffectId, static () => new KycooEffect());
+        registry.Register(RecruiterEffect.MysticTomatoId, static () => new RecruiterEffect(RecruiterEffect.MysticTomatoId, MonsterAttribute.Dark));
+        registry.Register(RecruiterEffect.ShiningAngelId, static () => new RecruiterEffect(RecruiterEffect.ShiningAngelId, MonsterAttribute.Light));
+
+        // Tier 3: counters, summons and the Graveyard.
+        registry.Register(BreakerEffect.EffectId, static () => new BreakerEffect());
+        registry.Register(BreakerDestroyEffect.EffectId, static () => new BreakerDestroyEffect());
+        registry.Register(ChaosSorcererSummonEffect.EffectId, static () => new ChaosSorcererSummonEffect());
+        registry.Register(ChaosSorcererBanishEffect.EffectId, static () => new ChaosSorcererBanishEffect());
+        registry.Register(SkilledDarkMagicianCounterEffect.EffectId, static () => new SkilledDarkMagicianCounterEffect());
+        registry.Register(SkilledDarkMagicianSummonEffect.EffectId, static () => new SkilledDarkMagicianSummonEffect());
+        registry.Register(TribeInfectingVirusEffect.EffectId, static () => new TribeInfectingVirusEffect());
+        registry.Register(SinisterSerpentEffect.EffectId, static () => new SinisterSerpentEffect());
+        registry.Register(TsukuyomiEffect.EffectId, static () => new TsukuyomiEffect());
+
+        // Tier 3: spells.
+        registry.Register(DelinquentDuoEffect.EffectId, static () => new DelinquentDuoEffect());
+        registry.Register(PrematureBurialEffect.EffectId, static () => new PrematureBurialEffect());
+        registry.Register(SnatchStealEffect.EffectId, static () => new SnatchStealEffect());
+        registry.Register(SnatchStealUpkeepEffect.EffectId, static () => new SnatchStealUpkeepEffect());
+        registry.Register(NoblemanOfCrossoutEffect.EffectId, static () => new NoblemanOfCrossoutEffect());
+        registry.Register(EnemyControllerEffect.EffectId, static () => new EnemyControllerEffect());
+        registry.Register(ScapegoatEffect.EffectId, static () => new ScapegoatEffect());
+        registry.Register(MetamorphosisEffect.EffectId, static () => new MetamorphosisEffect());
+        registry.Register(SwordsOfRevealingLightEffect.EffectId, static () => new SwordsOfRevealingLightEffect());
+        registry.Register(CreatureSwapEffect.EffectId, static () => new CreatureSwapEffect());
+
+        // Tier 3: traps.
+        registry.Register(RingOfDestructionEffect.EffectId, static () => new RingOfDestructionEffect());
+        registry.Register(CallOfTheHauntedEffect.EffectId, static () => new CallOfTheHauntedEffect());
+        registry.Register(BottomlessTrapHoleEffect.EffectId, static () => new BottomlessTrapHoleEffect());
+        registry.Register(WabokuEffect.EffectId, static () => new WabokuEffect());
         return registry;
     }
 
