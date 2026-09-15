@@ -1,0 +1,39 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+
+DuelStagingTest PASS: characters placed on the stand points
+DuelStagingTest PASS: characters face each other
+DuelStagingTest PASS: ten card anchors per side
+DuelStagingTest PASS: monster anchors 0.22 m apart
+DuelStagingTest PASS: spell/trap row 0.28 m behind
+DuelStagingTest PASS: front row 1.00 m toward the opponent
+DuelStagingTest INFO: deck, graveyard and banished anchors on the disk markers
+DuelStagingTest PASS: camera rig holds the duel framing
+DuelStagingTest PASS: level 1 star centered at x=295
+DuelStagingTest PASS: level 12 row spans x=26..467
+DuelStagingTest PASS: 24 px between the level 12 row and the attribute
+DuelStagingTest PASS: face viewport is 590 × 860
+DuelStagingTest PASS: frame texture frame_normal.png present
+DuelStagingTest PASS: frame texture frame_effect.png present
+DuelStagingTest PASS: frame texture frame_fusion.png present
+DuelStagingTest PASS: frame texture frame_ritual.png present
+DuelStagingTest PASS: frame texture frame_spell.png present
+DuelStagingTest PASS: frame texture frame_trap.png present
+DuelStagingTest PASS: frame texture card_back.png present
+DuelStagingTest PASS: star, attribute and badge icons present
+DuelStagingTest PASS: level 12 fixture composes twelve stars, attribute and stats
+DuelStagingTest PASS: ritual fixture takes the ritual frame
+DuelStagingTest INFO: engine started: starter vs rookie_beatdown, seed 7, 40 + 40 cards
+DuelStagingTest PASS: one card view per card (80 of 80)
+DuelStagingTest PASS: every card view starts on the anchor its state says (deck, opening hands)
+DuelStagingTest PASS: player drew the opening hand and the turn 1 card
+DuelStagingTest INFO: faces: 32 viewports pending, 0 baked
+DuelStagingTest INFO: 43 commands, turn 6, Battle, LP 0/8000, over: True
+DuelStagingTest PASS: 43 agent commands played
+DuelStagingTest PASS: 32 card moves driven by the engine
+DuelStagingTest PASS: 378 engine events applied
+DuelStagingTest PASS: card views matched the engine after every command (0 frames off)
+DuelStagingTest PASS: 7 cards on the field at the end
+DuelStagingTest PASS: duel camera reached pitch 15.0°, 5.50 m, fov 40.0°
+DuelStagingTest INFO: 0 faces baked, 32 viewports kept (headless keeps them all)
+DuelStagingTest PASS: player in a duel state (Lose)
+DuelStagingTest summary: 31 pass, 0 fail
