@@ -533,7 +533,40 @@ Owns everything 3D during a duel. On start it:
 Cards are `CardView` instances: a quad with the frame texture, art
 texture, stars, attribute and stat labels rendered as a `SubViewport`
 texture at 590 × 860, plus an emissive edge material. Attack = upright,
-Defence = rotated 90° about Y, face-down = flipped, with a 0.15 s tween.
+Defence = rotated 90° in the card's plane (about its Z), face-down =
+turned 180° about Y, with a 0.15 s tween.
+
+Implementation (issue #60):
+
+- `DuelStaging.Stage` builds a side root per duelist at the stand point,
+  looking at the other; under it the `CardAnchors` grid (`m1..m5`,
+  `st1..st5`), a `hand` row beside the body on the free hand's side (0.62 m
+  out, 0.25 m forward, 0.95 m up, 0.11 m between cards) so the camera behind
+  the duelist sees it, and the deck, graveyard and banished piles on the
+  `DuelDisk` markers, or on fallback anchors when the prop is missing. Piles
+  stack 1.5 mm per card along the marker normal.
+- `DuelStaging.Bind(engine)` makes one `CardView` per `CardInstance` and
+  marks itself dirty on every engine event; `Sync` then reconciles every
+  card with its `CardInstance` (`Loc`, `ZoneIndex`, `Controller`, `Pos`):
+  the position of a card is always what the state says, the events only
+  drive the transient effects (reveal on draw and activation, the attack
+  lunge, the character's draw / play / hit / win / lose states, dissolve for
+  tokens that left). Tokens get a view when they first appear.
+- The owner's face-up cards face +Z of their anchor (toward the owner and
+  the camera behind them); the opponent's are mirrored so both sides read
+  from the player's camera. The opponent's hand is face-down.
+- `CardFaces` composes a face once per card id in a 590 × 860 `SubViewport`
+  (§6.2), bakes it to an `ImageTexture` after two frames and frees the
+  viewport; headless runs keep the viewport texture. Stats use a system
+  serif (`DejaVu Serif`, `Georgia`, `Times New Roman`, then the default
+  font) at 80 px, centered on the plates by the font's metrics.
+- `CameraRig.EnterDuel(focus, yaw, pitch, distance, fov, blendTime)` blends
+  from the current pose to a held framing and ignores bounds while it holds;
+  `ExitDuel` blends back to following. `DuelStaging.EnterCamera` uses the
+  §4.2 duel column: behind the player's shoulder, looking down the axis,
+  15° / 5.5 m / 40° over 1.2 s (exported on the node until `tuning.json`
+  lands with #63).
+- `tests/scenes/DuelStagingTest.tscn` is the acceptance (tests/scenes/README.md).
 
 ### 6.2 Card face layout and art window
 

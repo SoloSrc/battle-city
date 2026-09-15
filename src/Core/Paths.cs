@@ -33,6 +33,8 @@ public static class Paths
     public const string HologramOpponentMaterial = "res://shaders/materials/hologram_opponent.tres";
     public const string CardFrames = "res://assets/cards/frames";
     public const string CardBack = CardFrames + "/card_back.png";
+    public const string CardIcons = "res://assets/cards/icons";
+    public const string CardArt = "res://assets/cards/art";
 
     // Pipeline smoke-test deliverables (asset-list.md §0). Owned by gpt-astra.
     public const string SmokeTestScene = "res://tests/scenes/SmokeTest.tscn";
@@ -41,6 +43,7 @@ public static class Paths
     public const string CameraFramingScene = "res://tests/scenes/CameraFraming.tscn";
     public const string MarkersTestScene = "res://tests/scenes/MarkersTest.tscn";
     public const string DistrictTestScene = "res://tests/scenes/DistrictTest.tscn";
+    public const string DuelStagingTestScene = "res://tests/scenes/DuelStagingTest.tscn";
     public const string SmokeCube = "res://assets/kit/kit_test_cube_1m.glb";
     public const string SmokeCharacterBody = "res://assets/characters/body/char_a_body.glb";
     public const string CharacterAnims = "res://assets/characters/anims/character_anims.glb";
