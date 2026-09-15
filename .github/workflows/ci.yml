@@ -29,6 +29,8 @@ jobs:
         run: dotnet test tests/Duel.Core.Tests --no-build --configuration Debug --logger "trx;LogFileName=duel-core.trx"
       - name: Data tests
         run: dotnet test tests/Data.Tests --no-build --configuration Debug --logger "trx;LogFileName=data.trx"
+      - name: Duel simulation smoke
+        run: dotnet run --project tools/duel_sim --no-build --configuration Debug -- --games 2
       - name: Validate game data
         run: python3 tools/validate_data.py --root data
       - name: Validator catches bad data

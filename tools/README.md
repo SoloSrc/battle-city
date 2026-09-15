@@ -33,3 +33,18 @@
   any failure. CI runs it on `data/` (must pass) and on `tests/data_bad/`
   (must fail with the expected messages). The C# loaders enforce the same
   rules; the script is the no-build gate.
+- `duel_sim/`: the AI harness of systems.md §7 (issue #59), a console project
+  in the solution:
+
+  ```bash
+  dotnet run --project tools/duel_sim -- --games 100 --check
+  ```
+
+  Plays seeded matchups between the duelist profiles of
+  `data/duelists.json`, the decks of `data/decks/` and a random agent
+  (sides alternate every game) and prints a Markdown win-rate table. Without
+  `--matchup` it plays the acceptance matrix; `--matchup "nico:rookie_beatdown vs random:starter"`
+  picks one, `--seed` moves the seed base, `--data` points at another data
+  tree (for trying profiles), and `--check` exits 1 when a GDD §3.5 target is
+  missed. CI runs a two-game smoke.
+
