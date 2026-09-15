@@ -192,12 +192,23 @@ public sealed class MysticSwordsmanLv2Effect : EffectBase
     }
 }
 
-/// <summary>Reaper on the Nightmare: attacks directly, cannot be destroyed by battle, is destroyed when targeted; when it inflicts battle damage by a direct attack, the opponent discards 1 random card.</summary>
-public sealed class ReaperOnTheNightmareEffect : EffectBase
+/// <summary>Spirit Reaper and Reaper on the Nightmare: attacks directly (the Fusion only), cannot be destroyed by battle, is destroyed when targeted; when it inflicts battle damage by a direct attack, the opponent discards 1 random card.</summary>
+public sealed class ReaperEffect : EffectBase
 {
-    public const string EffectId = "reaper_on_the_nightmare";
+    public const string SpiritReaperId = "spirit_reaper";
 
-    public override string Id => EffectId;
+    public const string ReaperOnTheNightmareId = "reaper_on_the_nightmare";
+
+    public ReaperEffect(string id, bool attacksDirectly)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(id);
+        Id = id;
+        AttacksDirectly = attacksDirectly;
+    }
+
+    public override string Id { get; }
+
+    public bool AttacksDirectly { get; }
 
     public override EffectKind Kind => EffectKind.Trigger;
 
@@ -225,7 +236,11 @@ public sealed class ReaperOnTheNightmareEffect : EffectBase
     public override IEnumerable<Modifier> Modifiers(DuelState state, CardInstance source)
     {
         ArgumentNullException.ThrowIfNull(source);
-        yield return Modifier.OnCard(ModifierKind.CanAttackDirectly, source.Id, source.Id);
+        if (AttacksDirectly)
+        {
+            yield return Modifier.OnCard(ModifierKind.CanAttackDirectly, source.Id, source.Id);
+        }
+
         yield return Modifier.OnCard(ModifierKind.CannotBeDestroyedByBattle, source.Id, source.Id);
         yield return Modifier.OnCard(ModifierKind.DestroyedWhenTargeted, source.Id, source.Id);
     }

@@ -93,6 +93,12 @@ public sealed record ControlChanged(Guid Card, string CardId, int From, int To, 
 
 public sealed record CardEquipped(int Player, Guid Equip, string EquipId, Guid Target) : DuelEvent;
 
+/// <summary>A monster on the field became an Equip Card attached to <see cref="Target"/> (Thousand-Eyes Restrict); it now sits in <see cref="Zone"/> of the Spell &amp; Trap Zones.</summary>
+public sealed record MonsterAbsorbed(int Player, Guid Card, string CardId, int Zone, Guid Target) : DuelEvent;
+
+/// <summary>Cards shown to both players (Cyber Jar's top five).</summary>
+public sealed record CardsRevealed(int Player, IReadOnlyList<Guid> Cards) : DuelEvent;
+
 /// <summary>A face-up monster was turned face-down (Book of Moon); its equips are destroyed.</summary>
 public sealed record MonsterFlippedFaceDown(int Player, Guid Card, string CardId) : DuelEvent;
 

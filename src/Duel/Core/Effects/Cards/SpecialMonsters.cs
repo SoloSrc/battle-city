@@ -92,12 +92,20 @@ public sealed class BreakerDestroyEffect : EffectBase
     }
 }
 
-/// <summary>Chaos Sorcerer's summon: cannot be Normal Summoned or Set; Special Summoned from the hand by banishing 1 LIGHT and 1 DARK monster from your Graveyard.</summary>
-public sealed class ChaosSorcererSummonEffect : EffectBase
+/// <summary>Chaos Sorcerer and Black Luster Soldier - Envoy of the Beginning: cannot be Normal Summoned or Set; Special Summoned from the hand by banishing 1 LIGHT and 1 DARK monster from your Graveyard.</summary>
+public sealed class ChaosSummonEffect : EffectBase
 {
-    public const string EffectId = "chaos_sorcerer";
+    public const string ChaosSorcererId = "chaos_sorcerer";
 
-    public override string Id => EffectId;
+    public const string BlackLusterSoldierId = "black_luster_soldier_envoy_of_the_beginning";
+
+    public ChaosSummonEffect(string id)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(id);
+        Id = id;
+    }
+
+    public override string Id { get; }
 
     public override EffectKind Kind => EffectKind.SummonProcedure;
 

@@ -192,7 +192,7 @@ public class TierThreeTests
         Scenario.PassUntil(engine, s => s.Window == Window.Open); // the Book of Moon in hand keeps the attack windows from being passed for
         Assert.Equal(8000 - 800, engine.State.Player(1).LifePoints);
         Assert.Equal(handBefore - 1, engine.State.Player(1).Hand.Count);
-        Assert.Contains(engine.Events, e => e is EffectActivated { EffectId: ReaperOnTheNightmareEffect.EffectId });
+        Assert.Contains(engine.Events, e => e is EffectActivated { EffectId: ReaperEffect.ReaperOnTheNightmareId });
 
         Scenario.PassUntil(engine, s => s.TurnNumber == 4 && s.Phase == Phase.Main1);
         Scenario.EnterBattle(engine);
@@ -924,7 +924,7 @@ public class TierThreeTests
         Assert.False(engine.State.Player(1).Has(PlayerRestriction.NoBattleDamage));
     }
 
-    // ----- Acceptance: the three tier 3 lists are playable by the heuristic agents -----
+    // ----- Acceptance: the tier 3 lists are playable by the heuristic agents -----
 
     [Theory]
     [InlineData("rookie_beatdown", "rookie_beatdown", 1UL)]
@@ -946,30 +946,18 @@ public class TierThreeTests
         Assert.InRange(engine.State.TurnNumber, 3, 120);
     }
 
-    /// <summary>A list from <c>data/decks/</c> with its tier 4 cards (Cyber Jar, issue #58) dropped and the slots filled with its own vanilla monsters.</summary>
+    /// <summary>A list from <c>data/decks/</c>, main and Fusion Deck, exactly as the game plays it.</summary>
     internal static Deck RealDeck(string id)
     {
         using JsonDocument doc = JsonDocument.Parse(File.ReadAllText(Path.Combine(Cards.DecksDirectory, id + ".json")));
         var main = new List<CardDefinition>();
         foreach (JsonProperty entry in doc.RootElement.GetProperty("main").EnumerateObject())
         {
-            CardDefinition card = Cards.Real(entry.Name);
-            if (card.Tier <= 3)
-            {
-                main.AddRange(Enumerable.Repeat(card, entry.Value.GetInt32()));
-            }
-        }
-
-        var filler = main.Where(c => c.IsVanilla).Distinct().ToList();
-        for (int i = 0; main.Count < Scenario.DeckSize; i++)
-        {
-            main.Add(filler[i % filler.Count]);
+            main.AddRange(Enumerable.Repeat(Cards.Real(entry.Name), entry.Value.GetInt32()));
         }
 
         var fusion = doc.RootElement.GetProperty("fusion").EnumerateObject()
-            .Select(entry => (Card: Cards.Real(entry.Name), Count: entry.Value.GetInt32()))
-            .Where(f => f.Card.Tier <= 3)
-            .SelectMany(f => Enumerable.Repeat(f.Card, f.Count))
+            .SelectMany(entry => Enumerable.Repeat(Cards.Real(entry.Name), entry.Value.GetInt32()))
             .ToList();
         return new Deck(main, fusion);
     }

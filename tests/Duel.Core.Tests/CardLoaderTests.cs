@@ -19,11 +19,12 @@ public class CardLoaderTests
         Assert.Equal(13, library.All.Count(c => c.Tier == 1));
         Assert.Equal(27, library.All.Count(c => c.Tier == 2));
         Assert.Equal(35, library.All.Count(c => c.Tier == 3));
+        Assert.Equal(4, library.All.Count(c => c.Tier == 4));
         Assert.All(library.All.Where(c => c.Tier > 1), c => Assert.NotEmpty(c.Effects));
 
-        // Every tier 1, 2 and 3 effect is implemented; the acceptance of issues #56 and #57.
+        // Every effect of the pool is implemented; the acceptance of issues #56, #57 and #58.
         EffectRegistry registry = EffectRegistry.CreateDefault();
-        Assert.All(library.All.Where(c => c.Tier <= 3).SelectMany(c => c.Effects), e => Assert.True(registry.Contains(e), $"effect '{e}' is not implemented"));
+        Assert.All(library.All.SelectMany(c => c.Effects), e => Assert.True(registry.Contains(e), $"effect '{e}' is not implemented"));
 
         CardDefinition elf = library["gemini_elf"];
         Assert.Equal("Gemini Elf", elf.Name);
@@ -82,13 +83,12 @@ public class CardLoaderTests
     [Fact]
     public void StubEffectsLoadButCannotBeDuelled()
     {
-        CardLibrary library = new CardLoader().LoadDirectory(Cards.DataDirectory);
-        CardDefinition jar = library["cyber_jar"];
-        var deck = new Deck(Enumerable.Repeat(jar, 40).ToList());
+        CardDefinition stub = new CardLoader().Parse("""{"id":"x","name":"X","kind":"monster","monster":{"type":"Beast","attribute":"EARTH","level":4,"atk":1,"def":1,"category":"effect"},"tier":4,"limit":3,"effects":["not_yet"]}""");
+        var deck = new Deck(Enumerable.Repeat(stub, 40).ToList());
 
-        Assert.Equal(new[] { "cyber_jar" }, jar.Effects);
+        Assert.Equal(new[] { "not_yet" }, stub.Effects);
         var error = Assert.Throws<System.ArgumentException>(() => DuelEngine.Start(deck, deck));
-        Assert.Contains("effects that are not implemented: cyber_jar", error.Message);
+        Assert.Contains("effects that are not implemented: not_yet", error.Message);
     }
 
     [Fact]
@@ -97,6 +97,6 @@ public class CardLoaderTests
         EffectRegistry registry = EffectRegistry.CreateDefault();
 
         Assert.True(registry.Contains(PotOfGreedEffect.EffectId));
-        Assert.Throws<System.Collections.Generic.KeyNotFoundException>(() => registry.Create("cyber_jar"));
+        Assert.Throws<System.Collections.Generic.KeyNotFoundException>(() => registry.Create("not_yet"));
     }
 }
