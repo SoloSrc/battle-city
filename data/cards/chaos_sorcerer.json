@@ -16,6 +16,7 @@
   "limit": 3,
   "tier": 3,
   "effects": [
-    "chaos_sorcerer"
+    "chaos_sorcerer",
+    "chaos_sorcerer_banish"
   ]
 }

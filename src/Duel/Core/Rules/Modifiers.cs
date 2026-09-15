@@ -123,6 +123,8 @@ internal static class Modifiers
             {
                 ModifierKind.NoBattleDamage => PlayerRestriction.NoBattleDamage,
                 ModifierKind.TrapsNegated => PlayerRestriction.TrapsNegated,
+                ModifierKind.CannotBanishFromGraveyard => PlayerRestriction.CannotBanishFromGraveyard,
+                ModifierKind.CannotSummon => PlayerRestriction.CannotSummon,
                 _ => PlayerRestriction.None,
             };
         }
@@ -152,6 +154,11 @@ internal static class Modifiers
                     ModifierKind.MustAttack => Restriction.MustAttack,
                     ModifierKind.DestroyedInDefensePosition => Restriction.DestroyedInDefensePosition,
                     ModifierKind.DefenseAfterAttack => Restriction.DefenseAfterAttack,
+                    ModifierKind.NegatesFlipEffectsOfDestroyed => Restriction.NegatesFlipEffectsOfDestroyed,
+                    ModifierKind.NegatesEffectsOfDestroyed => Restriction.NegatesEffectsOfDestroyed,
+                    ModifierKind.DestroysFaceDownTargets => Restriction.DestroysFaceDownTargets,
+                    ModifierKind.AttacksEveryMonster => Restriction.AttacksEveryMonster,
+                    ModifierKind.DestroyedWhenTargeted => Restriction.DestroyedWhenTargeted,
                     _ => Restriction.None,
                 };
                 break;

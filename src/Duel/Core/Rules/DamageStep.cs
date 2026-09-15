@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BattleCity.Duel.Core.Effects;
@@ -32,6 +33,13 @@ internal static class DamageStep
 
         TurnFlow.SetBattleStep(engine, BattleStep.Damage);
         SetSubstep(engine, DamageSubstep.StartDamage);
+        if (target is { IsFaceDown: true } && attacker.Has(Restriction.DestroysFaceDownTargets))
+        {
+            // Mystic Swordsman LV2: the face-down target is destroyed without being flipped; no damage calculation follows.
+            engine.Destroy(target, DestroyReason.Effect);
+            target = null;
+        }
+
         SetSubstep(engine, DamageSubstep.BeforeCalc);
         if (target is { IsFaceDown: true })
         {
@@ -53,20 +61,56 @@ internal static class DamageStep
 
         SetSubstep(engine, DamageSubstep.Calc);
         var destroyed = new List<CardInstance>();
-        if (attacker is { Loc: Location.MonsterZone } && (target is null || target.Loc == Location.MonsterZone))
+        var damagers = new List<CardInstance>();
+        bool fought = attacker is { Loc: Location.MonsterZone } && (target is null || target.Loc == Location.MonsterZone);
+        if (fought)
         {
-            destroyed = Resolve(engine, attacker, target);
+            destroyed = Resolve(engine, attacker!, target, damagers);
         }
 
         SetSubstep(engine, DamageSubstep.AfterCalc);
+        // A monster destroyed by Dark Balter loses every trigger; one destroyed by a lone Blade Knight only its Flip Effect.
+        var silenced = new HashSet<Guid>();
+        bool flipNegated = false;
         foreach (CardInstance card in destroyed.Where(c => !c.Has(Restriction.CannotBeDestroyedByBattle)))
         {
-            engine.Destroy(card, DestroyReason.Battle);
+            CardInstance? other = card == attacker ? target : attacker;
+            bool negated = other is not null && other.Has(Restriction.NegatesEffectsOfDestroyed);
+            if (negated)
+            {
+                silenced.Add(card.Id);
+            }
+
+            if (card.Id == s.BattleFlipped && (negated || (other is not null && other.Has(Restriction.NegatesFlipEffectsOfDestroyed))))
+            {
+                flipNegated = true;
+            }
+
+            engine.Destroy(card, DestroyReason.Battle, other?.Id, negated);
         }
 
-        if (s.BattleFlipped is { } flipped && s.Find(flipped) is { } flippedCard)
+        if (s.BattleFlipped is { } flipped && s.Find(flipped) is { } flippedCard && !flipNegated)
         {
             engine.QueueTriggers(flippedCard, TriggerWindow.OnFlip);
+        }
+
+        if (fought && !s.IsOver)
+        {
+            if (target is not null)
+            {
+                foreach ((CardInstance card, CardInstance other) in new[] { (attacker!, target), (target, attacker!) })
+                {
+                    if (!silenced.Contains(card.Id))
+                    {
+                        engine.QueueTriggers(card, TriggerWindow.OnBattle, battled: other.Id);
+                    }
+                }
+            }
+
+            foreach (CardInstance card in damagers.Where(c => !silenced.Contains(c.Id)))
+            {
+                engine.QueueTriggers(card, TriggerWindow.OnBattleDamage, battled: card == attacker ? target?.Id : attacker!.Id);
+            }
         }
 
         if (s.IsOver)
@@ -84,8 +128,8 @@ internal static class DamageStep
         Finish(engine);
     }
 
-    /// <summary>Damage calculation (GDD §3.2): a piercing attacker inflicts the difference over a Defense Position target. Returns the monsters battle would destroy.</summary>
-    private static List<CardInstance> Resolve(DuelEngine engine, CardInstance attacker, CardInstance? target)
+    /// <summary>Damage calculation (GDD §3.2): a piercing attacker inflicts the difference over a Defense Position target. Returns the monsters battle would destroy; <paramref name="damagers"/> collects the monsters that inflicted battle damage.</summary>
+    private static List<CardInstance> Resolve(DuelEngine engine, CardInstance attacker, CardInstance? target, List<CardInstance> damagers)
     {
         var destroyed = new List<CardInstance>();
         int attackerPlayer = attacker.Controller;
@@ -93,7 +137,11 @@ internal static class DamageStep
 
         if (target is null)
         {
-            engine.Damage(1 - attackerPlayer, atk, attacker.Id);
+            if (engine.Damage(1 - attackerPlayer, atk, attacker.Id))
+            {
+                damagers.Add(attacker);
+            }
+
             return destroyed;
         }
 
@@ -104,12 +152,18 @@ internal static class DamageStep
             if (diff > 0)
             {
                 destroyed.Add(target);
-                engine.Damage(defenderPlayer, diff, attacker.Id);
+                if (engine.Damage(defenderPlayer, diff, attacker.Id))
+                {
+                    damagers.Add(attacker);
+                }
             }
             else if (diff < 0)
             {
                 destroyed.Add(attacker);
-                engine.Damage(attackerPlayer, -diff, target.Id);
+                if (engine.Damage(attackerPlayer, -diff, target.Id))
+                {
+                    damagers.Add(target);
+                }
             }
             else
             {
@@ -123,14 +177,14 @@ internal static class DamageStep
             if (diff > 0)
             {
                 destroyed.Add(target);
-                if (attacker.Has(Restriction.Piercing))
+                if (attacker.Has(Restriction.Piercing) && engine.Damage(defenderPlayer, diff, attacker.Id))
                 {
-                    engine.Damage(defenderPlayer, diff, attacker.Id);
+                    damagers.Add(attacker);
                 }
             }
-            else if (diff < 0)
+            else if (diff < 0 && engine.Damage(attackerPlayer, -diff, target.Id))
             {
-                engine.Damage(attackerPlayer, -diff, target.Id);
+                damagers.Add(target);
             }
         }
 

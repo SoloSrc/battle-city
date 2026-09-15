@@ -157,10 +157,12 @@ internal static class TurnFlow
 
     /// <summary>
     /// Enters a phase. The End Phase first ends what lasts "until the end of
-    /// the turn": timed modifiers expire, temporary control returns and
-    /// Spirit monsters Summoned or flipped this turn go back to the hand;
-    /// then the Standby and End Phases fire the triggers of every face-up
-    /// card on the field, turn player's side first.
+    /// the turn": timed modifiers expire, temporary control returns, Spirit
+    /// monsters Summoned or flipped this turn go back to the hand and cards
+    /// whose turns ran out (Swords of Revealing Light) are destroyed; then the
+    /// Standby and End Phases fire the triggers of every face-up card on the
+    /// field and every card in a Graveyard (Sinister Serpent), turn player's
+    /// side first.
     /// </summary>
     public static void SetPhase(DuelEngine engine, Phase phase)
     {
@@ -185,7 +187,7 @@ internal static class TurnFlow
 
         foreach (PlayerState p in new[] { s.Current, s.Opponent(s.TurnPlayer) })
         {
-            foreach (CardInstance card in p.Monsters.Concat(p.SpellTraps).Where(c => c.IsFaceUp).ToList())
+            foreach (CardInstance card in p.Monsters.Concat(p.SpellTraps).Where(c => c.IsFaceUp).Concat(p.Graveyard).ToList())
             {
                 engine.QueueTriggers(card, window.Value);
             }
@@ -205,6 +207,11 @@ internal static class TurnFlow
         {
             engine.Emit(new SpiritReturned(card.Controller, card.Id, card.Def.Id));
             engine.ReturnToHand(card);
+        }
+
+        foreach (CardInstance card in s.Players.SelectMany(p => p.SpellTraps).Where(c => c.LeavesAfterTurn is { } t && t <= s.TurnNumber).ToList())
+        {
+            engine.Destroy(card, DestroyReason.Effect);
         }
 
         engine.Refresh();

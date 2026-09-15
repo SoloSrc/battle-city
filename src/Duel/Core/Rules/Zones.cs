@@ -81,7 +81,8 @@ internal static class Zones
         return true;
     }
 
-    public static void ToGraveyard(DuelEngine engine, CardInstance card)
+    /// <summary>Sends a card to its owner's Graveyard; with <paramref name="silent"/> its graveyard triggers do not fire (its effects were negated).</summary>
+    public static void ToGraveyard(DuelEngine engine, CardInstance card, bool silent = false)
     {
         Location from = card.Loc;
         if (!Detach(engine, card))
@@ -93,7 +94,10 @@ internal static class Zones
         engine.State.Player(card.Owner).Graveyard.Add(card);
         engine.Emit(new CardSentToGraveyard(card.Owner, card.Id, card.Def.Id, from));
         engine.Refresh();
-        engine.QueueTriggers(card, TriggerWindow.OnSentToGrave, from);
+        if (!silent)
+        {
+            engine.QueueTriggers(card, TriggerWindow.OnSentToGrave, from);
+        }
     }
 
     public static void ToBanished(DuelEngine engine, CardInstance card)

@@ -16,6 +16,7 @@
   "limit": 3,
   "tier": 3,
   "effects": [
-    "skilled_dark_magician"
+    "skilled_dark_magician",
+    "skilled_dark_magician_summon"
   ]
 }

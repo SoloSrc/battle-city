@@ -43,6 +43,20 @@ public class FuzzTests
         "berserk_gorilla", "goblin_attack_force", "giant_orc", "gravekeepers_guard",
     }.Select(Cards.Real).ToArray();
 
+    /// <summary>Every real tier 3 card (issue #57) with the tier 2 pool's monsters to fight over; the two Fusion monsters ride in the Fusion Deck for Metamorphosis.</summary>
+    private static readonly CardDefinition[] _tier3Pool = new[]
+    {
+        "gemini_elf", "mystical_elf", "sangan", "exiled_force", "magician_of_faith", "book_of_moon", "sakuretsu_armor",
+        "enraged_battle_ox", "jinzo", "blade_knight", "don_zaloog", "dd_warrior_lady", "dd_assailant", "mystic_swordsman_lv2",
+        "marauding_captain", "command_knight", "chaos_sorcerer", "airknight_parshath", "breaker_the_magical_warrior",
+        "tribe_infecting_virus", "sinister_serpent", "tsukuyomi", "asura_priest", "skilled_dark_magician", "kycoo_the_ghost_destroyer",
+        "mystic_tomato", "shining_angel", "delinquent_duo", "premature_burial", "snatch_steal", "nobleman_of_crossout",
+        "enemy_controller", "scapegoat", "metamorphosis", "swords_of_revealing_light", "creature_swap",
+        "ring_of_destruction", "call_of_the_haunted", "bottomless_trap_hole", "waboku",
+    }.Select(Cards.Real).ToArray();
+
+    private static readonly CardDefinition[] _tier3Fusion = new[] { "dark_balter_the_terrible", "reaper_on_the_nightmare" }.Select(Cards.Real).ToArray();
+
     public static IEnumerable<object[]> Seeds() => Enumerable.Range(1, 20).Select(i => new object[] { (ulong)i });
 
     [Theory]
@@ -74,6 +88,17 @@ public class FuzzTests
     public void RandomDuelsWithTierTwoCardsKeepTheInvariantsAndEnd(ulong seed)
     {
         DuelEngine engine = Run(seed, _tier2Pool);
+
+        Assert.Empty(engine.State.Chain);
+        Assert.Null(engine.State.PendingChoice);
+        Assert.Null(engine.State.ResolvingLink);
+    }
+
+    [Theory]
+    [MemberData(nameof(Seeds))]
+    public void RandomDuelsWithTierThreeCardsKeepTheInvariantsAndEnd(ulong seed)
+    {
+        DuelEngine engine = Run(seed, _tier3Pool, _tier3Fusion);
 
         Assert.Empty(engine.State.Chain);
         Assert.Null(engine.State.PendingChoice);
@@ -151,7 +176,7 @@ public class FuzzTests
                 }
             }
 
-            Assert.All(cards.Where(c => !c.IsOnField), c => Assert.True(c.EquippedTo is null && c.Counters.Count == 0 && c.AtkBonus == 0 && c.Restrictions == Restriction.None, $"{c} kept field state off the field"));
+            Assert.All(cards.Where(c => !c.IsOnField), c => Assert.True(c.EquippedTo is null && c.Counters.Count == 0 && c.AtkBonus == 0 && c.Restrictions == Restriction.None && c.LeavesAfterTurn is null && c.AttackTargetsThisTurn.Count == 0, $"{c} kept field state off the field"));
         }
 
         // Every stored modifier on a card names a card on the field.

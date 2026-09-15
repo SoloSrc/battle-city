@@ -91,7 +91,7 @@ internal static class BattleRules
             return "only a face-up Attack Position monster can attack";
         }
 
-        if (attacker.AttackedThisTurn)
+        if (attacker.AttackedThisTurn && !(attacker.Has(Restriction.AttacksEveryMonster) && targetId is { } again && !attacker.AttackTargetsThisTurn.Contains(again)))
         {
             return $"{attacker.Def.Name} already attacked this turn";
         }
@@ -169,6 +169,11 @@ internal static class BattleRules
         DuelState s = engine.State;
         CardInstance attacker = Zones.OnField(s, player, attackerId)!;
         attacker.AttackedThisTurn = true;
+        if (targetId is { } target)
+        {
+            attacker.AttackTargetsThisTurn.Add(target);
+        }
+
         s.Attacker = attackerId;
         s.AttackTarget = targetId;
         engine.Emit(new AttackDeclared(player, attackerId, targetId));

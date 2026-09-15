@@ -16,6 +16,7 @@
   "limit": 1,
   "tier": 3,
   "effects": [
-    "breaker_the_magical_warrior"
+    "breaker_the_magical_warrior",
+    "breaker_the_magical_warrior_destroy"
   ]
 }

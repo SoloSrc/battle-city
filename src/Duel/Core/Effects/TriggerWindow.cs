@@ -20,4 +20,13 @@ public enum TriggerWindow
 
     /// <summary>The End Phase began with the card face-up on the field.</summary>
     EndPhase,
+
+    /// <summary>The card battled a monster (fires after damage calculation for both monsters, wherever they ended up); <c>ActivationContext.Battled</c> is the other monster.</summary>
+    OnBattle,
+
+    /// <summary>The card inflicted battle damage to a player (fires after damage calculation); <c>ActivationContext.Battled</c> is the monster it fought, null for a direct attack.</summary>
+    OnBattleDamage,
+
+    /// <summary>A Spell Card was activated while the card was face-up on the field (Skilled Dark Magician's counters).</summary>
+    SpellActivated,
 }

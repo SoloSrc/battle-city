@@ -20,9 +20,15 @@ public abstract class EffectBase : IEffect
 
     public virtual TriggerWindow? Trigger => null;
 
+    public virtual SummonLimit Limits => SummonLimit.None;
+
+    public virtual bool RemainsOnField => false;
+
     public virtual bool UsableInDamageStep => false;
 
     public virtual bool OncePerTurn => false;
+
+    public virtual bool FiresIn(TriggerWindow window) => Trigger == window;
 
     public virtual bool CanActivate(DuelState state, CardInstance source, ActivationContext context)
     {

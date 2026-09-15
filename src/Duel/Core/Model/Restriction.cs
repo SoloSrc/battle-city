@@ -24,6 +24,21 @@ public enum Restriction
 
     /// <summary>Switched to Defense Position at the end of a Battle Phase in which it attacked, then locked until the end of its controller's next turn (Goblin Attack Force, Giant Orc).</summary>
     DefenseAfterAttack = 1 << 10,
+
+    /// <summary>The Flip Effects of monsters it destroys by battle do not fire (Blade Knight while it is its controller's only monster).</summary>
+    NegatesFlipEffectsOfDestroyed = 1 << 11,
+
+    /// <summary>The effects of monsters it destroys by battle are negated: no flip, battle-destruction or graveyard trigger fires for them (Dark Balter the Terrible).</summary>
+    NegatesEffectsOfDestroyed = 1 << 12,
+
+    /// <summary>A face-down Defense Position monster it attacks is destroyed at the start of the Damage Step without being flipped (Mystic Swordsman LV2).</summary>
+    DestroysFaceDownTargets = 1 << 13,
+
+    /// <summary>May attack every monster the opponent controls once each in the same Battle Phase (Asura Priest).</summary>
+    AttacksEveryMonster = 1 << 14,
+
+    /// <summary>Destroyed when it becomes the target of a card effect (Reaper on the Nightmare).</summary>
+    DestroyedWhenTargeted = 1 << 15,
 }
 
 /// <summary>What the active modifiers impose on a player; recomputed by the engine, read by the rules.</summary>
@@ -33,4 +48,10 @@ public enum PlayerRestriction
     None = 0,
     NoBattleDamage = 1 << 0,
     TrapsNegated = 1 << 1,
+
+    /// <summary>Cannot banish cards from either Graveyard (the opponent of Kycoo the Ghost Destroyer).</summary>
+    CannotBanishFromGraveyard = 1 << 2,
+
+    /// <summary>Cannot Normal, Flip or Special Summon this turn; Sets are still allowed (Scapegoat).</summary>
+    CannotSummon = 1 << 3,
 }

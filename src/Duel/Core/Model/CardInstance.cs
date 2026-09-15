@@ -20,6 +20,7 @@ public sealed class CardInstance
         Pos = Position.FaceDown;
         Counters = new Dictionary<string, int>(StringComparer.Ordinal);
         ActivationsThisTurn = new Dictionary<string, int>(StringComparer.Ordinal);
+        AttackTargetsThisTurn = new List<Guid>();
     }
 
     private CardInstance(CardInstance other)
@@ -41,8 +42,10 @@ public sealed class CardInstance
         FlippedThisTurn = other.FlippedThisTurn;
         ChangedPositionThisTurn = other.ChangedPositionThisTurn;
         AttackedThisTurn = other.AttackedThisTurn;
+        LeavesAfterTurn = other.LeavesAfterTurn;
         Counters = new Dictionary<string, int>(other.Counters, StringComparer.Ordinal);
         ActivationsThisTurn = new Dictionary<string, int>(other.ActivationsThisTurn, StringComparer.Ordinal);
+        AttackTargetsThisTurn = new List<Guid>(other.AttackTargetsThisTurn);
     }
 
     public Guid Id { get; }
@@ -88,6 +91,12 @@ public sealed class CardInstance
 
     public bool AttackedThisTurn { get; set; }
 
+    /// <summary>The monsters this card attacked this turn, for a monster that may attack each of the opponent's monsters once (Asura Priest).</summary>
+    public List<Guid> AttackTargetsThisTurn { get; }
+
+    /// <summary>For a card that stays on the field for a fixed number of turns (Swords of Revealing Light): destroyed at the End Phase of this turn number.</summary>
+    public int? LeavesAfterTurn { get; set; }
+
     public Dictionary<string, int> Counters { get; }
 
     /// <summary>Activations of each of this card's effects this turn, by effect id (once-per-turn tracking).</summary>
@@ -128,6 +137,7 @@ public sealed class CardInstance
         ChangedPositionThisTurn = false;
         AttackedThisTurn = false;
         ActivationsThisTurn.Clear();
+        AttackTargetsThisTurn.Clear();
     }
 
     /// <summary>Clears field-only state when the card leaves the field.</summary>
@@ -139,6 +149,7 @@ public sealed class CardInstance
         Restrictions = Restriction.None;
         EquippedTo = null;
         ControlReturnsAfterTurn = null;
+        LeavesAfterTurn = null;
         ZoneIndex = -1;
         Pos = Position.FaceDown;
         Counters.Clear();

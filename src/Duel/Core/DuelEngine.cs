@@ -110,8 +110,8 @@ public sealed class DuelEngine
         return command switch
         {
             Pass => TurnFlow.ValidatePass(State, command.Player, Options),
-            NormalSummon c => SummonRules.ValidateNormalSummon(State, c.Player, c.Card, c.Tributes, set: false),
-            SetMonster c => SummonRules.ValidateNormalSummon(State, c.Player, c.Card, c.Tributes, set: true),
+            NormalSummon c => SummonRules.ValidateNormalSummon(this, c.Player, c.Card, c.Tributes, set: false),
+            SetMonster c => SummonRules.ValidateNormalSummon(this, c.Player, c.Card, c.Tributes, set: true),
             ChangePosition c => SummonRules.ValidateChangePosition(State, c.Player, c.Card),
             FlipSummon c => SummonRules.ValidateFlipSummon(State, c.Player, c.Card),
             ActivateSpell c => ChainResolver.ValidateActivateSpell(this, c.Player, c.Card),
@@ -170,16 +170,17 @@ public sealed class DuelEngine
         Refresh();
     }
 
-    /// <summary>Battle damage: subtracts life points (unless the player takes no battle damage) and ends the duel when they reach 0.</summary>
-    public void Damage(int player, int amount, Guid source)
+    /// <summary>Battle damage: subtracts life points (unless the player takes no battle damage) and ends the duel when they reach 0. Returns whether damage was inflicted.</summary>
+    public bool Damage(int player, int amount, Guid source)
     {
         if (amount <= 0 || State.Player(player).Has(PlayerRestriction.NoBattleDamage))
         {
-            return;
+            return false;
         }
 
         Emit(new BattleDamage(player, amount, source));
         LoseLifePoints(player, amount);
+        return true;
     }
 
     /// <summary>Effect damage (Ring of Destruction): subtracts life points and ends the duel when they reach 0.</summary>
@@ -228,8 +229,14 @@ public sealed class DuelEngine
         Emit(new LifePointsChanged(player, from, p.LifePoints));
     }
 
-    /// <summary>Destroys a card on the field: it goes to the Graveyard and its battle-destruction triggers fire when <paramref name="reason"/> is battle.</summary>
-    public void Destroy(CardInstance card, DestroyReason reason)
+    /// <summary>
+    /// Destroys a card on the field: it goes to the Graveyard and its
+    /// battle-destruction triggers fire when <paramref name="reason"/> is
+    /// battle, with <paramref name="battled"/> the monster that destroyed it.
+    /// With <paramref name="negateEffects"/> none of its triggers fire (Dark
+    /// Balter the Terrible destroyed it).
+    /// </summary>
+    public void Destroy(CardInstance card, DestroyReason reason, Guid? battled = null, bool negateEffects = false)
     {
         ArgumentNullException.ThrowIfNull(card);
         if (!card.IsOnField)
@@ -247,10 +254,10 @@ public sealed class DuelEngine
             Emit(new SpellTrapDestroyed(card.Controller, card.Id, card.Def.Id));
         }
 
-        Zones.ToGraveyard(this, card);
-        if (reason == DestroyReason.Battle)
+        Zones.ToGraveyard(this, card, negateEffects);
+        if (reason == DestroyReason.Battle && !negateEffects)
         {
-            QueueTriggers(card, TriggerWindow.OnDestroyedByBattle, from);
+            QueueTriggers(card, TriggerWindow.OnDestroyedByBattle, from, battled: battled);
         }
     }
 
@@ -314,14 +321,14 @@ public sealed class DuelEngine
     /// <summary>
     /// Special Summons a monster from the hand, Deck, Graveyard, Banished pile
     /// or Fusion Deck to <paramref name="player"/>'s field. Returns false, with
-    /// nothing changed, when there is no free zone, the card is not a monster
-    /// or it is a Spirit (systems.md §5.5).
+    /// nothing changed, when there is no free zone, the card is not a monster,
+    /// it is a Spirit or the player cannot Summon this turn (systems.md §5.5).
     /// </summary>
     public bool SpecialSummon(CardInstance card, int player, Position position)
     {
         ArgumentNullException.ThrowIfNull(card);
         int zone = State.Player(player).FirstFreeMonsterZone();
-        if (zone < 0 || !card.IsMonster || card.IsOnField || card.Def.Monster!.Category == MonsterCategory.Spirit)
+        if (zone < 0 || !card.IsMonster || card.IsOnField || card.Def.Monster!.Category == MonsterCategory.Spirit || State.Player(player).Has(PlayerRestriction.CannotSummon))
         {
             return false;
         }
@@ -409,7 +416,7 @@ public sealed class DuelEngine
         return true;
     }
 
-    /// <summary>Turns a face-up monster face-down in Defense Position (Book of Moon): its equips are destroyed and its modifiers drop.</summary>
+    /// <summary>Turns a face-up monster face-down in Defense Position (Book of Moon): its modifiers drop and its equips are destroyed once it is face-down, so an equip's leave hook (Premature Burial, Call of the Haunted) finds the monster face-down and leaves it alone.</summary>
     public void FlipFaceDown(CardInstance card)
     {
         ArgumentNullException.ThrowIfNull(card);
@@ -418,15 +425,71 @@ public sealed class DuelEngine
             return;
         }
 
-        foreach (CardInstance equip in State.Players.SelectMany(p => p.SpellTraps).Where(e => e.EquippedTo == card.Id).ToList())
-        {
-            Destroy(equip, DestroyReason.Effect);
-        }
-
         Modifiers.RemoveFor(this, card);
         card.Pos = Position.FaceDownDefense;
         Emit(new MonsterFlippedFaceDown(card.Controller, card.Id, card.Def.Id));
         Refresh();
+        foreach (CardInstance equip in State.Players.SelectMany(p => p.SpellTraps).Where(e => e.EquippedTo == card.Id).ToList())
+        {
+            Destroy(equip, DestroyReason.Effect);
+        }
+    }
+
+    /// <summary>Turns a face-down monster face-up in Defense Position by an effect (Swords of Revealing Light): its Flip Effect fires.</summary>
+    public void FlipFaceUp(CardInstance card)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        if (card.Loc != Location.MonsterZone || card.IsFaceUp)
+        {
+            return;
+        }
+
+        card.Pos = Position.FaceUpDefense;
+        card.FlippedThisTurn = true;
+        Emit(new MonsterFlipped(card.Controller, card.Id, card.Def.Id));
+        Refresh();
+        QueueTriggers(card, TriggerWindow.OnFlip);
+    }
+
+    /// <summary>Switches a face-up monster between Attack and Defense Position, by a command or an effect (Enemy Controller); a monster destroyed in Defense Position (Berserk Gorilla) is destroyed.</summary>
+    public void SwitchPosition(CardInstance card)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        if (card.Loc != Location.MonsterZone || card.IsFaceDown)
+        {
+            return;
+        }
+
+        Position from = card.Pos;
+        card.Pos = from == Position.FaceUpAttack ? Position.FaceUpDefense : Position.FaceUpAttack;
+        Emit(new PositionChanged(card.Controller, card.Id, from, card.Pos));
+        Refresh();
+        if (card.IsInDefensePosition && card.Has(Restriction.DestroyedInDefensePosition))
+        {
+            Destroy(card, DestroyReason.Effect);
+        }
+    }
+
+    /// <summary>Exchanges control of two monsters on opposite sides of the field for good (Creature Swap); each takes the other's zone, so no free zone is needed.</summary>
+    public bool SwapControl(CardInstance first, CardInstance second)
+    {
+        ArgumentNullException.ThrowIfNull(first);
+        ArgumentNullException.ThrowIfNull(second);
+        if (first.Loc != Location.MonsterZone || second.Loc != Location.MonsterZone || first.Controller == second.Controller)
+        {
+            return false;
+        }
+
+        (int firstPlayer, int firstZone) = (first.Controller, first.ZoneIndex);
+        (int secondPlayer, int secondZone) = (second.Controller, second.ZoneIndex);
+        State.Player(firstPlayer).MonsterZones[firstZone] = second;
+        State.Player(secondPlayer).MonsterZones[secondZone] = first;
+        (first.Controller, first.ZoneIndex, first.ControlReturnsAfterTurn) = (secondPlayer, secondZone, null);
+        (second.Controller, second.ZoneIndex, second.ControlReturnsAfterTurn) = (firstPlayer, firstZone, null);
+        Emit(new ControlChanged(first.Id, first.Def.Id, firstPlayer, secondPlayer, secondZone, null));
+        Emit(new ControlChanged(second.Id, second.Def.Id, secondPlayer, firstPlayer, firstZone, null));
+        Refresh();
+        return true;
     }
 
     /// <summary>Registers a timed modifier from a resolved effect (systems.md §5.4).</summary>
@@ -485,15 +548,17 @@ public sealed class DuelEngine
     }
 
     /// <summary>
-    /// Asks <paramref name="link"/>'s player a question while the link
-    /// resolves. Returns the answer when it is already known; otherwise the
-    /// question becomes the pending choice and null comes back, and the
-    /// effect must return at once. Once answered, <see cref="IEffect.Resolve"/>
-    /// runs again from the top and the same call returns the answer, so an
-    /// effect guards the work it did before asking with <see cref="ChainLink.Stage"/>.
-    /// A question with no options answers itself with an empty selection.
+    /// Asks a question while <paramref name="link"/> resolves, to its player
+    /// unless <paramref name="player"/> names the other one (Delinquent Duo's
+    /// discard, Creature Swap's second pick). Returns the answer when it is
+    /// already known; otherwise the question becomes the pending choice and
+    /// null comes back, and the effect must return at once. Once answered,
+    /// <see cref="IEffect.Resolve"/> runs again from the top and the same call
+    /// returns the answer, so an effect guards the work it did before asking
+    /// with <see cref="ChainLink.Stage"/>. A question with no options answers
+    /// itself with an empty selection.
     /// </summary>
-    public IReadOnlyList<Guid>? Ask(ChainLink link, Choice choice)
+    public IReadOnlyList<Guid>? Ask(ChainLink link, Choice choice, int? player = null)
     {
         ArgumentNullException.ThrowIfNull(link);
         ArgumentNullException.ThrowIfNull(choice);
@@ -510,7 +575,7 @@ public sealed class DuelEngine
         }
 
         State.ResolvingLink = link;
-        Ask(link.Player, ChoiceKind.Resolution, link.Source.Id, choice);
+        Ask(player ?? link.Player, ChoiceKind.Resolution, link.Source.Id, choice);
         return null;
     }
 
@@ -569,12 +634,12 @@ public sealed class DuelEngine
     }
 
     /// <summary>Queues every Trigger effect of <paramref name="card"/> that fires in <paramref name="window"/> and whose condition holds.</summary>
-    internal void QueueTriggers(CardInstance card, TriggerWindow window, Location? from = null, SummonKind? summon = null)
+    internal void QueueTriggers(CardInstance card, TriggerWindow window, Location? from = null, SummonKind? summon = null, Guid? battled = null)
     {
-        var context = new ActivationContext(window, from, summon);
+        var context = new ActivationContext(window, from, summon, battled);
         foreach (IEffect effect in EffectsOf(card))
         {
-            if (effect.Kind is EffectKind.Trigger or EffectKind.Flip && effect.Trigger == window && Usable(card, effect) && effect.CanActivate(State, card, context))
+            if (effect.Kind is EffectKind.Trigger or EffectKind.Flip && effect.FiresIn(window) && Usable(card, effect) && effect.CanActivate(State, card, context))
             {
                 State.Triggers.Add(new PendingTrigger(card.Controller, card.Id, effect.Id, context, effect.IsMandatory));
             }
@@ -646,6 +711,15 @@ public sealed class DuelEngine
         {
             link.Effect.PayCosts(this, link);
             link.CostsPaid = true;
+        }
+
+        if (link.Effect.Kind == EffectKind.SummonProcedure)
+        {
+            // An inherent Special Summon: the costs were its materials, the monster arrives, no chain link.
+            State.PendingLink = null;
+            SpecialSummon(link.Source, link.Player, Position.FaceUpAttack);
+            TurnFlow.GivePriorityToTurnPlayer(State);
+            return;
         }
 
         IReadOnlyList<Choice> targets = link.Effect.Targets(State, link.Source);
@@ -750,6 +824,14 @@ public sealed class DuelEngine
                 break;
             case ChoiceKind.Target:
                 State.PendingLink!.Targets.Add(answer.Selected);
+                foreach (Guid id in answer.Selected)
+                {
+                    if (State.Find(id) is { IsOnField: true } target && target.Has(Restriction.DestroyedWhenTargeted))
+                    {
+                        Destroy(target, DestroyReason.Effect);
+                    }
+                }
+
                 break;
             case ChoiceKind.OptionalTrigger:
                 {
