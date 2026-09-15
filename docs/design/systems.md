@@ -668,30 +668,85 @@ anchor transforms.
 `HeuristicAgent : IDuelAgent`. On its priority it:
 
 1. Enumerates `LegalActions`.
-2. Simulates each one step on a cloned state (no lookahead beyond
-   immediate resolution; opponent responses are not simulated).
-3. Scores with `Evaluate(state, profile)`:
+2. Rolls each one out on a cloned engine: the command is applied, then both
+   sides pass until the chain is empty and no window waits for responses.
+   The agent's own prompts inside the rollout take the best-scoring answer
+   (branching at most twice, on prompts of at most 48 answers); the
+   opponent's prompts follow the static policy below. The opponent's
+   responses are not simulated: their Set cards stay Set.
+3. Scores the quiet state with `Evaluate(state, profile)`:
 
 ```
-score = w_board  * (ΣownATK − ΣoppATK)/1000
-      + w_cards  * (ownHand + ownField − oppHand − oppField)
-      + w_lp     * (ownLP − oppLP)/1000
-      − w_risk   * (setCardsOpp * exposure)
+score = w_board  * (ΣownValue − ΣoppValue)/1000
+      + w_cards  * (ownHand + ownField − oppHand − oppField + readiness)
+      + w_lp     * ((ownLP − oppLP)/1000 + 0.5 * potentialDamage/1000)
+      − w_risk   * attackRisk
       + jitter   * N(0,1)
 ```
 
+- A monster's value is its ATK in Attack Position, its DEF in Defense
+  Position; a face-down monster counts half its DEF for its owner and a
+  fixed 700 for the opponent, who cannot see it. The evaluator never reads
+  the opponent's hand or face-down cards.
+- `readiness` is +0.25 per Set Trap or Quick-Play Spell (it gained
+  activation windows) and −0.1 per Set Normal or Equip Spell (a decoy).
+- `potentialDamage` is what the monsters that have not attacked yet could
+  still deal this turn.
+- `attackRisk` is the ATK of the monsters that attacked this turn, scaled
+  by the chance that at least one of the opponent's Set cards answers an
+  attack (35 % per card). It is zero with no Set cards, so attacks are
+  judged on merit; `w_risk` says how much the agent plays around the rest.
+
 | Profile | w_board | w_cards | w_lp | w_risk | jitter | bluff_set |
 | --- | --- | --- | --- | --- | --- | --- |
-| Nico (aggressive) | 1.2 | 0.6 | 1.0 | 0.0 | 0.6 | 0.0 |
-| Mara (balanced) | 1.0 | 1.0 | 0.8 | 0.6 | 0.3 | 0.2 |
-| Arcade Owner (control) | 0.8 | 1.4 | 0.5 | 1.0 | 0.1 | 0.5 |
+| Nico (aggressive) | 1.4 | 0.4 | 1.2 | 0.0 | 1.6 | 0.0 |
+| Mara (balanced) | 1.0 | 1.0 | 0.8 | 0.6 | 1.2 | 0.2 |
+| Arcade Owner (control) | 1.0 | 1.4 | 0.8 | 1.0 | 0.1 | 0.5 |
 
-Responses: activate a legal response if it saves a monster, prevents ≥1000
-damage, or negates a summon/activation, weighted by profile. `bluff_set`
-is the chance to set a non-trap card face-down as a decoy.
+`data/duelists.json` carries the same numbers; `AiProfile` holds them as
+presets. Jitter is the main difficulty lever: it is measured in score
+points, where a card is worth about `w_cards` and 1000 ATK about
+`w_board`.
 
-`Choice` answering: targets chosen by the same evaluator; costs paid with
-the lowest-value cards.
+**Responses.** When only `Pass` and responses are open (a chain is being
+built, a window waits, or it is the opponent's turn) the agent rolls out
+`Pass` and every response and compares the quiet states. A response fires
+when it is in the response table and its profile-weighted score does not
+drop, or when it gains about a card (1.0) regardless. The table: it saves
+one of the agent's monsters (more monsters on its field than after
+passing), prevents 1000 or more damage, negates a Summon (fewer monsters
+on the opponent's field) or an activation (`ChainLinkNegated` in the
+rollout), or wins the duel.
+
+**Prompts.** Every `Choice` (cost, target, optional trigger, trigger order,
+resolution question) is answered by rolling out each legal answer and
+keeping the best score, so targets go where the evaluator likes them and
+costs are paid with the cards whose loss scores least. Prompts with more
+than 48 legal answers, and the opponent's prompts inside a rollout, use
+the static policy (`HeuristicAgent.StaticAnswer`): optional triggers are
+taken, mandatory ones in option order, costs are paid with the lowest-value
+cards, targets point at the highest-value ones, and a prompt over the
+opponent's cards takes as many of their best cards as it may. A card's
+value is its ATK (the larger of ATK and DEF on the field), 1500 for a
+Spell or Trap.
+
+**Bluffing.** When the best action is to leave the Main Phase, with
+probability `bluff_set` the agent Sets its cheapest Normal or Equip Spell
+face-down instead, keeping one Spell & Trap Zone free. A Set Spell can
+still be activated later.
+
+**Harness.** `tools/duel_sim` plays seeded matchups between the duelist
+profiles, the decks of `data/decks/` and a random agent, alternating sides,
+and prints a win-rate table; `--check` turns the targets below into an
+exit code and CI runs a two-game smoke. The targets (GDD §3.5, issue #59):
+Nico with Rookie Beatdown wins at most 20 % against Mara-level play with
+the starter and at least 90 % against random play; Mara and the Arcade
+Owner beat random play with their own decks at least 90 % of the time; the
+ladder Nico < Mara < Arcade Owner holds in mirror matches on the starter,
+Warrior Toolbox and Goat Control. The rollouts see the clone's hidden
+information (deck order, face-down cards) only through the evaluator,
+which reads none of it; the outcome of an attack into a face-down monster
+does reach the score, which is accepted for the slice.
 
 ---
 

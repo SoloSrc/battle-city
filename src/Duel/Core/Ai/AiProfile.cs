@@ -1,6 +1,6 @@
 namespace BattleCity.Duel.Core.Ai;
 
-/// <summary>Evaluator weights per duelist (systems.md §7). The three slice profiles are the presets.</summary>
+/// <summary>Evaluator weights per duelist (systems.md §7). The three slice profiles are the presets; <c>data/duelists.json</c> carries the same numbers and <c>tools/duel_sim</c> retunes them.</summary>
 public sealed record AiProfile(
     string Name,
     double BoardWeight,
@@ -10,9 +10,9 @@ public sealed record AiProfile(
     double Jitter,
     double BluffSet)
 {
-    public static AiProfile Nico { get; } = new("Nico (aggressive)", 1.2, 0.6, 1.0, 0.0, 0.6, 0.0);
+    public static AiProfile Nico { get; } = new("Nico (aggressive)", 1.4, 0.4, 1.2, 0.0, 1.6, 0.0);
 
-    public static AiProfile Mara { get; } = new("Mara (balanced)", 1.0, 1.0, 0.8, 0.6, 0.3, 0.2);
+    public static AiProfile Mara { get; } = new("Mara (balanced)", 1.0, 1.0, 0.8, 0.6, 1.2, 0.2);
 
-    public static AiProfile ArcadeOwner { get; } = new("Arcade Owner (control)", 0.8, 1.4, 0.5, 1.0, 0.1, 0.5);
+    public static AiProfile ArcadeOwner { get; } = new("Arcade Owner (control)", 1.0, 1.4, 0.8, 1.0, 0.1, 0.5);
 }
