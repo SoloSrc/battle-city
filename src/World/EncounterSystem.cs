@@ -98,6 +98,9 @@ public partial class EncounterSystem : Node
 
     public bool LastWon { get; private set; }
 
+    /// <summary>True when the last approach hit <see cref="ApproachTimeout"/> instead of both arriving (a diagnostic for the acceptance).</summary>
+    public bool ApproachTimedOut { get; private set; }
+
     /// <summary>Coins granted by the last duel (0 after a loss).</summary>
     public int LastRewardCoins { get; private set; }
 
@@ -236,6 +239,7 @@ public partial class EncounterSystem : Node
         _pathIndex = 1;
         _controller?.WalkTo(PlayerStand);
         _timer = ApproachTimeout;
+        ApproachTimedOut = false;
         State = EncounterState.Approach;
         GD.Print(FormattableString.Invariant($"Encounter: {Current.DuelistId} walks {(path.Length >= 2 ? "a navmesh path" : "a straight line")} of {_path.Length} points to the stand point{(Site is null ? " (no site nearby)" : $" of site '{Site.Id}'")}; player to {PlayerStand}"));
     }
@@ -255,6 +259,7 @@ public partial class EncounterSystem : Node
         {
             if (_timer <= 0.0f)
             {
+                ApproachTimedOut = true;
                 GD.PushWarning($"Encounter: approach timed out ({Current.DuelistId}); starting from current positions");
                 _controller?.StopWalk();
             }
@@ -415,12 +420,13 @@ public partial class EncounterSystem : Node
             return true;
         }
 
+        // Aim at the point itself, not the edge of the radius: the last step lands on it, so the arrival test above passes next frame.
         Vector3 dir = to / distance;
-        float speed = last ? Mathf.Min(WalkSpeed, (distance - stop) / dt) : WalkSpeed;
+        float speed = last ? Mathf.Min(WalkSpeed, distance / dt) : WalkSpeed;
         _gravityVelocity = npc.IsOnFloor() ? -0.1f : _gravityVelocity - 9.8f * dt;
         npc.Velocity = new Vector3(dir.X * speed, _gravityVelocity, dir.Z * speed);
         npc.MoveAndSlide();
-        npc.SetLocomotion(WalkSpeed);
+        npc.SetLocomotion(speed);
         npc.Rotation = new Vector3(0.0f, Mathf.Atan2(-dir.X, -dir.Z), 0.0f);
         return false;
     }

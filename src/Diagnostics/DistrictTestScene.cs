@@ -238,6 +238,7 @@ public partial class DistrictTestScene : Node
                     Check(_encounterOrigin.DistanceTo(_arrival) < 0.5f, Inv($"encounter spot is where the player stood ({_encounterOrigin.DistanceTo(_arrival):F2} m from arrival)"));
                     Check(G.Encounters.Site is { Id: "nico" }, $"encounter uses the 'nico' site ({G.Encounters.Site?.Id})");
                     Check(Mathf.Abs(_standDistance - 7.0f) < 0.6f, Inv($"both walked to the stand points, {_standDistance:F2} m apart"));
+                    Check(!G.Encounters.ApproachTimedOut && _nico.Character.GlobalPosition.DistanceTo(G.Encounters.DuelistStand) < 0.3f && _nico.Character.Velocity.Length() < 0.01f, Inv($"Nico arrived on the stand point without the timeout ({_nico.Character.GlobalPosition.DistanceTo(G.Encounters.DuelistStand):F2} m off, {_phaseFrames} frames since the spot)"));
                     Check(G.Messages.Text.StartsWith("Nico:", StringComparison.Ordinal), $"challenge line shown ('{G.Messages.Text}')");
                     Capture("challenge");
                     QueueInteract();
@@ -329,6 +330,7 @@ public partial class DistrictTestScene : Node
                 if (G.Encounters.State == EncounterSystem.EncounterState.Dialogue && MessageReady())
                 {
                     Check(G.Encounters.Current == _nico, "manual challenge started the encounter");
+                    Check(!G.Encounters.ApproachTimedOut && _nico!.Character!.Velocity.Length() < 0.01f, Inv($"rematch approach arrived without the timeout ({_phaseFrames} frames)"));
                     QueueInteract();
                     Next(Phase.WaitRematchDuel);
                 }

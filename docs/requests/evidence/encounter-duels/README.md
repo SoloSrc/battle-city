@@ -2,7 +2,7 @@
 
 Captures from `tests/scenes/DistrictTest.tscn` run windowed with
 `-- --scripted --capture <dir>` (scaled to 1280 px). The scripted path is the
-CI acceptance: 54 checks.
+CI acceptance: 56 checks.
 
 | File | Moment |
 | --- | --- |
