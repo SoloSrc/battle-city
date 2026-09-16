@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the game data under data/ (architecture.md §5; schemas in systems.md §5.3, §7, §8, GDD §1.1).
+"""Validate the game data under data/ (architecture.md §5; schemas in systems.md §5.3, §7, §8, §10, GDD §1.1).
 
 Usage: python3 tools/validate_data.py [--root data]
 
@@ -340,6 +340,54 @@ def validate_avatar(report: Report, root: str) -> None:
             report.check(is_int(value, 0, count - 1), path, f"default '{field}' {value!r} is out of range ({valid})")
 
 
+TUNING_KEYS = {
+    # section: {key: (kind, minimum, maximum)}; kinds: "positive", "nonneg", "range", "int", "number"
+    "player": {"walk_speed": ("positive",), "run_speed": ("positive",)},
+    "camera.overworld": {"pitch": ("range", 0, 90), "distance": ("positive",), "fov": ("range", 1, 179)},
+    "camera.duel": {"pitch": ("range", 0, 90), "distance": ("positive",), "fov": ("range", 1, 179), "blend_time": ("nonneg",), "focus_height": ("nonneg",)},
+    "encounter": {
+        "cone_range": ("positive",), "cone_angle": ("range", 0, 180), "stand_distance": ("positive",), "reveal_time": ("nonneg",),
+        "reveal_blend": ("nonneg",), "walk_speed": ("positive",), "result_time": ("nonneg",), "disarm_time": ("nonneg",),
+    },
+    "duel": {"start_lp": ("int",), "hand_limit": ("int",), "opening_hand": ("int",), "card_tween": ("nonneg",), "ai_delay": ("nonneg",)},
+    "anchors": {
+        "forward": ("positive",), "spacing_x": ("positive",), "spacing_z": ("positive",), "chest_height": ("positive",), "hand_forward": ("nonneg",),
+        "hand_side": ("number",), "hand_height": ("positive",), "hand_spacing": ("positive",), "stack_step": ("nonneg",), "lunge_fraction": ("range", 0, 1),
+    },
+}
+
+
+def validate_tuning(report: Report, root: str) -> None:
+    """data/tuning.json (systems.md §10): every key present and in range; the C# TuningLoader applies the same rules."""
+    path = os.path.join(root, "tuning.json")
+    doc = load_json(report, path)
+    if not isinstance(doc, dict):
+        if doc is not None:
+            report.fail(path, "tuning must be a JSON object")
+        return
+    for section, keys in TUNING_KEYS.items():
+        node = doc
+        for part in section.split("."):
+            node = node.get(part) if isinstance(node, dict) else None
+        if not report.check(isinstance(node, dict), path, f"'{section}' is required"):
+            continue
+        for key, rule in keys.items():
+            full = f"{section}.{key}"
+            value = node.get(key)
+            kind = rule[0]
+            if kind == "int":
+                report.check(is_int(value, 1), path, f"'{full}' must be a positive integer")
+                continue
+            if not report.check(isinstance(value, (int, float)) and not isinstance(value, bool), path, f"'{full}' must be a number"):
+                continue
+            if kind == "positive":
+                report.check(value > 0, path, f"'{full}' must be positive (got {value})")
+            elif kind == "nonneg":
+                report.check(value >= 0, path, f"'{full}' must be zero or more (got {value})")
+            elif kind == "range":
+                report.check(rule[1] <= value <= rule[2], path, f"'{full}' must be between {rule[1]} and {rule[2]} (got {value})")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--root", default="data", help="data directory (default: data)")
@@ -353,6 +401,7 @@ def main() -> int:
         validate_duelists(report, args.root, decks)
         validate_shop(report, args.root, cards)
         validate_avatar(report, args.root)
+        validate_tuning(report, args.root)
     status = "FAIL" if report.failures else "PASS"
     print(f"validate_data summary: {status}, {report.checks} checks, {report.failures} failures ({args.root})")
     return 1 if report.failures else 0

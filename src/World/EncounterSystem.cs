@@ -57,16 +57,14 @@ public partial class EncounterSystem : Node
     private const float SweepStep = 0.5f;
     private const float SweepMax = 3.0f;
 
-    /// <summary>The reveal beat: the camera holds on the duelist with the exclamation for this long before the walk.</summary>
-    [Export(PropertyHint.Range, "0,3,0.1,suffix:s")]
-    public float RevealTime { get; set; } = 1.4f;
+    /// <summary>The reveal beat: the camera holds on the duelist with the exclamation for this long before the walk (<c>encounter.reveal_time</c>, data/tuning.json).</summary>
+    public float RevealTime { get; set; } = Tuning.Current.Encounter.RevealTime;
 
-    /// <summary>Camera blend to the duelist and back.</summary>
-    [Export(PropertyHint.Range, "0,2,0.1,suffix:s")]
-    public float RevealBlend { get; set; } = 0.6f;
+    /// <summary>Camera blend to the duelist and back (<c>encounter.reveal_blend</c>).</summary>
+    public float RevealBlend { get; set; } = Tuning.Current.Encounter.RevealBlend;
 
-    [Export(PropertyHint.Range, "0,10,0.1,suffix:m/s")]
-    public float WalkSpeed { get; set; } = 2.2f;
+    /// <summary>The duelist's walk to the stand point (<c>encounter.walk_speed</c>).</summary>
+    public float WalkSpeed { get; set; } = Tuning.Current.Encounter.WalkSpeed;
 
     [Export(PropertyHint.Range, "1,30,1,suffix:s")]
     public float ApproachTimeout { get; set; } = 10.0f;
@@ -75,13 +73,11 @@ public partial class EncounterSystem : Node
     [Export(PropertyHint.Range, "0,3,0.1,suffix:s")]
     public float DeployTimeout { get; set; } = 1.0f;
 
-    /// <summary>Time to read the result banner and the win/lose clips before the cards dissolve.</summary>
-    [Export(PropertyHint.Range, "0,5,0.1,suffix:s")]
-    public float ResultTime { get; set; } = 2.0f;
+    /// <summary>Time to read the result banner and the win/lose clips before the cards dissolve (<c>encounter.result_time</c>).</summary>
+    public float ResultTime { get; set; } = Tuning.Current.Encounter.ResultTime;
 
-    /// <summary>Cone disarm after a duel ends so a loss cannot retrigger while the player is still inside it.</summary>
-    [Export(PropertyHint.Range, "0,10,0.5,suffix:s")]
-    public float DisarmTime { get; set; } = 3.0f;
+    /// <summary>Cone disarm after a duel ends so a loss cannot retrigger while the player is still inside it (<c>encounter.disarm_time</c>).</summary>
+    public float DisarmTime { get; set; } = Tuning.Current.Encounter.DisarmTime;
 
     public EncounterState State { get; private set; }
 
@@ -118,6 +114,7 @@ public partial class EncounterSystem : Node
     private bool _dialogueOpen;
     private bool _lineOpen;
     private bool _duelBound;
+    private bool _duelled;
     private bool _wasDefeated;
     private DuelistDefinition? _definition;
     private float _gravityVelocity;
@@ -176,6 +173,7 @@ public partial class EncounterSystem : Node
         Game.Instance?.Duels?.End();
         Game.Instance?.Messages.Close(false);
         _controller?.StopWalk();
+        _duelled = false;
         Finish();
     }
 
@@ -542,6 +540,7 @@ public partial class EncounterSystem : Node
         }
 
         game.Duels.Finished -= OnDuelFinished;
+        _duelled = true;
         LastWon = winner == DuelDirector.HumanSeat;
         State = EncounterState.Result;
         _timer = ResultTime;
@@ -714,8 +713,15 @@ public partial class EncounterSystem : Node
 
     private void Finish()
     {
+        bool duelled = _duelled;
+        _duelled = false;
         Game.Instance?.SetMode(Game.Instance.LevelPath.Length > 0 ? Game.ModeFor(Game.Instance.LevelPath) : GameMode.Overworld);
         Game.Instance?.UnlockInput(LockReason);
+        if (duelled)
+        {
+            Game.Instance?.Save();
+        }
+
         State = EncounterState.Idle;
         Current = null;
         Site = null;

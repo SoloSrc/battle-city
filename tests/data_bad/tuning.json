@@ -1,0 +1,21 @@
+{
+  "player": {
+    "walk_speed": 0,
+    "run_speed": 4.5
+  },
+  "camera": {
+    "overworld": { "pitch": 57, "distance": 12, "fov": 35 },
+    "duel": { "pitch": 15, "distance": 5.5, "fov": 40, "blend_time": 1.2, "focus_height": 1.1 }
+  },
+  "encounter": {
+    "cone_range": 8, "cone_angle": 400, "stand_distance": 7,
+    "reveal_time": 1.4, "reveal_blend": 0.6, "walk_speed": 2.2, "result_time": 2.0, "disarm_time": 3.0
+  },
+  "duel": {
+    "start_lp": 8000, "hand_limit": 6, "opening_hand": 5, "card_tween": 0.15, "ai_delay": 0.7
+  },
+  "anchors": {
+    "forward": 1.0, "spacing_x": 0.22, "spacing_z": 0.28, "chest_height": 1.2, "hand_forward": 0.25,
+    "hand_side": 0.62, "hand_height": 0.95, "hand_spacing": 0.11, "stack_step": 0.0015, "lunge_fraction": 0.35
+  }
+}

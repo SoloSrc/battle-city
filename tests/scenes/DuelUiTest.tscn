@@ -58,7 +58,6 @@ mesh = SubResource("grid_mesh")
 [node name="EncounterSite" parent="." instance=ExtResource("4_site")]
 Id = "duel_test"
 DuelistId = "d1"
-StandDistance = 7.0
 
 [node name="Player" parent="." instance=ExtResource("3_character")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.5, 0, 0)

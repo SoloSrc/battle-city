@@ -14,7 +14,7 @@ same rules at runtime (`Duel.Core` `CardLoader`, `BattleCity.Data` for the rest,
 | `shop.json` | Stock (every non-Limited card, priced by tier: 100/200/400/600) and the Street Pack booster (GDD §5.2) |
 | `avatar.json` | Creator option lists and defaults (GDD §1.1) |
 | `rig/` | Disk mount offsets and animation event timings (systems.md §3.2) |
-| `tuning.json` | Not yet written (systems.md §10); values still live in the exports |
+| `tuning.json` | The systems.md §10 numbers: `player`, `camera.overworld`, `camera.duel`, `encounter`, `duel`, `anchors`. Single source; the nodes read them through `Tuning.Current` and no longer export them |
 
 Card `text` is a short rules summary written for this project, not the printed
 card text; no card art is stored (pitch, IP section).

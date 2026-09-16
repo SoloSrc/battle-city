@@ -161,7 +161,7 @@ the editor, or with a window, `-- --capture <dir>` saves `staging.png` and the
 baked faces of the cards in play a few commands in, for visual review of the
 six frame types, stars, attribute, stats and badges.
 
-## DistrictTest.tscn (issues #23, #62)
+## DistrictTest.tscn (issues #23, #62, #63)
 
 The acceptance path of the district through the real `Game` autoload: New
 Game → starting room → exit door (fade) → Plaza `arrival` → Nico's cone
@@ -175,8 +175,12 @@ retrigger on the standing player), challenges Nico by interacting and plays
 the rematch with a heuristic agent in the player's seat to a win (`defeated:d1`,
 600 coins, one Street Pack of five library cards in the collection, win and
 reward lines, Park gate opens, Mara unlocks, no hints, the cone stays off
-afterwards), then walks back into the room through its door. Phases advance
-on conditions with a timeout each. The game seed is fixed (`Seed`) so the
+afterwards), then walks back into the room through its door. The autosave
+(`Game.SavePath` is pointed at `user://save_district_test.json`) is read
+after the first transition, the loss, the win and the return into the room;
+the run then spoils the coins in memory, calls `Game.Continue` and checks
+that the game resumes at the same spawn with the same flags, coins,
+collection and RNG position. Phases advance on conditions with a timeout each. The game seed is fixed (`Seed`) so the
 rematch is a known win. Live, it is simply the game from the starting room
 with the report label on top. `DistrictTest FAIL` lines fail CI.
 

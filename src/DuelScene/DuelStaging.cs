@@ -28,56 +28,40 @@ public partial class DuelStaging : Node3D
 {
     private const int ZoneCount = 5;
 
-    [ExportGroup("Card anchors (systems.md §6.1)")]
-    [Export(PropertyHint.Range, "0.5,2,0.05,suffix:m")]
-    public float Forward { get; set; } = 1.0f;
+    // Card anchors (systems.md §6.1): anchors.* in data/tuning.json (systems.md §10).
+    public float Forward { get; set; } = Tuning.Current.Anchors.Forward;
 
-    [Export(PropertyHint.Range, "0.1,0.5,0.01,suffix:m")]
-    public float SpacingX { get; set; } = 0.22f;
+    public float SpacingX { get; set; } = Tuning.Current.Anchors.SpacingX;
 
-    [Export(PropertyHint.Range, "0.1,0.5,0.01,suffix:m")]
-    public float SpacingZ { get; set; } = 0.28f;
+    public float SpacingZ { get; set; } = Tuning.Current.Anchors.SpacingZ;
 
-    [Export(PropertyHint.Range, "0.5,2,0.05,suffix:m")]
-    public float ChestHeight { get; set; } = 1.2f;
+    public float ChestHeight { get; set; } = Tuning.Current.Anchors.ChestHeight;
 
     /// <summary>The hand row sits beside the body (the free hand's side) so the camera behind the duelist sees it.</summary>
-    [Export(PropertyHint.Range, "0,1,0.05,suffix:m")]
-    public float HandForward { get; set; } = 0.25f;
+    public float HandForward { get; set; } = Tuning.Current.Anchors.HandForward;
 
-    [Export(PropertyHint.Range, "-1,1,0.05,suffix:m")]
-    public float HandSide { get; set; } = 0.62f;
+    public float HandSide { get; set; } = Tuning.Current.Anchors.HandSide;
 
-    [Export(PropertyHint.Range, "0.5,1.6,0.05,suffix:m")]
-    public float HandHeight { get; set; } = 0.95f;
+    public float HandHeight { get; set; } = Tuning.Current.Anchors.HandHeight;
 
-    [Export(PropertyHint.Range, "0.02,0.3,0.01,suffix:m")]
-    public float HandSpacing { get; set; } = 0.11f;
+    public float HandSpacing { get; set; } = Tuning.Current.Anchors.HandSpacing;
 
     /// <summary>Offset between stacked cards along their normal (deck, graveyard, banished).</summary>
-    [Export(PropertyHint.Range, "0,0.01,0.0005,suffix:m")]
-    public float StackStep { get; set; } = 0.0015f;
-
-    [ExportGroup("Duel camera (systems.md §4.2)")]
-    [Export(PropertyHint.Range, "5,30,1,suffix:°")]
-    public float CameraPitch { get; set; } = 15.0f;
-
-    [Export(PropertyHint.Range, "3,10,0.1,suffix:m")]
-    public float CameraDistance { get; set; } = 5.5f;
-
-    [Export(PropertyHint.Range, "20,70,1,suffix:°")]
-    public float CameraFov { get; set; } = 40.0f;
-
-    /// <summary><c>camera.duel.blend_time</c> until <c>data/tuning.json</c> lands (#63).</summary>
-    [Export(PropertyHint.Range, "0,3,0.1,suffix:s")]
-    public float CameraBlendTime { get; set; } = 1.2f;
-
-    [Export(PropertyHint.Range, "0,2,0.05,suffix:m")]
-    public float CameraFocusHeight { get; set; } = 1.1f;
+    public float StackStep { get; set; } = Tuning.Current.Anchors.StackStep;
 
     /// <summary>Lunge of an attacking card toward its target, as a fraction of the distance.</summary>
-    [Export(PropertyHint.Range, "0,1,0.05")]
-    public float LungeFraction { get; set; } = 0.35f;
+    public float LungeFraction { get; set; } = Tuning.Current.Anchors.LungeFraction;
+
+    // Duel camera (systems.md §4.2): camera.duel.* in data/tuning.json.
+    public float CameraPitch { get; set; } = Tuning.Current.Camera.Duel.Pitch;
+
+    public float CameraDistance { get; set; } = Tuning.Current.Camera.Duel.Distance;
+
+    public float CameraFov { get; set; } = Tuning.Current.Camera.Duel.Fov;
+
+    public float CameraBlendTime { get; set; } = Tuning.Current.Camera.Duel.BlendTime;
+
+    public float CameraFocusHeight { get; set; } = Tuning.Current.Camera.Duel.FocusHeight;
 
     private readonly Dictionary<Guid, CardView> _cards = new();
     private bool _showPlayerHand = true;

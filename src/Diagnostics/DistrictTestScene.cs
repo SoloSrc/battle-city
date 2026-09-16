@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using BattleCity.Characters;
 using BattleCity.Core;
+using BattleCity.Data;
 using BattleCity.Duel.Core;
 using BattleCity.Duel.Core.Ai;
 using BattleCity.Duel.Core.Commands;
@@ -30,6 +31,7 @@ public partial class DistrictTestScene : Node
 
     /// <summary>Game seed of the scripted run; the rematch below is a known win for the scripted player with it.</summary>
     private const ulong Seed = 7;
+    private const string TestSavePath = "user://save_district_test.json";
 
     private enum Phase
     {
@@ -54,6 +56,7 @@ public partial class DistrictTestScene : Node
         WalkBack,
         WalkToRoomDoor,
         WaitRoomAgain,
+        WaitResume,
         Done,
     }
 
@@ -88,6 +91,8 @@ public partial class DistrictTestScene : Node
     private bool _inputLockedThroughout;
     private int _hintsFirstDuel;
     private int _collectionBefore;
+    private ulong _rngDrawsBefore;
+    private Vector3 _doorSpawn;
     private HeuristicAgent? _agent;
     private int _rematchCommands;
     private string? _captureDir;
@@ -114,6 +119,7 @@ public partial class DistrictTestScene : Node
         }
 
         G.LevelLoaded += OnLevelLoaded;
+        G.SavePath = TestSavePath;
         Report("INFO", Scripted ? "scripted: room → plaza → Nico (reveal, surrender, rematch, win) → gate → room" : "live: play from the starting room; the report only fills in scripted mode");
         G.NewGame(Seed);
     }
@@ -151,6 +157,8 @@ public partial class DistrictTestScene : Node
             case Phase.WaitRoom:
                 if (Settled() && G.LevelPath == Paths.StartRoomScene)
                 {
+                    Check(G.HasSave, "autosave written after the first transition");
+                    Check(G.Controller is { } c && c.WalkSpeed == Tuning.Current.Player.WalkSpeed && c.RunSpeed == Tuning.Current.Player.RunSpeed && Tuning.Current == TuningDefinition.Default, Inv($"player speeds come from data/tuning.json ({G.Controller?.WalkSpeed:F1}/{G.Controller?.RunSpeed:F1} m/s)"));
                     PlayerSpawn? spawn = PlayerSpawn.Find(GetTree(), PlayerSpawn.ArrivalId);
                     Check(G.Mode == GameMode.Interior, $"New Game loaded the starting room in Interior mode ({G.Mode})");
                     Check(spawn is not null && player is not null && player.GlobalPosition.DistanceTo(spawn.GlobalPosition) < 0.5f, "player placed at the room's 'arrival' spawn");
@@ -290,6 +298,7 @@ public partial class DistrictTestScene : Node
                     Check(G.Coins == Game.StartingCoins && G.Collection?.Total == _collectionBefore, Inv($"no coin loss, collection unchanged ({G.Coins} coins, {G.Collection?.Total} cards)"));
                     Check(_nico is { RearmIn: > 0.0f, IsArmed: false }, Inv($"cone disarmed after the duel ({_nico?.RearmIn:F1} s left)"));
                     Check(G.Mode == GameMode.Overworld && G.InputEnabled, "back to Overworld with input enabled");
+                    Check(ReadSave() is { } lost && lost.Flags.Contains(Flags.TutorialDone) && lost.Defeated.Count == 0 && lost.Coins == Game.StartingCoins, "autosave after the loss: tutorial_done, nobody defeated, 500 coins");
                     _spottedCount = 0;
                     Next(Phase.HoldInCone);
                 }
@@ -408,6 +417,8 @@ public partial class DistrictTestScene : Node
                     Check(G.Coins == Game.StartingCoins + 600 && G.Encounters.LastRewardCoins == 600, Inv($"first win pays 600 coins ({G.Coins})"));
                     Check(G.Encounters.LastRewardCards.Count == 5 && G.Collection?.Total == _collectionBefore + 5 && G.Encounters.LastRewardCards.All(id => G.Data!.Cards.Contains(id)), Inv($"one Street Pack of five library cards joined the collection ({G.Collection?.Total} cards: {string.Join(", ", G.Encounters.LastRewardCards)})"));
                     Check(_hintsFirstDuel > 0 && G.Duels is { Ui.HintsShown: 0 }, Inv($"tutorial hints only in the first duel ({_hintsFirstDuel} then 0)"));
+                    SaveData? won = ReadSave();
+                    Check(won is not null && won.Defeated.Contains("d1") && won.Coins == Game.StartingCoins + 600 && won.Owned.Values.Sum() == _collectionBefore + 5 && won.RngDraws == G.Rng.Draws && won.Level == Paths.DistrictScene, Inv($"autosave after the win: defeated d1, {won?.Coins} coins, {won?.Owned.Values.Sum()} cards, rng at {won?.RngDraws}"));
                     _spottedCount = 0;
                     Vector3 away = _nico!.Character!.GlobalPosition + _nico.Facing * 11.0f;
                     G.Controller?.WalkTo(away);
@@ -460,15 +471,46 @@ public partial class DistrictTestScene : Node
                     PlayerSpawn? spawn = PlayerSpawn.Find(GetTree(), "door");
                     Check(spawn is not null && player!.GlobalPosition.DistanceTo(spawn.GlobalPosition) < 0.5f, "returned into the room at its 'door' spawn");
                     Check(G.Mode == GameMode.Interior, "mode back to Interior");
-                    Finish();
+                    Check(ReadSave() is { } room && room.Level == Paths.StartRoomScene && room.Spawn == "door", "autosave after the transition: room at 'door'");
+                    _doorSpawn = spawn?.GlobalPosition ?? Vector3.Zero;
+                    _rngDrawsBefore = G.Rng.Draws;
+                    G.Coins = 1;
+                    Check(G.Continue(), "Continue loads the autosave");
+                    Next(Phase.WaitResume);
                 }
 
                 Timeout(400, "did not get back into the room");
+                break;
+
+            case Phase.WaitResume:
+                if (Settled() && G.LevelPath == Paths.StartRoomScene && _phaseFrames > 5)
+                {
+                    Check(G.SpawnId == "door" && player!.GlobalPosition.DistanceTo(_doorSpawn) < 0.5f, "resumed at the same spawn");
+                    Check(G.HasFlag(Flags.Defeated("d1")) && G.HasFlag(Flags.TutorialDone) && G.Flags.Count == 2, Inv($"resumed with the same flags ({string.Join(", ", G.Flags)})"));
+                    Check(G.Coins == Game.StartingCoins + 600, Inv($"resumed with the saved coins ({G.Coins}), not the spoiled value"));
+                    Check(G.Collection?.Total == _collectionBefore + 5 && G.Collection.Deck.Count == 40, Inv($"resumed with the saved collection ({G.Collection?.Total} cards, {G.Collection?.Deck.Count}-card deck)"));
+                    Check(G.Seed == Seed && G.Rng.Draws == _rngDrawsBefore, Inv($"RNG resumed at draw {G.Rng.Draws} of seed {G.Seed}"));
+                    Check(_nico is { Defeated: false } || GetTree().GetNodesInGroup(Groups.Duelist).Count == 0, "interior has no duelists after the resume");
+                    Finish();
+                }
+
+                Timeout(400, "resume did not settle");
                 break;
         }
     }
 
     private bool Settled() => !G.IsTransitioning && G.InputEnabled && !G.Messages.IsOpen;
+
+    private SaveData? ReadSave()
+    {
+        if (!G.HasSave || G.Data is null)
+        {
+            return null;
+        }
+
+        using FileAccess? file = FileAccess.Open(G.SavePath, FileAccess.ModeFlags.Read);
+        return file is null ? null : SaveCodec.Parse(file.GetAsText(), G.Data.Cards, G.SavePath).Save;
+    }
 
     /// <summary>The box ignores input on the frame it opens; dwell a few frames so renders of the run show it.</summary>
     private bool MessageReady() => G.Messages.IsOpen && _messageOpenFrames >= 20;

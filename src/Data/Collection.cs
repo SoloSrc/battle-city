@@ -48,6 +48,21 @@ public sealed class Collection
         return collection;
     }
 
+    /// <summary>A collection from a save: owned copies and both deck lists as stored.</summary>
+    public static Collection FromSave(SaveData save)
+    {
+        ArgumentNullException.ThrowIfNull(save);
+        var collection = new Collection();
+        foreach ((string id, int copies) in save.Owned)
+        {
+            collection.Add(id, copies);
+        }
+
+        collection.Deck.AddRange(save.Deck);
+        collection.FusionDeck.AddRange(save.FusionDeck);
+        return collection;
+    }
+
     public int Count(string cardId) => _owned.TryGetValue(cardId, out int count) ? count : 0;
 
     public void Add(string cardId, int copies = 1)

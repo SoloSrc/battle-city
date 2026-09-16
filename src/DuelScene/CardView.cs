@@ -30,7 +30,8 @@ public enum CardOrientation
 /// </summary>
 public partial class CardView : Node3D
 {
-    public const float MoveTime = 0.15f;
+    /// <summary><c>duel.card_tween</c> from <c>data/tuning.json</c> (systems.md §10).</summary>
+    public static float MoveTime => Tuning.Current.Duel.CardTween;
     public const float RevealTime = 0.3f;
     public const float DissolveTime = 1.0f;
 

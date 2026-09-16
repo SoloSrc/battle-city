@@ -16,6 +16,8 @@ public sealed record DuelOptions
 
     public int OpeningHandSize { get; init; } = DuelCoreInfo.OpeningHandSize;
 
+    public int StartingLifePoints { get; init; } = DuelCoreInfo.StartingLifePoints;
+
     public int MinDeckSize { get; init; } = 40;
 
     public int MaxDeckSize { get; init; } = 60;

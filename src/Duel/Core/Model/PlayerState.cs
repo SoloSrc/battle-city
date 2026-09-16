@@ -9,10 +9,10 @@ public sealed class PlayerState
 {
     public const int ZoneCount = 5;
 
-    public PlayerState(int index)
+    public PlayerState(int index, int lifePoints = DuelCoreInfo.StartingLifePoints)
     {
         Index = index;
-        LifePoints = DuelCoreInfo.StartingLifePoints;
+        LifePoints = lifePoints;
         Deck = new List<CardInstance>();
         Hand = new List<CardInstance>();
         Graveyard = new List<CardInstance>();

@@ -924,6 +924,19 @@ effects are missing from the `EffectRegistry`.
 Written to `user://save.json` after every duel, purchase, deck edit and
 transition. Load validates against the card database and drops unknown ids.
 
+Implementation (issue #63): `SaveCodec` (BattleCity.Data) serialises a
+`SaveData` record and parses it back against the `CardLibrary`, dropping
+unknown ids into `LoadResult.Dropped`; `defeated` holds the ids of the
+`defeated:<id>` flags, `flags` the rest (`SplitFlags`/`JoinFlags`). The file
+also carries `rng_draws`, how far `Game.Rng` advanced from `seed`, so duel
+seeds and booster drops resume in order (`DuelRng.Draws`/`Skip`). `Game.Save`
+runs at the end of every transition and when an encounter that duelled
+finishes; `Game.Continue` loads the slot and transitions to its level and
+spawn (Boot continues when a save exists, else New Game); `Game.NewGame`
+deletes it. Diagnostics point `Game.SavePath` at a test slot so runs never
+touch a real save. `appearance` and `name` are stored but the creator that
+fills them is later work.
+
 ---
 
 ## 10. Tuning parameters (single source: `data/tuning.json`)
@@ -947,8 +960,25 @@ transition. Load validates against the card database and drops unknown ids.
 | anchors.forward | 1.0 | DuelStaging |
 | anchors.spacing_x | 0.22 | DuelStaging |
 | anchors.spacing_z | 0.28 | DuelStaging |
-| ai.jitter.* | per profile | HeuristicAgent |
-| shop.booster_price | 300 | Shop |
+| ai.jitter.* | per duelist | `data/duelists.json` `profile.jitter` (not duplicated in tuning.json) |
+| shop.booster_price | 300 | `data/shop.json` `boosters[].price` (not duplicated in tuning.json) |
+
+Implementation (issue #63): `TuningLoader` (BattleCity.Data) reads the file
+into a `TuningDefinition` record (every key required, distances and times
+positive, angles in range; `tools/validate_data.py` applies the same rules);
+`GameData.Tuning` carries it and the Godot side reads it through the static
+`Tuning.Current`, which loads the file once and falls back to
+`TuningDefinition.Default` after an error. The nodes that exported these
+numbers now initialise from it and the exports are gone: `PlayerController`
+(`player.*`), `CameraRig` (`camera.overworld.*`; a `CameraBounds` interior
+override still replaces them per level), `Duelist` (`encounter.cone_*`),
+`EncounterSite` (`encounter.stand_distance`), `EncounterSystem`
+(`encounter.reveal_time`, `reveal_blend`, `walk_speed`, `result_time`,
+`disarm_time`), `DuelStaging` (`anchors.*`, `camera.duel.*`), `CardView`
+(`duel.card_tween`), `DuelSession` (`duel.ai_delay`) and `DuelDirector`
+(`duel.start_lp`, `hand_limit`, `opening_hand` into `DuelOptions`).
+`camera.target_px_1080` stays a printed diagnostic of the CameraFraming
+scene, not a key.
 
 ---
 
