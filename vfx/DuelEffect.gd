@@ -13,6 +13,9 @@ var destination := Vector3.ZERO
 var has_destination := false
 var ink: StandardMaterial3D
 var pieces: Array[MeshInstance3D] = []
+# Summon geometry fits a 0.22 m card zone; damage geometry is character-sized.
+const SUMMON_RADIUS := 0.045
+const HIT_RADIUS := 0.22
 
 ## Call after adding the scene to the tree and before the deferred autoplay.
 func configure(from_anchor: Transform3D, to_anchor: Transform3D) -> void:
@@ -35,12 +38,14 @@ func _ready() -> void:
     ink.cull_mode = BaseMaterial3D.CULL_DISABLED
     if effect in ["SummonFlash", "HitPulse"]:
         var ring := TorusMesh.new()
-        ring.inner_radius = 0.18; ring.outer_radius = 0.22
+        ring.outer_radius = SUMMON_RADIUS if effect == "SummonFlash" else HIT_RADIUS
+        ring.inner_radius = 0.035 if effect == "SummonFlash" else 0.18
         ring.rings = 32; ring.ring_segments = 8
         add_piece(ring)
         if effect == "HitPulse": pieces[0].rotation.x = PI/2
         for i in 8:
-            var ray := BoxMesh.new(); ray.size = Vector3(.025,.025,.16)
+            var ray := BoxMesh.new()
+            ray.size = Vector3(.008,.008,.025) if effect == "SummonFlash" else Vector3(.025,.16,.025)
             add_piece(ray)
     elif effect == "AttackTrail":
         var ribbon := CylinderMesh.new()
@@ -81,10 +86,14 @@ func _process(delta: float) -> void:
         pieces[0].scale=Vector3.ONE*radius
         for i in 8:
             var a := TAU*i/8.0
-            var offset := Vector3(cos(a),0,sin(a))*.22*radius
+            var base_radius := SUMMON_RADIUS if effect == "SummonFlash" else HIT_RADIUS
+            var offset := Vector3(cos(a),0,sin(a))*base_radius*radius
             if effect=="HitPulse":offset=Vector3(offset.x,offset.z,0)
             pieces[i+1].position=offset
-            pieces[i+1].rotation.y=-a
+            if effect == "HitPulse":
+                pieces[i+1].rotation.z=a-PI/2
+            else:
+                pieces[i+1].rotation.y=PI/2-a
             pieces[i+1].scale=Vector3.ONE*(1.0-t*.6)
         ink.albedo_color=Color(color,1.0-t)
         ink.emission_energy_multiplier=.6*(1.0-t)

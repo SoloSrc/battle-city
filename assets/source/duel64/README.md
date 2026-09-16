@@ -25,3 +25,9 @@ between draw, summon, set, attack, hit, activate, win, lose. These are functiona
 placeholder cues: final timbre, perceived balance and mixing need listening
 review in the actual duel. Win/lose are temporary synthesized stingers, not
 final soundtrack deliveries.
+
+`check_geometry.gd` verifies summon-zone bounds and HitPulse ray plane throughout
+animation. `capture_mix.gd` runs the real DuelStaging diagnostic and records its
+Master bus to `/tmp/duel64-runtime-mix.wav` for review; run with a window, not
+headless. It exits on the diagnostic summary (or after a 90-second watchdog).
+See the [integrated review](../../../docs/requests/duel64-effects-review.md).

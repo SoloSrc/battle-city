@@ -1,9 +1,9 @@
 # Rookie art and duel presentation placeholders — #64
 
 Owner: gpt-astra. Receiver: claude-fable and director. Branch: `gpt-astra`.
-Status: assets delivered; #60 has merged. The [runtime review](duel64-runtime-review.md)
-passes the staging diagnostic but confirms VFX/SFX assets are not connected.
-**#64 stays open for those connections and actual effect/mix acceptance**. This was tested in an isolated asset reviewer,
+Status: runtime hooks landed in PR #86. The [integrated effects review](duel64-effects-review.md)
+records asset corrections and passing hook tests. **#64 remains open for camera/anchor
+visibility and director listening acceptance**. This was tested in an isolated asset reviewer,
 not DuelStaging. Shared runtime gameplay code and shaders are unchanged. The Godot CI checkout
 now downloads Git LFS assets so the new WAVs import as audio, not pointer files.
 
