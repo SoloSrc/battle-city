@@ -26,7 +26,9 @@ public enum CardOrientation
 /// <see cref="HologramCards"/> carrying the face composed by <see cref="CardFaces"/>.
 /// It is parented to an anchor by <see cref="AttachTo"/> and tweens its local
 /// transform there; orientation, hover, selection, reveal and dissolve go
-/// through the shader's instance parameters and short tweens.
+/// through the shader's instance parameters: the artist's card-state effects
+/// (<see cref="DuelEffects"/>: CardMaterialise, CardSelected, Dissolve) drive
+/// them when their scenes exist, short tweens otherwise, never both at once.
 /// </summary>
 public partial class CardView : Node3D
 {
@@ -39,6 +41,7 @@ public partial class CardView : Node3D
     private CollisionShape3D? _pickShape;
     private Tween? _move;
     private Tween? _effect;
+    private Node? _selection;
 
     public CardInstance? Card { get; private set; }
 
@@ -56,6 +59,19 @@ public partial class CardView : Node3D
     public int Moves { get; private set; }
 
     public MeshInstance3D? Mesh => _mesh;
+
+    /// <summary>The effect adapter of the staging; null means the shader tweens stand in.</summary>
+    public DuelEffects? Effects { get; set; }
+
+    /// <summary>The local position the last <see cref="AttachTo"/> aimed at (the tween may still be on its way).</summary>
+    public Vector3 TargetPosition { get; private set; }
+
+    /// <summary>Where the card comes to rest on its anchor, in world space: the transform effects anchor to.</summary>
+    public Transform3D RestTransform =>
+        Anchor is null ? GlobalTransform : Anchor.GlobalTransform * new Transform3D(Basis.FromEuler(RotationFor(Orientation)), TargetPosition);
+
+    /// <summary>True while a CardSelected effect (or the fallback uniform) marks this card.</summary>
+    public bool IsSelected { get; private set; }
 
     /// <summary>Builds the quad for <paramref name="card"/>; <paramref name="mirrored"/> for the side whose cards must face away from their owner.</summary>
     public void Setup(CardInstance card, HologramSide side, Texture2D? face, bool mirrored, float hoverPhase)
@@ -122,6 +138,7 @@ public partial class CardView : Node3D
         }
 
         Orientation = orientation;
+        TargetPosition = localPosition;
         Vector3 rotation = RotationFor(orientation);
         _move?.Kill();
         if (!animate)
@@ -138,15 +155,34 @@ public partial class CardView : Node3D
 
     public bool IsMoving => _move is { } move && move.IsValid() && move.IsRunning();
 
+    /// <summary>Selection glow (VFX hook <c>CardSelected</c>): one persistent effect per selected card, stopped when the selection leaves.</summary>
     public void SetSelected(bool selected)
     {
-        if (_mesh is not null)
+        if (_mesh is null || selected == IsSelected)
         {
-            HologramCards.SetSelected(_mesh, selected);
+            return;
         }
+
+        IsSelected = selected;
+        if (Effects is { } effects && effects.Available(DuelEffects.CardSelected))
+        {
+            if (selected)
+            {
+                _selection = effects.Spawn(DuelEffects.CardSelected, GlobalTransform, null, Side, _mesh);
+            }
+            else
+            {
+                DuelEffects.Stop(_selection);
+                _selection = null;
+            }
+
+            return;
+        }
+
+        HologramCards.SetSelected(_mesh, selected);
     }
 
-    /// <summary>Materialise wipe from hidden to whole (VFX hook 6.2).</summary>
+    /// <summary>Materialise wipe from hidden to whole (VFX hook <c>CardMaterialise</c>).</summary>
     public void Reveal()
     {
         if (_mesh is null)
@@ -155,12 +191,17 @@ public partial class CardView : Node3D
         }
 
         _effect?.Kill();
+        if (Effects is { } effects && effects.Spawn(DuelEffects.CardMaterialise, RestTransform, null, Side, _mesh) is not null)
+        {
+            return;
+        }
+
         HologramCards.SetReveal(_mesh, 0.0f);
         _effect = CreateTween();
         _effect.TweenMethod(Callable.From<float>(v => HologramCards.SetReveal(_mesh, v)), 0.0f, 1.0f, RevealTime);
     }
 
-    /// <summary>End dissolve (VFX hook 6.7); the node frees itself afterwards when <paramref name="free"/>.</summary>
+    /// <summary>End dissolve (VFX hook <c>Dissolve</c>); the node frees itself afterwards when <paramref name="free"/>.</summary>
     public void Dissolve(bool free)
     {
         if (_mesh is null)
@@ -173,7 +214,14 @@ public partial class CardView : Node3D
             return;
         }
 
+        SetSelected(false);
+        SetPickable(false);
         _effect?.Kill();
+        if (Effects is { } effects && effects.Spawn(DuelEffects.Dissolve, RestTransform, null, Side, _mesh, free ? QueueFree : null) is not null)
+        {
+            return;
+        }
+
         _effect = CreateTween();
         _effect.TweenMethod(Callable.From<float>(v => HologramCards.SetDissolve(_mesh, v)), 0.0f, 1.0f, DissolveTime);
         if (free)

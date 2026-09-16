@@ -22,7 +22,9 @@ namespace BattleCity.DuelScene;
 /// <see cref="Bind"/> creates a <see cref="CardView"/> per card of the engine
 /// and, after every batch of engine events, <see cref="Sync"/> moves each card
 /// to the anchor its <see cref="CardInstance"/> says it is in; the events
-/// themselves drive the transient effects (attack lunge, hit, dissolve).
+/// themselves drive the transient effects through <see cref="Effects"/>
+/// (systems.md §6.4: materialise, selection, summon flash, attack trail, hit
+/// pulse, dissolve) and the GDD §8 cues.
 /// </summary>
 public partial class DuelStaging : Node3D
 {
@@ -67,6 +69,7 @@ public partial class DuelStaging : Node3D
     private bool _showPlayerHand = true;
     private readonly List<DuelEvent> _pendingEvents = new();
     private CardFaces? _faces;
+    private DuelEffects? _effects;
     private DuelEngine? _engine;
     private bool _dirty;
     private bool _animateSync = true;
@@ -92,6 +95,9 @@ public partial class DuelStaging : Node3D
     public int EventsApplied { get; private set; }
 
     public CardFaces Faces => _faces ??= AddFaces();
+
+    /// <summary>The VFX and SFX adapter (systems.md §6.4); card views delegate their card-state effects to it.</summary>
+    public DuelEffects Effects => _effects ??= AddEffects();
 
     /// <summary>The player's 3D hand row; off while the HUD draws the hand fan (systems.md §6.3).</summary>
     public bool ShowPlayerHand
@@ -189,7 +195,7 @@ public partial class DuelStaging : Node3D
         {
             foreach (CardInstance card in p.AllCards)
             {
-                var view = new CardView();
+                var view = new CardView { Effects = Effects };
                 bool opponent = card.Owner == 1;
                 view.Setup(card, opponent ? HologramSide.Opponent : HologramSide.Player, Faces.Get(card.Def), opponent, (index++ % 10) / 10.0f);
                 _cards[card.Id] = view;
@@ -219,6 +225,7 @@ public partial class DuelStaging : Node3D
 
         foreach (CardView view in _cards.Values)
         {
+            view.SetSelected(false);
             view.QueueFree();
         }
 
@@ -345,7 +352,7 @@ public partial class DuelStaging : Node3D
         }
     }
 
-    /// <summary>The transient effects an event triggers; positions come from <see cref="Sync"/>.</summary>
+    /// <summary>The transient effects an event triggers (systems.md §6.4, GDD §8 cues); positions come from <see cref="Sync"/>, which ran first.</summary>
     private void ApplyEvent(DuelEvent e)
     {
         EventsApplied++;
@@ -353,50 +360,96 @@ public partial class DuelStaging : Node3D
         {
             case CardDrawn drawn when _cards.TryGetValue(drawn.Card, out CardView? view):
                 view.Reveal();
+                Effects.Play("draw");
                 (drawn.Player == 0 ? PlayerCharacter : OpponentCharacter)?.PlayState(Character.DrawCardState);
                 break;
             case MonsterSummoned summoned:
-                Flash(summoned.Card, summoned.Player);
+                Summon(summoned.Card, summoned.Player);
                 break;
             case MonsterSpecialSummoned special:
-                Flash(special.Card, special.Player);
+                Summon(special.Card, special.Player);
+                break;
+            case MonsterFlipSummoned flip:
+                Summon(flip.Card, flip.Player);
+                break;
+            case TokenCreated token:
+                Summon(token.Card, token.Player);
+                break;
+            case MonsterSet set:
+                Effects.Play("set");
+                (set.Player == 0 ? PlayerCharacter : OpponentCharacter)?.PlayState(Character.PlayCardState);
+                break;
+            case SpellTrapSet set:
+                Effects.Play("set");
+                (set.Player == 0 ? PlayerCharacter : OpponentCharacter)?.PlayState(Character.PlayCardState);
                 break;
             case SpellActivated spell:
-                Flash(spell.Card, spell.Player);
+                Activate(spell.Card, spell.Player);
                 break;
             case TrapActivated trap:
-                Flash(trap.Card, trap.Player);
+                Activate(trap.Card, trap.Player);
                 break;
             case EffectActivated effect:
-                Flash(effect.Card, effect.Player);
+                Activate(effect.Card, effect.Player);
                 break;
             case AttackDeclared attack:
                 Lunge(attack.Attacker, attack.Target, attack.Player);
                 break;
             case BattleDamage damage:
-                (damage.Player == 0 ? PlayerCharacter : OpponentCharacter)?.PlayState(Character.TakeDamageState);
+                Hit(damage.Player);
                 break;
             case EffectDamage damage:
-                (damage.Player == 0 ? PlayerCharacter : OpponentCharacter)?.PlayState(Character.TakeDamageState);
+                Hit(damage.Player);
                 break;
             case DuelEnded ended:
+                Effects.Play(ended.Winner == 0 ? "win" : "lose");
                 PlayerCharacter?.PlayState(ended.Winner == 0 ? Character.WinState : Character.LoseState);
                 OpponentCharacter?.PlayState(ended.Winner == 1 ? Character.WinState : Character.LoseState);
                 break;
         }
     }
 
-    private void Flash(Guid card, int player)
+    /// <summary>A monster arriving on the field: materialise, a <c>SummonFlash</c> ring on its zone, the summon cue.</summary>
+    private void Summon(Guid card, int player)
+    {
+        if (_cards.TryGetValue(card, out CardView? view))
+        {
+            view.Reveal();
+            Effects.Spawn(DuelEffects.SummonFlash, view.RestTransform, null, view.Side);
+        }
+
+        Effects.Play("summon");
+        (player == 0 ? PlayerCharacter : OpponentCharacter)?.PlayState(Character.PlayCardState);
+    }
+
+    /// <summary>A Spell, Trap or effect going off: materialise (a Set card turns over) and the activate cue.</summary>
+    private void Activate(Guid card, int player)
     {
         if (_cards.TryGetValue(card, out CardView? view))
         {
             view.Reveal();
         }
 
+        Effects.Play("activate");
         (player == 0 ? PlayerCharacter : OpponentCharacter)?.PlayState(Character.PlayCardState);
     }
 
-    /// <summary>Attack trail stand-in (VFX hook 6.4): the attacker darts a fraction of the way to its target and back.</summary>
+    /// <summary>Damage to a duelist: a <c>HitPulse</c> at their chest, the hit cue and the flinch.</summary>
+    private void Hit(int player)
+    {
+        Character? character = player == 0 ? PlayerCharacter : OpponentCharacter;
+        SideAnchors? side = player == 0 ? PlayerSide : OpponentSide;
+        if (character is not null && side is not null)
+        {
+            var at = new Transform3D(side.Root.GlobalBasis, character.GlobalPosition + Vector3.Up * ChestHeight);
+            Effects.Spawn(DuelEffects.HitPulse, at, null, side.Side);
+        }
+
+        Effects.Play("hit");
+        character?.PlayState(Character.TakeDamageState);
+    }
+
+    /// <summary>An attack: the <c>AttackTrail</c> from the attacker to its target (or the defending duelist's chest), the attack cue, and the attacker darting a fraction of the way and back.</summary>
     private void Lunge(Guid attacker, Guid? target, int player)
     {
         if (!_cards.TryGetValue(attacker, out CardView? view))
@@ -404,9 +457,13 @@ public partial class DuelStaging : Node3D
             return;
         }
 
-        Vector3 to = target is { } id && _cards.TryGetValue(id, out CardView? targetView)
-            ? targetView.GlobalPosition
-            : (player == 0 ? OpponentSide : PlayerSide)!.Root.GlobalPosition + Vector3.Up * ChestHeight;
+        SideAnchors defender = (player == 0 ? OpponentSide : PlayerSide)!;
+        Transform3D destination = target is { } id && _cards.TryGetValue(id, out CardView? targetView)
+            ? targetView.RestTransform
+            : new Transform3D(defender.Root.GlobalBasis, defender.Root.GlobalPosition + Vector3.Up * ChestHeight);
+        Effects.Spawn(DuelEffects.AttackTrail, view.RestTransform, destination, view.Side);
+        Effects.Play("attack");
+        Vector3 to = destination.Origin;
         Vector3 offset = view.ToLocal(to) * LungeFraction;
         Vector3 rest = view.Position;
         Tween tween = view.CreateTween();
@@ -417,7 +474,7 @@ public partial class DuelStaging : Node3D
 
     private CardView CreateToken(CardInstance card)
     {
-        var view = new CardView();
+        var view = new CardView { Effects = Effects };
         bool opponent = card.Owner == 1;
         view.Setup(card, opponent ? HologramSide.Opponent : HologramSide.Player, Faces.Get(card.Def), opponent, 0.5f);
         _cards[card.Id] = view;
@@ -522,6 +579,13 @@ public partial class DuelStaging : Node3D
         var faces = new CardFaces { Name = "CardFaces" };
         AddChild(faces);
         return faces;
+    }
+
+    private DuelEffects AddEffects()
+    {
+        var effects = new DuelEffects { Name = "Effects" };
+        AddChild(effects);
+        return effects;
     }
 
     /// <summary>The anchors of one side: the grid, the hand row and the three piles (on the disk's markers when it has them).</summary>

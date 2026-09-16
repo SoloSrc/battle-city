@@ -97,6 +97,8 @@ public partial class DuelUi : CanvasLayer
     private Location _pileShown = Location.Graveyard;
 
     private Control _root = null!;
+    private Panel _damageEdge = null!;
+    private Tween? _damageTween;
     private Label _turnLabel = null!;
     private Label[] _phaseLabels = Array.Empty<Label>();
     private Button _advance = null!;
@@ -414,6 +416,9 @@ public partial class DuelUi : CanvasLayer
 
     /// <summary>The Life Points a counter currently displays (they animate toward the state).</summary>
     public int LifePointsShown(int player) => Mathf.RoundToInt(_lpShown[player]);
+
+    /// <summary>Screen-edge damage flashes shown so far (one per Life Point loss of the human seat; systems.md §6.4).</summary>
+    public int DamageFlashes { get; private set; }
 
     public override void _Process(double delta)
     {
@@ -992,6 +997,11 @@ public partial class DuelUi : CanvasLayer
                 continue;
             }
 
+            if (i == DuelDirector.HumanSeat && target < Mathf.RoundToInt(_lpShown[i]) && _lpShown[i] > 0.0f)
+            {
+                FlashDamageEdge();
+            }
+
             int index = i;
             _lpTweens[i]?.Kill();
             _lpTweens[i] = CreateTween();
@@ -1004,6 +1014,18 @@ public partial class DuelUi : CanvasLayer
 
         SetLifePointLabel(0);
         SetLifePointLabel(1);
+    }
+
+    /// <summary>The screen-edge damage overlay (systems.md §6.4 HitPulse companion): a red vignette that fades over half a second.</summary>
+    private void FlashDamageEdge()
+    {
+        DamageFlashes++;
+        _damageTween?.Kill();
+        _damageEdge.Visible = true;
+        _damageEdge.Modulate = new Color(1.0f, 1.0f, 1.0f, 0.85f);
+        _damageTween = CreateTween();
+        _damageTween.TweenProperty(_damageEdge, "modulate:a", 0.0f, 0.5f).SetTrans(Tween.TransitionType.Quad).SetEase(Tween.EaseType.Out);
+        _damageTween.TweenCallback(Callable.From(() => _damageEdge.Visible = false));
     }
 
     private void SetLifePointLabel(int player)
@@ -1195,6 +1217,15 @@ public partial class DuelUi : CanvasLayer
         _root.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
         _root.Resized += LayoutHand;
         AddChild(_root);
+
+        // Damage overlay: a thick translucent red border, hidden until the human seat loses Life Points.
+        var edge = new StyleBoxFlat { DrawCenter = false, BorderColor = new Color(0.9f, 0.15f, 0.1f, 0.55f) };
+        edge.SetBorderWidthAll(56);
+        edge.SetCornerRadiusAll(0);
+        _damageEdge = new Panel { Name = "DamageEdge", MouseFilter = Control.MouseFilterEnum.Ignore, Visible = false };
+        _damageEdge.AddThemeStyleboxOverride("panel", edge);
+        _damageEdge.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
+        _root.AddChild(_damageEdge);
 
         // Phase bar, top-left (GDD §3.4).
         PanelContainer phasePanel = Panel("PhaseBar");
