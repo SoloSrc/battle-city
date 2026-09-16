@@ -687,6 +687,45 @@ prompt modals from `Choice`, inspector, graveyard list, log. Selection is a
 cursor over hand cards and 3D anchors; the 3D cards carry colliders on
 the `card` layer for mouse picking. Gamepad moves the cursor by grid.
 
+Implementation (issue #61):
+
+- `DuelSession` (Node) drives one duel in the tree: the HUD submits the
+  human's commands through it, the opponent's `IDuelAgent` answers after a
+  short delay (`AiDelay`, 0.7 s) so its moves read as moves; `Changed` fires
+  after every accepted command and `Finished` once at the end. Encounters
+  (§4.3) start a session, bind `DuelStaging` and `DuelUi` to it, and wait for
+  `Finished`.
+- The HUD knows no card. After every command it reads `LegalActions` and
+  decides what to ask: nothing legal → waiting; a `PendingChoice` for the
+  player → the picker; only `Discard`s → the hand-limit banner; a chain, an
+  open window or the other player's turn → the response prompt; otherwise the
+  cursor is free. `ActionCatalog` (Duel.Core, no Godot) groups the legal
+  commands that name a card into its menu entries (Summon, Set, Activate,
+  Special Summon, Attack, position change, Flip Summon, Discard) and picks
+  the phase advance (`EnterBattlePhase` when legal, else `Pass`); `DuelText`
+  writes the log lines, command labels, inspector lines and window text.
+- Cursor grid: five rows from the far side (opponent's Spell & Trap row,
+  their monsters, the player's monsters, their Spell & Traps, the hand);
+  the opponent's rows read mirrored so "right" is right on screen. Moving
+  between the hand and the zones maps the column proportionally. Empty zones
+  are selectable and show nothing.
+- Menus, the attack target list, the response prompt, the picker and the
+  pile lists are one `DuelListPanel` (a titled column of buttons with a
+  highlighted entry): up/down moves it, `interact` presses it, the mouse
+  presses buttons directly. The highlighted entry's card and the cursor card
+  glow in 3D (`CardView.SetSelected`). Tribute selection and attack targets
+  are second-level lists, so every prompt has explicit options.
+- Mouse: hovering a 3D card (ray on the `card` layer, `DuelStaging.Pick`)
+  or a fan card moves the cursor; a click acts; a click on a pile opens its
+  list. The player's 3D hand row is hidden while the fan is up
+  (`DuelStaging.ShowPlayerHand`); the opponent's stays face-down in 3D.
+- Input actions added to `project.godot`: `duel_phase` (Y / Space),
+  `duel_graveyard` (LB / G), `duel_banished` (RB / B), `duel_log`
+  (Back / L); `interact`, `cancel` and the move actions are reused.
+- `tests/scenes/DuelUiTest.tscn` is the acceptance (tests/scenes/README.md):
+  a scripted player reaches every command a heuristic agent picks only
+  through the HUD, half of the time with the mouse.
+
 ### 6.4 VFX hooks
 
 Events → effects: `CardMaterialise`, `CardSelected`, `SummonFlash`,

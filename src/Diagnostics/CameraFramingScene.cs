@@ -354,6 +354,7 @@ public partial class CameraFramingScene : Node3D
 
     private void Finish()
     {
+        ManagedWrappers.Flush();
         _done = true;
         string summary = $"CameraFraming summary: {_pass} pass, {_fail} fail";
         GD.Print(summary);

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using BattleCity.Characters;
+using BattleCity.Core;
 using BattleCity.Duel.Core;
 using BattleCity.Duel.Core.Events;
 using BattleCity.Duel.Core.Model;
@@ -79,6 +80,7 @@ public partial class DuelStaging : Node3D
     public float LungeFraction { get; set; } = 0.35f;
 
     private readonly Dictionary<Guid, CardView> _cards = new();
+    private bool _showPlayerHand = true;
     private readonly List<DuelEvent> _pendingEvents = new();
     private CardFaces? _faces;
     private DuelEngine? _engine;
@@ -106,6 +108,43 @@ public partial class DuelStaging : Node3D
     public int EventsApplied { get; private set; }
 
     public CardFaces Faces => _faces ??= AddFaces();
+
+    /// <summary>The player's 3D hand row; off while the HUD draws the hand fan (systems.md §6.3).</summary>
+    public bool ShowPlayerHand
+    {
+        get => _showPlayerHand;
+        set
+        {
+            if (_showPlayerHand == value)
+            {
+                return;
+            }
+
+            _showPlayerHand = value;
+            Sync(animate: false);
+        }
+    }
+
+    /// <summary>The card under <paramref name="screen"/> as seen by <paramref name="camera"/>, cast against the card layer; null when there is none.</summary>
+    public CardView? Pick(Camera3D camera, Vector2 screen)
+    {
+        ArgumentNullException.ThrowIfNull(camera);
+        Vector3 from = camera.ProjectRayOrigin(screen);
+        Vector3 to = from + camera.ProjectRayNormal(screen) * 50.0f;
+        PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(from, to, PhysicsLayers.Card);
+        query.CollideWithAreas = true;
+        query.CollideWithBodies = false;
+        Godot.Collections.Dictionary hit = GetWorld3D().DirectSpaceState.IntersectRay(query);
+        return hit.Count == 0 ? null : CardView.FromCollider(hit["collider"].AsGodotObject());
+    }
+
+    /// <summary>The screen position of a card's centre for <paramref name="camera"/>, or null when it is behind it.</summary>
+    public static Vector2? ScreenPosition(Camera3D camera, CardView view)
+    {
+        ArgumentNullException.ThrowIfNull(camera);
+        ArgumentNullException.ThrowIfNull(view);
+        return camera.IsPositionBehind(view.GlobalPosition) ? null : camera.UnprojectPosition(view.GlobalPosition);
+    }
 
     /// <summary>Places the characters on the site's stand points (player on A) and builds the anchors.</summary>
     public void Stage(EncounterSite site, Character player, Character opponent)
@@ -242,6 +281,7 @@ public partial class DuelStaging : Node3D
                 CardView view = _cards.TryGetValue(card.Id, out CardView? existing) ? existing : CreateToken(card);
                 (Node3D anchor, Vector3 local, CardOrientation orientation, bool visible) = Placement(card, p, stacks, ref handIndex, handCount);
                 view.Visible = visible;
+                view.SetPickable(visible);
                 view.AttachTo(anchor, local, orientation, animate && view.Anchor is not null);
             }
         }
@@ -415,7 +455,7 @@ public partial class DuelStaging : Node3D
             case Location.Hand:
                 {
                     float x = (handIndex++ - (handCount - 1) * 0.5f) * HandSpacing;
-                    return (ownerSide.Hand, new Vector3(x, 0.0f, handIndex * 0.001f), owner.Index == 0 ? CardOrientation.Attack : CardOrientation.FaceDown, true);
+                    return (ownerSide.Hand, new Vector3(x, 0.0f, handIndex * 0.001f), owner.Index == 0 ? CardOrientation.Attack : CardOrientation.FaceDown, owner.Index != 0 || _showPlayerHand);
                 }
 
             case Location.Graveyard:

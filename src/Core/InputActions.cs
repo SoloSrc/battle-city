@@ -14,4 +14,10 @@ public static class InputActions
     public const string Cancel = "cancel";
     public const string Menu = "menu";
     public const string RunToggle = "run_toggle";
+
+    // Duel HUD (systems.md §6.3, GDD §3.4).
+    public const string DuelPhase = "duel_phase";
+    public const string DuelGraveyard = "duel_graveyard";
+    public const string DuelBanished = "duel_banished";
+    public const string DuelLog = "duel_log";
 }

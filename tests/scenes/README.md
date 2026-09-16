@@ -178,3 +178,25 @@ lines fail CI.
 ```bash
 godot --headless --path . res://tests/scenes/DistrictTest.tscn --fixed-fps 60 --quit-after 3600
 ```
+
+## DuelUiTest.tscn (issue #61)
+
+The staging scene plus `DuelSession` and `DuelUi`: Goat Control in the
+human seat against Mara's deck. A scripted player asks a heuristic agent what
+it would do and then reaches that command only through the HUD, by pressing
+the input actions (grid moves, `interact`, `cancel`, `duel_phase`) and, every
+other time, by moving the mouse over the 3D card or the fan card and
+clicking. The command the engine receives must be the one aimed for; menus
+must offer only legal commands; the chain display, hand fan and Life Point
+counters must match the state; the mouse must move the cursor; the pile
+lists and the log must open. `DuelUiTest FAIL` lines fail CI.
+
+```bash
+godot --headless --path . res://tests/scenes/DuelUiTest.tscn --fixed-fps 60 --quit-after 5600
+```
+
+Windowed, `-- --capture <dir>` saves `ui_<mode>.png` the first time each
+kind of prompt is open (free cursor, menu, targets, picker, response, pile).
+Injected mouse events carry window pixels (headless windows are 64 × 64 and
+stretched), so the scene maps viewport positions through the viewport's
+final transform before injecting them.
