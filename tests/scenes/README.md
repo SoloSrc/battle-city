@@ -161,22 +161,27 @@ the editor, or with a window, `-- --capture <dir>` saves `staging.png` and the
 baked faces of the cards in play a few commands in, for visual review of the
 six frame types, stars, attribute, stats and badges.
 
-## DistrictTest.tscn (issue #23)
+## DistrictTest.tscn (issues #23, #62)
 
-The acceptance path of the skeleton district through the real `Game`
-autoload: New Game → starting room → exit door (fade) → Plaza `arrival` →
-Nico's cone starts the tutorial encounter (exclamation, approach to the
-`nico` site's stand points, dialogue line, placeholder duel). Scripted mode
-loses the first duel (return to the encounter spot, no coin loss, 3 s cone
-disarm with no retrigger on the standing player), challenges Nico by
-interacting and wins (`defeated:d1`, Park gate opens, Mara unlocks, the cone
-stays off afterwards), then walks back into the room through its door.
-Phases advance on conditions with a timeout each. Live, it is simply the
-game from the starting room with the report label on top. `DistrictTest FAIL`
-lines fail CI.
+The acceptance path of the district through the real `Game` autoload: New
+Game → starting room → exit door (fade) → Plaza `arrival` → Nico's cone
+starts the tutorial encounter (exclamation, Nico walks over while the player
+keeps control, input locks on arrival, both take the `nico` site's stand
+points, challenge line) → the real duel (starter deck against Rookie
+Beatdown, staging, HUD with the tutorial hints, duel camera). Scripted mode
+surrenders the first duel (lose line, HUD and cards torn down, return to the
+meeting spot, no coin loss, `tutorial_done` set, 3 s cone disarm with no
+retrigger on the standing player), challenges Nico by interacting and plays
+the rematch with a heuristic agent in the player's seat to a win (`defeated:d1`,
+600 coins, one Street Pack of five library cards in the collection, win and
+reward lines, Park gate opens, Mara unlocks, no hints, the cone stays off
+afterwards), then walks back into the room through its door. Phases advance
+on conditions with a timeout each. The game seed is fixed (`Seed`) so the
+rematch is a known win. Live, it is simply the game from the starting room
+with the report label on top. `DistrictTest FAIL` lines fail CI.
 
 ```bash
-godot --headless --path . res://tests/scenes/DistrictTest.tscn --fixed-fps 60 --quit-after 3600
+godot --headless --path . res://tests/scenes/DistrictTest.tscn --fixed-fps 60 --quit-after 9000
 ```
 
 ## DuelUiTest.tscn (issue #61)
