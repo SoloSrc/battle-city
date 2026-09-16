@@ -193,21 +193,45 @@ Bounds: the rig clamps its XZ to the union of `CameraBounds` volumes with a
 ### 4.3 EncounterSystem
 
 1. `Duelist` detects the player in its cone (8 m, 60°) or is interacted with.
-2. Freeze player input; exclamation; duelist walks to the nearer stand
-   point of the closest `EncounterSite` (or 3.5 m from its own position if
-   no site is within 10 m, snapped to the navmesh). The cone is disarmed
-   for 3 s after a duel ends so a loss cannot retrigger while the player
-   is still inside it, and stays disarmed after the first victory.
-3. Player is walked to the opposite stand point by the controller.
-4. Dialogue line. Both play `duel_ready`; on `disk_deploy` the `DuelStaging`
-   spawns anchors and the camera blends to the duel camera over 1.2 s.
-5. `Game.Mode = Duel`, engine starts.
-6. On result: `win`/`lose` clips, cards dissolve, camera blends back,
-   duelist state updated, rewards granted, autosave.
+2. Input freezes on the spot and the camera **reveals the duelist**: it
+   blends to frame them (overworld pitch and distance, 0.6 s) while the
+   exclamation shows over their head, and holds for 1.4 s in total. The
+   player always sees who spotted them before anything moves (director
+   note, 2026-09-13: Nico's cone reaches the room door, so the player used to
+   be walked away by someone off screen).
+3. The camera blends back to the player; the duelist walks to the nearer
+   stand point of the closest `EncounterSite` (or 3.5 m from its own
+   position if no site is within 10 m, snapped to the navmesh) while the
+   controller walks the player to the opposite one. The cone is disarmed
+   for 3 s after a duel ends so a loss cannot retrigger while the player is
+   still inside it, and stays disarmed after the first victory.
+4. Challenge line from `data/duelists.json`. Both play `duel_ready`; on the
+   player's `disk_deploy` event (or after 1 s) the `DuelDirector` stages the
+   duelists, deploys the disks, starts the engine, binds `DuelStaging` and
+   `DuelUi` and blends the camera to the duel framing over 1.2 s.
+5. `Game.Mode = Duel`; the player's collection deck (§8) faces the duelist's
+   deck and AI profile; the duel seed and the agent's seed come from
+   `Game.Rng`.
+6. On result: `win`/`lose` clips and the HUD banner for 2 s, then the cards
+   dissolve, the disks fold and the camera blends back; the duelist's
+   `win_line` or `lose_line` plays, a win adds `defeated:<id>`, coins and
+   boosters (§8, opened into the collection and listed in a second line);
+   `tutorial_done` is set after the first duel either way. A loss fades the
+   player back to the encounter spot. Autosave lands with #63.
 
 Meeting positions that fail a capsule sweep are resolved by searching
 outward along the site axis in 0.5 m steps for up to 3 m. No teleport to
 another location, ever.
+
+Implementation (issue #62): `EncounterSystem` states are Idle → Reveal
+(camera on the duelist, `CameraRig.Reveal`) → Approach → Dialogue → Duel →
+Result → Lines → Returning (loss only). `Game.Duels` is a `DuelDirector`
+under the world node that owns the staging, the session and the HUD for the
+whole run; encounters call `Begin`/`End` on it and listen to `Finished`.
+`Game.Data` loads `data/` on first use, `Game.Collection` starts as the
+`starter` deck on New Game, `Game.Rng` is a `DuelRng` seeded from
+`Game.Seed`. `EncounterSystem.LastRewardCoins` / `LastRewardCards` expose
+the last reward for the acceptance.
 
 ### 4.4 Collision layers
 
@@ -719,6 +743,11 @@ Implementation (issue #61):
   or a fan card moves the cursor; a click acts; a click on a pile opens its
   list. The player's 3D hand row is hidden while the fan is up
   (`DuelStaging.ShowPlayerHand`); the opponent's stays face-down in 3D.
+- Tutorial (GDD §6 step 2): with `DuelUi.Tutorial` on, the first time each
+  phase and each kind of prompt (menu, attack targets, picker, response,
+  hand-limit discard) appears, a one-line hint from `TutorialHints`
+  (Duel.Core) shows under the banner for 6 s, queued one at a time.
+  Encounters turn it on while `tutorial_done` is unset.
 - Input actions added to `project.godot`: `duel_phase` (Y / Space),
   `duel_graveyard` (LB / G), `duel_banished` (RB / B), `duel_log`
   (Back / L); `interact`, `cancel` and the move actions are reused.
@@ -836,6 +865,15 @@ reproducible from the save's seed counter.
 
 Rewards: `data/duelists.json` carries `reward_first`, `reward_rematch`
 (coins, boosters).
+
+Implementation (issue #62): `Collection` (BattleCity.Data) holds `Owned`,
+`Deck` and `FusionDeck` as id lists; `Collection.Starter(data)` is the
+`starter` deck owned and built, `ToDeck` expands it for the engine. Coins
+stay on `Game`. `BoosterDraw.Open(pack, library, rng)` picks a tier by the
+pack's weights and a uniform card of that tier; cards with limit 1 stop
+appearing once `limited_max` are in the pack, limit 0 and tokens never
+appear. The first duelist reward for a duelist is `reward_first`, every
+later win `reward_rematch`.
 
 ### 8.1 Data schemas (`data/`, issue #26)
 

@@ -1,31 +1,43 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using BattleCity.Characters;
 using BattleCity.Core;
+using BattleCity.Data;
+using BattleCity.Duel.Core;
+using BattleCity.Duel.Core.Ai;
+using BattleCity.Duel.Core.Model;
+using BattleCity.DuelScene;
 using Godot;
 
 namespace BattleCity.World;
 
 /// <summary>
 /// Runs a street encounter (systems.md §4.3): a <see cref="Duelist"/> spots the
-/// player or is challenged, an exclamation shows, the duelist walks to the
-/// nearer stand point of the closest <see cref="EncounterSite"/> while the
-/// controller walks the player to the other one, a dialogue line plays and the
-/// duel starts. The duel itself is a placeholder until <c>DuelStaging</c> and
-/// <c>Duel.Core</c> land: a choice box decides win or lose. A win sets
-/// <c>defeated:&lt;id&gt;</c> (gates open, the cone stays off, rematches stay
-/// manual); a loss returns the player to the encounter spot with no coin loss
-/// and disarms the cone for <see cref="DisarmTime"/>.
+/// player or is challenged. Input locks on the spot and the camera reveals the
+/// duelist (exclamation over their head) so the player sees who is coming,
+/// then it returns to the player while the duelist walks to the nearer stand
+/// point of the closest <see cref="EncounterSite"/> (or 3.5 m from its own
+/// position without one) and the controller walks the player to the other.
+/// The challenge line plays, both play <c>duel_ready</c> and the real duel
+/// runs through the game's <see cref="DuelDirector"/>: the player's collection
+/// deck against the duelist's deck and profile from <c>data/duelists.json</c>.
+/// A win sets <c>defeated:&lt;id&gt;</c> and grants the reward (coins and
+/// boosters into the collection); a loss shows the lose line and returns the
+/// player to the encounter spot with no penalty. The cone is disarmed for
+/// <see cref="DisarmTime"/> afterwards and stays off after the first victory.
 /// </summary>
 public partial class EncounterSystem : Node
 {
     public enum EncounterState
     {
         Idle,
-        Exclaim,
+        Reveal,
         Approach,
         Dialogue,
         Duel,
         Result,
+        Lines,
         Returning,
     }
 
@@ -45,8 +57,13 @@ public partial class EncounterSystem : Node
     private const float SweepStep = 0.5f;
     private const float SweepMax = 3.0f;
 
+    /// <summary>The reveal beat: the camera holds on the duelist with the exclamation for this long before the walk.</summary>
     [Export(PropertyHint.Range, "0,3,0.1,suffix:s")]
-    public float ExclaimTime { get; set; } = 0.6f;
+    public float RevealTime { get; set; } = 1.4f;
+
+    /// <summary>Camera blend to the duelist and back.</summary>
+    [Export(PropertyHint.Range, "0,2,0.1,suffix:s")]
+    public float RevealBlend { get; set; } = 0.6f;
 
     [Export(PropertyHint.Range, "0,10,0.1,suffix:m/s")]
     public float WalkSpeed { get; set; } = 2.2f;
@@ -54,8 +71,13 @@ public partial class EncounterSystem : Node
     [Export(PropertyHint.Range, "1,30,1,suffix:s")]
     public float ApproachTimeout { get; set; } = 10.0f;
 
+    /// <summary>Wait for the player's <c>disk_deploy</c> animation event before the cards appear; the duel starts anyway after this long.</summary>
+    [Export(PropertyHint.Range, "0,3,0.1,suffix:s")]
+    public float DeployTimeout { get; set; } = 1.0f;
+
+    /// <summary>Time to read the result banner and the win/lose clips before the cards dissolve.</summary>
     [Export(PropertyHint.Range, "0,5,0.1,suffix:s")]
-    public float ResultTime { get; set; } = 1.0f;
+    public float ResultTime { get; set; } = 2.0f;
 
     /// <summary>Cone disarm after a duel ends so a loss cannot retrigger while the player is still inside it.</summary>
     [Export(PropertyHint.Range, "0,10,0.5,suffix:s")]
@@ -76,15 +98,28 @@ public partial class EncounterSystem : Node
 
     public bool LastWon { get; private set; }
 
+    /// <summary>True when the last approach hit <see cref="ApproachTimeout"/> instead of both arriving (a diagnostic for the acceptance).</summary>
+    public bool ApproachTimedOut { get; private set; }
+
+    /// <summary>Coins granted by the last duel (0 after a loss).</summary>
+    public int LastRewardCoins { get; private set; }
+
+    /// <summary>Card ids the last duel's boosters added to the collection.</summary>
+    public IReadOnlyList<string> LastRewardCards => _lastRewardCards;
+
+    private readonly List<string> _lastRewardCards = new();
+    private readonly Queue<string> _lines = new();
     private Character? _player;
     private PlayerController? _controller;
-    private bool _manual;
     private float _timer;
     private Vector3[] _path = Array.Empty<Vector3>();
     private int _pathIndex;
     private Label3D? _exclamation;
     private bool _dialogueOpen;
-    private bool _duelOpen;
+    private bool _lineOpen;
+    private bool _duelBound;
+    private bool _wasDefeated;
+    private DuelistDefinition? _definition;
     private float _gravityVelocity;
 
     /// <summary>Begins an encounter; ignored while one runs, during transitions, or for locked duelists.</summary>
@@ -108,7 +143,6 @@ public partial class EncounterSystem : Node
         Current = duelist;
         _player = player;
         _controller = player.GetNodeOrNull<PlayerController>("Controller");
-        _manual = manual;
         Origin = player.GlobalPosition;
         _gravityVelocity = 0.0f;
         ResolveStands(duelist, player);
@@ -117,9 +151,10 @@ public partial class EncounterSystem : Node
         player.Velocity = Vector3.Zero;
         FaceToward(duelist.Character, player.GlobalPosition);
         ShowExclamation(duelist.Character);
-        _timer = ExclaimTime;
-        State = EncounterState.Exclaim;
-        GD.Print($"Encounter: {duelist.DuelistId} {(manual ? "challenged" : "spotted the player")}");
+        Game.Instance?.Camera?.Reveal(duelist.Character.GlobalPosition, RevealBlend);
+        _timer = RevealTime;
+        State = EncounterState.Reveal;
+        GD.Print($"Encounter: {duelist.DuelistId} {(manual ? "challenged" : "spotted the player")}; camera reveals the duelist");
         EmitSignal(SignalName.EncounterStarted, duelist.DuelistId, manual);
     }
 
@@ -132,6 +167,13 @@ public partial class EncounterSystem : Node
         }
 
         HideExclamation();
+        UnbindDuel();
+        if (State == EncounterState.Reveal)
+        {
+            Game.Instance?.Camera?.ExitDuel(0.0f);
+        }
+
+        Game.Instance?.Duels?.End();
         Game.Instance?.Messages.Close(false);
         _controller?.StopWalk();
         Finish();
@@ -142,11 +184,12 @@ public partial class EncounterSystem : Node
         float dt = (float)delta;
         switch (State)
         {
-            case EncounterState.Exclaim:
+            case EncounterState.Reveal:
                 _timer -= dt;
                 if (_timer <= 0.0f)
                 {
                     HideExclamation();
+                    Game.Instance?.Camera?.ExitDuel(RevealBlend);
                     BeginApproach();
                 }
 
@@ -154,8 +197,19 @@ public partial class EncounterSystem : Node
             case EncounterState.Approach:
                 StepApproach(dt);
                 break;
-            case EncounterState.Dialogue:
             case EncounterState.Duel:
+                if (!_duelBound)
+                {
+                    _timer -= dt;
+                    if (_timer <= 0.0f)
+                    {
+                        StartDuel();
+                    }
+                }
+
+                break;
+            case EncounterState.Dialogue:
+            case EncounterState.Lines:
             case EncounterState.Returning:
                 break;
             case EncounterState.Result:
@@ -166,6 +220,55 @@ public partial class EncounterSystem : Node
                 }
 
                 break;
+        }
+    }
+
+    // --- approach: both walk to the stand points ---
+
+    private void BeginApproach()
+    {
+        if (Current?.Character is not { } npc || _player is null)
+        {
+            Finish();
+            return;
+        }
+
+        Rid map = _player.GetWorld3D().NavigationMap;
+        Vector3[] path = NavigationServer3D.MapGetPath(map, npc.GlobalPosition, DuelistStand, true);
+        _path = path.Length >= 2 ? path : new[] { npc.GlobalPosition, DuelistStand };
+        _pathIndex = 1;
+        _controller?.WalkTo(PlayerStand);
+        _timer = ApproachTimeout;
+        ApproachTimedOut = false;
+        State = EncounterState.Approach;
+        GD.Print(FormattableString.Invariant($"Encounter: {Current.DuelistId} walks {(path.Length >= 2 ? "a navmesh path" : "a straight line")} of {_path.Length} points to the stand point{(Site is null ? " (no site nearby)" : $" of site '{Site.Id}'")}; player to {PlayerStand}"));
+    }
+
+    private void StepApproach(float dt)
+    {
+        if (Current?.Character is not { } npc || _player is null)
+        {
+            Finish();
+            return;
+        }
+
+        _timer -= dt;
+        bool npcArrived = StepDuelist(npc, dt, DuelistStand, ArriveRadius);
+        bool playerArrived = _controller is null || !_controller.IsAutoWalking;
+        if ((npcArrived && playerArrived) || _timer <= 0.0f)
+        {
+            if (_timer <= 0.0f)
+            {
+                ApproachTimedOut = true;
+                GD.PushWarning($"Encounter: approach timed out ({Current.DuelistId}); starting from current positions");
+                _controller?.StopWalk();
+            }
+
+            npc.Velocity = Vector3.Zero;
+            npc.SetLocomotion(0.0f);
+            FaceToward(npc, _player.GlobalPosition);
+            FaceToward(_player, npc.GlobalPosition);
+            BeginDialogue();
         }
     }
 
@@ -295,60 +398,16 @@ public partial class EncounterSystem : Node
         return closest.DistanceTo(point) < 2.0f ? closest : point;
     }
 
-    private void BeginApproach()
+    /// <summary>Moves the duelist along its path at walk speed toward <paramref name="goal"/>; true once within <paramref name="radius"/> of it.</summary>
+    private bool StepDuelist(Character npc, float dt, Vector3 goal, float radius)
     {
-        if (Current?.Character is not { } npc || _player is null)
-        {
-            Finish();
-            return;
-        }
-
-        Rid map = _player.GetWorld3D().NavigationMap;
-        Vector3[] path = NavigationServer3D.MapGetPath(map, npc.GlobalPosition, DuelistStand, true);
-        _path = path.Length >= 2 ? path : new[] { npc.GlobalPosition, DuelistStand };
-        GD.Print(FormattableString.Invariant($"Encounter: {Current.DuelistId} walks {(path.Length >= 2 ? "a navmesh path" : "a straight line")} of {_path.Length} points to the stand point; player to {PlayerStand}"));
-        _pathIndex = 1;
-        _controller?.WalkTo(PlayerStand);
-        _timer = ApproachTimeout;
-        State = EncounterState.Approach;
-    }
-
-    private void StepApproach(float dt)
-    {
-        if (Current?.Character is not { } npc || _player is null)
-        {
-            Finish();
-            return;
-        }
-
-        _timer -= dt;
-        bool npcArrived = StepDuelist(npc, dt);
-        bool playerArrived = _controller is null || !_controller.IsAutoWalking;
-        if ((npcArrived && playerArrived) || _timer <= 0.0f)
-        {
-            if (_timer <= 0.0f)
-            {
-                GD.PushWarning($"Encounter: approach timed out ({Current.DuelistId}); starting from current positions");
-                _controller?.StopWalk();
-            }
-
-            npc.Velocity = Vector3.Zero;
-            npc.SetLocomotion(0.0f);
-            FaceToward(npc, _player.GlobalPosition);
-            FaceToward(_player, npc.GlobalPosition);
-            BeginDialogue();
-        }
-    }
-
-    /// <summary>Moves the duelist along its path at walk speed; true once at the stand point.</summary>
-    private bool StepDuelist(Character npc, float dt)
-    {
-        Vector3 target = _pathIndex < _path.Length ? _path[_pathIndex] : DuelistStand;
-        Vector3 to = target - npc.GlobalPosition;
+        Vector3 target = _pathIndex < _path.Length ? _path[_pathIndex] : goal;
+        bool last = _pathIndex >= _path.Length - 1;
+        Vector3 to = (last ? goal : target) - npc.GlobalPosition;
         to.Y = 0.0f;
         float distance = to.Length();
-        bool last = _pathIndex >= _path.Length - 1;
-        if (distance <= ArriveRadius)
+        float stop = last ? radius : ArriveRadius;
+        if (distance <= stop)
         {
             if (!last)
             {
@@ -361,15 +420,18 @@ public partial class EncounterSystem : Node
             return true;
         }
 
+        // Aim at the point itself, not the edge of the radius: the last step lands on it, so the arrival test above passes next frame.
         Vector3 dir = to / distance;
         float speed = last ? Mathf.Min(WalkSpeed, distance / dt) : WalkSpeed;
         _gravityVelocity = npc.IsOnFloor() ? -0.1f : _gravityVelocity - 9.8f * dt;
         npc.Velocity = new Vector3(dir.X * speed, _gravityVelocity, dir.Z * speed);
         npc.MoveAndSlide();
-        npc.SetLocomotion(WalkSpeed);
+        npc.SetLocomotion(speed);
         npc.Rotation = new Vector3(0.0f, Mathf.Atan2(-dir.X, -dir.Z), 0.0f);
         return false;
     }
+
+    // --- dialogue and duel ---
 
     private void BeginDialogue()
     {
@@ -379,10 +441,13 @@ public partial class EncounterSystem : Node
             return;
         }
 
+        _definition = game.Data?.Duelists.GetValueOrDefault(Current.DuelistId);
+        string name = _definition?.Name ?? Current.DisplayName;
+        string line = _definition?.ChallengeLine ?? Current.ChallengeLine;
         State = EncounterState.Dialogue;
         _dialogueOpen = true;
         game.Messages.Closed += OnMessageClosed;
-        game.Messages.Show($"{Current.DisplayName}: {Current.ChallengeLine}");
+        game.Messages.Show($"{name}: {line}");
     }
 
     private void OnMessageClosed(bool accepted)
@@ -398,13 +463,14 @@ public partial class EncounterSystem : Node
             _dialogueOpen = false;
             BeginDuel();
         }
-        else if (_duelOpen)
+        else if (_lineOpen)
         {
-            _duelOpen = false;
-            EndDuel(accepted);
+            _lineOpen = false;
+            ShowNextLine();
         }
     }
 
+    /// <summary>Both play <c>duel_ready</c>; the cards appear on the player's <c>disk_deploy</c> event (or after <see cref="DeployTimeout"/>).</summary>
     private void BeginDuel()
     {
         if (Current?.Character is not { } npc || _player is null || Game.Instance is not { } game)
@@ -414,42 +480,172 @@ public partial class EncounterSystem : Node
         }
 
         State = EncounterState.Duel;
+        _duelBound = false;
         npc.PlayState(Character.DuelReadyState);
         _player.PlayState(Character.DuelReadyState);
+        _player.AnimationEvent += OnPlayerAnimationEvent;
+        _timer = DeployTimeout;
         game.SetMode(GameMode.Duel);
         EmitSignal(SignalName.DuelStarted, Current.DuelistId);
-        _duelOpen = true;
-        game.Messages.Closed += OnMessageClosed;
-        game.Messages.Show(
-            $"Placeholder duel against {Current.DisplayName} ({Current.DuelistId}). Duel.Core and DuelStaging replace this box.",
-            choice: true,
-            hint: "Interact: win   Cancel: lose");
     }
 
-    private void EndDuel(bool won)
+    private void OnPlayerAnimationEvent(string name)
     {
+        if (name == AnimationEvents.DiskDeploy && State == EncounterState.Duel && !_duelBound)
+        {
+            StartDuel();
+        }
+    }
+
+    private void StartDuel()
+    {
+        if (_player is not null)
+        {
+            _player.AnimationEvent -= OnPlayerAnimationEvent;
+        }
+
         if (Current?.Character is not { } npc || _player is null || Game.Instance is not { } game)
         {
             Finish();
             return;
         }
 
-        LastWon = won;
+        if (game.Data is not { } data || game.Collection is not { } collection || game.Duels is not { } duels || _definition is null)
+        {
+            GD.PushError($"Encounter: cannot start the duel against {Current.DuelistId} (data {(game.Data is null ? "missing" : "ok")}, duelist {(_definition is null ? "unknown" : "known")}, duels {(game.Duels is null ? "missing" : "ok")})");
+            UnbindDuel();
+            npc.ResetToLocomotion();
+            _player.ResetToLocomotion();
+            Finish();
+            return;
+        }
+
+        _duelBound = true;
+        _wasDefeated = game.HasFlag(Flags.Defeated(Current.DuelistId));
+        Deck mine = collection.ToDeck(data.Cards);
+        Deck theirs = data.Decks[_definition.DeckId].ToDeck(data.Cards);
+        ulong seed = game.NextSeed();
+        var agent = new HeuristicAgent(_definition.Profile, game.NextSeed());
+        bool tutorial = !game.HasFlag(Flags.TutorialDone);
+        duels.Finished += OnDuelFinished;
+        duels.Begin(_player, npc, PlayerStand, DuelistStand, mine, theirs, agent, seed, tutorial, game.Camera);
+        GD.Print(FormattableString.Invariant($"Encounter: duel against {Current.DuelistId} ({_definition.DeckId}, {_definition.Profile.Name}) started, seed {seed}{(tutorial ? ", tutorial" : string.Empty)}"));
+    }
+
+    private void OnDuelFinished(int? winner)
+    {
+        if (Current?.Character is null || _player is null || Game.Instance is not { } game || game.Duels is null)
+        {
+            UnbindDuel();
+            Finish();
+            return;
+        }
+
+        game.Duels.Finished -= OnDuelFinished;
+        LastWon = winner == DuelDirector.HumanSeat;
         State = EncounterState.Result;
         _timer = ResultTime;
-        _player.PlayState(won ? Character.WinState : Character.LoseState);
-        npc.PlayState(won ? Character.LoseState : Character.WinState);
-        if (won)
+        _lastRewardCards.Clear();
+        LastRewardCoins = 0;
+        if (LastWon)
         {
             Current.Defeated = true;
             game.SetFlag(Flags.Defeated(Current.DuelistId));
+            GrantReward(game);
         }
 
-        GD.Print($"Encounter: duel against {Current.DuelistId} {(won ? "won" : "lost")}; coins {game.Coins}");
-        EmitSignal(SignalName.DuelFinished, Current.DuelistId, won);
+        if (!game.HasFlag(Flags.TutorialDone))
+        {
+            game.SetFlag(Flags.TutorialDone);
+        }
+
+        GD.Print(FormattableString.Invariant($"Encounter: duel against {Current.DuelistId} {(LastWon ? "won" : winner is null ? "drawn" : "lost")}; coins {game.Coins}"));
+        EmitSignal(SignalName.DuelFinished, Current.DuelistId, LastWon);
     }
 
+    /// <summary>Coins and boosters per <c>reward_first</c> / <c>reward_rematch</c> (systems.md §8); booster cards join the collection.</summary>
+    private void GrantReward(Game game)
+    {
+        if (_definition is null || game.Data is not { } data || game.Collection is not { } collection)
+        {
+            return;
+        }
+
+        Reward reward = _wasDefeated ? _definition.RewardRematch : _definition.RewardFirst;
+        game.Coins += reward.Coins;
+        LastRewardCoins = reward.Coins;
+        BoosterDefinition? pack = data.Shop.Boosters.FirstOrDefault();
+        if (pack is null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < reward.Boosters; i++)
+        {
+            foreach (CardDefinition card in BoosterDraw.Open(pack, data.Cards, game.Rng))
+            {
+                collection.Add(card.Id);
+                _lastRewardCards.Add(card.Id);
+            }
+        }
+    }
+
+    /// <summary>After the result beat: cards dissolve, HUD off, camera back, then the duelist's line and the reward.</summary>
     private void EndResult()
+    {
+        if (Game.Instance is not { } game || Current is null)
+        {
+            Finish();
+            return;
+        }
+
+        game.Duels?.End();
+        string name = _definition?.Name ?? Current.DisplayName;
+        _lines.Clear();
+        _lines.Enqueue($"{name}: {(LastWon ? _definition?.WinLine ?? "Not bad." : _definition?.LoseLine ?? "Better luck next time.")}");
+        if (LastWon)
+        {
+            _lines.Enqueue(RewardText(game));
+        }
+
+        State = EncounterState.Lines;
+        ShowNextLine();
+    }
+
+    private string RewardText(Game game)
+    {
+        var parts = new List<string> { FormattableString.Invariant($"{LastRewardCoins} coins") };
+        if (_lastRewardCards.Count > 0)
+        {
+            int packs = _definition is null ? 1 : (_wasDefeated ? _definition.RewardRematch : _definition.RewardFirst).Boosters;
+            string packName = game.Data?.Shop.Boosters.FirstOrDefault()?.Name ?? "booster";
+            IEnumerable<string> names = _lastRewardCards.Select(id => game.Data?.Cards.TryGet(id, out CardDefinition? card) == true && card is not null ? card.Name : id);
+            parts.Add(FormattableString.Invariant($"{packs} {packName}{(packs == 1 ? string.Empty : "s")}: {string.Join(", ", names)}"));
+        }
+
+        return "Reward: " + string.Join(" and ", parts) + ".";
+    }
+
+    private void ShowNextLine()
+    {
+        if (Game.Instance is not { } game)
+        {
+            Finish();
+            return;
+        }
+
+        if (_lines.Count == 0)
+        {
+            AfterLines();
+            return;
+        }
+
+        _lineOpen = true;
+        game.Messages.Closed += OnMessageClosed;
+        game.Messages.Show(_lines.Dequeue());
+    }
+
+    private void AfterLines()
     {
         if (Current?.Character is { } npc)
         {
@@ -494,6 +690,28 @@ public partial class EncounterSystem : Node
         Finish();
     }
 
+    private void UnbindDuel()
+    {
+        if (_player is not null)
+        {
+            _player.AnimationEvent -= OnPlayerAnimationEvent;
+        }
+
+        if (Game.Instance?.Duels is { } duels)
+        {
+            duels.Finished -= OnDuelFinished;
+        }
+
+        if (Game.Instance is { } game && (_dialogueOpen || _lineOpen))
+        {
+            game.Messages.Closed -= OnMessageClosed;
+        }
+
+        _dialogueOpen = false;
+        _lineOpen = false;
+        _duelBound = false;
+    }
+
     private void Finish()
     {
         Game.Instance?.SetMode(Game.Instance.LevelPath.Length > 0 ? Game.ModeFor(Game.Instance.LevelPath) : GameMode.Overworld);
@@ -503,8 +721,11 @@ public partial class EncounterSystem : Node
         Site = null;
         _player = null;
         _controller = null;
+        _definition = null;
         _dialogueOpen = false;
-        _duelOpen = false;
+        _lineOpen = false;
+        _duelBound = false;
+        _lines.Clear();
     }
 
     private static void FaceToward(Character who, Vector3 point)

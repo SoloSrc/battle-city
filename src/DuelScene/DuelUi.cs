@@ -65,6 +65,7 @@ public partial class DuelUi : CanvasLayer
     private const float CardHeight = CardWidth * 860.0f / 590.0f;
     private const float HandRaise = 44.0f;
     private const float NoticeTime = 2.5f;
+    private const float HintTime = 6.0f;
     private static readonly Color _dim = new(1.0f, 1.0f, 1.0f, 0.45f);
     private static readonly Color _accent = new(1.0f, 0.93f, 0.55f);
     private static readonly Color _playerColor = new(0.55f, 0.9f, 1.0f);
@@ -77,6 +78,8 @@ public partial class DuelUi : CanvasLayer
     private readonly HashSet<Guid> _picked = new();
     private readonly float[] _lpShown = { 8000.0f, 8000.0f };
     private readonly Tween?[] _lpTweens = new Tween?[2];
+    private readonly HashSet<TutorialTopic> _hintsShown = new();
+    private readonly Queue<TutorialTopic> _hintQueue = new();
 
     private DuelSession? _session;
     private DuelStaging? _staging;
@@ -90,6 +93,7 @@ public partial class DuelUi : CanvasLayer
     private bool _pickerIsChoice;
     private Action<IReadOnlyCollection<Guid>>? _pickConfirm;
     private float _noticeTimer;
+    private float _hintTimer;
     private Location _pileShown = Location.Graveyard;
 
     private Control _root = null!;
@@ -102,6 +106,8 @@ public partial class DuelUi : CanvasLayer
     private HBoxContainer _chain = null!;
     private Label _banner = null!;
     private Label _notice = null!;
+    private PanelContainer _hintPanel = null!;
+    private Label _hintLabel = null!;
     private PanelContainer _inspector = null!;
     private Label _inspectorName = null!;
     private Label _inspectorType = null!;
@@ -114,6 +120,15 @@ public partial class DuelUi : CanvasLayer
     private Label _hint = null!;
 
     public DuelUiMode Mode => _mode;
+
+    /// <summary>Tutorial duel (GDD §6 step 2): each phase and each kind of prompt is explained the first time it appears.</summary>
+    public bool Tutorial { get; set; }
+
+    /// <summary>Hints shown since <see cref="Bind"/>.</summary>
+    public int HintsShown => _hintsShown.Count;
+
+    /// <summary>The hint on screen, empty when none.</summary>
+    public string Hint => _hintPanel.Visible ? _hintLabel.Text : string.Empty;
 
     public int CursorRow => _row;
 
@@ -181,6 +196,10 @@ public partial class DuelUi : CanvasLayer
 
         _row = HandRow;
         _col = 0;
+        _hintsShown.Clear();
+        _hintQueue.Clear();
+        _hintTimer = 0.0f;
+        _hintPanel.Visible = false;
         _root.Visible = true;
         Refresh();
     }
@@ -214,6 +233,8 @@ public partial class DuelUi : CanvasLayer
         _staging = null;
         _log.Clear();
         _list.Close();
+        _hintQueue.Clear();
+        _hintPanel.Visible = false;
         _mode = DuelUiMode.Unbound;
         _root.Visible = false;
     }
@@ -411,6 +432,7 @@ public partial class DuelUi : CanvasLayer
             return;
         }
 
+        StepHints((float)delta);
         int dx = (Input.IsActionJustPressed(InputActions.MoveRight) ? 1 : 0) - (Input.IsActionJustPressed(InputActions.MoveLeft) ? 1 : 0);
         int dy = (Input.IsActionJustPressed(InputActions.MoveDown) ? 1 : 0) - (Input.IsActionJustPressed(InputActions.MoveUp) ? 1 : 0);
         if (dx != 0 || dy != 0)
@@ -517,6 +539,11 @@ public partial class DuelUi : CanvasLayer
         UpdateChain(s);
         UpdateHand(s);
         _legal = Engine.LegalActions(_player);
+        if (!s.IsOver)
+        {
+            QueueHint(TutorialHints.Of(s.Phase));
+        }
+
         if (s.IsOver)
         {
             _mode = DuelUiMode.Ended;
@@ -531,16 +558,19 @@ public partial class DuelUi : CanvasLayer
         else if (s.PendingChoice is { } pending && pending.Player == _player)
         {
             _banner.Text = string.Empty;
+            QueueHint(TutorialTopic.Picker);
             OpenChoice(pending);
         }
         else if (_legal.All(c => c is Discard))
         {
             _mode = DuelUiMode.Free;
             _banner.Text = Inv($"Discard down to {Engine.Options.HandLimit} cards");
+            QueueHint(TutorialTopic.Discard);
         }
         else if (ActionCatalog.IsResponding(s, _player))
         {
             _banner.Text = string.Empty;
+            QueueHint(TutorialTopic.Response);
             OpenResponse();
         }
         else
@@ -598,6 +628,7 @@ public partial class DuelUi : CanvasLayer
 
     private void OpenMenu(CardInstance card)
     {
+        QueueHint(TutorialTopic.Menu);
         if (Engine is null)
         {
             return;
@@ -650,6 +681,7 @@ public partial class DuelUi : CanvasLayer
 
     private void OpenTargets(CardAction attack)
     {
+        QueueHint(TutorialTopic.Targets);
         if (Engine is null)
         {
             return;
@@ -868,6 +900,45 @@ public partial class DuelUi : CanvasLayer
         _notice.Text = text;
         _notice.Modulate = _accent;
         _noticeTimer = NoticeTime;
+    }
+
+    /// <summary>Queues a tutorial hint the first time its topic comes up; nothing outside the tutorial duel.</summary>
+    private void QueueHint(TutorialTopic topic)
+    {
+        if (!Tutorial || !_hintsShown.Add(topic))
+        {
+            return;
+        }
+
+        _hintQueue.Enqueue(topic);
+        if (!_hintPanel.Visible)
+        {
+            StepHints(0.0f);
+        }
+    }
+
+    /// <summary>Shows queued hints one at a time for <see cref="HintTime"/> each.</summary>
+    private void StepHints(float dt)
+    {
+        if (_hintPanel.Visible)
+        {
+            _hintTimer -= dt;
+            if (_hintTimer > 0.0f)
+            {
+                return;
+            }
+
+            _hintPanel.Visible = false;
+        }
+
+        if (_hintQueue.Count == 0)
+        {
+            return;
+        }
+
+        _hintLabel.Text = TutorialHints.Text(_hintQueue.Dequeue());
+        _hintPanel.Visible = true;
+        _hintTimer = HintTime;
     }
 
     private void OnEvent(DuelEvent e)
@@ -1178,6 +1249,18 @@ public partial class DuelUi : CanvasLayer
         _notice.OffsetBottom = 146.0f;
         _notice.AddThemeFontSizeOverride("font_size", 20);
         _root.AddChild(_notice);
+
+        // Tutorial hint, under the notice.
+        _hintPanel = Panel("Hint");
+        Place(_hintPanel, 0.5f, 0.0f, -360.0f, 152.0f, 720.0f, 0.0f, Control.GrowDirection.Both, Control.GrowDirection.End);
+        _hintPanel.Visible = false;
+        _hintPanel.MouseFilter = Control.MouseFilterEnum.Ignore;
+        _root.AddChild(_hintPanel);
+        _hintLabel = new Label { AutowrapMode = TextServer.AutowrapMode.WordSmart, HorizontalAlignment = HorizontalAlignment.Center, MouseFilter = Control.MouseFilterEnum.Ignore };
+        _hintLabel.CustomMinimumSize = new Vector2(680.0f, 0.0f);
+        _hintLabel.AddThemeFontSizeOverride("font_size", 18);
+        _hintLabel.Modulate = _accent;
+        _hintPanel.AddChild(_hintLabel);
 
         // Inspector, right.
         _inspector = Panel("Inspector");

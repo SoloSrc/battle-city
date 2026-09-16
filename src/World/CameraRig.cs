@@ -71,6 +71,13 @@ public partial class CameraRig : Node3D
     /// <summary>A duel framing is set (systems.md §4.2 "Duel" column); the rig holds it instead of following.</summary>
     public bool DuelActive => _duel is not null;
 
+    /// <summary>The point a held framing looks at (duel or encounter reveal), null while following the target.</summary>
+    public Vector3? HeldFocus => _duel?.Focus;
+
+    /// <summary>Holds the overworld framing on <paramref name="point"/> (an encounter reveal); <see cref="ExitDuel"/> returns to the target.</summary>
+    public void Reveal(Vector3 point, float blendTime) =>
+        EnterDuel(point + Vector3.Up * FocusHeight, CurrentYaw, Pitch, Distance, Fov, blendTime);
+
     /// <summary>0–1 progress of the last framing blend (duel in or out).</summary>
     public float BlendProgress { get; private set; } = 1.0f;
 

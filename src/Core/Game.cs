@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BattleCity.Characters;
+using BattleCity.Data;
+using BattleCity.Duel.Core.Data;
+using BattleCity.Duel.Core.Rng;
+using BattleCity.DuelScene;
 using BattleCity.Rendering;
 using BattleCity.Ui;
 using BattleCity.World;
@@ -28,6 +32,7 @@ public partial class Game : Node
     public delegate void FlagSetEventHandler(string flag);
 
     public const int StartingCoins = 500;
+    public const ulong DefaultSeed = 123456;
     private const string TransitionLock = "transition";
 
     public static Game? Instance { get; private set; }
@@ -37,6 +42,21 @@ public partial class Game : Node
     public IReadOnlySet<string> Flags => _flags;
 
     public int Coins { get; set; } = StartingCoins;
+
+    /// <summary>The save's seed (systems.md §9); <see cref="Rng"/> restarts from it on New Game.</summary>
+    public ulong Seed { get; private set; } = DefaultSeed;
+
+    /// <summary>The game-side RNG: duel seeds and booster draws come from it, so a run replays from the seed.</summary>
+    public DuelRng Rng { get; private set; } = new(DefaultSeed);
+
+    /// <summary>The player's cards (systems.md §8); the starter deck until the deck editor lands.</summary>
+    public Collection? Collection { get; private set; }
+
+    /// <summary>Everything under <c>data/</c>, loaded on first use; null when it failed to load (already reported).</summary>
+    public GameData? Data => _data ??= LoadData();
+
+    /// <summary>The duel nodes; created with the world on the first level load.</summary>
+    public DuelDirector? Duels { get; private set; }
 
     public string LevelPath { get; private set; } = string.Empty;
 
@@ -65,6 +85,8 @@ public partial class Game : Node
     private readonly HashSet<string> _flags = new(StringComparer.Ordinal);
     private readonly HashSet<string> _inputLocks = new(StringComparer.Ordinal);
     private Node3D? _world;
+    private GameData? _data;
+    private bool _dataFailed;
 
     public override void _EnterTree()
     {
@@ -91,13 +113,19 @@ public partial class Game : Node
         AddChild(Encounters);
     }
 
-    /// <summary>Resets progression and loads the starting room at its <c>arrival</c> spawn.</summary>
-    public void NewGame()
+    /// <summary>Resets progression, coins, the collection and the RNG, then loads the starting room at its <c>arrival</c> spawn.</summary>
+    public void NewGame(ulong seed = DefaultSeed)
     {
         _flags.Clear();
         Coins = StartingCoins;
+        Seed = seed;
+        Rng = new DuelRng(seed);
+        Collection = Data is { } data ? Collection.Starter(data) : null;
         Transition(Paths.StartRoomScene, PlayerSpawn.ArrivalId);
     }
+
+    /// <summary>The next seed for a duel, drawn from <see cref="Rng"/>.</summary>
+    public ulong NextSeed() => Rng.NextUInt64();
 
     /// <summary>Fades out, loads <paramref name="scenePath"/>, places the player at <paramref name="spawnId"/>, fades in.</summary>
     public void Transition(string scenePath, string spawnId)
@@ -232,6 +260,27 @@ public partial class Game : Node
 
         _world = new Node3D { Name = "World" };
         GetTree().Root.AddChild(_world);
+        Duels = new DuelDirector { Name = "Duels" };
+        _world.AddChild(Duels);
+    }
+
+    private GameData? LoadData()
+    {
+        if (_dataFailed)
+        {
+            return null;
+        }
+
+        try
+        {
+            return GameData.Load(ProjectSettings.GlobalizePath(Paths.DataRoot));
+        }
+        catch (Exception e) when (e is DataException or CardDataException)
+        {
+            _dataFailed = true;
+            GD.PushError($"Game: data did not load: {e.Message}");
+            return null;
+        }
     }
 
     private void EnsurePlayer()
