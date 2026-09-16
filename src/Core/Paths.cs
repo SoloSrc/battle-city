@@ -44,6 +44,7 @@ public static class Paths
     public const string MarkersTestScene = "res://tests/scenes/MarkersTest.tscn";
     public const string DistrictTestScene = "res://tests/scenes/DistrictTest.tscn";
     public const string DuelStagingTestScene = "res://tests/scenes/DuelStagingTest.tscn";
+    public const string DuelUiTestScene = "res://tests/scenes/DuelUiTest.tscn";
     public const string SmokeCube = "res://assets/kit/kit_test_cube_1m.glb";
     public const string SmokeCharacterBody = "res://assets/characters/body/char_a_body.glb";
     public const string CharacterAnims = "res://assets/characters/anims/character_anims.glb";

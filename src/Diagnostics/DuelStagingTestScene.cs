@@ -260,7 +260,7 @@ public partial class DuelStagingTestScene : Node3D
         int saved = 0;
         foreach (CardView view in Staging!.Cards.Values)
         {
-            if (view.Card is null || !CardFaces.TryGetBaked(view.Card.Def.Id, out Texture2D? face))
+            if (view.Card is null || !CardFaces.TryGetBaked(view.Card.Def.Id, out Texture2D? face) || face is null)
             {
                 continue;
             }

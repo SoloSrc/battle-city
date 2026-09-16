@@ -1,3 +1,4 @@
+using BattleCity.Core;
 using BattleCity.Duel.Core.Model;
 using BattleCity.Rendering;
 using Godot;
@@ -34,6 +35,7 @@ public partial class CardView : Node3D
     public const float DissolveTime = 1.0f;
 
     private MeshInstance3D? _mesh;
+    private CollisionShape3D? _pickShape;
     private Tween? _move;
     private Tween? _effect;
 
@@ -63,7 +65,31 @@ public partial class CardView : Node3D
         Name = $"Card_{card.Def.Id}_{card.Id.ToString()[..8]}";
         _mesh = HologramCards.Create(side, face, hoverPhase);
         AddChild(_mesh);
+        // Mouse picking (systems.md §6.3): an area on the card layer the size of the quad; DuelStaging.Pick casts against it.
+        var pick = new Area3D
+        {
+            Name = "Pick",
+            CollisionLayer = PhysicsLayers.Card,
+            CollisionMask = 0,
+            Monitoring = false,
+            Monitorable = true,
+        };
+        _pickShape = new CollisionShape3D { Shape = new BoxShape3D { Size = new Vector3(HologramCards.Width, HologramCards.Height, 0.01f) } };
+        pick.AddChild(_pickShape);
+        AddChild(pick);
     }
+
+    /// <summary>Whether the mouse can pick this card; hidden cards (the player's 3D hand under the HUD fan) are not pickable.</summary>
+    public void SetPickable(bool pickable)
+    {
+        if (_pickShape is not null)
+        {
+            _pickShape.Disabled = !pickable;
+        }
+    }
+
+    /// <summary>The card view a picked collider belongs to, or null.</summary>
+    public static CardView? FromCollider(GodotObject? collider) => (collider as Node)?.GetParent() as CardView;
 
     /// <summary>Swaps the face texture (a baked face replacing the viewport texture).</summary>
     public void SetFace(Texture2D face)
