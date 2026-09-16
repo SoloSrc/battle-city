@@ -14,16 +14,17 @@ namespace BattleCity.World;
 
 /// <summary>
 /// Runs a street encounter (systems.md §4.3): a <see cref="Duelist"/> spots the
-/// player or is challenged, an exclamation shows and the duelist walks to the
-/// player, who keeps control until it arrives. Then input locks, both take the
-/// stand points of the closest <see cref="EncounterSite"/> (or the meeting spot
-/// and 3.5 m along the approach without one), the challenge line plays, both
-/// play <c>duel_ready</c> and the real duel runs through the game's
-/// <see cref="DuelDirector"/>: the player's collection deck against the
-/// duelist's deck and profile from <c>data/duelists.json</c>. A win sets
-/// <c>defeated:&lt;id&gt;</c> and grants the reward (coins and boosters into the
-/// collection); a loss shows the lose line and returns the player to the
-/// meeting spot with no penalty. The cone is disarmed for
+/// player or is challenged. Input locks on the spot and the camera reveals the
+/// duelist (exclamation over their head) so the player sees who is coming,
+/// then it returns to the player while the duelist walks to the nearer stand
+/// point of the closest <see cref="EncounterSite"/> (or 3.5 m from its own
+/// position without one) and the controller walks the player to the other.
+/// The challenge line plays, both play <c>duel_ready</c> and the real duel
+/// runs through the game's <see cref="DuelDirector"/>: the player's collection
+/// deck against the duelist's deck and profile from <c>data/duelists.json</c>.
+/// A win sets <c>defeated:&lt;id&gt;</c> and grants the reward (coins and
+/// boosters into the collection); a loss shows the lose line and returns the
+/// player to the encounter spot with no penalty. The cone is disarmed for
 /// <see cref="DisarmTime"/> afterwards and stays off after the first victory.
 /// </summary>
 public partial class EncounterSystem : Node
@@ -31,9 +32,8 @@ public partial class EncounterSystem : Node
     public enum EncounterState
     {
         Idle,
-        Exclaim,
+        Reveal,
         Approach,
-        Meet,
         Dialogue,
         Duel,
         Result,
@@ -56,17 +56,17 @@ public partial class EncounterSystem : Node
     private const float ArriveRadius = 0.25f;
     private const float SweepStep = 0.5f;
     private const float SweepMax = 3.0f;
-    private const float RepathInterval = 0.5f;
 
+    /// <summary>The reveal beat: the camera holds on the duelist with the exclamation for this long before the walk.</summary>
     [Export(PropertyHint.Range, "0,3,0.1,suffix:s")]
-    public float ExclaimTime { get; set; } = 0.6f;
+    public float RevealTime { get; set; } = 1.4f;
+
+    /// <summary>Camera blend to the duelist and back.</summary>
+    [Export(PropertyHint.Range, "0,2,0.1,suffix:s")]
+    public float RevealBlend { get; set; } = 0.6f;
 
     [Export(PropertyHint.Range, "0,10,0.1,suffix:m/s")]
     public float WalkSpeed { get; set; } = 2.2f;
-
-    /// <summary>How close the duelist gets to the player before input locks and both take the stand points.</summary>
-    [Export(PropertyHint.Range, "0.5,5,0.1,suffix:m")]
-    public float ReachDistance { get; set; } = 1.8f;
 
     [Export(PropertyHint.Range, "1,30,1,suffix:s")]
     public float ApproachTimeout { get; set; } = 10.0f;
@@ -89,7 +89,7 @@ public partial class EncounterSystem : Node
 
     public EncounterSite? Site { get; private set; }
 
-    /// <summary>Where the player stood when the duelist reached them; a loss returns them here.</summary>
+    /// <summary>Where the player stood when the encounter began; a loss returns them here.</summary>
     public Vector3 Origin { get; private set; }
 
     public Vector3 DuelistStand { get; private set; }
@@ -109,7 +109,6 @@ public partial class EncounterSystem : Node
     private Character? _player;
     private PlayerController? _controller;
     private float _timer;
-    private float _repathTimer;
     private Vector3[] _path = Array.Empty<Vector3>();
     private int _pathIndex;
     private Label3D? _exclamation;
@@ -141,14 +140,18 @@ public partial class EncounterSystem : Node
         Current = duelist;
         _player = player;
         _controller = player.GetNodeOrNull<PlayerController>("Controller");
-
+        Origin = player.GlobalPosition;
         _gravityVelocity = 0.0f;
-        Site = null;
+        ResolveStands(duelist, player);
+        Game.Instance?.LockInput(LockReason);
+        _controller?.StopWalk();
+        player.Velocity = Vector3.Zero;
         FaceToward(duelist.Character, player.GlobalPosition);
         ShowExclamation(duelist.Character);
-        _timer = ExclaimTime;
-        State = EncounterState.Exclaim;
-        GD.Print($"Encounter: {duelist.DuelistId} {(manual ? "challenged" : "spotted the player")}");
+        Game.Instance?.Camera?.Reveal(duelist.Character.GlobalPosition, RevealBlend);
+        _timer = RevealTime;
+        State = EncounterState.Reveal;
+        GD.Print($"Encounter: {duelist.DuelistId} {(manual ? "challenged" : "spotted the player")}; camera reveals the duelist");
         EmitSignal(SignalName.EncounterStarted, duelist.DuelistId, manual);
     }
 
@@ -162,6 +165,11 @@ public partial class EncounterSystem : Node
 
         HideExclamation();
         UnbindDuel();
+        if (State == EncounterState.Reveal)
+        {
+            Game.Instance?.Camera?.ExitDuel(0.0f);
+        }
+
         Game.Instance?.Duels?.End();
         Game.Instance?.Messages.Close(false);
         _controller?.StopWalk();
@@ -173,20 +181,18 @@ public partial class EncounterSystem : Node
         float dt = (float)delta;
         switch (State)
         {
-            case EncounterState.Exclaim:
+            case EncounterState.Reveal:
                 _timer -= dt;
                 if (_timer <= 0.0f)
                 {
                     HideExclamation();
+                    Game.Instance?.Camera?.ExitDuel(RevealBlend);
                     BeginApproach();
                 }
 
                 break;
             case EncounterState.Approach:
                 StepApproach(dt);
-                break;
-            case EncounterState.Meet:
-                StepMeet(dt);
                 break;
             case EncounterState.Duel:
                 if (!_duelBound)
@@ -214,7 +220,7 @@ public partial class EncounterSystem : Node
         }
     }
 
-    // --- approach: the duelist walks to the player, who keeps control ---
+    // --- approach: both walk to the stand points ---
 
     private void BeginApproach()
     {
@@ -224,86 +230,17 @@ public partial class EncounterSystem : Node
             return;
         }
 
-        RepathTo(npc, _player.GlobalPosition);
-        _repathTimer = RepathInterval;
+        Rid map = _player.GetWorld3D().NavigationMap;
+        Vector3[] path = NavigationServer3D.MapGetPath(map, npc.GlobalPosition, DuelistStand, true);
+        _path = path.Length >= 2 ? path : new[] { npc.GlobalPosition, DuelistStand };
+        _pathIndex = 1;
+        _controller?.WalkTo(PlayerStand);
         _timer = ApproachTimeout;
         State = EncounterState.Approach;
-        GD.Print(FormattableString.Invariant($"Encounter: {Current.DuelistId} walks to the player ({npc.GlobalPosition.DistanceTo(_player.GlobalPosition):F1} m away); the player keeps control"));
+        GD.Print(FormattableString.Invariant($"Encounter: {Current.DuelistId} walks {(path.Length >= 2 ? "a navmesh path" : "a straight line")} of {_path.Length} points to the stand point{(Site is null ? " (no site nearby)" : $" of site '{Site.Id}'")}; player to {PlayerStand}"));
     }
 
     private void StepApproach(float dt)
-    {
-        if (Current?.Character is not { } npc || _player is null)
-        {
-            Finish();
-            return;
-        }
-
-        _timer -= dt;
-        _repathTimer -= dt;
-        if (_repathTimer <= 0.0f)
-        {
-            RepathTo(npc, _player.GlobalPosition);
-            _repathTimer = RepathInterval;
-        }
-
-        Vector3 gap = _player.GlobalPosition - npc.GlobalPosition;
-        gap.Y = 0.0f;
-        bool reached = gap.Length() <= ReachDistance;
-        if (!reached)
-        {
-            StepDuelist(npc, dt, _player.GlobalPosition, ReachDistance);
-        }
-
-        if (reached || _timer <= 0.0f)
-        {
-            if (!reached)
-            {
-                GD.PushWarning($"Encounter: approach timed out ({Current.DuelistId}); meeting from current positions");
-            }
-
-            BeginMeet(npc);
-        }
-    }
-
-    private void RepathTo(Character npc, Vector3 target)
-    {
-        if (_player is null)
-        {
-            return;
-        }
-
-        Rid map = _player.GetWorld3D().NavigationMap;
-        Vector3[] path = NavigationServer3D.MapGetPath(map, npc.GlobalPosition, target, true);
-        _path = path.Length >= 2 ? path : new[] { npc.GlobalPosition, target };
-        _pathIndex = 1;
-    }
-
-    // --- meet: input locks, both take the stand points ---
-
-    private void BeginMeet(Character npc)
-    {
-        if (Current is null || _player is null)
-        {
-            Finish();
-            return;
-        }
-
-        Origin = _player.GlobalPosition;
-        Game.Instance?.LockInput(LockReason);
-        _controller?.StopWalk();
-        _player.Velocity = Vector3.Zero;
-        npc.Velocity = Vector3.Zero;
-        npc.SetLocomotion(0.0f);
-        ResolveStands(Current, _player);
-        RepathTo(npc, DuelistStand);
-        _controller?.WalkTo(PlayerStand);
-        _timer = ApproachTimeout;
-        State = EncounterState.Meet;
-        GD.Print(FormattableString.Invariant($"Encounter: {Current.DuelistId} reached the player; input locked, stands {(Site is null ? "around the meeting spot" : $"on site '{Site.Id}'")}: duelist {DuelistStand}, player {PlayerStand}"));
-    }
-
-    private void StepMeet(float dt)
     {
         if (Current?.Character is not { } npc || _player is null)
         {
@@ -318,7 +255,7 @@ public partial class EncounterSystem : Node
         {
             if (_timer <= 0.0f)
             {
-                GD.PushWarning($"Encounter: stand walk timed out ({Current.DuelistId}); starting from current positions");
+                GD.PushWarning($"Encounter: approach timed out ({Current.DuelistId}); starting from current positions");
                 _controller?.StopWalk();
             }
 

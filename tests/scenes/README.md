@@ -165,12 +165,12 @@ six frame types, stars, attribute, stats and badges.
 
 The acceptance path of the district through the real `Game` autoload: New
 Game → starting room → exit door (fade) → Plaza `arrival` → Nico's cone
-starts the tutorial encounter (exclamation, Nico walks over while the player
-keeps control, input locks on arrival, both take the `nico` site's stand
-points, challenge line) → the real duel (starter deck against Rookie
+starts the tutorial encounter (input locks, the camera reveals Nico with the
+exclamation and returns, both walk to the `nico` site's stand points,
+challenge line) → the real duel (starter deck against Rookie
 Beatdown, staging, HUD with the tutorial hints, duel camera). Scripted mode
 surrenders the first duel (lose line, HUD and cards torn down, return to the
-meeting spot, no coin loss, `tutorial_done` set, 3 s cone disarm with no
+encounter spot, no coin loss, `tutorial_done` set, 3 s cone disarm with no
 retrigger on the standing player), challenges Nico by interacting and plays
 the rematch with a heuristic agent in the player's seat to a win (`defeated:d1`,
 600 coins, one Street Pack of five library cards in the collection, win and

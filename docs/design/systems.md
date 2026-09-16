@@ -193,17 +193,18 @@ Bounds: the rig clamps its XZ to the union of `CameraBounds` volumes with a
 ### 4.3 EncounterSystem
 
 1. `Duelist` detects the player in its cone (8 m, 60°) or is interacted with.
-2. Exclamation; the duelist walks toward the player (navmesh path, re-planned
-   every 0.5 s) while **the player keeps control** and may keep walking
-   (director decision, 2026-09-13). The cone is disarmed for 3 s after a duel
-   ends so a loss cannot retrigger while the player is still inside it, and
-   stays disarmed after the first victory.
-3. When the duelist is within 1.8 m of the player (or after 10 s), input
-   locks and both take the stand points of the closest `EncounterSite`
-   (within 10 m of the duelist): the controller walks the player the short
-   remaining distance, the duelist walks to the other point. Without a site
-   the duelist stays where it stopped and the player is walked 3.5 m along
-   the approach, snapped to the navmesh.
+2. Input freezes on the spot and the camera **reveals the duelist**: it
+   blends to frame them (overworld pitch and distance, 0.6 s) while the
+   exclamation shows over their head, and holds for 1.4 s in total. The
+   player always sees who spotted them before anything moves (director
+   note, 2026-09-13: Nico's cone reaches the room door, so the player used to
+   be walked away by someone off screen).
+3. The camera blends back to the player; the duelist walks to the nearer
+   stand point of the closest `EncounterSite` (or 3.5 m from its own
+   position if no site is within 10 m, snapped to the navmesh) while the
+   controller walks the player to the opposite one. The cone is disarmed
+   for 3 s after a duel ends so a loss cannot retrigger while the player is
+   still inside it, and stays disarmed after the first victory.
 4. Challenge line from `data/duelists.json`. Both play `duel_ready`; on the
    player's `disk_deploy` event (or after 1 s) the `DuelDirector` stages the
    duelists, deploys the disks, starts the engine, binds `DuelStaging` and
@@ -216,15 +217,15 @@ Bounds: the rig clamps its XZ to the union of `CameraBounds` volumes with a
    `win_line` or `lose_line` plays, a win adds `defeated:<id>`, coins and
    boosters (§8, opened into the collection and listed in a second line);
    `tutorial_done` is set after the first duel either way. A loss fades the
-   player back to the meeting spot. Autosave lands with #63.
+   player back to the encounter spot. Autosave lands with #63.
 
 Meeting positions that fail a capsule sweep are resolved by searching
 outward along the site axis in 0.5 m steps for up to 3 m. No teleport to
 another location, ever.
 
-Implementation (issue #62): `EncounterSystem` states are Idle → Exclaim →
-Approach (player free) → Meet (input locked, stand walk) → Dialogue → Duel
-→ Result → Lines → Returning (loss only). `Game.Duels` is a `DuelDirector`
+Implementation (issue #62): `EncounterSystem` states are Idle → Reveal
+(camera on the duelist, `CameraRig.Reveal`) → Approach → Dialogue → Duel →
+Result → Lines → Returning (loss only). `Game.Duels` is a `DuelDirector`
 under the world node that owns the staging, the session and the HUD for the
 whole run; encounters call `Begin`/`End` on it and listen to `Finished`.
 `Game.Data` loads `data/` on first use, `Game.Collection` starts as the

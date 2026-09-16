@@ -15,8 +15,8 @@ namespace BattleCity.Diagnostics;
 /// <summary>
 /// Plays the issue #23 and #62 acceptance path through the real <see cref="Game"/>
 /// autoload: New Game → starting room → exit door → Plaza arrival → Nico's
-/// cone starts the tutorial encounter (the player keeps control while Nico
-/// walks over) → the real duel. Scripted mode surrenders the first duel (lose
+/// cone starts the tutorial encounter (input locks, the camera reveals Nico
+/// with the exclamation, then both walk to the stand points) → the real duel. Scripted mode surrenders the first duel (lose
 /// line, return to the meeting spot, no coin loss, tutorial hints shown once,
 /// 3 s disarm with no retrigger), challenges Nico and wins with a heuristic
 /// agent in the player's seat (flag, coins, booster cards in the collection,
@@ -84,7 +84,8 @@ public partial class DistrictTestScene : Node
     private ProgressionGate? _parkGate;
     private Door? _exitDoor;
     private float _standDistance;
-    private bool _inputFreeDuringApproach;
+    private bool _revealFramedNico;
+    private bool _inputLockedThroughout;
     private int _hintsFirstDuel;
     private int _collectionBefore;
     private HeuristicAgent? _agent;
@@ -113,7 +114,7 @@ public partial class DistrictTestScene : Node
         }
 
         G.LevelLoaded += OnLevelLoaded;
-        Report("INFO", Scripted ? "scripted: room → plaza → Nico (surrender, rematch, win) → gate → room" : "live: play from the starting room; the report only fills in scripted mode");
+        Report("INFO", Scripted ? "scripted: room → plaza → Nico (reveal, surrender, rematch, win) → gate → room" : "live: play from the starting room; the report only fills in scripted mode");
         G.NewGame(Seed);
     }
 
@@ -202,11 +203,13 @@ public partial class DistrictTestScene : Node
             case Phase.WaitEncounter:
                 if (G.Encounters.State != EncounterSystem.EncounterState.Idle)
                 {
+                    _encounterOrigin = G.Encounters.Origin;
                     Check(G.Encounters.Current == _nico, "first Plaza entry started Nico's encounter from the cone");
-                    Check(G.InputEnabled, "player keeps control when spotted");
+                    Check(!G.InputEnabled && G.Encounters.State == EncounterSystem.EncounterState.Reveal, $"input locked on the spot, reveal beat first ({G.Encounters.State})");
+                    Check(G.Camera is { DuelActive: true, HeldFocus: { } focus } && focus.DistanceTo(_nico!.Character!.GlobalPosition + Vector3.Up * G.Camera.FocusHeight) < 0.5f, "camera blends to frame Nico");
                     Check(G.Collection is { Deck.Count: 40 }, Inv($"collection holds the starter deck ({G.Collection?.Deck.Count ?? 0} cards)"));
                     _collectionBefore = G.Collection?.Total ?? 0;
-                    _inputFreeDuringApproach = true;
+                    _inputLockedThroughout = true;
                     Next(Phase.WaitDialogue);
                 }
 
@@ -214,23 +217,25 @@ public partial class DistrictTestScene : Node
                 break;
 
             case Phase.WaitDialogue:
-                if (G.Encounters.State == EncounterSystem.EncounterState.Approach && !G.InputEnabled)
+                if (G.InputEnabled)
                 {
-                    _inputFreeDuringApproach = false;
+                    _inputLockedThroughout = false;
                 }
 
-                if (G.Encounters.State == EncounterSystem.EncounterState.Approach && _phaseFrames >= 60)
+                if (G.Encounters.State == EncounterSystem.EncounterState.Reveal && _phaseFrames >= 55 && G.Camera is { Camera: { } cam } && _nico?.Character is { } nicoBody)
                 {
-                    Capture("approach");
+                    Vector3 toNico = nicoBody.GlobalPosition + Vector3.Up * 0.9f - cam.GlobalPosition;
+                    _revealFramedNico = (-cam.GlobalBasis.Z).AngleTo(toNico) < Mathf.DegToRad(6.0f);
+                    Capture("reveal");
                 }
 
                 if (G.Encounters.State == EncounterSystem.EncounterState.Dialogue && MessageReady())
                 {
-                    _encounterOrigin = G.Encounters.Origin;
                     _standDistance = player!.GlobalPosition.DistanceTo(_nico!.Character!.GlobalPosition);
-                    Check(_inputFreeDuringApproach, "input stayed enabled while Nico walked over");
-                    Check(!G.InputEnabled, "input locked once Nico arrived");
-                    Check(_encounterOrigin.DistanceTo(_arrival) < 0.5f, Inv($"meeting spot is where the player stood ({_encounterOrigin.DistanceTo(_arrival):F2} m from arrival)"));
+                    Check(_revealFramedNico, "camera looked at Nico during the reveal");
+                    Check(G.Camera is { DuelActive: false }, "camera returned to the player for the walk");
+                    Check(_inputLockedThroughout, "input stayed locked from the spot to the dialogue");
+                    Check(_encounterOrigin.DistanceTo(_arrival) < 0.5f, Inv($"encounter spot is where the player stood ({_encounterOrigin.DistanceTo(_arrival):F2} m from arrival)"));
                     Check(G.Encounters.Site is { Id: "nico" }, $"encounter uses the 'nico' site ({G.Encounters.Site?.Id})");
                     Check(Mathf.Abs(_standDistance - 7.0f) < 0.6f, Inv($"both walked to the stand points, {_standDistance:F2} m apart"));
                     Check(G.Messages.Text.StartsWith("Nico:", StringComparison.Ordinal), $"challenge line shown ('{G.Messages.Text}')");
@@ -280,7 +285,7 @@ public partial class DistrictTestScene : Node
                 {
                     Check(!G.Encounters.LastWon && !G.HasFlag(Flags.Defeated("d1")), "loss recorded, no flag set");
                     Check(G.HasFlag(Flags.TutorialDone), "'tutorial_done' set after the first duel");
-                    Check(player!.GlobalPosition.DistanceTo(_encounterOrigin) < 0.5f, Inv($"loss returned the player to the meeting spot ({player.GlobalPosition.DistanceTo(_encounterOrigin):F2} m off)"));
+                    Check(player!.GlobalPosition.DistanceTo(_encounterOrigin) < 0.5f, Inv($"loss returned the player to the encounter spot ({player.GlobalPosition.DistanceTo(_encounterOrigin):F2} m off)"));
                     Check(G.Coins == Game.StartingCoins && G.Collection?.Total == _collectionBefore, Inv($"no coin loss, collection unchanged ({G.Coins} coins, {G.Collection?.Total} cards)"));
                     Check(_nico is { RearmIn: > 0.0f, IsArmed: false }, Inv($"cone disarmed after the duel ({_nico?.RearmIn:F1} s left)"));
                     Check(G.Mode == GameMode.Overworld && G.InputEnabled, "back to Overworld with input enabled");
