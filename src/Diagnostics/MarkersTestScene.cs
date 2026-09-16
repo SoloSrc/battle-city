@@ -218,6 +218,7 @@ public partial class MarkersTestScene : Node3D
 
     private void Finish()
     {
+        ManagedWrappers.Flush();
         _done = true;
         Vector3 p = Player!.GlobalPosition;
         Check(Spawn is { Id: PlayerSpawn.ArrivalId } && PlayerSpawn.Find(GetTree(), PlayerSpawn.ArrivalId) == Spawn, "PlayerSpawn 'arrival' found by id");

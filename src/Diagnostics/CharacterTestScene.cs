@@ -102,6 +102,7 @@ public partial class CharacterTestScene : Node3D
 
     private void Finish()
     {
+        ManagedWrappers.Flush();
         _done = true;
         if (Character is null)
         {

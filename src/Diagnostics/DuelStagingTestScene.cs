@@ -301,6 +301,7 @@ public partial class DuelStagingTestScene : Node3D
 
     private void Finish()
     {
+        ManagedWrappers.Flush();
         _done = true;
         if (_engine is not null && Staging is not null && Rig is not null)
         {

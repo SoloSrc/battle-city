@@ -549,6 +549,7 @@ public partial class DuelUiTestScene : Node3D
 
     private void Finish()
     {
+        ManagedWrappers.Flush();
         _done = true;
         if (_engine is null || Session is null || Ui is null || Staging is null)
         {

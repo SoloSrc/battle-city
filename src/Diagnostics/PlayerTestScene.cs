@@ -132,6 +132,7 @@ public partial class PlayerTestScene : Node3D
 
     private void Finish()
     {
+        ManagedWrappers.Flush();
         _done = true;
         Vector3 end = Player!.GlobalPosition;
         float forward = _start.Z - end.Z;
