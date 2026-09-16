@@ -34,3 +34,11 @@ A HUD screen-edge damage overlay is still a separate UI integration concern.
 Do not add timing waits to duel rules: presentation consumes rule events.
 
 See [delivery and pending acceptance](../docs/requests/duel64-delivery.md).
+
+## Integrated scale review
+
+SummonFlash is sized for the current 0.22 m zone spacing: its full XZ footprint
+stays below 0.21 m throughout the fade. HitPulse remains character-sized, with
+its ring and radial rays in XY; the caller must place that plane outside the
+visible torso. See [integrated review](../docs/requests/duel64-effects-review.md)
+for runtime evidence and remaining camera/anchor acceptance.
