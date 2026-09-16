@@ -137,7 +137,7 @@ spawns, overlapping reservations, a site without its duelist, a wall inside a
 clearance box, an unapplied scale, a door to a missing scene, an unknown gate
 flag, no CameraBounds). CI expects the checklist to exit 1 on it.
 
-## DuelStagingTest.tscn (issue #60)
+## DuelStagingTest.tscn (issues #60, #64)
 
 The acceptance of `DuelStaging` and `CardView` (systems.md §6.1–§6.2): two
 `Character.tscn` instances on an `EncounterSite`, the rig blended to the duel
@@ -148,12 +148,19 @@ the scene checks that each card view sits on the anchor and in the
 orientation its `CardInstance` says; at the start it checks the anchor grid
 distances, the stand points and the §6.2 layout contract as numbers (level 1
 centered, level 12 from x=26 to 467 with 24 px to the attribute, the six
-frames, the icons, a level 12 and a Ritual fixture composing). At the end it
-checks the command, move and event counts, the camera framing and the duel
-states. `DuelStagingTest FAIL` lines fail CI.
+frames, the icons, a level 12 and a Ritual fixture composing). A few commands
+in it selects a card and checks that one persistent `CardSelected` drives the
+`selected` uniform and stops on deselect. When the duel settles it checks
+the §6.4 hooks: the six `vfx/` scenes load, CardMaterialise, SummonFlash,
+AttackTrail and HitPulse were spawned once per draw/summon/attack/damage
+event, the eight cues played once per event (the win or lose stinger once),
+every finite effect finished and freed itself; then `DissolveAll` must spawn
+one Dissolve per card and free every card view. At the end it checks the
+command, move and event counts, the camera framing and the duel states.
+`DuelStagingTest FAIL` lines fail CI.
 
 ```bash
-godot --headless --path . res://tests/scenes/DuelStagingTest.tscn --fixed-fps 60 --quit-after 2700
+godot --headless --path . res://tests/scenes/DuelStagingTest.tscn --fixed-fps 60 --quit-after 2900
 ```
 
 Headless runs keep the face viewports (nothing is drawn to read back). In

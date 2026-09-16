@@ -36,6 +36,10 @@ public static class Paths
     public const string CardIcons = "res://assets/cards/icons";
     public const string CardArt = "res://assets/cards/art";
 
+    // Duel effect scenes and cues (systems.md §6.4, GDD §8; issue #64). Owned by gpt-astra.
+    public const string VfxRoot = "res://vfx";
+    public const string DuelSfx = "res://assets/audio/sfx";
+
     // Pipeline smoke-test deliverables (asset-list.md §0). Owned by gpt-astra.
     public const string SmokeTestScene = "res://tests/scenes/SmokeTest.tscn";
     public const string CharacterTestScene = "res://tests/scenes/CharacterTest.tscn";

@@ -549,6 +549,7 @@ public partial class DuelUiTestScene : Node3D
 
     private void Finish()
     {
+        Staging?.Effects.Silence();
         ManagedWrappers.Flush();
         _done = true;
         if (_engine is null || Session is null || Ui is null || Staging is null)
@@ -573,6 +574,10 @@ public partial class DuelUiTestScene : Node3D
         Check(_mouseHits >= 3, Inv($"mouse picking moved the cursor {_mouseHits} times ({_mouseMisses} misses)"));
         Check(Ui.LifePointsShown(0) == s.Player(0).LifePoints && Ui.LifePointsShown(1) == s.Player(1).LifePoints, Inv($"Life Point counters settled at {Ui.LifePointsShown(0)}/{Ui.LifePointsShown(1)}"));
         Check(Ui.Log.Count is > 0 and <= DuelUi.LogLines, Inv($"log holds {Ui.Log.Count} lines"));
+        bool humanHurt = s.Player(_human).LifePoints < DuelCoreInfo.StartingLifePoints;
+        Check(!humanHurt || Ui.DamageFlashes > 0, Inv($"screen-edge damage flash fired {Ui.DamageFlashes} times (human at {s.Player(_human).LifePoints} LP)"));
+        Check(Staging.Cards.Values.Count(v => v.IsSelected) == Ui.Highlighted.Count, Inv($"selection effects match the highlighted cards ({Ui.Highlighted.Count})"));
+        Report("INFO", Inv($"effects spawned: {string.Join(", ", Staging.Effects.Spawned.Select(p => $"{p.Key} {p.Value}"))}; cues: {string.Join(", ", Staging.Effects.SoundsPlayed.Select(p => $"{p.Key} {p.Value}"))}"));
         Check(Staging.Cards.Values.Where(v => v.Card is { Loc: Location.Hand, Owner: 0 }).All(v => !v.Visible), "the player's 3D hand stays hidden");
         if (Ui.Mode == DuelUiMode.Free)
         {

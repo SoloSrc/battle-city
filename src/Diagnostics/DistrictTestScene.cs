@@ -610,6 +610,7 @@ public partial class DistrictTestScene : Node
 
     private void Finish()
     {
+        G.Duels?.Staging.Effects.Silence();
         ManagedWrappers.Flush();
         _phase = Phase.Done;
         string summary = Inv($"DistrictTest summary: {_pass} pass, {_fail} fail ({_frame} frames)");

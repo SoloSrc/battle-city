@@ -762,6 +762,29 @@ Events → effects: `CardMaterialise`, `CardSelected`, `SummonFlash`,
 scene under `vfx/` the artist owns; the code only instantiates and passes
 anchor transforms.
 
+Implementation (issue #64): `DuelEffects` (a child of `DuelStaging`,
+`Staging.Effects`) instantiates the scenes per `vfx/README.md` (autoplay off,
+side colour set, `configure(from, to)` with world transforms, `bind_card` for
+the card-state effects, then `play`; `finished` is counted and the scene frees
+itself) and plays the GDD §8 cues `assets/audio/sfx/duel_<cue>.wav` through
+one `AudioStreamPlayer` per cue. A missing scene or cue is reported once and
+the hook does nothing. Event mapping in `DuelStaging.ApplyEvent`: draw →
+CardMaterialise + `draw`; Normal/Special/Flip Summon and tokens →
+CardMaterialise + SummonFlash on the zone + `summon`; Set → `set`; Spell,
+Trap and effect activation → CardMaterialise + `activate`; attack →
+AttackTrail from the attacker's rest transform to the target's (or the
+defender's chest) + `attack` + the lunge; battle or effect damage → HitPulse
+at the duelist's chest + `hit` + the flinch; duel end → `win` or `lose` from
+the human seat, then `DissolveAll` spawns one Dissolve per card that frees
+the view on `finished`. Each card uniform has one writer: `CardView.Reveal`,
+`Dissolve` and `SetSelected` spawn the scene when it exists and fall back to
+their tweens otherwise; the HUD's highlight is one persistent CardSelected per
+card, stopped when the selection leaves. The HUD adds the screen-edge damage
+overlay (`DuelUi.DamageFlashes`, a red vignette fading over 0.5 s) whenever
+the human seat loses Life Points. `DuelStagingTest` proves every scene loads
+and is spawned per event, cues play per event, selection stops, finite
+effects free themselves and the end dissolve frees every card.
+
 ---
 
 ## 7. Opponent AI

@@ -9,6 +9,7 @@ using BattleCity.Duel.Core;
 using BattleCity.Duel.Core.Ai;
 using BattleCity.Duel.Core.Commands;
 using BattleCity.Duel.Core.Data;
+using BattleCity.Duel.Core.Events;
 using BattleCity.Duel.Core.Model;
 using BattleCity.DuelScene;
 using BattleCity.World;
@@ -23,8 +24,10 @@ namespace BattleCity.Diagnostics;
 /// agent command every <see cref="StepFrames"/> frames while the card views
 /// follow the events. After every command the card views are checked against
 /// the engine state; at the end the layout contract of §6.2 is checked as
-/// numbers. <c>DuelStagingTest FAIL</c> lines fail CI. Run with
-/// <c>--fixed-fps 60</c> headless.
+/// numbers, and the six VFX scenes and eight cues of issue #64 must have
+/// been instantiated by the events, selection must stop, finite effects must
+/// clean up and the end dissolve must free every card. <c>DuelStagingTest
+/// FAIL</c> lines fail CI. Run with <c>--fixed-fps 60</c> headless.
 /// </summary>
 public partial class DuelStagingTestScene : Node3D
 {
@@ -33,6 +36,7 @@ public partial class DuelStagingTestScene : Node3D
     private const int StepFrames = 15;
     private const int MaxCommands = 150;
     private const int SettleFrames = 90;
+    private const int TeardownFrames = 90;
     private const ulong Seed = 7;
 
     [Export]
@@ -64,10 +68,23 @@ public partial class DuelStagingTestScene : Node3D
     private int _failCount;
     private bool _done;
     private bool _dealt;
+    private bool _tornDown;
+    private int _teardownFrame;
+    private int _cardsBeforeTeardown;
+    private int _movesBeforeTeardown;
+    private int _dissolvesBeforeTeardown;
+    private bool _selectionChecked;
     private int _lastCommandFrame = -1;
     private string? _captureDir;
     private bool _captured;
     private int _captureSideFrame;
+    private int _attacksSeen;
+    private int _hitsSeen;
+    private int _attackCaptureFrame;
+    private int _hitCaptureFrame;
+    private int _showcaseFrame;
+    private int _showcaseCaptureFrame;
+    private int _showcased;
 
     public override void _Ready()
     {
@@ -159,7 +176,10 @@ public partial class DuelStagingTestScene : Node3D
             _captureSideFrame = 0;
             GetViewport().GetTexture().GetImage().SavePng($"{_captureDir}/staging_side.png");
             Staging!.EnterCamera(Rig!);
+            _showcaseFrame = _frame + 90;
         }
+
+        CaptureEffects();
 
         if (_engine is { State.IsOver: false } && _commands < MaxCommands && _frame % StepFrames == 0)
         {
@@ -167,11 +187,96 @@ public partial class DuelStagingTestScene : Node3D
             return;
         }
 
+        if (!_selectionChecked && _commands >= 6)
+        {
+            _selectionChecked = true;
+            CheckSelection();
+        }
+
         bool finished = _engine is null || _engine.State.IsOver || _commands >= MaxCommands;
-        if (finished && _frame >= _lastCommandFrame + SettleFrames)
+        if (finished && !_tornDown && _frame >= _lastCommandFrame + SettleFrames)
+        {
+            BeginTeardown();
+            return;
+        }
+
+        if (_tornDown && _frame >= _teardownFrame + TeardownFrames)
         {
             Finish();
         }
+    }
+
+    /// <summary>CardSelected is one persistent effect per card that stops when the selection leaves (vfx/README.md).</summary>
+    private void CheckSelection()
+    {
+        if (Staging is null)
+        {
+            return;
+        }
+
+        CardView? view = Staging.Cards.Values.FirstOrDefault(v => v.Card is { IsOnField: true }) ?? Staging.Cards.Values.First();
+        int before = Staging.Effects.Active;
+        view.SetSelected(true);
+        view.SetSelected(true);
+        Check(view.IsSelected && Staging.Effects.Active == before + 1 && Staging.Effects.Spawned.GetValueOrDefault(DuelEffects.CardSelected) == 1, Inv($"selecting a card spawns one CardSelected ({Staging.Effects.Active} active)"));
+        Check(view.Mesh?.GetInstanceShaderParameter(Rendering.HologramCards.Selected).AsSingle() == 1.0f, "CardSelected drives the card's 'selected' uniform to 1");
+        view.SetSelected(false);
+        Check(!view.IsSelected && Staging.Effects.Active == before && Staging.Effects.Finished.GetValueOrDefault(DuelEffects.CardSelected) == 1, "deselecting stops it and the effect finishes");
+        Check(view.Mesh?.GetInstanceShaderParameter(Rendering.HologramCards.Selected).AsSingle() == 0.0f, "'selected' uniform back to 0");
+    }
+
+    /// <summary>End of the duel: every card dissolves through the Dissolve scene and frees itself.</summary>
+    private void BeginTeardown()
+    {
+        _tornDown = true;
+        _teardownFrame = _frame;
+        if (Staging is null)
+        {
+            return;
+        }
+
+        CheckEffects();
+        _cardsBeforeTeardown = Staging.Cards.Count;
+        _movesBeforeTeardown = Staging.Moves;
+        _dissolvesBeforeTeardown = Staging.Effects.Spawned.GetValueOrDefault(DuelEffects.Dissolve);
+        Staging.DissolveAll();
+        Check(Staging.Effects.Spawned.GetValueOrDefault(DuelEffects.Dissolve) == _dissolvesBeforeTeardown + _cardsBeforeTeardown, Inv($"DissolveAll spawned one Dissolve per card ({_cardsBeforeTeardown})"));
+    }
+
+    private void CheckEffects()
+    {
+        if (Staging is null || _engine is null)
+        {
+            return;
+        }
+
+        DuelEffects effects = Staging.Effects;
+        foreach (string effect in DuelEffects.Effects)
+        {
+            Check(effects.Available(effect), $"vfx/{effect}.tscn loads");
+        }
+
+        int draws = _engine.Events.Count(e => e is CardDrawn);
+        int summons = _engine.Events.Count(e => e is MonsterSummoned or MonsterSpecialSummoned or MonsterFlipSummoned or TokenCreated);
+        int attacks = _engine.Events.Count(e => e is AttackDeclared);
+        int hits = _engine.Events.Count(e => e is BattleDamage or EffectDamage);
+        int activations = _engine.Events.Count(e => e is SpellActivated or TrapActivated or EffectActivated);
+        int sets = _engine.Events.Count(e => e is MonsterSet or SpellTrapSet);
+        Check(draws > 0 && effects.Spawned.GetValueOrDefault(DuelEffects.CardMaterialise) >= draws + summons, Inv($"CardMaterialise spawned for every draw and summon ({effects.Spawned.GetValueOrDefault(DuelEffects.CardMaterialise)} for {draws} draws, {summons} summons)"));
+        Check(summons > 0 && effects.Spawned.GetValueOrDefault(DuelEffects.SummonFlash) == summons + _showcased, Inv($"SummonFlash spawned per summon ({summons})"));
+        Check(attacks > 0 && effects.Spawned.GetValueOrDefault(DuelEffects.AttackTrail) == attacks + _showcased, Inv($"AttackTrail spawned per attack ({attacks})"));
+        Check(hits > 0 && effects.Spawned.GetValueOrDefault(DuelEffects.HitPulse) == hits + _showcased, Inv($"HitPulse spawned per damage ({hits})"));
+        Check(effects.SoundsPlayed.GetValueOrDefault("draw") == draws && effects.SoundsPlayed.GetValueOrDefault("summon") == summons && effects.SoundsPlayed.GetValueOrDefault("attack") == attacks && effects.SoundsPlayed.GetValueOrDefault("hit") == hits,
+            Inv($"draw, summon, attack and hit cues played per event ({draws}/{summons}/{attacks}/{hits})"));
+        Check(effects.SoundsPlayed.GetValueOrDefault("activate") == activations && effects.SoundsPlayed.GetValueOrDefault("set") == sets, Inv($"activate and set cues played per event ({activations}/{sets})"));
+        Report(activations > 0 && sets > 0 ? "PASS" : "INFO", Inv($"activations {activations}, sets {sets} in this seed"));
+        int ended = _engine.State.IsOver ? 1 : 0;
+        Check(effects.SoundsPlayed.GetValueOrDefault("win") + effects.SoundsPlayed.GetValueOrDefault("lose") == ended, Inv($"win/lose stinger {(ended == 1 ? "played once" : "not played, duel not over")}"));
+        int finite = effects.Spawned.GetValueOrDefault(DuelEffects.SummonFlash) + effects.Spawned.GetValueOrDefault(DuelEffects.AttackTrail) + effects.Spawned.GetValueOrDefault(DuelEffects.HitPulse);
+        int finiteDone = effects.Finished.GetValueOrDefault(DuelEffects.SummonFlash) + effects.Finished.GetValueOrDefault(DuelEffects.AttackTrail) + effects.Finished.GetValueOrDefault(DuelEffects.HitPulse);
+        Check(finite == finiteDone, Inv($"every finite effect finished and freed itself ({finiteDone} of {finite})"));
+        Check(effects.Active == 0, Inv($"no effect left running after the settle ({effects.Active} active)"));
+        Check(effects.GetChildren().All(c => c is AudioStreamPlayer), Inv($"effect nodes gone from the tree ({effects.GetChildCount()} children, all cue players)"));
     }
 
     private void StartDuel()
@@ -245,6 +350,63 @@ public partial class DuelStagingTestScene : Node3D
         Staging!.Sync();
     }
 
+    /// <summary>With <c>--capture</c>, saves the frame a few ticks into the first AttackTrail and the first HitPulse after the main capture, for the artist's review through the duel camera.</summary>
+    private void CaptureEffects()
+    {
+        if (_captureDir is null || !_captured || _captureSideFrame > 0 || _engine is null || CardFaces.IsHeadless)
+        {
+            return;
+        }
+
+        int attacks = _engine.Events.Count(e => e is AttackDeclared);
+        int hits = _engine.Events.Count(e => e is BattleDamage or EffectDamage);
+        if (_attackCaptureFrame == 0 && attacks > _attacksSeen)
+        {
+            _attackCaptureFrame = _frame + 8;
+        }
+
+        if (_hitCaptureFrame == 0 && hits > _hitsSeen)
+        {
+            _hitCaptureFrame = _frame + 6;
+        }
+
+        _attacksSeen = attacks;
+        _hitsSeen = hits;
+        if (_showcaseFrame > 0 && _frame == _showcaseFrame && Staging?.PlayerSide is { } ps && Staging.OpponentSide is { } os)
+        {
+            // A staged showcase of the three geometry effects at known anchors once the duel camera is back, so the review picture does not depend on the seed's timing.
+            _showcaseFrame = -1;
+            _showcaseCaptureFrame = _frame + 8;
+            _showcased = 1;
+            Transform3D playerZone = ps.Monsters[2].GlobalTransform;
+            Transform3D opponentZone = os.Monsters[2].GlobalTransform;
+            Staging.Effects.Spawn(DuelEffects.SummonFlash, playerZone, null, Rendering.HologramSide.Player);
+            Staging.Effects.Spawn(DuelEffects.AttackTrail, playerZone, opponentZone, Rendering.HologramSide.Player);
+            Staging.Effects.Spawn(DuelEffects.HitPulse, new Transform3D(os.Root.GlobalBasis, Opponent!.GlobalPosition + Vector3.Up * Staging.ChestHeight), null, Rendering.HologramSide.Opponent);
+        }
+
+        if (_showcaseCaptureFrame > 0 && _frame == _showcaseCaptureFrame)
+        {
+            GetViewport().GetTexture().GetImage().SavePng($"{_captureDir}/staging_effects.png");
+            _showcaseCaptureFrame = -1;
+            Report("INFO", "captured staging_effects.png (staged SummonFlash, AttackTrail, HitPulse)");
+        }
+
+        if (_attackCaptureFrame > 0 && _frame == _attackCaptureFrame)
+        {
+            GetViewport().GetTexture().GetImage().SavePng($"{_captureDir}/staging_attack.png");
+            _attackCaptureFrame = -1;
+            Report("INFO", "captured staging_attack.png");
+        }
+
+        if (_hitCaptureFrame > 0 && _frame == _hitCaptureFrame)
+        {
+            GetViewport().GetTexture().GetImage().SavePng($"{_captureDir}/staging_hit.png");
+            _hitCaptureFrame = -1;
+            Report("INFO", "captured staging_hit.png");
+        }
+    }
+
     /// <summary><c>-- --capture &lt;dir&gt;</c>: saves the screen and the baked faces of a few cards of each kind for review (not headless).</summary>
     private void Capture()
     {
@@ -301,6 +463,7 @@ public partial class DuelStagingTestScene : Node3D
 
     private void Finish()
     {
+        Staging?.Effects.Silence();
         ManagedWrappers.Flush();
         _done = true;
         if (_engine is not null && Staging is not null && Rig is not null)
@@ -308,7 +471,7 @@ public partial class DuelStagingTestScene : Node3D
             DuelState s = _engine.State;
             Report("INFO", Inv($"{_commands} commands, turn {s.TurnNumber}, {s.Phase}, LP {s.Player(0).LifePoints}/{s.Player(1).LifePoints}, over: {s.IsOver}"));
             Check(_commands >= 40, Inv($"{_commands} agent commands played"));
-            Check(Staging.Moves >= 30, Inv($"{Staging.Moves} card moves driven by the engine"));
+            Check(_movesBeforeTeardown >= 30, Inv($"{_movesBeforeTeardown} card moves driven by the engine"));
             Check(Staging.EventsApplied >= _commands, Inv($"{Staging.EventsApplied} engine events applied"));
             Check(_mismatchFrames == 0, Inv($"card views matched the engine after every command ({_mismatchFrames} frames off)"));
             int onField = 0;
@@ -325,6 +488,14 @@ public partial class DuelStagingTestScene : Node3D
                 Inv($"duel camera reached pitch {Rig.CurrentPitch:F1}°, {Rig.CurrentDistance:F2} m, fov {Rig.CurrentFov:F1}°"));
             Report(CardFaces.BakedCount > 0 ? "PASS" : "INFO", Inv($"{CardFaces.BakedCount} faces baked, {Staging.Faces.PendingCount} viewports kept (headless keeps them all)"));
             Check(Player is not null && Player.CurrentState is not Character.LocomotionState, $"player in a duel state ({Player?.CurrentState})");
+            Check(Staging.Cards.Count == 0 && Staging.Effects.Active == 0 && Staging.Effects.Finished.GetValueOrDefault(DuelEffects.Dissolve) == _dissolvesBeforeTeardown + _cardsBeforeTeardown, Inv($"end dissolve finished for all {_cardsBeforeTeardown} cards, nothing active"));
+            int cardNodes = 0;
+            foreach (Node node in Staging.FindChildren("Card_*", recursive: true, owned: false))
+            {
+                cardNodes += node.IsQueuedForDeletion() ? 0 : 1;
+            }
+
+            Check(cardNodes == 0, Inv($"card views freed after the dissolve ({cardNodes} left)"));
         }
 
         string summary = $"DuelStagingTest summary: {_passCount} pass, {_failCount} fail";
