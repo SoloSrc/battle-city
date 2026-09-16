@@ -19,7 +19,7 @@ public static class SaveCodec
     /// <summary>The prefix of a defeated-duelist flag; <c>Defeated</c> holds the ids, <c>Flags</c> everything else.</summary>
     public const string DefeatedPrefix = "defeated:";
 
-    private static readonly JsonSerializerOptions WriteOptions = new(Json.Options) { WriteIndented = true };
+    private static readonly JsonSerializerOptions _writeOptions = new(Json.Options) { WriteIndented = true };
 
     public static string Serialize(SaveData save)
     {
@@ -40,7 +40,7 @@ public static class SaveCodec
             Defeated = save.Defeated.ToList(),
             Flags = save.Flags.ToList(),
         };
-        return JsonSerializer.Serialize(dto, WriteOptions);
+        return JsonSerializer.Serialize(dto, _writeOptions);
     }
 
     /// <summary>Parses a save; throws <see cref="DataException"/> for malformed JSON, another version or missing essentials.</summary>
