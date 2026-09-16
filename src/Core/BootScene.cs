@@ -15,7 +15,7 @@ public partial class BootScene : Control
     [Export]
     public Label? StatusLabel { get; set; }
 
-    /// <summary>Start a new game as soon as the scene is up (off for diagnostics that only need the status).</summary>
+    /// <summary>Continue the autosave, else start a new game, as soon as the scene is up (off for diagnostics that only need the status).</summary>
     [Export]
     public bool AutoStart { get; set; } = true;
 
@@ -50,7 +50,10 @@ public partial class BootScene : Control
 
     private void StartGame()
     {
-        Game.Instance?.NewGame();
+        if (Game.Instance is { } game && !game.Continue())
+        {
+            game.NewGame();
+        }
     }
 
     private void OnLevelLoaded(string scenePath, string spawnId)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BattleCity.Characters;
 using BattleCity.Data;
@@ -33,6 +34,7 @@ public partial class Game : Node
 
     public const int StartingCoins = 500;
     public const ulong DefaultSeed = 123456;
+    public const string DefaultSavePath = "user://save.json";
     private const string TransitionLock = "transition";
 
     public static Game? Instance { get; private set; }
@@ -57,6 +59,18 @@ public partial class Game : Node
 
     /// <summary>The duel nodes; created with the world on the first level load.</summary>
     public DuelDirector? Duels { get; private set; }
+
+    /// <summary>The autosave slot (systems.md §9); diagnostics point it elsewhere so runs never touch a real save.</summary>
+    public string SavePath { get; set; } = DefaultSavePath;
+
+    /// <summary>The spawn the player last arrived at; the save resumes there.</summary>
+    public string SpawnId { get; private set; } = PlayerSpawn.ArrivalId;
+
+    /// <summary>The player's display name (GDD §1.1); the avatar creator sets it later.</summary>
+    public string PlayerName { get; set; } = "Duelist";
+
+    /// <summary>Set when the last autosave failed or was skipped; the message is in the log.</summary>
+    public string? LastSaveError { get; private set; }
 
     public string LevelPath { get; private set; } = string.Empty;
 
@@ -113,7 +127,7 @@ public partial class Game : Node
         AddChild(Encounters);
     }
 
-    /// <summary>Resets progression, coins, the collection and the RNG, then loads the starting room at its <c>arrival</c> spawn.</summary>
+    /// <summary>Resets progression, coins, the collection and the RNG, deletes the autosave, then loads the starting room at its <c>arrival</c> spawn.</summary>
     public void NewGame(ulong seed = DefaultSeed)
     {
         _flags.Clear();
@@ -121,7 +135,86 @@ public partial class Game : Node
         Seed = seed;
         Rng = new DuelRng(seed);
         Collection = Data is { } data ? Collection.Starter(data) : null;
+        ClearSave();
         Transition(Paths.StartRoomScene, PlayerSpawn.ArrivalId);
+    }
+
+    /// <summary>True when <see cref="SavePath"/> holds a save to continue.</summary>
+    public bool HasSave => FileAccess.FileExists(SavePath);
+
+    /// <summary>
+    /// Loads the autosave and resumes at its level and spawn with its flags, coins, collection and RNG position (systems.md §9).
+    /// Returns false, leaving the game untouched, when there is no save or it does not parse; card ids the library no longer has are dropped with a warning.
+    /// </summary>
+    public bool Continue()
+    {
+        if (Data is not { } data || !HasSave)
+        {
+            return false;
+        }
+
+        LoadResult loaded;
+        try
+        {
+            using FileAccess file = FileAccess.Open(SavePath, FileAccess.ModeFlags.Read)
+                ?? throw new DataException($"{SavePath}: {FileAccess.GetOpenError()}");
+            loaded = SaveCodec.Parse(file.GetAsText(), data.Cards, SavePath);
+        }
+        catch (DataException e)
+        {
+            GD.PushError($"Game: save did not load: {e.Message}");
+            return false;
+        }
+
+        if (loaded.Dropped.Count > 0)
+        {
+            GD.PushWarning($"Game: dropped unknown cards from the save: {string.Join(", ", loaded.Dropped)}");
+        }
+
+        SaveData save = loaded.Save;
+        _flags.Clear();
+        _flags.UnionWith(SaveCodec.JoinFlags(save));
+        Coins = save.Coins;
+        Seed = save.Seed;
+        Rng = new DuelRng(save.Seed);
+        Rng.Skip(save.RngDraws);
+        PlayerName = save.Name;
+        Collection = Collection.FromSave(save);
+        GD.Print($"Game: continuing from {SavePath} at {save.Level} '{save.Spawn}'");
+        Transition(save.Level, save.Spawn);
+        return true;
+    }
+
+    /// <summary>Writes the autosave (after every duel and transition, systems.md §9). Failures are reported, never thrown.</summary>
+    public void Save()
+    {
+        LastSaveError = null;
+        if (Collection is null || LevelPath.Length == 0)
+        {
+            LastSaveError = "nothing to save yet";
+            return;
+        }
+
+        (List<string> defeated, List<string> flags) = SaveCodec.SplitFlags(_flags);
+        var save = new SaveData(Seed, Rng.Draws, PlayerName, new Dictionary<string, string>(StringComparer.Ordinal), LevelPath, SpawnId, Coins, Collection.Owned, Collection.Deck, Collection.FusionDeck, defeated, flags);
+        using FileAccess? file = FileAccess.Open(SavePath, FileAccess.ModeFlags.Write);
+        if (file is null)
+        {
+            LastSaveError = $"{SavePath}: {FileAccess.GetOpenError()}";
+            GD.PushError($"Game: autosave failed: {LastSaveError}");
+            return;
+        }
+
+        file.StoreString(SaveCodec.Serialize(save));
+    }
+
+    /// <summary>Deletes the autosave (New Game).</summary>
+    public void ClearSave()
+    {
+        if (HasSave)
+        {
+            DirAccess.RemoveAbsolute(ProjectSettings.GlobalizePath(SavePath));
+        }
     }
 
     /// <summary>The next seed for a duel, drawn from <see cref="Rng"/>.</summary>
@@ -149,6 +242,7 @@ public partial class Game : Node
         await Fade.FadeInAsync();
         UnlockInput(TransitionLock);
         IsTransitioning = false;
+        Save();
     }
 
     public bool HasFlag(string flag) => _flags.Contains(flag);
@@ -246,6 +340,7 @@ public partial class Game : Node
         Wire(Level);
         ApplyFlags(instant: true);
         LevelPath = scenePath;
+        SpawnId = spawn?.Id ?? spawnId;
         SetMode(ModeFor(scenePath));
         GD.Print($"Game: loaded {scenePath} at spawn '{spawn?.Id ?? "?"}'");
         EmitSignal(SignalName.LevelLoaded, scenePath, spawn?.Id ?? string.Empty);

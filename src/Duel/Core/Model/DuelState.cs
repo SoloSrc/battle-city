@@ -11,10 +11,10 @@ namespace BattleCity.Duel.Core.Model;
 /// </summary>
 public sealed class DuelState
 {
-    public DuelState(DuelRng rng)
+    public DuelState(DuelRng rng, int startingLifePoints = DuelCoreInfo.StartingLifePoints)
     {
         Rng = rng ?? throw new ArgumentNullException(nameof(rng));
-        Players = new[] { new PlayerState(0), new PlayerState(1) };
+        Players = new[] { new PlayerState(0, startingLifePoints), new PlayerState(1, startingLifePoints) };
         Chain = new List<ChainLink>();
         Triggers = new List<PendingTrigger>();
         Modifiers = new List<Modifier>();

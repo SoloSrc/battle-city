@@ -32,12 +32,17 @@ public sealed class DuelRng
         _s1 = other._s1;
         _s2 = other._s2;
         _s3 = other._s3;
+        Draws = other.Draws;
     }
 
     public ulong Seed { get; }
 
+    /// <summary>How many values were drawn since the seed; a save stores it so the generator resumes where it stopped.</summary>
+    public ulong Draws { get; private set; }
+
     public ulong NextUInt64()
     {
+        Draws++;
         ulong result = RotateLeft(_s1 * 5, 7) * 9;
         ulong t = _s1 << 17;
         _s2 ^= _s0;
@@ -85,6 +90,15 @@ public sealed class DuelRng
     }
 
     public DuelRng Clone() => new(this);
+
+    /// <summary>Advances the generator by <paramref name="draws"/> values (restoring a save's position).</summary>
+    public void Skip(ulong draws)
+    {
+        for (ulong i = 0; i < draws; i++)
+        {
+            NextUInt64();
+        }
+    }
 
     private static ulong SplitMix(ref ulong x)
     {

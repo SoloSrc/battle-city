@@ -20,14 +20,12 @@ public partial class CameraRig : Node3D
     [Export(PropertyHint.Range, "-180,180,1,suffix:°")]
     public float Yaw { get; set; }
 
-    [Export(PropertyHint.Range, "10,85,1,suffix:°")]
-    public float Pitch { get; set; } = 57.0f;
+    /// <summary><c>camera.overworld.*</c> from <c>data/tuning.json</c> (systems.md §10); a <c>CameraBounds</c> interior override replaces them per level.</summary>
+    public float Pitch { get; set; } = Tuning.Current.Camera.Overworld.Pitch;
 
-    [Export(PropertyHint.Range, "2,30,0.1,suffix:m")]
-    public float Distance { get; set; } = 12.0f;
+    public float Distance { get; set; } = Tuning.Current.Camera.Overworld.Distance;
 
-    [Export(PropertyHint.Range, "10,90,1,suffix:°")]
-    public float Fov { get; set; } = 35.0f;
+    public float Fov { get; set; } = Tuning.Current.Camera.Overworld.Fov;
 
     /// <summary>Height above the target's origin the camera looks at.</summary>
     [Export(PropertyHint.Range, "0,2,0.05,suffix:m")]

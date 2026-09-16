@@ -1,5 +1,7 @@
 using System;
 using BattleCity.Characters;
+using BattleCity.Core;
+using BattleCity.Data;
 using BattleCity.Duel.Core;
 using BattleCity.Duel.Core.Ai;
 using BattleCity.World;
@@ -56,7 +58,14 @@ public partial class DuelDirector : Node3D
         Staging.Stage(player, opponent, playerStand, opponentStand);
         player.Disk?.Deploy();
         opponent.Disk?.Deploy();
-        DuelEngine engine = DuelEngine.Start(playerDeck, opponentDeck, new DuelOptions { Seed = seed });
+        DuelTuning rules = Tuning.Current.Duel;
+        DuelEngine engine = DuelEngine.Start(playerDeck, opponentDeck, new DuelOptions
+        {
+            Seed = seed,
+            StartingLifePoints = rules.StartLp,
+            HandLimit = rules.HandLimit,
+            OpeningHandSize = rules.OpeningHand,
+        });
         Staging.Bind(engine);
         Session.Begin(engine, agent, HumanSeat);
         Ui.Tutorial = tutorial;

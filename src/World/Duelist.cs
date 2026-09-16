@@ -37,12 +37,10 @@ public partial class Duelist : Area3D, IInteractable
     [Export]
     public string RequiredFlag { get; set; } = "";
 
-    [ExportGroup("Detection cone (systems.md §4.3)")]
-    [Export(PropertyHint.Range, "0,20,0.5,suffix:m")]
-    public float ConeRange { get; set; } = 8.0f;
+    /// <summary>Detection cone (systems.md §4.3): <c>encounter.cone_range</c> and <c>encounter.cone_angle</c> from <c>data/tuning.json</c>.</summary>
+    public float ConeRange { get; set; } = Tuning.Current.Encounter.ConeRange;
 
-    [Export(PropertyHint.Range, "0,180,5,suffix:°")]
-    public float ConeAngle { get; set; } = 60.0f;
+    public float ConeAngle { get; set; } = Tuning.Current.Encounter.ConeAngle;
 
     /// <summary>Designer switch for the cone; a duelist with it off is challenge-only.</summary>
     [Export]

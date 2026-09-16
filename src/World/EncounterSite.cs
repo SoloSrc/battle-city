@@ -22,8 +22,8 @@ public partial class EncounterSite : Node3D
     [Export]
     public Vector3 Axis { get; set; } = Vector3.Right;
 
-    [Export(PropertyHint.Range, "3,12,0.5,suffix:m")]
-    public float StandDistance { get; set; } = 7.0f;
+    /// <summary><c>encounter.stand_distance</c> from <c>data/tuning.json</c> (systems.md §10).</summary>
+    public float StandDistance { get; set; } = Tuning.Current.Encounter.StandDistance;
 
     [Export(PropertyHint.None, "suffix:m")]
     public Vector3 ClearanceSize { get; set; } = new(16.0f, 4.0f, 12.0f);

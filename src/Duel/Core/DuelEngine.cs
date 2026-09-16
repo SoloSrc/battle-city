@@ -49,7 +49,7 @@ public sealed class DuelEngine
         ArgumentNullException.ThrowIfNull(deck0);
         ArgumentNullException.ThrowIfNull(deck1);
         options ??= new DuelOptions();
-        var state = new DuelState(new DuelRng(options.Seed));
+        var state = new DuelState(new DuelRng(options.Seed), options.StartingLifePoints);
         var engine = new DuelEngine(state, options, effects ?? EffectRegistry.CreateDefault());
         engine.Build(0, deck0);
         engine.Build(1, deck1);

@@ -17,13 +17,13 @@ public partial class PlayerController : Node
     [Signal]
     public delegate void PromptChangedEventHandler(string prompt);
 
+    /// <summary><c>player.walk_speed</c> from <c>data/tuning.json</c> (systems.md §10).</summary>
+    public float WalkSpeed { get; set; } = Tuning.Current.Player.WalkSpeed;
+
+    /// <summary><c>player.run_speed</c> from <c>data/tuning.json</c>.</summary>
+    public float RunSpeed { get; set; } = Tuning.Current.Player.RunSpeed;
+
     [ExportGroup("Movement (systems.md §4.1)")]
-    [Export(PropertyHint.Range, "0,10,0.1,suffix:m/s")]
-    public float WalkSpeed { get; set; } = 2.2f;
-
-    [Export(PropertyHint.Range, "0,10,0.1,suffix:m/s")]
-    public float RunSpeed { get; set; } = 4.5f;
-
     /// <summary>Stick deflection above which the character runs.</summary>
     [Export(PropertyHint.Range, "0,1,0.05")]
     public float RunThreshold { get; set; } = 0.6f;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using BattleCity.Core;
 using BattleCity.Duel.Core;
 using BattleCity.Duel.Core.Ai;
 using BattleCity.Duel.Core.Commands;
@@ -16,9 +17,8 @@ namespace BattleCity.DuelScene;
 /// </summary>
 public partial class DuelSession : Node
 {
-    /// <summary>Pause before an agent command, so the opponent's moves read as moves.</summary>
-    [Export(PropertyHint.Range, "0,3,0.05,suffix:s")]
-    public float AiDelay { get; set; } = 0.7f;
+    /// <summary>Pause before an agent command, so the opponent's moves read as moves (<c>duel.ai_delay</c>, data/tuning.json).</summary>
+    public float AiDelay { get; set; } = Tuning.Current.Duel.AiDelay;
 
     private IDuelAgent? _agent;
     private float _timer;
