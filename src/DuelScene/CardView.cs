@@ -14,11 +14,14 @@ public enum CardOrientation
     /// <summary>Face-up, turned 90° in its plane.</summary>
     Defense,
 
-    /// <summary>Back toward the camera side, upright (Set Spell/Trap, deck).</summary>
+    /// <summary>Back toward the camera side, upright (the opponent's hand, the deck).</summary>
     FaceDown,
 
-    /// <summary>Back toward the camera side, turned 90° (Set monster).</summary>
-    FaceDownDefense,
+    /// <summary>Lying flat, face to the ground, long side along the duel axis (Set Spell/Trap).</summary>
+    Set,
+
+    /// <summary>Lying flat, face to the ground, turned 90° so the long side runs across the row (Set monster).</summary>
+    SetDefense,
 }
 
 /// <summary>
@@ -230,11 +233,23 @@ public partial class CardView : Node3D
         }
     }
 
-    /// <summary>Euler rotation of an orientation: face-down turns about Y, Defense turns 90° in the card's plane (about Z).</summary>
+    /// <summary>Whether an orientation lies flat on the field plane (the Set cards) instead of standing upright.</summary>
+    public static bool IsFlat(CardOrientation orientation) => orientation is CardOrientation.Set or CardOrientation.SetDefense;
+
+    /// <summary>
+    /// Euler rotation of an orientation: face-down turns about Y, Defense turns 90° in the card's plane (about Z).
+    /// Set cards pitch 90° about X so the face looks at the ground and the back up; a Set monster also yaws 90°
+    /// (Godot composes Y·X·Z, so the yaw is about the anchor's vertical).
+    /// </summary>
     public Vector3 RotationFor(CardOrientation orientation)
     {
-        bool faceDown = orientation is CardOrientation.FaceDown or CardOrientation.FaceDownDefense;
-        bool defense = orientation is CardOrientation.Defense or CardOrientation.FaceDownDefense;
+        if (IsFlat(orientation))
+        {
+            return new Vector3(Mathf.Pi / 2.0f, orientation == CardOrientation.SetDefense ? Mathf.Pi / 2.0f : 0.0f, 0.0f);
+        }
+
+        bool faceDown = orientation == CardOrientation.FaceDown;
+        bool defense = orientation == CardOrientation.Defense;
         float yaw = (Mirrored ^ faceDown) ? Mathf.Pi : 0.0f;
         float roll = defense ? -Mathf.Pi / 2.0f : 0.0f;
         return new Vector3(0.0f, yaw, roll);

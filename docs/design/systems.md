@@ -557,8 +557,13 @@ Owns everything 3D during a duel. On start it:
 Cards are `CardView` instances: a quad with the frame texture, art
 texture, stars, attribute and stat labels rendered as a `SubViewport`
 texture at 590 × 860, plus an emissive edge material. Attack = upright,
-Defence = rotated 90° in the card's plane (about its Z), face-down =
-turned 180° about Y, with a 0.15 s tween.
+Defence = rotated 90° in the card's plane (about its Z), with a 0.15 s
+tween. Set cards lie flat, perpendicular to the upright cards, face to the
+ground and back up, dropped half a card height so they rest at the foot of
+the upright cards: a Set Spell/Trap keeps its long side along the duel axis,
+a Set monster is turned 90° so its long side runs across the row. A flat
+card never covers the row behind it from the duel camera. Upright face-down
+(turned 180° about Y) remains for the opponent's hand and the deck.
 
 Implementation (issue #60):
 

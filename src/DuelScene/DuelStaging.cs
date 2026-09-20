@@ -488,9 +488,17 @@ public partial class DuelStaging : Node3D
         switch (card.Loc)
         {
             case Location.MonsterZone:
-                return (controllerSide.Monsters[Math.Clamp(card.ZoneIndex, 0, ZoneCount - 1)], Vector3.Zero, OrientationOf(card.Pos), true);
+                {
+                    CardOrientation orientation = OrientationOf(card.Pos);
+                    return (controllerSide.Monsters[Math.Clamp(card.ZoneIndex, 0, ZoneCount - 1)], ZoneOffset(orientation, card.ZoneIndex), orientation, true);
+                }
+
             case Location.SpellTrapZone:
-                return (controllerSide.SpellTraps[Math.Clamp(card.ZoneIndex, 0, ZoneCount - 1)], Vector3.Zero, card.IsFaceUp ? CardOrientation.Attack : CardOrientation.FaceDown, true);
+                {
+                    CardOrientation orientation = card.IsFaceUp ? CardOrientation.Attack : CardOrientation.Set;
+                    return (controllerSide.SpellTraps[Math.Clamp(card.ZoneIndex, 0, ZoneCount - 1)], ZoneOffset(orientation, card.ZoneIndex), orientation, true);
+                }
+
             case Location.FieldZone:
                 return (controllerSide.SpellTraps[0], new Vector3(-SpacingX, 0.0f, 0.0f), CardOrientation.Attack, true);
             case Location.Hand:
@@ -522,9 +530,18 @@ public partial class DuelStaging : Node3D
         {
             CardPosition.FaceUpAttack => CardOrientation.Attack,
             CardPosition.FaceUpDefense => CardOrientation.Defense,
-            CardPosition.FaceDownDefense => CardOrientation.FaceDownDefense,
-            _ => CardOrientation.FaceDown,
+            CardPosition.FaceDownDefense => CardOrientation.SetDefense,
+            _ => CardOrientation.Set,
         };
+
+    /// <summary>
+    /// Set cards lie flat at the foot of the upright cards, like a table under the
+    /// holograms, so from the duel camera they never cover the row behind them.
+    /// A sideways Set monster is wider than the column spacing, so neighbours
+    /// step a hair in height to overlap without z-fighting.
+    /// </summary>
+    private Vector3 ZoneOffset(CardOrientation orientation, int column) =>
+        CardView.IsFlat(orientation) ? new Vector3(0.0f, -HologramCards.Height / 2.0f + column * StackStep, 0.0f) : Vector3.Zero;
 
     private static void Place(Character character, Vector3 stand, Vector3 facing)
     {

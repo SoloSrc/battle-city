@@ -150,7 +150,9 @@ distances, the stand points and the §6.2 layout contract as numbers (level 1
 centered, level 12 from x=26 to 467 with 24 px to the attribute, the six
 frames, the icons, a level 12 and a Ritual fixture composing). A few commands
 in it selects a card and checks that one persistent `CardSelected` drives the
-`selected` uniform and stops on deselect. When the duel settles it checks
+`selected` uniform and stops on deselect. After every command it checks
+that each Set card lies flat, face to the ground, at the foot of its zone (a
+Set monster sideways). When the duel settles it checks
 the §6.4 hooks: the six `vfx/` scenes load, CardMaterialise, SummonFlash,
 AttackTrail and HitPulse were spawned once per draw/summon/attack/damage
 event, the eight cues played once per event (the win or lose stinger once),

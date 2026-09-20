@@ -64,6 +64,9 @@ public partial class DuelStagingTestScene : Node3D
     private int _frame;
     private int _commands;
     private int _mismatchFrames;
+    private int _setCardsSeen;
+    private int _setMonstersSeen;
+    private int _setCardsWrong;
     private int _passCount;
     private int _failCount;
     private bool _done;
@@ -163,6 +166,11 @@ public partial class DuelStagingTestScene : Node3D
             }
         }
 
+        if (_lastCommandFrame >= 0 && _frame == _lastCommandFrame + 1)
+        {
+            CountSetCards();
+        }
+
         if (_captureDir is not null && !_captured && _commands >= 12 && _frame == _lastCommandFrame + 10)
         {
             Capture();
@@ -203,6 +211,42 @@ public partial class DuelStagingTestScene : Node3D
         if (_tornDown && _frame >= _teardownFrame + TeardownFrames)
         {
             Finish();
+        }
+    }
+
+    /// <summary>
+    /// Set cards lie flat, face to the ground, at the foot of the upright cards so they
+    /// never cover the row behind them: a Set Spell/Trap with its long side along the
+    /// duel axis, a Set monster with it across the row.
+    /// </summary>
+    private void CountSetCards()
+    {
+        foreach (PlayerState p in _engine!.State.Players)
+        {
+            foreach (CardInstance card in p.AllCards.Where(c => c.IsOnField && c.IsFaceDown))
+            {
+                if (!Staging!.Cards.TryGetValue(card.Id, out CardView? view) || view.Anchor is null)
+                {
+                    continue;
+                }
+
+                Transform3D rest = view.RestTransform;
+                Basis anchor = view.Anchor.GlobalBasis;
+                bool monster = card.Loc == Location.MonsterZone;
+                bool flat = rest.Basis.Z.Dot(Vector3.Up) < -0.99f;
+                bool along = Mathf.Abs(rest.Basis.Y.Dot(monster ? anchor.X : anchor.Z)) > 0.99f;
+                bool low = Mathf.Abs(view.Anchor.GlobalPosition.Y - rest.Origin.Y - Rendering.HologramCards.Height / 2.0f) < 0.02f;
+                _setCardsSeen++;
+                if (monster)
+                {
+                    _setMonstersSeen++;
+                }
+
+                if (!(flat && along && low))
+                {
+                    _setCardsWrong++;
+                }
+            }
         }
     }
 
@@ -474,6 +518,7 @@ public partial class DuelStagingTestScene : Node3D
             Check(_movesBeforeTeardown >= 30, Inv($"{_movesBeforeTeardown} card moves driven by the engine"));
             Check(Staging.EventsApplied >= _commands, Inv($"{Staging.EventsApplied} engine events applied"));
             Check(_mismatchFrames == 0, Inv($"card views matched the engine after every command ({_mismatchFrames} frames off)"));
+            Check(_setCardsSeen > 0 && _setCardsWrong == 0, Inv($"Set cards lie flat, face down, at the foot of their zone ({_setCardsSeen} seen, {_setMonstersSeen} monsters sideways, {_setCardsWrong} wrong)"));
             int onField = 0;
             foreach (CardView view in Staging.Cards.Values)
             {
