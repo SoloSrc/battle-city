@@ -6,7 +6,7 @@ public sealed record PlayerTuning(float WalkSpeed, float RunSpeed);
 /// <summary>One camera profile: pitch and fov in degrees, distance in metres.</summary>
 public sealed record CameraProfileTuning(float Pitch, float Distance, float Fov);
 
-/// <summary>The duel camera (systems.md §4.2): profile plus the blend into it and the focus height above the player's feet.</summary>
+/// <summary>The duel camera (systems.md §4.2): profile plus the blend into it and the focus height above the field midpoint.</summary>
 public sealed record DuelCameraTuning(float Pitch, float Distance, float Fov, float BlendTime, float FocusHeight);
 
 /// <summary><c>camera.*</c>: the overworld profile and the duel profile.</summary>
@@ -27,8 +27,8 @@ public sealed record TuningDefinition(PlayerTuning Player, CameraTuning Camera, 
     /// <summary>The shipped values, used when the file cannot be read so a broken file degrades to the defaults after an error.</summary>
     public static TuningDefinition Default { get; } = new(
         new PlayerTuning(2.2f, 4.5f),
-        new CameraTuning(new CameraProfileTuning(57.0f, 12.0f, 35.0f), new DuelCameraTuning(15.0f, 5.5f, 40.0f, 1.2f, 1.1f)),
+        new CameraTuning(new CameraProfileTuning(57.0f, 12.0f, 35.0f), new DuelCameraTuning(40.0f, 9.0f, 40.0f, 1.2f, 0.8f)),
         new EncounterTuning(8.0f, 60.0f, 7.0f, 1.4f, 0.6f, 2.2f, 2.0f, 3.0f),
         new DuelTuning(8000, 6, 5, 0.15f, 0.7f),
-        new AnchorTuning(1.0f, 0.22f, 0.28f, 1.2f, 0.25f, 0.62f, 0.95f, 0.11f, 0.0015f, 0.35f));
+        new AnchorTuning(1.8f, 0.92f, 1.2f, 1.2f, 0.25f, 0.62f, 0.95f, 0.11f, 0.0015f, 0.35f));
 }

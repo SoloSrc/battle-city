@@ -249,7 +249,7 @@ public partial class DuelStagingTestScene : Node3D
                 {
                     _faceUpSeen++;
                     Vector3 toPlayerSeat = (Player!.GlobalPosition - Opponent!.GlobalPosition).Normalized();
-                    if (faceUp.RestTransform.Basis.Z.Dot(toPlayerSeat) < 0.9f)
+                    if (faceUp.RestTransform.Basis.Z.Normalized().Dot(toPlayerSeat) < 0.9f)
                     {
                         _faceUpWrong++;
                     }
@@ -266,9 +266,9 @@ public partial class DuelStagingTestScene : Node3D
                 Transform3D rest = view.RestTransform;
                 Basis anchor = view.Anchor.GlobalBasis;
                 bool monster = card.Loc == Location.MonsterZone;
-                bool flat = rest.Basis.Z.Dot(Vector3.Up) < -0.99f;
-                bool along = Mathf.Abs(rest.Basis.Y.Dot(monster ? anchor.X : anchor.Z)) > 0.99f;
-                bool low = Mathf.Abs(view.Anchor.GlobalPosition.Y - rest.Origin.Y - Rendering.HologramCards.Height / 2.0f) < 0.02f;
+                bool flat = rest.Basis.Z.Normalized().Dot(Vector3.Up) < -0.99f;
+                bool along = Mathf.Abs(rest.Basis.Y.Normalized().Dot(monster ? anchor.X : anchor.Z)) > 0.99f;
+                bool low = Mathf.Abs(view.Anchor.GlobalPosition.Y - rest.Origin.Y - Rendering.HologramCards.Height * DuelStaging.FieldCardScale / 2.0f) < 0.02f;
                 _setCardsSeen++;
                 if (monster)
                 {
@@ -294,7 +294,7 @@ public partial class DuelStagingTestScene : Node3D
             }
 
             Transform3D rest = view.RestTransform;
-            float up = rest.Basis.Z.Dot(Vector3.Up);
+            float up = rest.Basis.Z.Normalized().Dot(Vector3.Up);
             _pileCardsSeen++;
             if ((faceUp ? up < 0.5f : up > -0.5f) || rest.Origin.Y < last)
             {
@@ -646,6 +646,12 @@ public partial class DuelStagingTestScene : Node3D
 
     private void Finish()
     {
+        if (CardFaces.IsHeadless && Staging is not null)
+        {
+            Check(Staging.Effects.GetChildren().OfType<AudioStreamPlayer>().All(p => !p.Playing),
+                "headless cue routing does not start audio playback");
+        }
+
         Staging?.Effects.Silence();
         ManagedWrappers.Flush();
         _done = true;

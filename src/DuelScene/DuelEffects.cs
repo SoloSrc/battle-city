@@ -100,7 +100,13 @@ public partial class DuelEffects : Node3D
     {
         if (Player(cue) is { } player)
         {
-            player.Play();
+            // The headless dummy audio driver does not drain playback resources reliably.
+            // Still load the stream and count the cue so diagnostics validate event routing.
+            if (!CardFaces.IsHeadless)
+            {
+                player.Play();
+            }
+
             _played[cue] = Count(_played, cue) + 1;
         }
     }

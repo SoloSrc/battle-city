@@ -29,6 +29,10 @@ namespace BattleCity.DuelScene;
 public partial class DuelStaging : Node3D
 {
     private const int ZoneCount = 5;
+    public const float FieldCardScale = 3.0f;
+    public const float DiskCardScale = 0.25f;
+    public const float HandCardScale = 1.1f;
+    public const float CameraRightAngle = 12.0f;
 
     // Card anchors (systems.md §6.1): anchors.* in data/tuning.json (systems.md §10).
     public float Forward { get; set; } = Tuning.Current.Anchors.Forward;
@@ -157,7 +161,7 @@ public partial class DuelStaging : Node3D
         OpponentSide = BuildSide("OpponentSide", opponent, opponentStand, playerStand, HologramSide.Opponent);
     }
 
-    /// <summary>The duel framing: behind the player's shoulder, looking down the axis at the opponent.</summary>
+    /// <summary>The duel framing: above the player's right shoulder, looking down at the field midpoint.</summary>
     public void EnterCamera(CameraRig rig)
     {
         ArgumentNullException.ThrowIfNull(rig);
@@ -168,7 +172,8 @@ public partial class DuelStaging : Node3D
 
         Vector3 toOpponent = OpponentSide.Root.GlobalPosition - PlayerSide.Root.GlobalPosition;
         float yaw = Mathf.RadToDeg(Mathf.Atan2(-toOpponent.X, -toOpponent.Z));
-        Vector3 focus = PlayerSide.Root.GlobalPosition + Vector3.Up * CameraFocusHeight;
+        Vector3 focus = (PlayerSide.Root.GlobalPosition + OpponentSide.Root.GlobalPosition) * 0.5f + Vector3.Up * CameraFocusHeight;
+        yaw += CameraRightAngle;
         rig.EnterDuel(focus, yaw, CameraPitch, CameraDistance, CameraFov, CameraBlendTime);
     }
 
@@ -274,7 +279,7 @@ public partial class DuelStaging : Node3D
                 view.Visible = visible;
                 view.SetPickable(visible);
                 view.Mirrored = (card.IsOnField ? card.Controller : p.Index) != 0;
-                view.AttachTo(anchor, local, orientation, animate && view.Anchor is not null);
+                view.AttachTo(anchor, local, orientation, animate && view.Anchor is not null, ScaleFor(card, p));
             }
         }
 
@@ -524,6 +529,21 @@ public partial class DuelStaging : Node3D
         }
     }
 
+    private float ScaleFor(CardInstance card, PlayerState owner)
+    {
+        if (card.IsOnField)
+        {
+            return FieldCardScale;
+        }
+
+        if (card.Loc == Location.Hand)
+        {
+            return HandCardScale;
+        }
+
+        return (owner.Index == 0 ? PlayerSide! : OpponentSide!).PilesOnDisk ? DiskCardScale : 1.0f;
+    }
+
     private Vector3 Stack(Node3D anchor, Dictionary<Node3D, int> stacks)
     {
         int index = stacks.TryGetValue(anchor, out int count) ? count : 0;
@@ -543,12 +563,11 @@ public partial class DuelStaging : Node3D
 
     /// <summary>
     /// Set cards lie flat at the foot of the upright cards, like a table under the
-    /// holograms, so from the duel camera they never cover the row behind them.
-    /// A sideways Set monster is wider than the column spacing, so neighbours
-    /// step a hair in height to overlap without z-fighting.
+    /// holograms. Row spacing separates the silhouettes from the raised camera;
+    /// a tiny height stagger keeps coplanar effects from z-fighting.
     /// </summary>
     private Vector3 ZoneOffset(CardOrientation orientation, int column) =>
-        CardView.IsFlat(orientation) ? new Vector3(0.0f, -HologramCards.Height / 2.0f + column * StackStep, 0.0f) : Vector3.Zero;
+        CardView.IsFlat(orientation) ? new Vector3(0.0f, -HologramCards.Height * FieldCardScale / 2.0f + column * StackStep, 0.0f) : Vector3.Zero;
 
     private static void Place(Character character, Vector3 stand, Vector3 facing)
     {
