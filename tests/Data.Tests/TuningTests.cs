@@ -24,9 +24,9 @@ public class TuningTests
         Assert.Equal(6, t.Duel.HandLimit);
         Assert.Equal(5, t.Duel.OpeningHand);
         Assert.Equal(0.15f, t.Duel.CardTween);
-        Assert.Equal(1.0f, t.Anchors.Forward);
-        Assert.Equal(0.22f, t.Anchors.SpacingX);
-        Assert.Equal(0.28f, t.Anchors.SpacingZ);
+        Assert.Equal(1.8f, t.Anchors.Forward);
+        Assert.Equal(0.92f, t.Anchors.SpacingX);
+        Assert.Equal(1.2f, t.Anchors.SpacingZ);
     }
 
     [Fact]
@@ -51,7 +51,7 @@ public class TuningTests
     [InlineData("\"cone_angle\": 60", "\"cone_angle\": 400", "encounter.cone_angle")]
     [InlineData("\"start_lp\": 8000", "\"start_lp\": -1", "duel.start_lp")]
     [InlineData("\"lunge_fraction\": 0.35", "\"lunge_fraction\": 2", "anchors.lunge_fraction")]
-    [InlineData("\"spacing_z\": 0.28,", "", "anchors.spacing_z")]
+    [InlineData("\"spacing_z\": 1.2,", "", "anchors.spacing_z")]
     public void BadValuesAreRejectedByKey(string good, string bad, string key)
     {
         string json = File.ReadAllText(Path.Combine(GameDataTests.DataRoot, "tuning.json"));

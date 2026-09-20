@@ -61,7 +61,7 @@ public partial class DuelUi : CanvasLayer
     public const int LogLines = 20;
 
     private const int ZoneCount = 5;
-    private const float CardWidth = 140.0f;
+    private const float CardWidth = 156.0f;
     private const float CardHeight = CardWidth * 860.0f / 590.0f;
     private const float HandRaise = 44.0f;
     private const float NoticeTime = 2.5f;
@@ -1120,7 +1120,7 @@ public partial class DuelUi : CanvasLayer
         float spacing = Math.Min(CardWidth * 0.78f, 1100.0f / n);
         float total = spacing * (n - 1) + CardWidth;
         float x0 = (width - total) / 2.0f;
-        float baseY = _hand.Size.Y - CardHeight + 30.0f;
+        float baseY = _hand.Size.Y - CardHeight - 24.0f;
         for (int i = 0; i < n; i++)
         {
             bool selected = _row == HandRow && _col == i;

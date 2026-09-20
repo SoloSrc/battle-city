@@ -80,10 +80,12 @@ public partial class CardView : Node3D
 
     /// <summary>Where the card comes to rest on its anchor, in world space: the transform effects anchor to.</summary>
     public Transform3D RestTransform =>
-        Anchor is null ? GlobalTransform : Anchor.GlobalTransform * new Transform3D(Basis.FromEuler(RotationFor(Orientation)), TargetPosition);
+        Anchor is null ? GlobalTransform : Anchor.GlobalTransform * new Transform3D(Basis.FromEuler(RotationFor(Orientation)).Scaled(Vector3.One * PresentationScale), TargetPosition);
 
     /// <summary>True while a CardSelected effect (or the fallback uniform) marks this card.</summary>
     public bool IsSelected { get; private set; }
+
+    public float PresentationScale { get; private set; } = 1.0f;
 
     /// <summary>Builds the quad for <paramref name="card"/>; <paramref name="mirrored"/> for the side whose cards must face away from their owner.</summary>
     public void Setup(CardInstance card, HologramSide side, Texture2D? face, bool mirrored, float hoverPhase)
@@ -130,7 +132,7 @@ public partial class CardView : Node3D
     }
 
     /// <summary>Parents the card to <paramref name="anchor"/> and tweens it to <paramref name="localPosition"/> in <paramref name="orientation"/>; immediate when <paramref name="animate"/> is false.</summary>
-    public void AttachTo(Node3D anchor, Vector3 localPosition, CardOrientation orientation, bool animate)
+    public void AttachTo(Node3D anchor, Vector3 localPosition, CardOrientation orientation, bool animate, float presentationScale = 1.0f)
     {
         System.ArgumentNullException.ThrowIfNull(anchor);
         bool moved = !ReferenceEquals(anchor, Anchor);
@@ -149,6 +151,7 @@ public partial class CardView : Node3D
             Moves++;
         }
 
+        PresentationScale = presentationScale;
         Orientation = orientation;
         TargetPosition = localPosition;
         Vector3 rotation = RotationFor(orientation);
@@ -157,12 +160,14 @@ public partial class CardView : Node3D
         {
             Position = localPosition;
             Rotation = rotation;
+            Scale = Vector3.One * presentationScale;
             return;
         }
 
         _move = CreateTween().SetParallel().SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
         _move.TweenProperty(this, "position", localPosition, MoveTime);
         _move.TweenProperty(this, "rotation", rotation, MoveTime);
+        _move.TweenProperty(this, "scale", Vector3.One * presentationScale, MoveTime);
     }
 
     public bool IsMoving => _move is { } move && move.IsValid() && move.IsRunning();

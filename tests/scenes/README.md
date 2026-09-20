@@ -240,3 +240,10 @@ godot --headless --path . res://tests/scenes/CardArtworkTest.tscn --quit-after 6
 faces, including when `--capture` is used. Other capture workflows must pass
 `-- --generated-art` or set `CardArtwork.UseLocalArt = false` before composing
 any faces, so evidence contains only committed generated art.
+
+## DuelLayoutPreview
+
+Frozen visual review with five monsters and five Set Spell/Traps per side,
+production HUD hand and raised duel camera. Run with `-- --capture /tmp/duel-layout-preview.png`
+to save a screenshot after settling; omit to inspect interactively. Generated
+art is forced. The staged board is a diagnostic fixture, not a legal replay.

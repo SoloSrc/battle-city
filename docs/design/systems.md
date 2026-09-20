@@ -175,8 +175,8 @@ CameraRig (Node3D, follows target on XZ with smoothing)
 
 | Parameter | Overworld | Interior | Duel |
 | --- | --- | --- | --- |
-| pitch | 57° | 50° | 12–18° (per site) |
-| distance | 12 m (GDD baseline 12–14) | 7 m | 5.5 m from player |
+| pitch | 57° | 50° | 40° |
+| distance | 12 m (GDD baseline 12–14) | 7 m | 9 m from field midpoint |
 | vertical fov | 35° | 35° | 40° |
 | follow smoothing | 0.15 s | 0.15 s | fixed |
 
@@ -547,12 +547,19 @@ Owns everything 3D during a duel. On start it:
 
 1. Places both characters at the site's stand points, facing each other.
 2. Spawns `CardAnchors` per side: **ten `Marker3D`s in a 2 × 5 grid**
-   1.0 m in front of the duelist's chest, 0.22 m apart horizontally, rows
-   0.28 m apart, monsters in front, spells and traps behind. Anchors are
+   1.8 m in front of the duelist's chest, 0.92 m apart horizontally, rows
+   1.2 m apart, monsters in front, spells and traps behind. Anchors are
    generated from the stand point and axis, **never from the disk mesh**,
    so bay spacing on the prop is cosmetic. Deck, graveyard and banished
    anchors sit on the disk's mount points via `DuelDisk` markers.
 3. Positions the duel camera from the site (§4.2).
+
+Director-requested location sizes (2026-09-20): the base quad remains
+0.20 × 0.292 m. Field cards scale 3× (0.60 × 0.875 m), disk piles scale
+0.25× (0.05 × 0.073 m), and the 3D hand scales 1.1×. Mesh, picking collider,
+and anchored effects share the presentation transform; moves tween size with
+position. The production HUD hand remains in screen space, now 156 px wide
+per card (previously 140), with its bottom edge inside the viewport.
 
 Cards are `CardView` instances: a quad with the frame texture, art
 texture, stars, attribute and stat labels rendered as a `SubViewport`
@@ -561,8 +568,7 @@ Defence = rotated 90° in the card's plane (about its Z), with a 0.15 s
 tween. Set cards lie flat, perpendicular to the upright cards, face to the
 ground and back up, dropped half a card height so they rest at the foot of
 the upright cards: a Set Spell/Trap keeps its long side along the duel axis,
-a Set monster is turned 90° so its long side runs across the row. A flat
-card never covers the row behind it from the duel camera. Upright face-down
+a Set monster is turned 90° so its long side runs across the row. The wider row spacing separates the flat and upright silhouettes from the raised duel camera. Upright face-down
 (turned 180° about Y) remains for the opponent's hand. On the disk the deck
 lies face to the floor so nobody reads it, the graveyard and the banished pile
 face the sky, and piles grow upward, whichever way the disk's markers point.
@@ -596,9 +602,9 @@ Implementation (issue #60):
 - `CameraRig.EnterDuel(focus, yaw, pitch, distance, fov, blendTime)` blends
   from the current pose to a held framing and ignores bounds while it holds;
   `ExitDuel` blends back to following. `DuelStaging.EnterCamera` uses the
-  §4.2 duel column: behind the player's shoulder, looking down the axis,
-  15° / 5.5 m / 40° over 1.2 s (exported on the node until `tuning.json`
-  lands with #63).
+  §4.2 duel column: raised above the player's right shoulder, yawed 12°
+  right of the duel axis toward the field midpoint at 0.8 m height,
+  40° pitch / 9 m distance / 40° FOV over 1.2 s.
 - `tests/scenes/DuelStagingTest.tscn` is the acceptance (tests/scenes/README.md).
 
 ### 6.2 Card face layout and art window
@@ -996,9 +1002,9 @@ fills them is later work.
 | duel.hand_limit | 6 | Duel.Core |
 | duel.opening_hand | 5 | Duel.Core |
 | duel.card_tween | 0.15 | CardView |
-| anchors.forward | 1.0 | DuelStaging |
-| anchors.spacing_x | 0.22 | DuelStaging |
-| anchors.spacing_z | 0.28 | DuelStaging |
+| anchors.forward | 1.8 | DuelStaging |
+| anchors.spacing_x | 0.92 | DuelStaging |
+| anchors.spacing_z | 1.2 | DuelStaging |
 | ai.jitter.* | per duelist | `data/duelists.json` `profile.jitter` (not duplicated in tuning.json) |
 | shop.booster_price | 300 | `data/shop.json` `boosters[].price` (not duplicated in tuning.json) |
 

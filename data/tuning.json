@@ -10,11 +10,11 @@
       "fov": 35
     },
     "duel": {
-      "pitch": 15,
-      "distance": 5.5,
+      "pitch": 40,
+      "distance": 9,
       "fov": 40,
       "blend_time": 1.2,
-      "focus_height": 1.1
+      "focus_height": 0.8
     }
   },
   "encounter": {
@@ -35,9 +35,9 @@
     "ai_delay": 0.7
   },
   "anchors": {
-    "forward": 1.0,
-    "spacing_x": 0.22,
-    "spacing_z": 0.28,
+    "forward": 1.8,
+    "spacing_x": 0.92,
+    "spacing_z": 1.2,
     "chest_height": 1.2,
     "hand_forward": 0.25,
     "hand_side": 0.62,
