@@ -273,6 +273,7 @@ public partial class DuelStaging : Node3D
                 (Node3D anchor, Vector3 local, CardOrientation orientation, bool visible) = Placement(card, p, stacks, ref handIndex, handCount);
                 view.Visible = visible;
                 view.SetPickable(visible);
+                view.Mirrored = (card.IsOnField ? card.Controller : p.Index) != 0;
                 view.AttachTo(anchor, local, orientation, animate && view.Anchor is not null);
             }
         }
@@ -485,6 +486,11 @@ public partial class DuelStaging : Node3D
     {
         SideAnchors ownerSide = owner.Index == 0 ? PlayerSide! : OpponentSide!;
         SideAnchors controllerSide = card.Controller == 0 ? PlayerSide! : OpponentSide!;
+
+        // On the disk the piles lie on its markers: the deck face to the floor and the graveyard face to the sky for
+        // both duelists. The fallback anchors stand upright, so there the piles read like any other upright card.
+        CardOrientation faceUpPile = ownerSide.PilesOnDisk ? CardOrientation.PileFaceUp : CardOrientation.Attack;
+        CardOrientation faceDownPile = ownerSide.PilesOnDisk ? CardOrientation.PileFaceDown : CardOrientation.FaceDown;
         switch (card.Loc)
         {
             case Location.MonsterZone:
@@ -508,13 +514,13 @@ public partial class DuelStaging : Node3D
                 }
 
             case Location.Graveyard:
-                return (ownerSide.Graveyard, Stack(ownerSide.Graveyard, stacks), CardOrientation.Attack, true);
+                return (ownerSide.Graveyard, Stack(ownerSide.Graveyard, stacks), faceUpPile, true);
             case Location.Banished:
-                return (ownerSide.Banished, Stack(ownerSide.Banished, stacks), CardOrientation.Attack, true);
+                return (ownerSide.Banished, Stack(ownerSide.Banished, stacks), faceUpPile, true);
             case Location.FusionDeck:
-                return (ownerSide.Deck, Vector3.Zero, CardOrientation.FaceDown, false);
+                return (ownerSide.Deck, Vector3.Zero, faceDownPile, false);
             default:
-                return (ownerSide.Deck, Stack(ownerSide.Deck, stacks), CardOrientation.FaceDown, true);
+                return (ownerSide.Deck, Stack(ownerSide.Deck, stacks), faceDownPile, true);
         }
     }
 
@@ -522,7 +528,8 @@ public partial class DuelStaging : Node3D
     {
         int index = stacks.TryGetValue(anchor, out int count) ? count : 0;
         stacks[anchor] = index + 1;
-        return new Vector3(0.0f, 0.0f, index * StackStep);
+        // Piles grow away from the floor: the top of the deck (the last card) is the highest.
+        return new Vector3(0.0f, 0.0f, (CardView.PointsDown(anchor) ? -index : index) * StackStep);
     }
 
     private static CardOrientation OrientationOf(CardPosition position) =>

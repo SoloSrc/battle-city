@@ -17,6 +17,12 @@ public enum CardOrientation
     /// <summary>Back toward the camera side, upright (the opponent's hand, the deck).</summary>
     FaceDown,
 
+    /// <summary>On a duel disk pile, face to the sky whichever way the marker points (graveyard, banished).</summary>
+    PileFaceUp,
+
+    /// <summary>On a duel disk pile, face to the floor so nobody reads it (deck).</summary>
+    PileFaceDown,
+
     /// <summary>Lying flat, face to the ground, long side along the duel axis (Set Spell/Trap).</summary>
     Set,
 
@@ -50,8 +56,11 @@ public partial class CardView : Node3D
 
     public HologramSide Side { get; private set; }
 
-    /// <summary>The owner's face-up cards face +Z of their anchors (toward the owner); the opponent's face the other way, so both read from the player's camera.</summary>
-    public bool Mirrored { get; private set; }
+    /// <summary>
+    /// Whether upright cards turn to face away from the duelist whose anchors they sit on, so both sides read from the
+    /// player's camera. It follows the side the card is on, not its owner: a monster taken with Snatch Steal faces like its new side.
+    /// </summary>
+    public bool Mirrored { get; set; }
 
     public CardOrientation Orientation { get; private set; } = CardOrientation.FaceDown;
 
@@ -233,6 +242,9 @@ public partial class CardView : Node3D
         }
     }
 
+    /// <summary>Whether a pile marker's normal (+Z) points to the floor, so its piles must grow and face the other way.</summary>
+    public static bool PointsDown(Node3D? anchor) => anchor is not null && anchor.IsInsideTree() && anchor.GlobalBasis.Z.Y < -0.5f;
+
     /// <summary>Whether an orientation lies flat on the field plane (the Set cards) instead of standing upright.</summary>
     public static bool IsFlat(CardOrientation orientation) => orientation is CardOrientation.Set or CardOrientation.SetDefense;
 
@@ -246,6 +258,14 @@ public partial class CardView : Node3D
         if (IsFlat(orientation))
         {
             return new Vector3(Mathf.Pi / 2.0f, orientation == CardOrientation.SetDefense ? Mathf.Pi / 2.0f : 0.0f, 0.0f);
+        }
+
+        if (orientation is CardOrientation.PileFaceUp or CardOrientation.PileFaceDown)
+        {
+            // The face looks along the card's +Z. The disk's pile markers point wherever the arm pose
+            // leaves them (the rookie disk's point down), so the side is chosen from the marker, not from Mirrored.
+            bool faceAlongZ = (orientation == CardOrientation.PileFaceUp) ^ PointsDown(Anchor);
+            return new Vector3(0.0f, faceAlongZ ? 0.0f : Mathf.Pi, 0.0f);
         }
 
         bool faceDown = orientation == CardOrientation.FaceDown;

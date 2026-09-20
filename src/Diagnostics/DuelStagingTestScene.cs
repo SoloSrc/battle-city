@@ -67,6 +67,14 @@ public partial class DuelStagingTestScene : Node3D
     private int _setCardsSeen;
     private int _setMonstersSeen;
     private int _setCardsWrong;
+    private int _pileCardsSeen;
+    private int _pileCardsWrong;
+    private int _faceUpSeen;
+    private int _faceUpWrong;
+    private SubViewport[]? _reviewViews;
+    private int _reviewFrame;
+    private int _reviewEvents;
+    private int _reviewEventsNext;
     private int _passCount;
     private int _failCount;
     private bool _done;
@@ -188,6 +196,7 @@ public partial class DuelStagingTestScene : Node3D
         }
 
         CaptureEffects();
+        CaptureSetReview();
 
         if (_engine is { State.IsOver: false } && _commands < MaxCommands && _frame % StepFrames == 0)
         {
@@ -223,6 +232,28 @@ public partial class DuelStagingTestScene : Node3D
     {
         foreach (PlayerState p in _engine!.State.Players)
         {
+            DuelStaging.SideAnchors side = p.Index == 0 ? Staging!.PlayerSide! : Staging!.OpponentSide!;
+            if (side.PilesOnDisk)
+            {
+                // Nobody may read a deck: every card faces the floor and the pile grows upward. Graveyards face the sky.
+                CheckPile(p.Deck, faceUp: false);
+                CheckPile(p.Graveyard, faceUp: true);
+            }
+
+            foreach (CardInstance card in p.AllCards.Where(c => c.IsOnField && c.IsFaceUp))
+            {
+                // Face-up cards read from the player's camera whoever controls them (a monster taken by Snatch Steal too).
+                if (Staging!.Cards.TryGetValue(card.Id, out CardView? faceUp) && faceUp.Anchor is not null)
+                {
+                    _faceUpSeen++;
+                    Vector3 toPlayerSeat = (Player!.GlobalPosition - Opponent!.GlobalPosition).Normalized();
+                    if (faceUp.RestTransform.Basis.Z.Dot(toPlayerSeat) < 0.9f)
+                    {
+                        _faceUpWrong++;
+                    }
+                }
+            }
+
             foreach (CardInstance card in p.AllCards.Where(c => c.IsOnField && c.IsFaceDown))
             {
                 if (!Staging!.Cards.TryGetValue(card.Id, out CardView? view) || view.Anchor is null)
@@ -247,6 +278,28 @@ public partial class DuelStagingTestScene : Node3D
                     _setCardsWrong++;
                 }
             }
+        }
+    }
+
+    private void CheckPile(IReadOnlyList<CardInstance> pile, bool faceUp)
+    {
+        float last = float.NegativeInfinity;
+        foreach (CardInstance card in pile)
+        {
+            if (!Staging!.Cards.TryGetValue(card.Id, out CardView? view) || view.Anchor is null)
+            {
+                continue;
+            }
+
+            Transform3D rest = view.RestTransform;
+            float up = rest.Basis.Z.Dot(Vector3.Up);
+            _pileCardsSeen++;
+            if ((faceUp ? up < 0.5f : up > -0.5f) || rest.Origin.Y < last)
+            {
+                _pileCardsWrong++;
+            }
+
+            last = rest.Origin.Y;
         }
     }
 
@@ -451,6 +504,90 @@ public partial class DuelStagingTestScene : Node3D
         }
     }
 
+    /// <summary>
+    /// <c>-- --capture</c>: the first time the opponent has a Set Spell/Trap in the column of one of their face-up monsters
+    /// and a Set monster, saves <c>staging_set_duel.png</c> (the duel camera), <c>staging_set_field.png</c> (their field
+    /// from above the player's side) and <c>staging_set_piles.png</c> (the player's disk). The pictures come from
+    /// review viewports on the same world, so the rig and the other captures are not disturbed.
+    /// </summary>
+    private void CaptureSetReview()
+    {
+        if (_captureDir is null || _engine is null || CardFaces.IsHeadless || _reviewFrame < 0 || Staging?.OpponentSide is not { } os || Staging.PlayerSide is not { } ps)
+        {
+            return;
+        }
+
+        if (_reviewViews is null)
+        {
+            if (_frame != SetupFrames + 60 || Rig?.Camera is not { } duel)
+            {
+                return;
+            }
+
+            Vector3 toPlayer = (Player!.GlobalPosition - Opponent!.GlobalPosition).Normalized();
+            Vector3 field = Opponent.GlobalPosition + toPlayer * (Staging.Forward + Staging.SpacingZ * 0.5f) + Vector3.Up * (Staging.ChestHeight - 0.1f);
+            Vector3 piles = ps.Deck.GlobalPosition.Lerp(ps.Graveyard.GlobalPosition, 0.5f);
+            _reviewViews = new[]
+            {
+                ReviewView("duel", duel.GlobalTransform, duel.Fov),
+                ReviewView("field", Looking(field + toPlayer * 1.3f + Vector3.Up * 0.9f, field), 40.0f),
+                ReviewView("piles", Looking(piles + toPlayer * 0.7f + Vector3.Up * 1.0f, piles), 40.0f),
+            };
+            return;
+        }
+
+        if (_reviewFrame == 0)
+        {
+            PlayerState opponent = _engine.State.Players[1];
+            bool covered = opponent.SpellTraps.Any(st => st is { IsFaceDown: true } && opponent.Monsters.Any(m => m is { IsFaceUp: true } && m.ZoneIndex == st.ZoneIndex));
+            bool setMonster = opponent.Monsters.Any(m => m is { IsFaceDown: true });
+            if (_frame == _lastCommandFrame + 1)
+            {
+                // Not while a lunge is in flight: no attack among the events of the last two commands.
+                bool quiet = !_engine.Events.Skip(_reviewEvents).Any(e => e is AttackDeclared);
+                _reviewEvents = _reviewEventsNext;
+                _reviewEventsNext = _engine.Events.Count;
+                if (covered && setMonster && quiet)
+                {
+                    _reviewFrame = _frame + 12;
+                }
+            }
+
+            return;
+        }
+
+        if (_frame == _reviewFrame)
+        {
+            foreach (SubViewport view in _reviewViews)
+            {
+                view.RenderTargetUpdateMode = SubViewport.UpdateMode.Once;
+            }
+        }
+        else if (_frame == _reviewFrame + 2)
+        {
+            foreach (SubViewport view in _reviewViews)
+            {
+                view.GetTexture().GetImage().SavePng($"{_captureDir}/staging_set_{view.Name}.png");
+                view.QueueFree();
+            }
+
+            _reviewFrame = -1;
+            Report("INFO", "captured staging_set_duel.png, staging_set_field.png, staging_set_piles.png");
+        }
+    }
+
+    private static Transform3D Looking(Vector3 from, Vector3 at) => new Transform3D(Basis.Identity, from).LookingAt(at, Vector3.Up);
+
+    private SubViewport ReviewView(string name, Transform3D camera, float fov)
+    {
+        var view = new SubViewport { Name = name, Size = new Vector2I(1280, 720), RenderTargetUpdateMode = SubViewport.UpdateMode.Disabled, Msaa3D = Viewport.Msaa.Msaa4X };
+        AddChild(view);
+        var eye = new Camera3D { Fov = fov, Current = true };
+        view.AddChild(eye);
+        eye.GlobalTransform = camera;
+        return view;
+    }
+
     /// <summary><c>-- --capture &lt;dir&gt;</c>: saves the screen and the baked faces of a few cards of each kind for review (not headless).</summary>
     private void Capture()
     {
@@ -518,6 +655,8 @@ public partial class DuelStagingTestScene : Node3D
             Check(_movesBeforeTeardown >= 30, Inv($"{_movesBeforeTeardown} card moves driven by the engine"));
             Check(Staging.EventsApplied >= _commands, Inv($"{Staging.EventsApplied} engine events applied"));
             Check(_mismatchFrames == 0, Inv($"card views matched the engine after every command ({_mismatchFrames} frames off)"));
+            Check(_faceUpSeen > 0 && _faceUpWrong == 0, Inv($"face-up field cards face the player's camera whoever controls them ({_faceUpSeen} seen, {_faceUpWrong} wrong)"));
+            Check(_pileCardsWrong == 0, Inv($"decks face the floor, graveyards face the sky and both piles grow upward ({_pileCardsSeen} seen, {_pileCardsWrong} wrong)"));
             Check(_setCardsSeen > 0 && _setCardsWrong == 0, Inv($"Set cards lie flat, face down, at the foot of their zone ({_setCardsSeen} seen, {_setMonstersSeen} monsters sideways, {_setCardsWrong} wrong)"));
             int onField = 0;
             foreach (CardView view in Staging.Cards.Values)
