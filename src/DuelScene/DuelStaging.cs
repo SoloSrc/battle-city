@@ -273,6 +273,7 @@ public partial class DuelStaging : Node3D
                 (Node3D anchor, Vector3 local, CardOrientation orientation, bool visible) = Placement(card, p, stacks, ref handIndex, handCount);
                 view.Visible = visible;
                 view.SetPickable(visible);
+                view.Mirrored = (card.IsOnField ? card.Controller : p.Index) != 0;
                 view.AttachTo(anchor, local, orientation, animate && view.Anchor is not null);
             }
         }
@@ -485,12 +486,25 @@ public partial class DuelStaging : Node3D
     {
         SideAnchors ownerSide = owner.Index == 0 ? PlayerSide! : OpponentSide!;
         SideAnchors controllerSide = card.Controller == 0 ? PlayerSide! : OpponentSide!;
+
+        // On the disk the piles lie on its markers: the deck face to the floor and the graveyard face to the sky for
+        // both duelists. The fallback anchors stand upright, so there the piles read like any other upright card.
+        CardOrientation faceUpPile = ownerSide.PilesOnDisk ? CardOrientation.PileFaceUp : CardOrientation.Attack;
+        CardOrientation faceDownPile = ownerSide.PilesOnDisk ? CardOrientation.PileFaceDown : CardOrientation.FaceDown;
         switch (card.Loc)
         {
             case Location.MonsterZone:
-                return (controllerSide.Monsters[Math.Clamp(card.ZoneIndex, 0, ZoneCount - 1)], Vector3.Zero, OrientationOf(card.Pos), true);
+                {
+                    CardOrientation orientation = OrientationOf(card.Pos);
+                    return (controllerSide.Monsters[Math.Clamp(card.ZoneIndex, 0, ZoneCount - 1)], ZoneOffset(orientation, card.ZoneIndex), orientation, true);
+                }
+
             case Location.SpellTrapZone:
-                return (controllerSide.SpellTraps[Math.Clamp(card.ZoneIndex, 0, ZoneCount - 1)], Vector3.Zero, card.IsFaceUp ? CardOrientation.Attack : CardOrientation.FaceDown, true);
+                {
+                    CardOrientation orientation = card.IsFaceUp ? CardOrientation.Attack : CardOrientation.Set;
+                    return (controllerSide.SpellTraps[Math.Clamp(card.ZoneIndex, 0, ZoneCount - 1)], ZoneOffset(orientation, card.ZoneIndex), orientation, true);
+                }
+
             case Location.FieldZone:
                 return (controllerSide.SpellTraps[0], new Vector3(-SpacingX, 0.0f, 0.0f), CardOrientation.Attack, true);
             case Location.Hand:
@@ -500,13 +514,13 @@ public partial class DuelStaging : Node3D
                 }
 
             case Location.Graveyard:
-                return (ownerSide.Graveyard, Stack(ownerSide.Graveyard, stacks), CardOrientation.Attack, true);
+                return (ownerSide.Graveyard, Stack(ownerSide.Graveyard, stacks), faceUpPile, true);
             case Location.Banished:
-                return (ownerSide.Banished, Stack(ownerSide.Banished, stacks), CardOrientation.Attack, true);
+                return (ownerSide.Banished, Stack(ownerSide.Banished, stacks), faceUpPile, true);
             case Location.FusionDeck:
-                return (ownerSide.Deck, Vector3.Zero, CardOrientation.FaceDown, false);
+                return (ownerSide.Deck, Vector3.Zero, faceDownPile, false);
             default:
-                return (ownerSide.Deck, Stack(ownerSide.Deck, stacks), CardOrientation.FaceDown, true);
+                return (ownerSide.Deck, Stack(ownerSide.Deck, stacks), faceDownPile, true);
         }
     }
 
@@ -514,7 +528,8 @@ public partial class DuelStaging : Node3D
     {
         int index = stacks.TryGetValue(anchor, out int count) ? count : 0;
         stacks[anchor] = index + 1;
-        return new Vector3(0.0f, 0.0f, index * StackStep);
+        // Piles grow away from the floor: the top of the deck (the last card) is the highest.
+        return new Vector3(0.0f, 0.0f, (CardView.PointsDown(anchor) ? -index : index) * StackStep);
     }
 
     private static CardOrientation OrientationOf(CardPosition position) =>
@@ -522,9 +537,18 @@ public partial class DuelStaging : Node3D
         {
             CardPosition.FaceUpAttack => CardOrientation.Attack,
             CardPosition.FaceUpDefense => CardOrientation.Defense,
-            CardPosition.FaceDownDefense => CardOrientation.FaceDownDefense,
-            _ => CardOrientation.FaceDown,
+            CardPosition.FaceDownDefense => CardOrientation.SetDefense,
+            _ => CardOrientation.Set,
         };
+
+    /// <summary>
+    /// Set cards lie flat at the foot of the upright cards, like a table under the
+    /// holograms, so from the duel camera they never cover the row behind them.
+    /// A sideways Set monster is wider than the column spacing, so neighbours
+    /// step a hair in height to overlap without z-fighting.
+    /// </summary>
+    private Vector3 ZoneOffset(CardOrientation orientation, int column) =>
+        CardView.IsFlat(orientation) ? new Vector3(0.0f, -HologramCards.Height / 2.0f + column * StackStep, 0.0f) : Vector3.Zero;
 
     private static void Place(Character character, Vector3 stand, Vector3 facing)
     {

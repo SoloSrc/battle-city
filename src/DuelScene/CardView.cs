@@ -14,11 +14,20 @@ public enum CardOrientation
     /// <summary>Face-up, turned 90° in its plane.</summary>
     Defense,
 
-    /// <summary>Back toward the camera side, upright (Set Spell/Trap, deck).</summary>
+    /// <summary>Back toward the camera side, upright (the opponent's hand, the deck).</summary>
     FaceDown,
 
-    /// <summary>Back toward the camera side, turned 90° (Set monster).</summary>
-    FaceDownDefense,
+    /// <summary>On a duel disk pile, face to the sky whichever way the marker points (graveyard, banished).</summary>
+    PileFaceUp,
+
+    /// <summary>On a duel disk pile, face to the floor so nobody reads it (deck).</summary>
+    PileFaceDown,
+
+    /// <summary>Lying flat, face to the ground, long side along the duel axis (Set Spell/Trap).</summary>
+    Set,
+
+    /// <summary>Lying flat, face to the ground, turned 90° so the long side runs across the row (Set monster).</summary>
+    SetDefense,
 }
 
 /// <summary>
@@ -47,8 +56,11 @@ public partial class CardView : Node3D
 
     public HologramSide Side { get; private set; }
 
-    /// <summary>The owner's face-up cards face +Z of their anchors (toward the owner); the opponent's face the other way, so both read from the player's camera.</summary>
-    public bool Mirrored { get; private set; }
+    /// <summary>
+    /// Whether upright cards turn to face away from the duelist whose anchors they sit on, so both sides read from the
+    /// player's camera. It follows the side the card is on, not its owner: a monster taken with Snatch Steal faces like its new side.
+    /// </summary>
+    public bool Mirrored { get; set; }
 
     public CardOrientation Orientation { get; private set; } = CardOrientation.FaceDown;
 
@@ -230,11 +242,34 @@ public partial class CardView : Node3D
         }
     }
 
-    /// <summary>Euler rotation of an orientation: face-down turns about Y, Defense turns 90° in the card's plane (about Z).</summary>
+    /// <summary>Whether a pile marker's normal (+Z) points to the floor, so its piles must grow and face the other way.</summary>
+    public static bool PointsDown(Node3D? anchor) => anchor is not null && anchor.IsInsideTree() && anchor.GlobalBasis.Z.Y < -0.5f;
+
+    /// <summary>Whether an orientation lies flat on the field plane (the Set cards) instead of standing upright.</summary>
+    public static bool IsFlat(CardOrientation orientation) => orientation is CardOrientation.Set or CardOrientation.SetDefense;
+
+    /// <summary>
+    /// Euler rotation of an orientation: face-down turns about Y, Defense turns 90° in the card's plane (about Z).
+    /// Set cards pitch 90° about X so the face looks at the ground and the back up; a Set monster also yaws 90°
+    /// (Godot composes Y·X·Z, so the yaw is about the anchor's vertical).
+    /// </summary>
     public Vector3 RotationFor(CardOrientation orientation)
     {
-        bool faceDown = orientation is CardOrientation.FaceDown or CardOrientation.FaceDownDefense;
-        bool defense = orientation is CardOrientation.Defense or CardOrientation.FaceDownDefense;
+        if (IsFlat(orientation))
+        {
+            return new Vector3(Mathf.Pi / 2.0f, orientation == CardOrientation.SetDefense ? Mathf.Pi / 2.0f : 0.0f, 0.0f);
+        }
+
+        if (orientation is CardOrientation.PileFaceUp or CardOrientation.PileFaceDown)
+        {
+            // The face looks along the card's +Z. The disk's pile markers point wherever the arm pose
+            // leaves them (the rookie disk's point down), so the side is chosen from the marker, not from Mirrored.
+            bool faceAlongZ = (orientation == CardOrientation.PileFaceUp) ^ PointsDown(Anchor);
+            return new Vector3(0.0f, faceAlongZ ? 0.0f : Mathf.Pi, 0.0f);
+        }
+
+        bool faceDown = orientation == CardOrientation.FaceDown;
+        bool defense = orientation == CardOrientation.Defense;
         float yaw = (Mirrored ^ faceDown) ? Mathf.Pi : 0.0f;
         float roll = defense ? -Mathf.Pi / 2.0f : 0.0f;
         return new Vector3(0.0f, yaw, roll);
