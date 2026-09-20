@@ -563,7 +563,11 @@ ground and back up, dropped half a card height so they rest at the foot of
 the upright cards: a Set Spell/Trap keeps its long side along the duel axis,
 a Set monster is turned 90° so its long side runs across the row. A flat
 card never covers the row behind it from the duel camera. Upright face-down
-(turned 180° about Y) remains for the opponent's hand and the deck.
+(turned 180° about Y) remains for the opponent's hand. On the disk the deck
+lies face to the floor so nobody reads it, the graveyard and the banished pile
+face the sky, and piles grow upward, whichever way the disk's markers point.
+Upright cards mirror by the side they are on, not by owner, so a monster
+taken by the opponent still faces the player's camera.
 
 Implementation (issue #60):
 

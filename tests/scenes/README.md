@@ -152,7 +152,9 @@ frames, the icons, a level 12 and a Ritual fixture composing). A few commands
 in it selects a card and checks that one persistent `CardSelected` drives the
 `selected` uniform and stops on deselect. After every command it checks
 that each Set card lies flat, face to the ground, at the foot of its zone (a
-Set monster sideways). When the duel settles it checks
+Set monster sideways), that every face-up field card faces the player's
+camera whoever controls it, and that decks face the floor, graveyards face the
+sky and both piles grow upward. When the duel settles it checks
 the §6.4 hooks: the six `vfx/` scenes load, CardMaterialise, SummonFlash,
 AttackTrail and HitPulse were spawned once per draw/summon/attack/damage
 event, the eight cues played once per event (the win or lose stinger once),
@@ -167,7 +169,9 @@ godot --headless --path . res://tests/scenes/DuelStagingTest.tscn --fixed-fps 60
 
 Headless runs keep the face viewports (nothing is drawn to read back). In
 the editor, or with a window, `-- --capture <dir>` saves `staging.png` and the
-baked faces of the cards in play a few commands in, for visual review of the
+baked faces of the cards in play a few commands in (plus `staging_set_duel.png`,
+`staging_set_field.png` and `staging_set_piles.png`, review viewports on the
+Set cards and the disk piles), for visual review of the
 six frame types, stars, attribute, stats and badges.
 
 ## DistrictTest.tscn (issues #23, #62, #63)
