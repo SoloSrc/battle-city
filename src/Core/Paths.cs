@@ -34,6 +34,7 @@ public static class Paths
     public const string CardFrames = "res://assets/cards/frames";
     public const string CardBack = CardFrames + "/card_back.png";
     public const string CardIcons = "res://assets/cards/icons";
+    public const string LocalCardArt = "res://local-card-art";
     public const string CardArt = "res://assets/cards/art";
 
     // Duel effect scenes and cues (systems.md §6.4, GDD §8; issue #64). Owned by gpt-astra.

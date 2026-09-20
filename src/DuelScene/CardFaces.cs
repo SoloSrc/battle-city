@@ -165,7 +165,7 @@ public partial class CardFaces : Node
         var root = new Control { Size = new Vector2(Width, Height) };
         viewport.AddChild(root);
 
-        Texture2D? art = LoadTexture($"{Paths.CardArt}/{def.Id}.png");
+        Texture2D? art = CardArtwork.Load(def.Id);
         if (art is not null)
         {
             // ExpandMode before Texture: a texture set first fixes the minimum size and the rect never shrinks to the layout size.

@@ -603,6 +603,13 @@ Implementation (issue #60):
 
 ### 6.2 Card face layout and art window
 
+`CardArtwork` prefers decoded `local-card-art/<id>.png` in project runs, with
+committed generated art as fallback; exports use generated art only. The
+centered-cover layout below is the same for both sources. Duel staging/UI and district
+acceptance scenes disable local art for captures; `--generated-art` opts out in
+other project runs. Restart after changing overrides because faces are cached.
+
+
 **Director-approved generated design (2026-09-13):** the final visual authority
 is [the approved sheet](../art/references/card-design/approved-final-layout.png).
 This supersedes reference-cropped frames and prior front layout specifications.

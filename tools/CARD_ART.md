@@ -22,7 +22,7 @@ Yugipedia's MediaWiki API. If absent, it consults the card's artwork gallery,
 preferring Master Duel, then English, then a deterministic filename order among
 other game artwork PNGs. It never downloads full-card scans. Missing galleries
 or unresolvable art stop the run with an actionable error; generated art stays
-intact. Discovery is not yet validated across all 79 cards.
+intact. All 79 current cards were downloaded and decoded successfully during the initial batch validation.
 
 Files and provenance/checksum metadata go to `local-card-art/<card_id>.png`
 and `.json`. This entire directory is Git-ignored. Its `.gdignore` prevents
@@ -47,9 +47,21 @@ the run so it can be retried later. API errors, challenges, unexpected redirects
 and non-PNG downloads stop rather than being bypassed. No downloads run during
 builds, CI, or ordinary game startup.
 
-This change supplies the downloader only. Runtime override loading is a separate
-CardView integration; see `docs/requests/optional-card-art.md`. Until integrated,
-the game continues using generated artwork even after a successful download.
+When running the project from Godot or the editor executable, card faces prefer
+these local PNGs and fall back to generated art if a file is missing, unreadable,
+or corrupt. Square art keeps the approved centered cover crop; frames and badges
+are unchanged. Restart the game after downloading or removing files because
+composed card faces are cached for the process lifetime.
+
+Downloads belong to the checkout where this script is run. Git worktrees do not
+share this ignored directory. Run the downloader in the checkout you actually
+play (cached files there are reused); pulling code does not transfer downloads.
+For example, run `python3 tools/download_card_art.py` from the main checkout if
+that is the project open in Godot. No runtime network requests are made.
+
+Exported games continue using packaged generated art. An external override
+location for exports is not defined yet, and originals remain excluded from
+imports, Git, and default builds. See `docs/requests/optional-card-art.md`.
 
 ## Validation
 
@@ -65,3 +77,10 @@ The API worked for the standalone client even though the assistant's browsing
 client was blocked. The card has no artwork gallery page; preferred-file lookup
 successfully handles that case. Nine offline tests cover discovery, selection,
 robots handling, host restrictions, invalid content, and cache reuse.
+
+## Capturing review evidence
+
+DuelStagingTest, DuelUiTest and DistrictTest force generated art, even with downloads present.
+For other project runs use `-- --generated-art` when capturing evidence intended
+for Git. This opts out of local artwork for the process. Do not commit captures
+from ordinary gameplay with downloaded art enabled.
