@@ -222,3 +222,21 @@ kind of prompt is open (free cursor, menu, targets, picker, response, pile).
 Injected mouse events carry window pixels (headless windows are 64 × 64 and
 stretched), so the scene maps viewport positions through the viewport's
 final transform before injecting them.
+
+## CardArtworkTest.tscn
+
+Offline optional-art resolver checks use disposable temporary files: missing,
+valid unimported PNG, non-PNG fallback, removed override, generated-only paths,
+and diagnostic opt-out. If the actual Airknight download exists, its decoded
+pixels are compared with the production loader. Checks print PASS/FAIL and a
+summary; any failed check returns exit code 1. CI runs without any downloads.
+
+```bash
+godot --headless --path . res://tests/scenes/CardArtworkTest.tscn --quit-after 60
+godot --headless --path . res://tests/scenes/CardArtworkTest.tscn --quit-after 60 -- --generated-art
+```
+
+`DuelStagingTest`, `DuelUiTest` and `DistrictTest` always disable local art before composing
+faces, including when `--capture` is used. Other capture workflows must pass
+`-- --generated-art` or set `CardArtwork.UseLocalArt = false` before composing
+any faces, so evidence contains only committed generated art.

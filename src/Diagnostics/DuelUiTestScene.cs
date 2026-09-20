@@ -91,6 +91,8 @@ public partial class DuelUiTestScene : Node3D
 
     public override void _Ready()
     {
+        // Evidence captures must contain only the committed generated artwork.
+        CardArtwork.UseLocalArt = false;
         if (Staging is null || Site is null || Player is null || Opponent is null || Rig is null || Session is null || Ui is null)
         {
             Fail("scene not wired (Staging, Site, Player, Opponent, Rig, Session, Ui)");

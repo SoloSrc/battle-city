@@ -102,6 +102,8 @@ public partial class DistrictTestScene : Node
 
     public override void _Ready()
     {
+        // Evidence captures must contain only the committed generated artwork.
+        CardArtwork.UseLocalArt = false;
         Scripted = Scripted || DisplayServer.GetName() == "headless"
             || Array.IndexOf(OS.GetCmdlineUserArgs(), "--scripted") >= 0;
         if (Game.Instance is null)
