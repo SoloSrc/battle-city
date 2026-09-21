@@ -5,6 +5,7 @@ exploration in an anime style, with Yu-Gi-Oh! Goat Format duels in the
 Battle City style.
 
 - Team, roles and communication conventions: [docs/TEAM.md](docs/TEAM.md)
+- Roadmap, milestones and where the work is tracked: [docs/roadmap.md](docs/roadmap.md)
 - Design, art and technical documents: [docs/](docs/)
 - License: [MIT](LICENSE)
 
