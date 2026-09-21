@@ -33,8 +33,9 @@ Work in the worktree assigned to your session:
 
 Check the current branch and working-tree status before editing. Preserve
 existing work and avoid editing another collaborator's worktree. Changes reach
-`main` through pull requests reviewed by the director. After a merge, sync the
-collaborator branch with `main` before continuing. Do not create another
+`main` through pull requests reviewed by the director. Follow the director's
+workflow preferences in `docs/TEAM.md`: keep PR history focused and start new
+work from latest `origin/main` after a squash merge. Do not create another
 worktree for a branch that is already checked out.
 
 ## Durable communication
