@@ -1,7 +1,8 @@
 # Project instructions
 
-Read [docs/TEAM.md](docs/TEAM.md) before starting work. It records the team,
-responsibilities, communication conventions and worktree layout for SOLOSRC's
+Read [docs/TEAM.md](docs/TEAM.md) before starting work, and
+[docs/roadmap.md](docs/roadmap.md) for the plan of record. TEAM.md records the
+team, responsibilities, communication conventions and worktree layout for SOLOSRC's
 MIT-licensed Godot proof of concept.
 
 ## Roles and ownership

@@ -95,11 +95,21 @@ These preferences travel with the repository and apply across sessions and
 machines. They supersede earlier instructions to merge `main` back into an
 accumulated collaborator branch after a squash merge.
 
-- Keep each PR focused on its current task. Prefer one commit; amend or
-  squash review revisions instead of accumulating a long commit history.
-- After a squash merge, start the next task from the latest `origin/main`.
-  Do not carry already-merged commits into the next PR by merging main into
-  the old branch history.
+- Keep each PR focused on its current task: one PR per issue, opened as one
+  commit of new work on top of `main`. During review, push fixes as separate
+  commits so the reviewer sees what changed since the last look; the director
+  squash-merges, so `main` gets one commit either way. After opening or
+  updating a PR, report and wait for the director's "Merged".
+- After a squash merge, start the next task from the latest `origin/main`
+  (`git fetch origin && git checkout -b <topic> origin/main`; a topic branch
+  per task is fine). Do not carry already-merged commits into the next PR by
+  merging main into the old branch history.
+- Never move, reset or check out the local `main` branch from a
+  collaborator's worktree. The worktrees share one repository, so that
+  strands the director's checkout. Read `origin/main` instead.
+- Never use bare `git stash` or `git stash pop`: the worktrees share one
+  stash stack, and a pop can take another collaborator's changes. Use a
+  temporary commit, or a tagged stash applied by its hash.
 - Before realigning a branch, fetch, confirm the previous PR was merged,
   inspect the working tree and unmerged commits, preserve unfinished work,
   and keep a local backup ref. Never reset an active PR or discard work.
@@ -110,3 +120,34 @@ accumulated collaborator branch after a squash merge.
   Do not download original card artwork into Astra's worktree unless the
   director requests it for a specific task. Optional player downloads stay
   Git-ignored and are never committed.
+- Both AI collaborators act on GitHub through the director's login, so a
+  review of the other collaborator's PR is `gh pr review --comment`. Approve
+  and request-changes are refused on one's own PR. State the verdict in the
+  comment.
+- Commit the `.cs.uid` (and other `.uid`) sidecar files Godot writes next to
+  new scripts. Left untracked, they block the director's next pull.
+- Evidence images go under `docs/requests/evidence/<topic>/` and are embedded
+  in PR bodies by commit-pinned raw URLs.
+
+## Setting up on a new machine
+
+The repository carries the rules; these facts belong to the machine and must
+be checked again, not assumed:
+
+- Create the three worktrees of the table above from one clone
+  (`git worktree add`), each collaborator in its own.
+- Godot 4.7 .NET and the .NET 8 SDK; `dotnet build BattleCity.sln` once, then
+  the Build button in the editor, before the first run.
+- The headless test commands in `tests/scenes/README.md` need
+  `--fixed-fps 60`; without it the duel interface test reports false
+  mismatches.
+- One Godot MCP port per host (see Tooling notes), and the Blender MCP panel's
+  generator checkboxes and keys, which only the director can set.
+- Whether Blender can export glTF. On the director's Mac (macOS 13, Blender
+  5.2.1) it could not, because the bundled NumPy targets a newer macOS;
+  issue #95 owns the fix.
+- Downloaded card art is per checkout and ignored by git; run
+  `python3 tools/download_card_art.py` again if wanted.
+- Agent memory and chat history do not move. Anything a collaborator must
+  know belongs in this file, `AGENTS.md` or `docs/decisions.md`.
+- The plan of record is `docs/roadmap.md`.
