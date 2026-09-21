@@ -84,7 +84,29 @@ A proof-of-concept game built in **Godot**, released under the
   | gpt-astra | `Workspace/battle-city-gpt-astra` | `gpt-astra` |
 
 - Work flows from the collaborator branches into `main` through pull
-  requests reviewed by the director. After a merge, each collaborator
-  rebases or merges `main` into their branch before continuing.
+  requests reviewed by the director. Follow the workflow preferences below
+  when starting new work after a squash merge.
 - Do not create additional worktrees on a branch that is already checked
   out elsewhere; git will refuse.
+
+## Director's workflow preferences
+
+These preferences travel with the repository and apply across sessions and
+machines. They supersede earlier instructions to merge `main` back into an
+accumulated collaborator branch after a squash merge.
+
+- Keep each PR focused on its current task. Prefer one commit; amend or
+  squash review revisions instead of accumulating a long commit history.
+- After a squash merge, start the next task from the latest `origin/main`.
+  Do not carry already-merged commits into the next PR by merging main into
+  the old branch history.
+- Before realigning a branch, fetch, confirm the previous PR was merged,
+  inspect the working tree and unmerged commits, preserve unfinished work,
+  and keep a local backup ref. Never reset an active PR or discard work.
+- When an intentional history rewrite requires a force push, use an explicit
+  force-with-lease tied to the observed remote branch head. Never overwrite
+  another collaborator's branch or edit their worktree.
+- Astra's tests and committed visual evidence use the generated artwork.
+  Do not download original card artwork into Astra's worktree unless the
+  director requests it for a specific task. Optional player downloads stay
+  Git-ignored and are never committed.
