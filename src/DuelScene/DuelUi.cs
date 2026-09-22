@@ -38,6 +38,9 @@ public enum DuelUiMode
     /// <summary>Browsing a Graveyard or Banished list.</summary>
     Pile,
 
+    /// <summary>Reading the event log: the cursor moves through its lines and names (issue #205).</summary>
+    Log,
+
     Ended,
 }
 
@@ -58,7 +61,6 @@ public partial class DuelUi : CanvasLayer
     public const int MonsterRow = 2;
     public const int SpellTrapRow = 3;
     public const int HandRow = 4;
-    public const int LogLines = 20;
 
     private const int ZoneCount = 5;
     private const float CardWidth = 156.0f;
@@ -72,7 +74,6 @@ public partial class DuelUi : CanvasLayer
     private static readonly Color _opponentColor = new(1.0f, 0.65f, 0.45f);
 
     private readonly HashSet<Guid> _highlighted = new();
-    private readonly List<string> _log = new();
     private readonly List<TextureRect> _handCards = new();
     private readonly List<Guid> _handIds = new();
     private readonly HashSet<Guid> _picked = new();
@@ -117,8 +118,8 @@ public partial class DuelUi : CanvasLayer
     private Label _inspectorText = null!;
     private Control _hand = null!;
     private DuelListPanel _list = null!;
-    private PanelContainer _logPanel = null!;
-    private Label _logLabel = null!;
+    private DuelLogPanel _logPanel = null!;
+    private Guid? _logHover;
     private Label _hint = null!;
 
     public DuelUiMode Mode => _mode;
@@ -144,7 +145,13 @@ public partial class DuelUi : CanvasLayer
 
     public IReadOnlySet<Guid> Highlighted => _highlighted;
 
-    public IReadOnlyList<string> Log => _log;
+    /// <summary>Every line of the duel so far, with the card references per name.</summary>
+    public IReadOnlyList<LogLine> Log => _logPanel.Lines;
+
+    public DuelLogPanel LogPanel => _logPanel;
+
+    /// <summary>The name of the card the inspector shows, empty when it is hidden.</summary>
+    public string InspectorName => _inspector.Visible ? _inspectorName.Text : string.Empty;
 
     public int HandCount => _handCards.Count;
 
@@ -198,6 +205,7 @@ public partial class DuelUi : CanvasLayer
 
         _row = HandRow;
         _col = 0;
+        _logPanel.Configure(_player, _playerColor, _opponentColor);
         _hintsShown.Clear();
         _hintQueue.Clear();
         _hintTimer = 0.0f;
@@ -233,7 +241,8 @@ public partial class DuelUi : CanvasLayer
         _highlighted.Clear();
         _session = null;
         _staging = null;
-        _log.Clear();
+        _logPanel.Clear();
+        _logHover = null;
         _list.Close();
         _hintQueue.Clear();
         _hintPanel.Visible = false;
@@ -289,6 +298,12 @@ public partial class DuelUi : CanvasLayer
                 _list.Move(dy);
             }
 
+            return;
+        }
+
+        if (_mode == DuelUiMode.Log)
+        {
+            _logPanel.Navigate(dx, dy);
             return;
         }
 
@@ -352,6 +367,9 @@ public partial class DuelUi : CanvasLayer
             case DuelUiMode.Pile:
                 ClosePile();
                 break;
+            case DuelUiMode.Log:
+                _logPanel.JumpToLatest();
+                break;
         }
     }
 
@@ -369,6 +387,9 @@ public partial class DuelUi : CanvasLayer
                 break;
             case DuelUiMode.Pile:
                 ClosePile();
+                break;
+            case DuelUiMode.Log:
+                CloseLog();
                 break;
         }
     }
@@ -408,10 +429,40 @@ public partial class DuelUi : CanvasLayer
         }
     }
 
+    /// <summary>Shows or hides the log; when free, waiting or asked to respond the cursor moves into it (<see cref="DuelUiMode.Log"/>) and Cancel or the same key closes it.</summary>
     public void ToggleLog()
     {
+        if (_mode == DuelUiMode.Log)
+        {
+            CloseLog();
+            return;
+        }
+
+        if (_mode is DuelUiMode.Free or DuelUiMode.Waiting or DuelUiMode.Response)
+        {
+            _logPanel.Visible = true;
+            _mode = DuelUiMode.Log;
+            _logPanel.Focus();
+            RefreshCursorViews();
+            return;
+        }
+
         _logPanel.Visible = !_logPanel.Visible;
-        UpdateLogLabel();
+    }
+
+    /// <summary>Closes the log and re-reads the engine for the mode it left: free, waiting, or the response prompt that was open.</summary>
+    private void CloseLog()
+    {
+        _logPanel.Unfocus();
+        _logPanel.Visible = false;
+        _mode = DuelUiMode.Free;
+        Refresh();
+    }
+
+    private void OnLogHover(Guid? card)
+    {
+        _logHover = card;
+        UpdateInspector();
     }
 
     /// <summary>The Life Points a counter currently displays (they animate toward the state).</summary>
@@ -528,6 +579,7 @@ public partial class DuelUi : CanvasLayer
     /// <summary>Re-reads the engine after every accepted command: closes what was open and decides what the player is asked next.</summary>
     private void Refresh()
     {
+        bool reading = _mode == DuelUiMode.Log;
         _list.Close();
         _picked.Clear();
         _pickConfirm = null;
@@ -586,6 +638,16 @@ public partial class DuelUi : CanvasLayer
 
         _advance.Disabled = _mode != DuelUiMode.Free || ActionCatalog.Advance(_legal) is null;
         _advance.Text = ActionCatalog.AdvanceLabel(s, _legal);
+        // The log keeps the cursor while the player is free, waiting or asked to respond; a picker takes it back and the log stays open to read.
+        if (reading && _mode is DuelUiMode.Free or DuelUiMode.Waiting or DuelUiMode.Response)
+        {
+            _mode = DuelUiMode.Log;
+        }
+        else if (reading)
+        {
+            _logPanel.Unfocus();
+        }
+
         RefreshCursorViews();
     }
 
@@ -948,21 +1010,12 @@ public partial class DuelUi : CanvasLayer
 
     private void OnEvent(DuelEvent e)
     {
-        if (Engine is null || DuelText.Describe(e, Engine.State, _player) is not { } text)
+        if (Engine is null || DuelText.Line(e, Engine.State, _player) is not { } line)
         {
             return;
         }
 
-        _log.Add(text);
-        if (_log.Count > LogLines)
-        {
-            _log.RemoveAt(0);
-        }
-
-        if (_logPanel.Visible)
-        {
-            UpdateLogLabel();
-        }
+        _logPanel.Add(line);
     }
 
     private void OnFaceBaked(string cardId, Texture2D texture)
@@ -1176,8 +1229,9 @@ public partial class DuelUi : CanvasLayer
 
     private void UpdateInspector()
     {
-        CardInstance? card = null;
-        if (_list.IsOpen && _list.Current?.Card is { } listed)
+        // A name hovered or focused in the log wins; leaving it restores what the panel showed before.
+        CardInstance? card = _logHover is { } hovered ? Engine?.State.Find(hovered) : null;
+        if (card is null && _list.IsOpen && _list.Current?.Card is { } listed)
         {
             card = Engine?.State.Find(listed);
         }
@@ -1204,11 +1258,6 @@ public partial class DuelUi : CanvasLayer
         _inspectorType.Text = DuelText.TypeLine(card.Def) + (card.IsOnField ? " · " + DuelText.PositionName(card.Pos) : string.Empty);
         _inspectorStats.Text = DuelText.StatLine(card);
         _inspectorText.Text = card.Def.Text;
-    }
-
-    private void UpdateLogLabel()
-    {
-        _logLabel.Text = _log.Count == 0 ? "(nothing yet)" : string.Join("\n", _log);
     }
 
     private void Build()
@@ -1312,13 +1361,11 @@ public partial class DuelUi : CanvasLayer
         _inspectorText.CustomMinimumSize = new Vector2(340.0f, 0.0f);
 
         // Event log, left (toggle).
-        _logPanel = Panel("Log");
-        Place(_logPanel, 0.0f, 0.0f, 24.0f, 130.0f, 440.0f, 0.0f, Control.GrowDirection.End, Control.GrowDirection.End);
-        _logPanel.Visible = false;
+        _logPanel = new DuelLogPanel { Name = "Log", Visible = false };
+        _logPanel.AddThemeStyleboxOverride("panel", PanelStyle());
+        Place(_logPanel, 0.0f, 0.0f, 24.0f, 130.0f, 440.0f, 520.0f, Control.GrowDirection.End, Control.GrowDirection.End);
+        _logPanel.CardHovered += OnLogHover;
         _root.AddChild(_logPanel);
-        _logLabel = Text(_logPanel, "(nothing yet)", 15);
-        _logLabel.AutowrapMode = TextServer.AutowrapMode.WordSmart;
-        _logLabel.CustomMinimumSize = new Vector2(410.0f, 0.0f);
 
         // Pile buttons and the control hint, bottom-left and bottom-right.
         var buttons = new HBoxContainer();

@@ -130,65 +130,68 @@ public static class DuelText
         };
     }
 
-    /// <summary>One log line per event; null for bookkeeping events the log skips.</summary>
-    public static string? Describe(DuelEvent e, DuelState state, int viewer)
+    /// <summary>One log line per event as flat text; null for bookkeeping events the log skips.</summary>
+    public static string? Describe(DuelEvent e, DuelState state, int viewer) => Line(e, state, viewer)?.Text;
+
+    /// <summary>One log line per event with the card references kept per name (issue #205); null for bookkeeping events the log skips.</summary>
+    public static LogLine? Line(DuelEvent e, DuelState state, int viewer)
     {
         ArgumentNullException.ThrowIfNull(e);
         ArgumentNullException.ThrowIfNull(state);
         return e switch
         {
-            DuelStarted s => $"Duel start: {PlayerName(s.FirstPlayer, viewer)} go first",
-            TurnStarted t => Inv($"Turn {t.Turn}: {PlayerName(t.Player, viewer)}"),
-            PhaseChanged p => $"{PhaseName(p.Phase)} Phase",
-            CardDrawn d => d.Player == viewer ? $"You drew {CardName(state, d.Card)}" : "Opponent drew a card",
-            MonsterSummoned m => $"{PlayerName(m.Player, viewer)} Summoned {CardName(state, m.Card)}{Tributes(state, m.Tributes)}",
-            MonsterSet m => $"{PlayerName(m.Player, viewer)} Set a monster{Tributes(state, m.Tributes)}",
-            PositionChanged p => $"{CardName(state, p.Card)} changed to {PositionName(p.To)}",
-            MonsterFlipSummoned f => $"{PlayerName(f.Player, viewer)} Flip Summoned {CardName(state, f.Card)}",
-            MonsterFlipped f => $"{CardName(state, f.Card)} was flipped face-up",
-            SpellTrapSet s => $"{PlayerName(s.Player, viewer)} Set a Spell or Trap",
-            SpellActivated s => $"{PlayerName(s.Player, viewer)} activated {CardName(state, s.Card)}",
-            TrapActivated t => $"{PlayerName(t.Player, viewer)} activated {CardName(state, t.Card)}",
-            EffectActivated a => $"{PlayerName(a.Player, viewer)} activated the effect of {CardName(state, a.Card)}",
-            ChoiceRequested c => c.Player == viewer ? c.Prompt : null,
-            ChoiceAnswered c => c.Player == viewer ? null : c.Selected.Count == 0 ? "Opponent declined" : $"Opponent chose {string.Join(", ", c.Selected.Select(id => VisibleName(state, id, viewer)))}",
-            ChainLinkNegated n => $"{CardName(state, n.Card)} was negated",
-            ChainLinkResolved r => $"{CardName(state, r.Card)} resolved",
-            BattlePhaseEntered b => $"{PlayerName(b.Player, viewer)} entered the Battle Phase",
-            AttackDeclared a => a.Target is { } t ? $"{CardName(state, a.Attacker)} attacks {VisibleName(state, t, viewer)}" : $"{CardName(state, a.Attacker)} attacks directly",
-            AttackCancelled a => $"{CardName(state, a.Attacker)}'s attack ended: no battle took place",
+            DuelStarted s => L($"Duel start: {PlayerName(s.FirstPlayer, viewer)} go first"),
+            TurnStarted t => L($"Turn {t.Turn}: {PlayerName(t.Player, viewer)}"),
+            PhaseChanged p => L($"{PhaseName(p.Phase)} Phase"),
+            CardDrawn d => d.Player == viewer ? L($"You drew {Ref(state, d.Card)}") : "Opponent drew a card",
+            MonsterSummoned m => L($"{PlayerName(m.Player, viewer)} Summoned {Ref(state, m.Card)}{Tributes(state, m.Tributes)}"),
+            MonsterSet m => L($"{PlayerName(m.Player, viewer)} Set a monster{Tributes(state, m.Tributes)}"),
+            PositionChanged p => L($"{Ref(state, p.Card)} changed to {PositionName(p.To)}"),
+            MonsterFlipSummoned f => L($"{PlayerName(f.Player, viewer)} Flip Summoned {Ref(state, f.Card)}"),
+            MonsterFlipped f => L($"{Ref(state, f.Card)} was flipped face-up"),
+            SpellTrapSet s => L($"{PlayerName(s.Player, viewer)} Set a Spell or Trap"),
+            SpellActivated s => L($"{PlayerName(s.Player, viewer)} activated {Ref(state, s.Card)}"),
+            TrapActivated t => L($"{PlayerName(t.Player, viewer)} activated {Ref(state, t.Card)}"),
+            EffectActivated a => L($"{PlayerName(a.Player, viewer)} activated the effect of {Ref(state, a.Card)}"),
+            ChoiceRequested c => c.Player == viewer ? LogLine.Plain(c.Prompt) : null,
+            ChoiceAnswered c => c.Player == viewer ? null : c.Selected.Count == 0 ? "Opponent declined" : L($"Opponent chose {LogLine.Names(c.Selected.Select(id => VisibleRef(state, id, viewer)))}"),
+            ChainLinkNegated n => L($"{Ref(state, n.Card)} was negated"),
+            ChainLinkResolved r => L($"{Ref(state, r.Card)} resolved"),
+            BattlePhaseEntered b => L($"{PlayerName(b.Player, viewer)} entered the Battle Phase"),
+            AttackDeclared a => a.Target is { } t ? L($"{Ref(state, a.Attacker)} attacks {VisibleRef(state, t, viewer)}") : L($"{Ref(state, a.Attacker)} attacks directly"),
+            AttackCancelled a => L($"{Ref(state, a.Attacker)}'s attack ended: no battle took place"),
             BattleFought f => f.Target is { } t
-                ? Inv($"{CardName(state, f.Attacker)} (ATK {f.AttackerAtk}) attacked {VisibleName(state, t, viewer)} ({(f.TargetInDefense ? "DEF" : "ATK")} {f.TargetValue})")
-                : Inv($"{CardName(state, f.Attacker)} (ATK {f.AttackerAtk}) attacked directly"),
-            BattleDamage d => Inv($"{PlayerName(d.Player, viewer)} took {d.Amount} battle damage"),
+                ? L($"{Ref(state, f.Attacker)} (ATK {f.AttackerAtk}) attacked {VisibleRef(state, t, viewer)} ({(f.TargetInDefense ? "DEF" : "ATK")} {f.TargetValue})")
+                : L($"{Ref(state, f.Attacker)} (ATK {f.AttackerAtk}) attacked directly"),
+            BattleDamage d => L($"{PlayerName(d.Player, viewer)} took {d.Amount} battle damage"),
             NoBattleDamage => "No battle damage",
-            EffectDamage d => Inv($"{PlayerName(d.Player, viewer)} took {d.Amount} damage"),
-            LifePointsPaid p => Inv($"{PlayerName(p.Player, viewer)} paid {p.Amount} Life Points"),
-            LifePointsGained g => Inv($"{PlayerName(g.Player, viewer)} gained {g.Amount} Life Points"),
+            EffectDamage d => L($"{PlayerName(d.Player, viewer)} took {d.Amount} damage"),
+            LifePointsPaid p => L($"{PlayerName(p.Player, viewer)} paid {p.Amount} Life Points"),
+            LifePointsGained g => L($"{PlayerName(g.Player, viewer)} gained {g.Amount} Life Points"),
             MonsterDestroyed d => d.Reason switch
             {
-                DestroyReason.Battle => $"{CardName(state, d.Card)} was destroyed by battle",
-                DestroyReason.Effect => $"{CardName(state, d.Card)} was destroyed by an effect",
-                _ => $"{CardName(state, d.Card)} was destroyed",
+                DestroyReason.Battle => L($"{Ref(state, d.Card)} was destroyed by battle"),
+                DestroyReason.Effect => L($"{Ref(state, d.Card)} was destroyed by an effect"),
+                _ => L($"{Ref(state, d.Card)} was destroyed"),
             },
-            SpellTrapDestroyed d => $"{CardName(state, d.Card)} was destroyed",
-            MonsterSpecialSummoned s => $"{PlayerName(s.Player, viewer)} Special Summoned {CardName(state, s.Card)}",
-            TokenCreated t => $"{PlayerName(t.Player, viewer)} got a {CardName(state, t.Card)}",
-            TokenRemoved t => $"A {t.CardId.Replace('_', ' ')} left the field",
-            CardBanished b => $"{CardName(state, b.Card)} was banished",
-            CardReturnedToHand r => $"{CardName(state, r.Card)} returned to the hand",
-            CardReturnedToDeck r => $"{CardName(state, r.Card)} returned to the Deck",
-            DeckShuffled s => $"{PlayerName(s.Player, viewer)} shuffled the Deck",
-            ControlChanged c => $"{PlayerName(c.To, viewer)} took control of {CardName(state, c.Card)}",
-            CardEquipped q => $"{CardName(state, q.Equip)} was equipped to {CardName(state, q.Target)}",
-            MonsterAbsorbed a => $"{CardName(state, a.Card)} was absorbed by {CardName(state, a.Target)}",
-            CardsRevealed r => $"{PlayerName(r.Player, viewer)} revealed {string.Join(", ", r.Cards.Select(id => CardName(state, id)))}",
-            MonsterFlippedFaceDown f => $"{CardName(state, f.Card)} was flipped face-down",
-            SpiritReturned s => $"{CardName(state, s.Card)} returned to the hand",
-            CounterChanged c => Inv($"{CardName(state, c.Card)}: {c.Count} {c.Counter} counter(s)"),
-            CardSentToGraveyard g => g.From == Location.Hand || g.From == Location.Deck ? $"{CardName(state, g.Card)} was sent to the Graveyard" : null,
-            CardDiscarded d => $"{PlayerName(d.Player, viewer)} discarded {CardName(state, d.Card)}",
-            DuelEnded ended => ended.Winner is { } w ? $"{PlayerName(w, viewer)} won ({ended.Outcome})" : $"Draw ({ended.Outcome})",
+            SpellTrapDestroyed d => L($"{Ref(state, d.Card)} was destroyed"),
+            MonsterSpecialSummoned s => L($"{PlayerName(s.Player, viewer)} Special Summoned {Ref(state, s.Card)}"),
+            TokenCreated t => L($"{PlayerName(t.Player, viewer)} got a {Ref(state, t.Card)}"),
+            TokenRemoved t => L($"A {t.CardId.Replace('_', ' ')} left the field"),
+            CardBanished b => L($"{Ref(state, b.Card)} was banished"),
+            CardReturnedToHand r => L($"{Ref(state, r.Card)} returned to the hand"),
+            CardReturnedToDeck r => L($"{Ref(state, r.Card)} returned to the Deck"),
+            DeckShuffled s => L($"{PlayerName(s.Player, viewer)} shuffled the Deck"),
+            ControlChanged c => L($"{PlayerName(c.To, viewer)} took control of {Ref(state, c.Card)}"),
+            CardEquipped q => L($"{Ref(state, q.Equip)} was equipped to {Ref(state, q.Target)}"),
+            MonsterAbsorbed a => L($"{Ref(state, a.Card)} was absorbed by {Ref(state, a.Target)}"),
+            CardsRevealed r => L($"{PlayerName(r.Player, viewer)} revealed {LogLine.Names(r.Cards.Select(id => Ref(state, id)))}"),
+            MonsterFlippedFaceDown f => L($"{Ref(state, f.Card)} was flipped face-down"),
+            SpiritReturned s => L($"{Ref(state, s.Card)} returned to the hand"),
+            CounterChanged c => L($"{Ref(state, c.Card)}: {c.Count} {c.Counter} counter(s)"),
+            CardSentToGraveyard g => g.From == Location.Hand || g.From == Location.Deck ? L($"{Ref(state, g.Card)} was sent to the Graveyard") : null,
+            CardDiscarded d => L($"{PlayerName(d.Player, viewer)} discarded {Ref(state, d.Card)}"),
+            DuelEnded ended => ended.Winner is { } w ? L($"{PlayerName(w, viewer)} won ({ended.Outcome})") : L($"Draw ({ended.Outcome})"),
             _ => null,
         };
     }
@@ -203,8 +206,21 @@ public static class DuelText
             _ => "face-up",
         };
 
-    private static string Tributes(DuelState state, IReadOnlyList<Guid> tributes) =>
-        tributes.Count == 0 ? string.Empty : $" tributing {string.Join(" and ", tributes.Select(id => CardName(state, id)))}";
+    private static LogLine Tributes(DuelState state, IReadOnlyList<Guid> tributes) =>
+        tributes.Count == 0 ? LogLine.Plain(string.Empty) : tributes.Count == 1 ? L($" tributing {Ref(state, tributes[0])}") : L($" tributing {Ref(state, tributes[0])} and {Ref(state, tributes[1])}");
+
+    private static LogLine L(LogLine.Handler handler) => LogLine.Of(handler);
+
+    /// <summary>A card's name as a link to it, coloured by its owner.</summary>
+    private static CardRef Ref(DuelState state, Guid card) =>
+        state.Find(card) is { } instance ? new CardRef(instance.Def.Name, card, instance.Owner) : new CardRef("a card", null, 0);
+
+    /// <summary>A card's name for <paramref name="viewer"/> as a link; hidden information ("a face-down card") carries no link.</summary>
+    private static CardRef VisibleRef(DuelState state, Guid card, int viewer)
+    {
+        string name = VisibleName(state, card, viewer);
+        return name == "a face-down card" || state.Find(card) is not { } instance ? new CardRef(name, null, 0) : new CardRef(name, card, instance.Owner);
+    }
 
     private static string Inv(FormattableString s) => s.ToString(CultureInfo.InvariantCulture);
 }

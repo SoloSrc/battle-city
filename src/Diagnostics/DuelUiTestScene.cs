@@ -72,6 +72,8 @@ public partial class DuelUiTestScene : Node3D
     private int _passCount;
     private int _failCount;
     private bool _done;
+    private int _logCaptureFrame;
+    private DuelUiMode _modeBeforeLog;
     private bool _dealt;
     private int _lastCommandFrame = -1;
     private int _mismatchFrames;
@@ -126,6 +128,15 @@ public partial class DuelUiTestScene : Node3D
     {
         if (_done)
         {
+            // The log check leaves the log open with a name under the cursor; it is captured once the frame with it has drawn.
+            if (_logCaptureFrame > 0 && ++_logCaptureFrame == 4 && Ui is not null)
+            {
+                Capture(DuelUiMode.Log);
+                Ui.Cancel();
+                Check(Ui.Mode == _modeBeforeLog && !Ui.LogVisible && Ui.LogPanel.CursorCard is null, $"cancel closes the log and returns to {_modeBeforeLog} ({Ui.Mode})");
+                Print();
+            }
+
             return;
         }
 
@@ -575,7 +586,7 @@ public partial class DuelUiTestScene : Node3D
         Report(_modesSeen.Contains(DuelUiMode.Picker) ? "PASS" : "INFO", $"choice picker {(_modesSeen.Contains(DuelUiMode.Picker) ? "used" : "not reached in this seed")}");
         Check(_mouseHits >= 3, Inv($"mouse picking moved the cursor {_mouseHits} times ({_mouseMisses} misses)"));
         Check(Ui.LifePointsShown(0) == s.Player(0).LifePoints && Ui.LifePointsShown(1) == s.Player(1).LifePoints, Inv($"Life Point counters settled at {Ui.LifePointsShown(0)}/{Ui.LifePointsShown(1)}"));
-        Check(Ui.Log.Count is > 0 and <= DuelUi.LogLines, Inv($"log holds {Ui.Log.Count} lines"));
+        Check(Ui.Log.Count == _engine.Events.Count(e => DuelText.Describe(e, _engine.State, _human) is not null), Inv($"log holds every line of the duel ({Ui.Log.Count})"));
         bool humanHurt = s.Player(_human).LifePoints < DuelCoreInfo.StartingLifePoints;
         Check(!humanHurt || Ui.DamageFlashes > 0, Inv($"screen-edge damage flash fired {Ui.DamageFlashes} times (human at {s.Player(_human).LifePoints} LP)"));
         Check(Staging.Cards.Values.Count(v => v.IsSelected) == Ui.Highlighted.Count, Inv($"selection effects match the highlighted cards ({Ui.Highlighted.Count})"));
@@ -595,9 +606,61 @@ public partial class DuelUiTestScene : Node3D
             Report("INFO", $"pile list not checked (mode {Ui.Mode})");
         }
 
+        CheckLog();
+        if (_logCaptureFrame == 0)
+        {
+            Print();
+        }
+    }
+
+    /// <summary>Issue #205: names in the log are links that drive the inspector, hidden cards are not exposed, and the log scrolls back to the first line.</summary>
+    private void CheckLog()
+    {
+        if (Ui.Mode is not (DuelUiMode.Free or DuelUiMode.Waiting or DuelUiMode.Response))
+        {
+            Report("INFO", $"log not checked (mode {Ui.Mode})");
+            return;
+        }
+
+        _modeBeforeLog = Ui.Mode;
         Ui.ToggleLog();
-        Check(Ui.LogVisible, "log panel toggles");
-        Print();
+        Check(Ui.LogVisible && Ui.Mode == DuelUiMode.Log, $"the log opens with the cursor in it ({Ui.Mode})");
+        IReadOnlyList<LogLine> lines = Ui.Log;
+        int links = lines.Sum(l => l.Segments.Count(s => s.IsLink));
+        Check(links > 10, Inv($"card names in the log are links ({links})"));
+        Check(lines.All(l => l.Segments.All(s => !s.IsLink || s.Text != "a face-down card")), "a face-down card is never a link");
+        // A token that left the duel is no longer findable; every other link names its card and its owner.
+        Check(lines.All(l => l.Segments.Where(s => s.IsLink).All(s => _engine.State.Find(s.Card!.Value) is not { } card || (card.Def.Name == s.Text && card.Owner == s.Owner))), "every link names its card and its owner");
+
+        // Walk the cursor to the first line; each name it lands on drives the inspector, off the field included.
+        int driven = 0;
+        int offField = 0;
+        for (int i = 0; i < lines.Count + 1 && Ui.LogPanel.CursorLine > 0; i++)
+        {
+            Ui.Navigate(0, -1);
+            if (Ui.LogPanel.CursorCard is { } card && _engine.State.Find(card) is { } instance)
+            {
+                if (Ui.InspectorName == instance.Def.Name)
+                {
+                    driven++;
+                    if (!instance.IsOnField)
+                    {
+                        offField++;
+                    }
+                }
+                else
+                {
+                    Fail($"inspector shows '{Ui.InspectorName}' for the log name {instance.Def.Name}");
+                }
+            }
+        }
+
+        Check(Ui.LogPanel.CursorLine == 0 && Ui.LogPanel.AtTop, Inv($"the log scrolled back to the first line of the duel (cursor {Ui.LogPanel.CursorLine}, at top: {Ui.LogPanel.AtTop})"));
+        Ui.Navigate(0, 1);
+        Ui.Navigate(0, 1);
+        Check(!Ui.LogPanel.Pinned, "reading back unpins the log from its end");
+        _logCaptureFrame = 1;
+        Check(driven > 5 && offField > 0, Inv($"log names drove the inspector {driven} times, {offField} for cards off the field"));
     }
 
     private void Print()
