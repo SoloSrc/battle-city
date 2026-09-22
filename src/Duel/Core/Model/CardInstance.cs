@@ -43,6 +43,7 @@ public sealed class CardInstance
         ChangedPositionThisTurn = other.ChangedPositionThisTurn;
         AttackedThisTurn = other.AttackedThisTurn;
         LeavesAfterTurn = other.LeavesAfterTurn;
+        FieldStay = other.FieldStay;
         Counters = new Dictionary<string, int>(other.Counters, StringComparer.Ordinal);
         ActivationsThisTurn = new Dictionary<string, int>(other.ActivationsThisTurn, StringComparer.Ordinal);
         AttackTargetsThisTurn = new List<Guid>(other.AttackTargetsThisTurn);
@@ -96,6 +97,12 @@ public sealed class CardInstance
 
     /// <summary>For a card that stays on the field for a fixed number of turns (Swords of Revealing Light): destroyed at the End Phase of this turn number.</summary>
     public int? LeavesAfterTurn { get; set; }
+
+    /// <summary>
+    /// Which stay on the field this is, counted up each time the card leaves it. A monster that left and came back
+    /// is a new monster (2005 rulings): anything that remembered the old one (the pending attack) compares this stamp, not the id.
+    /// </summary>
+    public int FieldStay { get; private set; }
 
     public Dictionary<string, int> Counters { get; }
 
@@ -152,6 +159,7 @@ public sealed class CardInstance
         LeavesAfterTurn = null;
         ZoneIndex = -1;
         Pos = Position.FaceDown;
+        FieldStay++;
         Counters.Clear();
         ResetTurnFlags();
     }

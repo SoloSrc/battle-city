@@ -495,7 +495,14 @@ player whose only legal action is `Pass` in a window or in the Draw,
 Standby and End Phases and the Start and End Steps; the turn player is
 never passed for in the open Main Phase or Battle Step. An attack whose
 attacker or target left the field before the Damage Step is cancelled
-(`AttackCancelled`); there is no replay.
+(`AttackCancelled`); there is no replay. A monster that leaves the field
+and comes back is a new monster: `CardInstance.FieldStay` counts up on every
+exit, the declaration records the attacker's and target's stay
+(`DuelState.AttackingMonster`, `AttackedMonster`), and a revived attacker
+has no attack pending and may declare one of its own. Damage calculation
+emits `BattleFought` with both monsters and the values they fought with,
+then `BattleDamage` or `NoBattleDamage`, then the destructions
+(`MonsterDestroyed` carries the reason), so the log tells the whole battle.
 
 ### 5.6 Implementation tiers → build order
 

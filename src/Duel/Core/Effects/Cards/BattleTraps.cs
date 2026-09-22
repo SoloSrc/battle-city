@@ -17,7 +17,7 @@ public abstract class AttackResponseTrap : EffectBase
     {
         ArgumentNullException.ThrowIfNull(state);
         ArgumentNullException.ThrowIfNull(source);
-        return state.Window == Window.AttackDeclared && state.Attacker is { } id && state.Find(id) is { } attacker && attacker.Controller != source.Controller;
+        return state.Window == Window.AttackDeclared && state.AttackingMonster is { } attacker && attacker.Controller != source.Controller;
     }
 }
 
@@ -50,7 +50,7 @@ public sealed class SakuretsuArmorEffect : AttackResponseTrap
     {
         ArgumentNullException.ThrowIfNull(engine);
         ArgumentNullException.ThrowIfNull(link);
-        if (engine.State.Attacker is { } id && Field.OnField(engine.State, id) is { } attacker)
+        if (engine.State.AttackingMonster is { } attacker)
         {
             engine.Destroy(attacker, DestroyReason.Effect);
         }

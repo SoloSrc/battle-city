@@ -62,7 +62,13 @@ public sealed record AttackDeclared(int Player, Guid Attacker, Guid? Target) : D
 /// <summary>The attack ended before damage calculation because the attacker or its target left the field.</summary>
 public sealed record AttackCancelled(Guid Attacker) : DuelEvent;
 
+/// <summary>Damage calculation: the two monsters and the values they fought with (the target's DEF when it was in Defense Position); a direct attack has no target.</summary>
+public sealed record BattleFought(Guid Attacker, int AttackerAtk, Guid? Target, int TargetValue, bool TargetInDefense) : DuelEvent;
+
 public sealed record BattleDamage(int Player, int Amount, Guid Source) : DuelEvent;
+
+/// <summary>A battle in which nobody took damage (equal ATK, a Defense Position target without piercing, or damage prevented), so the log can say so.</summary>
+public sealed record NoBattleDamage(Guid Attacker) : DuelEvent;
 
 public sealed record LifePointsChanged(int Player, int From, int To) : DuelEvent;
 

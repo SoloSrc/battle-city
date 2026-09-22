@@ -20,13 +20,14 @@ internal static class DamageStep
     public static void Begin(DuelEngine engine)
     {
         DuelState s = engine.State;
-        CardInstance? attacker = s.Find(s.Attacker!.Value);
-        CardInstance? target = s.AttackTarget is null ? null : s.Find(s.AttackTarget.Value);
+        CardInstance? attacker = s.AttackingMonster;
+        CardInstance? target = s.AttackedMonster;
 
-        // The attacker or its target left the field while the declaration was open: the attack ends without a replay (docs/decisions.md).
-        if (attacker is null || attacker.Loc != Location.MonsterZone || (target is not null && target.Loc != Location.MonsterZone))
+        // The attacker or its target left the field while the declaration was open: the attack ends without a replay
+        // (docs/decisions.md), and a monster that came back in the meantime is a new monster with no attack pending.
+        if (attacker is null || (s.AttackTarget is not null && target is null))
         {
-            engine.Emit(new AttackCancelled(s.Attacker.Value));
+            engine.Emit(new AttackCancelled(s.Attacker!.Value));
             Finish(engine);
             return;
         }
@@ -56,13 +57,13 @@ internal static class DamageStep
     public static void Calculate(DuelEngine engine)
     {
         DuelState s = engine.State;
-        CardInstance? attacker = s.Find(s.Attacker!.Value);
-        CardInstance? target = s.AttackTarget is null ? null : s.Find(s.AttackTarget.Value);
+        CardInstance? attacker = s.AttackingMonster;
+        CardInstance? target = s.AttackedMonster;
 
         SetSubstep(engine, DamageSubstep.Calc);
         var destroyed = new List<CardInstance>();
         var damagers = new List<CardInstance>();
-        bool fought = attacker is { Loc: Location.MonsterZone } && (target is null || target.Loc == Location.MonsterZone);
+        bool fought = attacker is not null && (s.AttackTarget is null || target is not null);
         if (fought)
         {
             destroyed = Resolve(engine, attacker!, target, damagers);
@@ -134,6 +135,7 @@ internal static class DamageStep
         var destroyed = new List<CardInstance>();
         int attackerPlayer = attacker.Controller;
         int atk = attacker.Atk;
+        engine.Emit(new BattleFought(attacker.Id, atk, target?.Id, target is null ? 0 : target.IsInAttackPosition ? target.Atk : target.DefValue, target is { IsInAttackPosition: false }));
 
         if (target is null)
         {
@@ -141,11 +143,16 @@ internal static class DamageStep
             {
                 damagers.Add(attacker);
             }
+            else
+            {
+                engine.Emit(new NoBattleDamage(attacker.Id));
+            }
 
             return destroyed;
         }
 
         int defenderPlayer = target.Controller;
+        int before = damagers.Count;
         if (target.IsInAttackPosition)
         {
             int diff = atk - target.Atk;
@@ -186,6 +193,11 @@ internal static class DamageStep
             {
                 damagers.Add(target);
             }
+        }
+
+        if (damagers.Count == before)
+        {
+            engine.Emit(new NoBattleDamage(attacker.Id));
         }
 
         return destroyed;

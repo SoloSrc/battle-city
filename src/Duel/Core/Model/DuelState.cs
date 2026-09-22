@@ -44,7 +44,9 @@ public sealed class DuelState
         NormalSummonUsed = other.NormalSummonUsed;
         BattlePhaseUsed = other.BattlePhaseUsed;
         Attacker = other.Attacker;
+        AttackerStay = other.AttackerStay;
         AttackTarget = other.AttackTarget;
+        AttackTargetStay = other.AttackTargetStay;
         BattleFlipped = other.BattleFlipped;
         Winner = other.Winner;
         Outcome = other.Outcome;
@@ -106,8 +108,24 @@ public sealed class DuelState
     /// <summary>Attacking monster from the attack declaration to the end of the Damage Step.</summary>
     public Guid? Attacker { get; set; }
 
+    /// <summary>The attacker's <see cref="CardInstance.FieldStay"/> at the declaration: the attack belongs to that stay, and ends when it does.</summary>
+    public int AttackerStay { get; set; }
+
     /// <summary>Attack target; null for a direct attack.</summary>
     public Guid? AttackTarget { get; set; }
+
+    /// <summary>The target's <see cref="CardInstance.FieldStay"/> at the declaration.</summary>
+    public int AttackTargetStay { get; set; }
+
+    /// <summary>The declared attacker while it is still the monster that declared: null once it left the field, whether or not it came back.</summary>
+    public CardInstance? AttackingMonster => Attacker is { } id ? InMonsterZoneSince(id, AttackerStay) : null;
+
+    /// <summary>The declared target while it is still the monster that was attacked; null for a direct attack or once it left the field.</summary>
+    public CardInstance? AttackedMonster => AttackTarget is { } id ? InMonsterZoneSince(id, AttackTargetStay) : null;
+
+    /// <summary>The card with this id if it is in a Monster Zone in the stay that was recorded, so a returned card does not pass for the one that left.</summary>
+    public CardInstance? InMonsterZoneSince(Guid id, int stay) =>
+        Find(id) is { Loc: Location.MonsterZone } card && card.FieldStay == stay ? card : null;
 
     /// <summary>The attack target flipped face-up by this Damage Step; its flip effect fires after damage calculation.</summary>
     public Guid? BattleFlipped { get; set; }

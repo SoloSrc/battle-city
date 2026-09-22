@@ -61,11 +61,11 @@ internal static class TestEffects
         public override SpellSpeed Speed => SpellSpeed.Two;
 
         public override bool CanActivate(DuelState state, CardInstance source, ActivationContext context) =>
-            state.Window == Window.AttackDeclared && state.Find(state.Attacker!.Value) is { } attacker && attacker.Controller != source.Controller;
+            state.Window == Window.AttackDeclared && state.AttackingMonster is { } attacker && attacker.Controller != source.Controller;
 
         public override void Resolve(DuelEngine engine, ChainLink link)
         {
-            if (engine.State.Attacker is { } id && engine.State.Find(id) is { } attacker)
+            if (engine.State.AttackingMonster is { } attacker)
             {
                 engine.Destroy(attacker, DestroyReason.Effect);
             }

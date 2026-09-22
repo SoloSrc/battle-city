@@ -161,4 +161,66 @@ public class PresentationTests
         Assert.Contains(texts, t => t.Contains("won", StringComparison.Ordinal));
         Assert.DoesNotContain(texts, t => t.Contains("a card", StringComparison.Ordinal) && !t.Contains("drew a card", StringComparison.Ordinal));
     }
+
+    /// <summary>Issue #204: the log says what the battle was, at damage calculation, with its outcome and its damage.</summary>
+    [Fact]
+    public void TheLogTellsTheBattleAndItsOutcome()
+    {
+        DuelEngine engine = Scenario.AtPlayerZeroTurnTwo();
+        CardInstance elf = Scenario.Place(engine, 0, Cards.GeminiElf, Position.FaceUpAttack);
+        CardInstance titan = Scenario.Place(engine, 0, Cards.Titan, Position.FaceUpAttack);
+        CardInstance skull = Scenario.Place(engine, 1, Cards.SummonedSkull, Position.FaceDownDefense);
+        CardInstance weakling = Scenario.Place(engine, 1, Cards.Weakling, Position.FaceUpAttack);
+        var texts = new List<string>();
+        engine.EventRaised += e =>
+        {
+            if (DuelText.Describe(e, engine.State, 0) is { } text)
+            {
+                texts.Add(text);
+            }
+        };
+        Scenario.EnterBattle(engine);
+
+        Scenario.Attack(engine, elf, skull);
+        Scenario.Attack(engine, titan, weakling);
+
+        // The face-down target is named only once it is flipped; the battle line carries both values, then the cause, then the damage.
+        Assert.Equal(
+            new[]
+            {
+                "Gemini Elf attacks a face-down card",
+                "Summoned Skull was flipped face-up",
+                "Gemini Elf (ATK 1900) attacked Summoned Skull (DEF 1200)",
+                "No battle damage",
+                "Summoned Skull was destroyed by battle",
+            },
+            texts.SkipWhile(t => !t.StartsWith("Gemini Elf attacks", StringComparison.Ordinal)).Take(5));
+        Assert.Contains("Titan (ATK 3000) attacked Weakling (ATK 1500)", texts);
+        Assert.Contains("Opponent took 1500 battle damage", texts);
+        Assert.Contains("Weakling was destroyed by battle", texts);
+    }
+
+    [Fact]
+    public void TheLogSaysWhenAnAttackEndedWithoutABattle()
+    {
+        DuelEngine engine = Scenario.AtPlayerZeroTurnTwo();
+        CardInstance elf = Scenario.Place(engine, 0, Cards.GeminiElf, Position.FaceUpAttack);
+        CardInstance trap = Scenario.Set(engine, 1, Cards.AttackTrap);
+        var texts = new List<string>();
+        engine.EventRaised += e =>
+        {
+            if (DuelText.Describe(e, engine.State, 0) is { } text)
+            {
+                texts.Add(text);
+            }
+        };
+        Scenario.EnterBattle(engine);
+        Scenario.Attack(engine, elf, null);
+
+        Scenario.Submit(engine, new ActivateTrap(1, trap.Id));
+
+        Assert.Contains("Gemini Elf was destroyed by an effect", texts);
+        Assert.Contains("Gemini Elf's attack ended: no battle took place", texts);
+        Assert.DoesNotContain(texts, t => t.Contains("attacked", StringComparison.Ordinal));
+    }
 }
