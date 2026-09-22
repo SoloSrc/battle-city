@@ -175,7 +175,9 @@ internal static class BattleRules
         }
 
         s.Attacker = attackerId;
+        s.AttackerStay = attacker.FieldStay;
         s.AttackTarget = targetId;
+        s.AttackTargetStay = targetId is null ? 0 : Zones.OnField(s, 1 - player, targetId.Value)!.FieldStay;
         engine.Emit(new AttackDeclared(player, attackerId, targetId));
         // Both players may respond to the declaration, turn player first; two passes on an empty chain enter the Damage Step.
         TurnFlow.SetWindow(engine, Window.AttackDeclared, attackerId);

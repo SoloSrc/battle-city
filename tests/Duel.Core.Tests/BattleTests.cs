@@ -218,4 +218,96 @@ public class BattleTests
 
         Assert.Equal(6100, engine.State.Player(1).LifePoints);
     }
+
+    // ----- A monster that leaves the field and comes back is a new monster (issue #204) -----
+
+    /// <summary>The director's duel: the attacker is destroyed by Sakuretsu Armor and revived by Call of the Haunted before the Damage Step.</summary>
+    [Fact]
+    public void ARevivedAttackerDoesNotCarryOnItsOldAttack()
+    {
+        DuelEngine engine = Scenario.AtPlayerZeroTurnTwo();
+        CardInstance elf = Scenario.Place(engine, 0, Cards.GeminiElf, Position.FaceUpAttack);
+        CardInstance call = Scenario.Set(engine, 0, Cards.Real("call_of_the_haunted"));
+        CardInstance skull = Scenario.Place(engine, 1, Cards.SummonedSkull, Position.FaceDownDefense);
+        CardInstance armor = Scenario.Set(engine, 1, Cards.Real("sakuretsu_armor"));
+        Scenario.EnterBattle(engine);
+        Scenario.Attack(engine, elf, skull);
+
+        Scenario.Submit(engine, new ActivateTrap(1, armor.Id));
+        Scenario.ResolveChain(engine);
+        Assert.Equal(Location.Graveyard, elf.Loc);
+        Assert.Equal(Window.AttackDeclared, engine.State.Window);
+        Scenario.Submit(engine, new ActivateTrap(0, call.Id));
+        Scenario.Answer(engine, elf.Id);
+        Scenario.ResolveChain(engine);
+        Assert.Equal(Location.MonsterZone, elf.Loc);
+        Scenario.PassUntil(engine, s => s.Window == Window.Open);
+
+        // The declared attack ended with the monster that declared it: no flip, no battle, no damage.
+        Assert.Contains(engine.Events, e => e is AttackCancelled a && a.Attacker == elf.Id);
+        Assert.DoesNotContain(engine.Events, e => e is DamageSubstepChanged);
+        Assert.DoesNotContain(engine.Events, e => e is MonsterFlipped);
+        Assert.Equal(Location.MonsterZone, skull.Loc);
+        Assert.Equal(Position.FaceDownDefense, skull.Pos);
+        Assert.Equal(8000, engine.State.Player(1).LifePoints);
+        Assert.Equal(BattleStep.Battle, engine.State.BattleStep);
+
+        // The revived Elf is a new monster and may declare one attack of its own, which then plays out.
+        Assert.False(elf.AttackedThisTurn);
+        Assert.Null(engine.Validate(new DeclareAttack(0, elf.Id, skull.Id)));
+        Scenario.Attack(engine, elf, skull);
+        Assert.Contains(engine.Events, e => e is MonsterFlipped f && f.Card == skull.Id);
+        Assert.Equal(Location.Graveyard, skull.Loc);
+        Assert.Equal(8000, engine.State.Player(1).LifePoints);
+        Assert.Equal("Gemini Elf already attacked this turn", engine.Validate(new DeclareAttack(0, elf.Id, null)));
+    }
+
+    [Fact]
+    public void AnAttackEndsWhenItsTargetLeavesTheFieldEvenIfTheTargetComesBack()
+    {
+        DuelEngine engine = Scenario.AtPlayerZeroTurnTwo();
+        CardInstance elf = Scenario.Place(engine, 0, Cards.GeminiElf, Position.FaceUpAttack);
+        CardInstance weakling = Scenario.Place(engine, 1, Cards.Weakling, Position.FaceUpAttack);
+        CardInstance ring = Scenario.Set(engine, 1, Cards.Real("ring_of_destruction"));
+        CardInstance call = Scenario.Set(engine, 1, Cards.Real("call_of_the_haunted"));
+        Scenario.EnterBattle(engine);
+        // Ring of Destruction could be activated in the Start Step: player 1 lets it pass.
+        Scenario.PassUntil(engine, s => s.BattleStep == BattleStep.Battle && s.Priority == 0);
+        Scenario.Attack(engine, elf, weakling);
+
+        Scenario.Submit(engine, new ActivateTrap(1, ring.Id));
+        Scenario.Answer(engine, weakling.Id);
+        Scenario.ResolveChain(engine);
+        Assert.Equal(Location.Graveyard, weakling.Loc);
+        Assert.Equal(Window.AttackDeclared, engine.State.Window);
+        Scenario.Submit(engine, new ActivateTrap(1, call.Id));
+        Scenario.Answer(engine, weakling.Id);
+        Scenario.ResolveChain(engine);
+        Assert.Equal(Location.MonsterZone, weakling.Loc);
+        Scenario.PassUntil(engine, s => s.Window == Window.Open);
+
+        Assert.Contains(engine.Events, e => e is AttackCancelled a && a.Attacker == elf.Id);
+        Assert.DoesNotContain(engine.Events, e => e is DamageSubstepChanged);
+        Assert.Equal(Location.MonsterZone, weakling.Loc);
+        Assert.Equal(Location.MonsterZone, elf.Loc);
+        Assert.All(engine.State.Players, p => Assert.Equal(8000 - 1500, p.LifePoints));
+        Assert.True(elf.AttackedThisTurn);
+        Assert.Equal(BattleStep.Battle, engine.State.BattleStep);
+    }
+
+    [Fact]
+    public void LeavingTheFieldStartsANewStay()
+    {
+        DuelEngine engine = Scenario.AtPlayerZeroTurnTwo();
+        CardInstance elf = Scenario.Place(engine, 0, Cards.GeminiElf, Position.FaceUpAttack);
+        int stay = elf.FieldStay;
+
+        engine.Destroy(elf, DestroyReason.Effect);
+
+        Assert.Equal(stay + 1, elf.FieldStay);
+        Assert.Null(engine.State.InMonsterZoneSince(elf.Id, stay));
+        Assert.True(engine.SpecialSummon(elf, 0, Position.FaceUpAttack));
+        Assert.Null(engine.State.InMonsterZoneSince(elf.Id, stay));
+        Assert.Same(elf, engine.State.InMonsterZoneSince(elf.Id, elf.FieldStay));
+    }
 }

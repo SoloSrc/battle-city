@@ -156,12 +156,21 @@ public static class DuelText
             ChainLinkResolved r => $"{CardName(state, r.Card)} resolved",
             BattlePhaseEntered b => $"{PlayerName(b.Player, viewer)} entered the Battle Phase",
             AttackDeclared a => a.Target is { } t ? $"{CardName(state, a.Attacker)} attacks {VisibleName(state, t, viewer)}" : $"{CardName(state, a.Attacker)} attacks directly",
-            AttackCancelled a => $"The attack of {CardName(state, a.Attacker)} was cancelled",
+            AttackCancelled a => $"{CardName(state, a.Attacker)}'s attack ended: no battle took place",
+            BattleFought f => f.Target is { } t
+                ? Inv($"{CardName(state, f.Attacker)} (ATK {f.AttackerAtk}) attacked {VisibleName(state, t, viewer)} ({(f.TargetInDefense ? "DEF" : "ATK")} {f.TargetValue})")
+                : Inv($"{CardName(state, f.Attacker)} (ATK {f.AttackerAtk}) attacked directly"),
             BattleDamage d => Inv($"{PlayerName(d.Player, viewer)} took {d.Amount} battle damage"),
+            NoBattleDamage => "No battle damage",
             EffectDamage d => Inv($"{PlayerName(d.Player, viewer)} took {d.Amount} damage"),
             LifePointsPaid p => Inv($"{PlayerName(p.Player, viewer)} paid {p.Amount} Life Points"),
             LifePointsGained g => Inv($"{PlayerName(g.Player, viewer)} gained {g.Amount} Life Points"),
-            MonsterDestroyed d => $"{CardName(state, d.Card)} was destroyed",
+            MonsterDestroyed d => d.Reason switch
+            {
+                DestroyReason.Battle => $"{CardName(state, d.Card)} was destroyed by battle",
+                DestroyReason.Effect => $"{CardName(state, d.Card)} was destroyed by an effect",
+                _ => $"{CardName(state, d.Card)} was destroyed",
+            },
             SpellTrapDestroyed d => $"{CardName(state, d.Card)} was destroyed",
             MonsterSpecialSummoned s => $"{PlayerName(s.Player, viewer)} Special Summoned {CardName(state, s.Card)}",
             TokenCreated t => $"{PlayerName(t.Player, viewer)} got a {CardName(state, t.Card)}",
