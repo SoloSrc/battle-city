@@ -757,6 +757,18 @@ Implementation (issue #61):
   Special Summon, Attack, position change, Flip Summon, Discard) and picks
   the phase advance (`EnterBattlePhase` when legal, else `Pass`); `DuelText`
   writes the log lines, command labels, inspector lines and window text.
+- The log (`DuelLogPanel`, issue #205) keeps every line of the duel as a
+  `LogLine`: text segments with the card reference per name, built by
+  `DuelText.Line`; "a face-down card" never carries one. Names render as
+  underlined links in the owner's side colour. Hovering a name, or moving
+  the log cursor onto it, shows the card in the inspector (off the field
+  too) and leaving it restores the previous view. The log key opens the log
+  with the cursor in it (`DuelUiMode.Log`, also while waiting or asked to
+  respond); up and down walk the lines, left and right the names of a line,
+  Interact jumps to the newest line, Cancel closes. The wheel and the
+  scrollbar scroll it; new lines keep it pinned to the end unless the player
+  scrolled up, when a "new lines" marker counts them. Input over the log
+  never reaches the duel.
 - Cursor grid: five rows from the far side (opponent's Spell & Trap row,
   their monsters, the player's monsters, their Spell & Traps, the hand);
   the opponent's rows read mirrored so "right" is right on screen. Moving

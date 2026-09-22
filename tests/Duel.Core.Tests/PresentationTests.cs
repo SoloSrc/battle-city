@@ -223,4 +223,29 @@ public class PresentationTests
         Assert.Contains("Gemini Elf's attack ended: no battle took place", texts);
         Assert.DoesNotContain(texts, t => t.Contains("attacked", StringComparison.Ordinal));
     }
+
+    /// <summary>Issue #205: log lines keep the card reference per name, and hidden information carries none.</summary>
+    [Fact]
+    public void LogLinesLinkTheNamesTheyShow()
+    {
+        DuelEngine engine = Scenario.AtPlayerZeroTurnTwo();
+        CardInstance elf = Scenario.Place(engine, 0, Cards.GeminiElf, Position.FaceUpAttack);
+        CardInstance skull = Scenario.Place(engine, 1, Cards.SummonedSkull, Position.FaceDownDefense);
+
+        LogLine declared = DuelText.Line(new AttackDeclared(0, elf.Id, skull.Id), engine.State, 0)!;
+        Assert.Equal("Gemini Elf attacks a face-down card", declared.Text);
+        Assert.Equal(new[] { new LogSegment("Gemini Elf", elf.Id, 0), new LogSegment(" attacks "), new LogSegment("a face-down card") }, declared.Segments);
+
+        skull.Pos = Position.FaceUpDefense;
+        LogLine fought = DuelText.Line(new BattleFought(elf.Id, 1900, skull.Id, 1200, true), engine.State, 0)!;
+        Assert.Equal("Gemini Elf (ATK 1900) attacked Summoned Skull (DEF 1200)", fought.Text);
+        Assert.Equal(new[] { elf.Id, skull.Id }, fought.Segments.Where(s => s.IsLink).Select(s => s.Card!.Value));
+        Assert.Equal(1, fought.Segments.Single(s => s.Card == skull.Id).Owner);
+
+        LogLine revealed = DuelText.Line(new CardsRevealed(1, new[] { skull.Id, elf.Id }), engine.State, 0)!;
+        Assert.Equal("Opponent revealed Summoned Skull, Gemini Elf", revealed.Text);
+        Assert.Equal(2, revealed.Segments.Count(s => s.IsLink));
+        Assert.Equal("No battle damage", DuelText.Line(new NoBattleDamage(elf.Id), engine.State, 0)!.Text);
+        Assert.Null(DuelText.Line(new PriorityPassed(0), engine.State, 0));
+    }
 }
