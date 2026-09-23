@@ -68,8 +68,23 @@ A proof-of-concept game built in **Godot**, released under the
 
 ## Tooling notes
 
-- Both AI collaborators share Blender and Godot MCP servers. Godot needs one
-  port per host: 6505 for Codex, 6506 for Claude.
+- **Blender MCP**: the [blender-mcp](https://github.com/ahujasid/blender-mcp)
+  addon (`addon.py`) installed and enabled in Blender; the MCP server runs as
+  `uvx blender-mcp` and talks to the addon's socket while Blender is open.
+  The generator integrations in its panel are unused (the 3D-generation arm
+  was dropped, docs/decisions.md 2026-09-22).
+- **Godot MCP**: the `godot_mcp_bridge` editor plugin (committed under
+  `addons/`, from [AkiraZ1/godot-mcp](https://github.com/AkiraZ1/godot-mcp))
+  opens a local TCP port while the editor runs; a Node MCP server
+  (`server/server.mjs` from a clone of that repo, outside the repo tree)
+  bridges it to the agent, configured by `GODOT_PROJECT_PATH`,
+  `GODOT_MCP_PORT` and `GODOT_BIN`.
+- One Godot port per collaborator on the same host: 6505 for Codex, 6506 for
+  Claude. Each collaborator sets `mcp_bridge/port` in an `override.cfg` in
+  their own worktree root (Git-ignored); the committed project default stays
+  8756. The agent's `GODOT_MCP_PORT` must match its worktree's override.
+- MCP servers are per machine and per session: verify with a live status
+  check before relying on them; documentation alone is not a connection.
 
 ## Repository layout and branching
 
@@ -141,11 +156,12 @@ be checked again, not assumed:
 - The headless test commands in `tests/scenes/README.md` need
   `--fixed-fps 60`; without it the duel interface test reports false
   mismatches.
-- One Godot MCP port per host (see Tooling notes), and the Blender MCP panel's
-  generator checkboxes and keys, which only the director can set.
+- The MCP setup of the Tooling notes: the Blender addon enabled and the
+  Godot bridge's Node server cloned, with one Godot port per collaborator
+  set in each worktree's `override.cfg`.
 - Whether Blender can export glTF. On the director's Mac (macOS 13, Blender
-  5.2.1) it could not, because the bundled NumPy targets a newer macOS;
-  issue #95 owns the fix.
+  5.2.1) it could not, because the bundled NumPy targets a newer macOS. On
+  the Linux machine (Blender 5.2.2, 2026-09-22) headless export works.
 - Downloaded card art is per checkout and ignored by git; run
   `python3 tools/download_card_art.py` again if wanted.
 - Agent memory and chat history do not move. Anything a collaborator must
