@@ -34,7 +34,7 @@ project/assembly_name="BattleCity"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/battle_city/plugin.cfg")
+enabled=PackedStringArray("res://addons/battle_city/plugin.cfg", "res://addons/godot_mcp_bridge/plugin.cfg")
 
 [input]
 

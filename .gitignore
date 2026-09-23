@@ -24,3 +24,6 @@ Thumbs.db
 
 # Python tool bytecode
 __pycache__/
+
+# Per-worktree Godot setting overrides (MCP bridge port)
+override.cfg
