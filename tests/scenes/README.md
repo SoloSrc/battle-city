@@ -247,3 +247,25 @@ Frozen visual review with five monsters and five Set Spell/Traps per side,
 production HUD hand and raised duel camera. Run with `-- --capture /tmp/duel-layout-preview.png`
 to save a screenshot after settling; omit to inspect interactively. Generated
 art is forced. The staged board is a diagnostic fixture, not a legal replay.
+
+## LookDev.tscn (issue #97)
+
+The district with two cameras matched to the two approved concept paintings
+(`docs/art/concepts/`), so every benchmark round is judged in the same
+framing: `WorldCamera` against world-exploration-v02, `DuelCamera` against
+street-duel-key-visual-v02, with two duelists staged in front of the card
+shop. Interactively, `interact` toggles the cameras. Camera eyes, targets
+and FOVs are constants at the top of `LookDevScene.cs`.
+
+Windowed (captures need a window; headless draws nothing):
+
+```bash
+godot --path . res://tests/scenes/LookDev.tscn --fixed-fps 60 --quit-after 600 -- --capture <dir>
+python3 tools/lookdev_sidebyside.py <dir>
+```
+
+The first command writes `lookdev_world_render.png` and
+`lookdev_duel_render.png` into `<dir>` and quits; the second puts each next
+to its concept — concept left, render right — as `lookdev_world.png` and
+`lookdev_duel.png`. Output is bit-identical between runs (verified by
+hash), so review rounds diff cleanly.
