@@ -1,0 +1,497 @@
+{
+  "dialogue/panel": {
+    "size": [
+      128,
+      128
+    ],
+    "slice": 24,
+    "minimum": [
+      320,
+      128
+    ]
+  },
+  "dialogue/name_tag": {
+    "size": [
+      128,
+      64
+    ],
+    "slice": 16,
+    "minimum": [
+      128,
+      48
+    ]
+  },
+  "dialogue/continue": {
+    "size": [
+      32,
+      32
+    ],
+    "slice": 0,
+    "minimum": [
+      32,
+      32
+    ]
+  },
+  "duel/lp_player": {
+    "size": [
+      128,
+      128
+    ],
+    "slice": 24,
+    "minimum": [
+      240,
+      112
+    ]
+  },
+  "duel/lp_opponent": {
+    "size": [
+      128,
+      128
+    ],
+    "slice": 24,
+    "minimum": [
+      240,
+      112
+    ]
+  },
+  "duel/prompt": {
+    "size": [
+      128,
+      128
+    ],
+    "slice": 24,
+    "minimum": [
+      360,
+      192
+    ]
+  },
+  "duel/phase_idle": {
+    "size": [
+      96,
+      64
+    ],
+    "slice": 12,
+    "minimum": [
+      80,
+      48
+    ]
+  },
+  "duel/phase_active": {
+    "size": [
+      96,
+      64
+    ],
+    "slice": 12,
+    "minimum": [
+      80,
+      48
+    ]
+  },
+  "duel/phase_unavailable": {
+    "size": [
+      96,
+      64
+    ],
+    "slice": 12,
+    "minimum": [
+      80,
+      48
+    ]
+  },
+  "duel/chain_player": {
+    "size": [
+      96,
+      64
+    ],
+    "slice": 16,
+    "minimum": [
+      112,
+      56
+    ]
+  },
+  "duel/chain_opponent": {
+    "size": [
+      96,
+      64
+    ],
+    "slice": 16,
+    "minimum": [
+      112,
+      56
+    ]
+  },
+  "duel/button_normal": {
+    "size": [
+      96,
+      64
+    ],
+    "slice": 16,
+    "minimum": [
+      128,
+      56
+    ]
+  },
+  "duel/button_hover": {
+    "size": [
+      96,
+      64
+    ],
+    "slice": 16,
+    "minimum": [
+      128,
+      56
+    ]
+  },
+  "duel/button_pressed": {
+    "size": [
+      96,
+      64
+    ],
+    "slice": 16,
+    "minimum": [
+      128,
+      56
+    ]
+  },
+  "duel/button_disabled": {
+    "size": [
+      96,
+      64
+    ],
+    "slice": 16,
+    "minimum": [
+      128,
+      56
+    ]
+  },
+  "duel/focus": {
+    "size": [
+      96,
+      64
+    ],
+    "slice": 12,
+    "minimum": [
+      128,
+      56
+    ]
+  },
+  "glyphs/key_e": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/key_enter": {
+    "size": [
+      112,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      112,
+      64
+    ]
+  },
+  "glyphs/key_escape": {
+    "size": [
+      112,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      112,
+      64
+    ]
+  },
+  "glyphs/key_backspace": {
+    "size": [
+      112,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      112,
+      64
+    ]
+  },
+  "glyphs/key_tab": {
+    "size": [
+      112,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      112,
+      64
+    ]
+  },
+  "glyphs/key_shift": {
+    "size": [
+      112,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      112,
+      64
+    ]
+  },
+  "glyphs/key_space": {
+    "size": [
+      112,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      112,
+      64
+    ]
+  },
+  "glyphs/key_g": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/key_b": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/key_l": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/key_w": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/key_a": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/key_s": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/key_d": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/key_up": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/key_right": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/key_down": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/key_left": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/pad_south": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/pad_east": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/pad_west": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/pad_north": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/pad_lb": {
+    "size": [
+      80,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      80,
+      64
+    ]
+  },
+  "glyphs/pad_rb": {
+    "size": [
+      80,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      80,
+      64
+    ]
+  },
+  "glyphs/pad_start": {
+    "size": [
+      112,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      112,
+      64
+    ]
+  },
+  "glyphs/pad_back": {
+    "size": [
+      112,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      112,
+      64
+    ]
+  },
+  "glyphs/key_blank": {
+    "size": [
+      96,
+      64
+    ],
+    "slice": 16,
+    "minimum": [
+      64,
+      48
+    ]
+  },
+  "glyphs/pad_stick": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  },
+  "glyphs/mouse_left": {
+    "size": [
+      64,
+      64
+    ],
+    "slice": 0,
+    "minimum": [
+      64,
+      64
+    ]
+  }
+}
