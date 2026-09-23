@@ -39,13 +39,15 @@ the two open milestones.
 ## How the art reaches the concept art
 
 None of the present assets are production quality; they are greybox. The kit,
-animations and district were written as Blender Python scripts, and that
-method has reached its ceiling.
+animations and district were written as Blender Python scripts with speed as
+the goal; whether careful hand modelling in Blender can reach the concept art
+has not been tested.
 
-The director chose **3D generation from the concept art** (Hunyuan3D and
-Hyper3D Rodin through the Blender tools), followed by clean-up, retopology,
-rigging and texturing by gpt-astra, with an anime shading stack by
-claude-fable.
+The director chose **hand-built art by gpt-astra in Blender** — modelling,
+texturing and rigging from the approved input sheets — with an anime shading
+stack by claude-fable. 3D generation from the concept art (Hunyuan3D and
+Hyper3D Rodin) was considered and dropped: the services cost money the
+project does not have (docs/decisions.md, 2026-09-22).
 
 Before any production art there is a **benchmark**: one character, one shop
 front and one street corner, compared side by side with the concept art. The
@@ -72,9 +74,9 @@ whose sub-issues are the tasks.
 | Phase 3: Acceptance | [#160](https://github.com/SoloSrc/battle-city/issues/160) | #161 to #163 (3) | after production |
 
 Start here: [#95](https://github.com/SoloSrc/battle-city/issues/95)
-makes the pipeline work end to end (generator to Blender to glb to Godot).
-Its first step is the director's: enable the generators in Blender and enter
-the keys.
+makes the asset path work end to end (Blender to glb to Godot) and documents
+it; [#97](https://github.com/SoloSrc/battle-city/issues/97) gives the
+benchmark its side-by-side captures.
 
 ## Milestone 2: [Game loop](https://github.com/SoloSrc/battle-city/milestone/5)
 
