@@ -974,6 +974,36 @@ that tier 1 and tier 2 ids are implemented (`IMPLEMENTED_EFFECTS` in
 `tools/validate_data.py`), and `DuelEngine.Start` rejects a deck whose
 effects are missing from the `EffectRegistry`.
 
+### 8.2 Economy rules (issue #165, GDD §5)
+
+Decided with #165; built by the Game loop milestone (#175 to #196).
+
+- **Sell-back.** `SellPrice(card) = floor(0.25 × single price)`; a card
+  without a stock entry (Limited) uses its tier's price (100/200/400/600).
+  Selling refuses when the remaining owned copies would drop below the
+  copies any saved deck slot uses.
+- **Deck slots.** `Collection` grows from one deck to three named slots plus
+  an `ActiveDeck` index (issues #176, #179). `DeckRules` validates a slot on
+  save; only a valid slot can become active. The save schema adds
+  `decks: [{name, main, fusion}]` and `active_deck`, replacing `deck`/
+  `fusionDeck`; the loader migrates a version-1 save into slot 0.
+- **Themed packs.** A `data/shop.json` booster gains an optional
+  `"pool": ["card_id", ...]`. Draws pick a tier by the pack's weights
+  restricted to tiers the pool contains (weights renormalised), then a
+  uniform pool card of that tier; `limited_max` unchanged. The validator
+  checks pool ids exist, are not tokens and have `limit > 0`. No pool means
+  the whole subset (the Street Pack).
+- **Display case.** One Limited single at `3 × tier price`, rerolled
+  uniformly from the Limited cards after every duel (seeded RNG, like
+  booster draws). The save carries `display_case: "card_id"`. Buying leaves
+  the case empty until the next duel.
+- **Duelist reward boosters** name their pack id in `data/duelists.json`
+  (`reward_first`/`reward_rematch` gain `"pack": "street_pack"`); missing
+  `pack` means Street Pack, so present data stays valid.
+- **Targets** for the simulation tool (#195) and tuning (#196): one pack per
+  rematch win; a competitive second deck in 20–30 duels; pack expected
+  sell-back value stays below pack price (arbitrage never profits).
+
 ---
 
 ## 9. Save data
