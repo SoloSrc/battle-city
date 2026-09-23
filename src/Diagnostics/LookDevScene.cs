@@ -14,7 +14,7 @@ namespace BattleCity.Diagnostics;
 public partial class LookDevScene : Node3D
 {
     /// <summary>Concept aspect: both paintings are 1672 x 941.</summary>
-    private static readonly Vector2I CaptureSize = new(1672, 941);
+    private static readonly Vector2I _captureSize = new(1672, 941);
 
     /// <summary>Frames before the first shot, so imports and shadows settle deterministically.</summary>
     private const int SettleFrames = 120;
@@ -24,7 +24,7 @@ public partial class LookDevScene : Node3D
 
     private sealed record Shot(string Camera, string File);
 
-    private static readonly Shot[] Shots =
+    private static readonly Shot[] _shots =
     {
         new("WorldCamera", "lookdev_world_render.png"),
         new("DuelCamera", "lookdev_duel_render.png"),
@@ -36,17 +36,17 @@ public partial class LookDevScene : Node3D
     private int _current;
 
     // Matched by eye against the concepts; adjust here when a round drifts.
-    private static readonly Vector3 WorldEye = new(45, 29, 96);
-    private static readonly Vector3 WorldTarget = new(32, 0, 78);
+    private static readonly Vector3 _worldEye = new(45, 29, 96);
+    private static readonly Vector3 _worldTarget = new(32, 0, 78);
     private const float WorldFov = 35f;
-    private static readonly Vector3 DuelEye = new(25.0f, 1.7f, 83.5f);
-    private static readonly Vector3 DuelTarget = new(21.5f, 1.8f, 73.5f);
+    private static readonly Vector3 _duelEye = new(25.0f, 1.7f, 83.5f);
+    private static readonly Vector3 _duelTarget = new(21.5f, 1.8f, 73.5f);
     private const float DuelFov = 40f;
 
     public override void _Ready()
     {
-        Aim("WorldCamera", WorldEye, WorldTarget, WorldFov);
-        Aim("DuelCamera", DuelEye, DuelTarget, DuelFov);
+        Aim("WorldCamera", _worldEye, _worldTarget, WorldFov);
+        Aim("DuelCamera", _duelEye, _duelTarget, DuelFov);
         foreach (string name in new[] { "Player", "Opponent" })
         {
             var character = GetNodeOrNull<Character>(name);
@@ -60,7 +60,7 @@ public partial class LookDevScene : Node3D
         {
             _captureDir = args[capture + 1];
             DirAccess.MakeDirRecursiveAbsolute(_captureDir);
-            GetWindow().Size = CaptureSize;
+            GetWindow().Size = _captureSize;
             GetWindow().Mode = Window.ModeEnum.Windowed;
         }
 
@@ -76,16 +76,16 @@ public partial class LookDevScene : Node3D
 
         _frame++;
         int due = SettleFrames + _shot * SwitchFrames;
-        if (_shot >= Shots.Length || _frame != due)
+        if (_shot >= _shots.Length || _frame != due)
         {
             return;
         }
 
-        string path = $"{_captureDir}/{Shots[_shot].File}";
+        string path = $"{_captureDir}/{_shots[_shot].File}";
         GetViewport().GetTexture().GetImage().SavePng(path);
         GD.Print($"LookDev: captured {path}");
         _shot++;
-        if (_shot == Shots.Length)
+        if (_shot == _shots.Length)
         {
             GetTree().Quit();
             return;
@@ -98,7 +98,7 @@ public partial class LookDevScene : Node3D
     {
         if (_captureDir is null && @event.IsActionPressed("interact"))
         {
-            SetCamera((_current + 1) % Shots.Length);
+            SetCamera((_current + 1) % _shots.Length);
         }
     }
 
@@ -113,6 +113,6 @@ public partial class LookDevScene : Node3D
     private void SetCamera(int index)
     {
         _current = index;
-        GetNode<Camera3D>(Shots[index].Camera).Current = true;
+        GetNode<Camera3D>(_shots[index].Camera).Current = true;
     }
 }
