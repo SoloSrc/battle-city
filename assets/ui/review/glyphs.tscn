@@ -1,0 +1,587 @@
+[gd_scene load_steps=32 format=3]
+
+[ext_resource type="FontVariation" path="res://assets/ui/fonts/outfit_bold.tres" id="1"]
+[ext_resource type="FontVariation" path="res://assets/ui/fonts/outfit_regular.tres" id="2"]
+[ext_resource type="Texture2D" path="res://assets/ui/dialogue/panel.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_e.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/pad_south.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_escape.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/pad_east.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_space.png" id="8"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/pad_north.png" id="9"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_g.png" id="10"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/pad_lb.png" id="11"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_b.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/pad_rb.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_l.png" id="14"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/pad_back.png" id="15"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_tab.png" id="16"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/pad_start.png" id="17"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_w.png" id="18"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/pad_stick.png" id="19"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_enter.png" id="20"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_backspace.png" id="21"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_shift.png" id="22"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_a.png" id="23"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_s.png" id="24"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_d.png" id="25"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_up.png" id="26"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_down.png" id="27"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_left.png" id="28"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/key_right.png" id="29"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/mouse_left.png" id="30"]
+[ext_resource type="Texture2D" path="res://assets/ui/glyphs/pad_west.png" id="31"]
+
+[node name="InterfaceReview" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Item1" type="ColorRect" parent="."]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0.8627450980392157, 0.8941176470588236, 0.9215686274509803, 1)
+
+[node name="Item2" type="ColorRect" parent="."]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1920.0
+offset_bottom = 8.0
+mouse_filter = 2
+color = Color(0.20784313725490197, 0.396078431372549, 0.6627450980392157, 1)
+
+[node name="Item3" type="Label" parent="."]
+offset_left = 64.0
+offset_top = 40.0
+offset_right = 64.0
+offset_bottom = 70.8
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.20784313725490197, 0.396078431372549, 0.6627450980392157, 1)
+theme_override_fonts/font = ExtResource("1")
+theme_override_font_sizes/font_size = 22
+text = "SOLOSRC  /  INPUT GLYPHS"
+
+[node name="Item4" type="Label" parent="."]
+offset_left = 64.0
+offset_top = 80.0
+offset_right = 64.0
+offset_bottom = 138.8
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.1607843137254902, 0.2, 0.26666666666666666, 1)
+theme_override_fonts/font = ExtResource("1")
+theme_override_font_sizes/font_size = 42
+text = "One visual language for every action."
+
+[node name="Item5" type="Label" parent="."]
+offset_left = 64.0
+offset_top = 146.0
+offset_right = 64.0
+offset_bottom = 182.4
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.1607843137254902, 0.2, 0.26666666666666666, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 26
+text = "Positional face buttons avoid platform lettering assumptions. Pair every glyph with an action label."
+
+[node name="Item6" type="NinePatchRect" parent="."]
+offset_left = 64.0
+offset_top = 238.0
+offset_right = 904.0
+offset_bottom = 350.0
+mouse_filter = 2
+texture = ExtResource("3")
+patch_margin_left = 24
+patch_margin_right = 24
+patch_margin_top = 24
+patch_margin_bottom = 24
+
+[node name="Item7" type="Label" parent="."]
+offset_left = 88.0
+offset_top = 270.0
+offset_right = 88.0
+offset_bottom = 309.2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.1607843137254902, 0.2, 0.26666666666666666, 1)
+theme_override_fonts/font = ExtResource("1")
+theme_override_font_sizes/font_size = 28
+text = "Interact / confirm"
+
+[node name="Item8" type="TextureRect" parent="."]
+offset_left = 508.0
+offset_top = 262.0
+offset_right = 572.0
+offset_bottom = 326.0
+mouse_filter = 2
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item9" type="TextureRect" parent="."]
+offset_left = 708.0
+offset_top = 262.0
+offset_right = 772.0
+offset_bottom = 326.0
+mouse_filter = 2
+texture = ExtResource("5")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item10" type="NinePatchRect" parent="."]
+offset_left = 960.0
+offset_top = 238.0
+offset_right = 1800.0
+offset_bottom = 350.0
+mouse_filter = 2
+texture = ExtResource("3")
+patch_margin_left = 24
+patch_margin_right = 24
+patch_margin_top = 24
+patch_margin_bottom = 24
+
+[node name="Item11" type="Label" parent="."]
+offset_left = 984.0
+offset_top = 270.0
+offset_right = 984.0
+offset_bottom = 309.2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.1607843137254902, 0.2, 0.26666666666666666, 1)
+theme_override_fonts/font = ExtResource("1")
+theme_override_font_sizes/font_size = 28
+text = "Cancel / back"
+
+[node name="Item12" type="TextureRect" parent="."]
+offset_left = 1404.0
+offset_top = 262.0
+offset_right = 1516.0
+offset_bottom = 326.0
+mouse_filter = 2
+texture = ExtResource("6")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item13" type="TextureRect" parent="."]
+offset_left = 1604.0
+offset_top = 262.0
+offset_right = 1668.0
+offset_bottom = 326.0
+mouse_filter = 2
+texture = ExtResource("7")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item14" type="NinePatchRect" parent="."]
+offset_left = 64.0
+offset_top = 380.0
+offset_right = 904.0
+offset_bottom = 492.0
+mouse_filter = 2
+texture = ExtResource("3")
+patch_margin_left = 24
+patch_margin_right = 24
+patch_margin_top = 24
+patch_margin_bottom = 24
+
+[node name="Item15" type="Label" parent="."]
+offset_left = 88.0
+offset_top = 412.0
+offset_right = 88.0
+offset_bottom = 451.2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.1607843137254902, 0.2, 0.26666666666666666, 1)
+theme_override_fonts/font = ExtResource("1")
+theme_override_font_sizes/font_size = 28
+text = "Advance phase"
+
+[node name="Item16" type="TextureRect" parent="."]
+offset_left = 508.0
+offset_top = 404.0
+offset_right = 620.0
+offset_bottom = 468.0
+mouse_filter = 2
+texture = ExtResource("8")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item17" type="TextureRect" parent="."]
+offset_left = 708.0
+offset_top = 404.0
+offset_right = 772.0
+offset_bottom = 468.0
+mouse_filter = 2
+texture = ExtResource("9")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item18" type="NinePatchRect" parent="."]
+offset_left = 960.0
+offset_top = 380.0
+offset_right = 1800.0
+offset_bottom = 492.0
+mouse_filter = 2
+texture = ExtResource("3")
+patch_margin_left = 24
+patch_margin_right = 24
+patch_margin_top = 24
+patch_margin_bottom = 24
+
+[node name="Item19" type="Label" parent="."]
+offset_left = 984.0
+offset_top = 412.0
+offset_right = 984.0
+offset_bottom = 451.2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.1607843137254902, 0.2, 0.26666666666666666, 1)
+theme_override_fonts/font = ExtResource("1")
+theme_override_font_sizes/font_size = 28
+text = "Graveyard"
+
+[node name="Item20" type="TextureRect" parent="."]
+offset_left = 1404.0
+offset_top = 404.0
+offset_right = 1468.0
+offset_bottom = 468.0
+mouse_filter = 2
+texture = ExtResource("10")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item21" type="TextureRect" parent="."]
+offset_left = 1604.0
+offset_top = 404.0
+offset_right = 1684.0
+offset_bottom = 468.0
+mouse_filter = 2
+texture = ExtResource("11")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item22" type="NinePatchRect" parent="."]
+offset_left = 64.0
+offset_top = 522.0
+offset_right = 904.0
+offset_bottom = 634.0
+mouse_filter = 2
+texture = ExtResource("3")
+patch_margin_left = 24
+patch_margin_right = 24
+patch_margin_top = 24
+patch_margin_bottom = 24
+
+[node name="Item23" type="Label" parent="."]
+offset_left = 88.0
+offset_top = 554.0
+offset_right = 88.0
+offset_bottom = 593.2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.1607843137254902, 0.2, 0.26666666666666666, 1)
+theme_override_fonts/font = ExtResource("1")
+theme_override_font_sizes/font_size = 28
+text = "Banished"
+
+[node name="Item24" type="TextureRect" parent="."]
+offset_left = 508.0
+offset_top = 546.0
+offset_right = 572.0
+offset_bottom = 610.0
+mouse_filter = 2
+texture = ExtResource("12")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item25" type="TextureRect" parent="."]
+offset_left = 708.0
+offset_top = 546.0
+offset_right = 788.0
+offset_bottom = 610.0
+mouse_filter = 2
+texture = ExtResource("13")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item26" type="NinePatchRect" parent="."]
+offset_left = 960.0
+offset_top = 522.0
+offset_right = 1800.0
+offset_bottom = 634.0
+mouse_filter = 2
+texture = ExtResource("3")
+patch_margin_left = 24
+patch_margin_right = 24
+patch_margin_top = 24
+patch_margin_bottom = 24
+
+[node name="Item27" type="Label" parent="."]
+offset_left = 984.0
+offset_top = 554.0
+offset_right = 984.0
+offset_bottom = 593.2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.1607843137254902, 0.2, 0.26666666666666666, 1)
+theme_override_fonts/font = ExtResource("1")
+theme_override_font_sizes/font_size = 28
+text = "Duel log"
+
+[node name="Item28" type="TextureRect" parent="."]
+offset_left = 1404.0
+offset_top = 546.0
+offset_right = 1468.0
+offset_bottom = 610.0
+mouse_filter = 2
+texture = ExtResource("14")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item29" type="TextureRect" parent="."]
+offset_left = 1604.0
+offset_top = 546.0
+offset_right = 1716.0
+offset_bottom = 610.0
+mouse_filter = 2
+texture = ExtResource("15")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item30" type="NinePatchRect" parent="."]
+offset_left = 64.0
+offset_top = 664.0
+offset_right = 904.0
+offset_bottom = 776.0
+mouse_filter = 2
+texture = ExtResource("3")
+patch_margin_left = 24
+patch_margin_right = 24
+patch_margin_top = 24
+patch_margin_bottom = 24
+
+[node name="Item31" type="Label" parent="."]
+offset_left = 88.0
+offset_top = 696.0
+offset_right = 88.0
+offset_bottom = 735.2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.1607843137254902, 0.2, 0.26666666666666666, 1)
+theme_override_fonts/font = ExtResource("1")
+theme_override_font_sizes/font_size = 28
+text = "Menu"
+
+[node name="Item32" type="TextureRect" parent="."]
+offset_left = 508.0
+offset_top = 688.0
+offset_right = 620.0
+offset_bottom = 752.0
+mouse_filter = 2
+texture = ExtResource("16")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item33" type="TextureRect" parent="."]
+offset_left = 708.0
+offset_top = 688.0
+offset_right = 820.0
+offset_bottom = 752.0
+mouse_filter = 2
+texture = ExtResource("17")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item34" type="NinePatchRect" parent="."]
+offset_left = 960.0
+offset_top = 664.0
+offset_right = 1800.0
+offset_bottom = 776.0
+mouse_filter = 2
+texture = ExtResource("3")
+patch_margin_left = 24
+patch_margin_right = 24
+patch_margin_top = 24
+patch_margin_bottom = 24
+
+[node name="Item35" type="Label" parent="."]
+offset_left = 984.0
+offset_top = 696.0
+offset_right = 984.0
+offset_bottom = 735.2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.1607843137254902, 0.2, 0.26666666666666666, 1)
+theme_override_fonts/font = ExtResource("1")
+theme_override_font_sizes/font_size = 28
+text = "Move"
+
+[node name="Item36" type="TextureRect" parent="."]
+offset_left = 1404.0
+offset_top = 688.0
+offset_right = 1468.0
+offset_bottom = 752.0
+mouse_filter = 2
+texture = ExtResource("18")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item37" type="TextureRect" parent="."]
+offset_left = 1604.0
+offset_top = 688.0
+offset_right = 1668.0
+offset_bottom = 752.0
+mouse_filter = 2
+texture = ExtResource("19")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item38" type="Label" parent="."]
+offset_left = 64.0
+offset_top = 835.0
+offset_right = 64.0
+offset_bottom = 863.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.38823529411764707, 0.44313725490196076, 0.5294117647058824, 1)
+theme_override_fonts/font = ExtResource("1")
+theme_override_font_sizes/font_size = 20
+text = "ALTERNATE KEYS / MOVEMENT / POINTER"
+
+[node name="Item39" type="TextureRect" parent="."]
+offset_left = 64.0
+offset_top = 883.0
+offset_right = 176.0
+offset_bottom = 947.0
+mouse_filter = 2
+texture = ExtResource("20")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item40" type="TextureRect" parent="."]
+offset_left = 194.0
+offset_top = 883.0
+offset_right = 306.0
+offset_bottom = 947.0
+mouse_filter = 2
+texture = ExtResource("21")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item41" type="TextureRect" parent="."]
+offset_left = 324.0
+offset_top = 883.0
+offset_right = 436.0
+offset_bottom = 947.0
+mouse_filter = 2
+texture = ExtResource("22")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item42" type="TextureRect" parent="."]
+offset_left = 454.0
+offset_top = 883.0
+offset_right = 518.0
+offset_bottom = 947.0
+mouse_filter = 2
+texture = ExtResource("23")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item43" type="TextureRect" parent="."]
+offset_left = 536.0
+offset_top = 883.0
+offset_right = 600.0
+offset_bottom = 947.0
+mouse_filter = 2
+texture = ExtResource("24")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item44" type="TextureRect" parent="."]
+offset_left = 618.0
+offset_top = 883.0
+offset_right = 682.0
+offset_bottom = 947.0
+mouse_filter = 2
+texture = ExtResource("25")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item45" type="TextureRect" parent="."]
+offset_left = 700.0
+offset_top = 883.0
+offset_right = 764.0
+offset_bottom = 947.0
+mouse_filter = 2
+texture = ExtResource("26")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item46" type="TextureRect" parent="."]
+offset_left = 782.0
+offset_top = 883.0
+offset_right = 846.0
+offset_bottom = 947.0
+mouse_filter = 2
+texture = ExtResource("27")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item47" type="TextureRect" parent="."]
+offset_left = 864.0
+offset_top = 883.0
+offset_right = 928.0
+offset_bottom = 947.0
+mouse_filter = 2
+texture = ExtResource("28")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item48" type="TextureRect" parent="."]
+offset_left = 946.0
+offset_top = 883.0
+offset_right = 1010.0
+offset_bottom = 947.0
+mouse_filter = 2
+texture = ExtResource("29")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item49" type="TextureRect" parent="."]
+offset_left = 1028.0
+offset_top = 883.0
+offset_right = 1092.0
+offset_bottom = 947.0
+mouse_filter = 2
+texture = ExtResource("30")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item50" type="TextureRect" parent="."]
+offset_left = 1110.0
+offset_top = 883.0
+offset_right = 1174.0
+offset_bottom = 947.0
+mouse_filter = 2
+texture = ExtResource("31")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Item51" type="Label" parent="."]
+offset_left = 64.0
+offset_top = 986.0
+offset_right = 64.0
+offset_bottom = 1019.6
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.1607843137254902, 0.2, 0.26666666666666666, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 24
+text = "Use glyphs at 40–64 px. For remapped or unknown inputs, use a keycap with the live binding name."
+
+[node name="Item52" type="Label" parent="."]
+offset_left = 64.0
+offset_top = 1030.0
+offset_right = 64.0
+offset_bottom = 1058.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.38823529411764707, 0.44313725490196076, 0.5294117647058824, 1)
+theme_override_fonts/font = ExtResource("2")
+theme_override_font_sizes/font_size = 20
+text = "ART REVIEW • Mapping reflects project.godot on the #157 base commit; glyph selection is a runtime responsibility."
