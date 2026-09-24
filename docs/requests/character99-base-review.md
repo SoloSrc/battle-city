@@ -1,39 +1,41 @@
-# Character A base ready for review — #99
+# Character A complete-body revision — #99
 
-Owner: gpt-astra → director. Status: proposed base; awaiting fidelity approval.
-Branch: `astra/99-character-base`, based on `origin/main` at `7bf27f0`.
+Owner: gpt-astra → director. Status: revised proposal, awaiting review.
+Branch: `astra/99-character-base`. PR: https://github.com/SoloSrc/battle-city/pull/215
 
-![Front, side and three-quarter comparisons](evidence/character99/comparison.png)
+The first dressed-shell proposal was rejected. This correction adds a complete
+underlying body and addresses the reported hands, leg alignment, pelvis, ears
+and nose. Hair is retained.
 
-Please review the proportions, silhouette, hair mass, face and clothing volumes
-as the base to carry into #100. #99 stays open until the director approves it.
+![Body-only review](evidence/character99/body-review.png)
 
-Editable source and reproducible modelling notes:
-[`assets/source/benchmark-character99/README.md`](../../assets/source/benchmark-character99/README.md).
-The source blend and hand-authored build script sit beside those notes. The
-unrigged review export is
-`assets/characters/benchmark/character_a_base.glb`, with its Godot import sidecar.
+![Hands and pelvis](evidence/character99/anatomy-details.png)
 
-Delivered views: front, side, three-quarter, back and head detail, plus an actual
-Godot import capture. The comparison uses the approved #96 sheet; illustrated
-side-pose differences are labelled. Geometry was visually revised for shoulder
-joins, connected trousers, arm length, stance, hair volume and shoe proportions.
+Start with these unclothed clay views, then inspect the
+[dressed/reference comparison](evidence/character99/comparison.png) and
+[head detail](evidence/character99/head.png).
 
-Validation: Blender 5.2.2 saved and exported successfully; Godot 4.7.2 imported
-and instantiated 112 meshes with materials, 97,418 evaluated triangles, 1.70 m
-height and soles at zero. The front-facing Godot capture confirms the -Z
-orientation. No gameplay code or existing character asset changed.
+The Blender file has separate `01_BODY_complete`, `02_HAIR_removable` and
+`03_OUTFIT_removable` collections. The body persists under every garment.
+`character_a_body_only.glb` is a second export for direct inspection. The Godot
+check compares body mesh arrays between dressed/body-only exports; hiding the
+outfit must not alter the body. Geometry, counts and import results are recorded
+beside the source.
 
-This is an editable blockout/base, not production art. #100 owns the ≤12k
-retopology, deformation loops, welds and UVs; #101/#105 own textures and anime
-shading; #102 owns rigging. Close-up shoulder seams and separate facial pieces
-are still present. The district benchmark gate is not claimed by these images.
+The body topology check requires one connected torso/limbs/hands/feet mesh with
+no boundary or non-manifold edges. The head is separately interchangeable;
+its nose and ears belong to the head surface. New clothing can be fitted over
+this complete body. It is still unrigged: shared skin weights and in-game outfit
+swapping are not delivered by #99.
 
-Fable: no implementation requested in this PR. #95 and #97 are now merged;
-the review export is deliberately separate from the playable rig and does not
-need integration until the character passes its subsequent stages.
+[Source, wardrobe instructions and reproduction](../../assets/source/benchmark-character99/README.md).
+The measured revision time and exact changes are in
+[revision notes](../../assets/source/benchmark-character99/revision-notes.md).
 
-Origin: newly authored SOLOSRC Blender geometry from the repository's #96
-character sheet; no third-party base mesh or generator. MIT, including the
-editable source, GLB and evidence. Approximately 0.3 h elapsed agent-session
-work for this proposal; full timing qualifications are in the source notes.
+#99 remains open until the director approves the base. #100 handles production
+retopology/UVs, #101/#105 textures and anime shading, #102 rigging. These images
+are a base-model review, not final production fidelity or #110 acceptance.
+
+Fable: no shared code change or integration requested. The review exports stay
+separate from the playable character. Both source and new geometry are SOLOSRC
+original, MIT, with no third-party base mesh or generator.

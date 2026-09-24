@@ -2,7 +2,7 @@
 Run: blender -b --factory-startup --python assets/source/benchmark-character99/build.py
 Hand-authored surface sections and hair locks; no generated/existing mesh input.
 """
-import bpy, math, json, time
+import bpy, math, json, time, sys
 from pathlib import Path
 from mathutils import Vector
 from math import sin, cos, pi
@@ -80,42 +80,6 @@ def ellipsoid(name,location,scale,material,segments=24,rings=16):
     ob=relocate(bpy.context.object); ob.name=name; ob.scale=scale; ob.data.materials.append(material)
     for p in ob.data.polygons:p.use_smooth=True
     return ob
-# Head: tapered jaw and broad upper face; features remain separate in the blockout.
-sections('Head',[
-(1.433,0,-.025,.009,.034,.030),(1.444,0,-.013,.027,.048,.039),
-(1.465,0,0,.057,.063,.052),(1.491,0,.003,.074,.070,.065),
-(1.514,0,.004,.080,.073,.075),(1.539,0,.005,.079,.072,.080),
-(1.564,0,.008,.077,.069,.082),(1.591,0,.010,.075,.065,.080),
-(1.616,0,.012,.064,.055,.069),(1.636,0,.011,.042,.038,.047),
-(1.642,0,.010,.009,.010,.011)],skin,n=32,sub=2)
-sections('Neck',[(1.337,0,.009,.042,.037,.039),(1.35,0,.009,.042,.037,.039),(1.423,0,.012,.033,.032,.034),(1.462,0,.01,.032,.031,.032)],skin,n=20,sub=1)
-for s in [-1,1]:
-    ear=ellipsoid(('L' if s>0 else 'R')+' ear',(s*.079,.006,1.498),(.012,.010,.025),skin)
-    line('Ear inner fold',[(s*.085,-.005,1.518),(s*.091,-.007,1.506),(s*.085,-.007,1.492)],.0026,skinlight)
-# Nose bridge and tip integrated-looking patch, not a round sphere.
-mesh('Nose bridge',[(0,-.066,1.544),(-.009,-.069,1.517),(.009,-.069,1.517),
-(-.011,-.074,1.496),(.011,-.074,1.496),(0,-.094,1.500),(0,-.082,1.49)],
-[(0,1,5),(0,5,2),(1,3,5),(2,5,4),(3,6,5),(4,5,6)],skin,sub=1)
-line('Mouth', [(-.017,-.064,1.472),(-.006,-.066,1.471),(0,-.067,1.471),(.016,-.064,1.472)],.00095,ink)
-line('Lower lip', [(-.006,-.064,1.466),(0,-.065,1.465),(.008,-.064,1.466)],.001,skinlight)
-# Almond-shaped eye surfaces follow the face; pupils and lids use shallow curved patches.
-for s in [-1,1]:
-    def ep(x,y,z):return(s*x,y,z)
-    outline=[(.016,-.070,1.524),(.026,-.0715,1.530),(.044,-.070,1.532),(.061,-.060,1.529),(.055,-.064,1.520),(.039,-.071,1.516),(.023,-.071,1.518)]
-    verts=[ep(.038,-.073,1.524)]+[ep(*p) for p in outline]
-    mesh('Eye white',verts,[(0,i+1,(i+1)%len(outline)+1) for i in range(len(outline))],white)
-    ellipsoid('Iris',(s*.039,-.073,1.524),(.0072,.0012,.0085),iris)
-    ellipsoid('Pupil',(s*.039,-.0742,1.525),(.0032,.0005,.0058),ink)
-    ellipsoid('Eye glint',(s*.036,-.0748,1.529),(.0018,.0007,.0021),white,12,8)
-    line('Upper eyelid',[ep(*p) for p in outline[:4]],.002,ink)
-    line('Lower eyelid',[ep(*p) for p in outline[3:]+[outline[0]]],.00085,skinlight)
-    line('Eyebrow',[ep(.018,-.070,1.544),ep(.039,-.070,1.550),ep(.062,-.053,1.544)],.0026,hair)
-# Torso underlayer, chest/waist/hem contours.
-sections('Charcoal shirt',[(.900,0,.008,.132,.075,.078),(.914,0,.008,.134,.078,.079),
-(.958,0,.007,.129,.075,.078),(1.03,0,.008,.121,.072,.079),(1.10,0,.006,.125,.074,.078),
-(1.19,0,.007,.147,.079,.082),(1.29,0,.009,.168,.082,.078),(1.343,0,.009,.148,.066,.067),
-(1.357,0,.009,.082,.051,.049),(1.353,0,.009,.046,.040,.038)],shirt,n=32,sub=1)
-line('Shirt neckline',[(-.05,-.03,1.356),(-.037,-.045,1.334),(0,-.052,1.326),(.037,-.045,1.334),(.05,-.03,1.356)],.003,shirt)
 # Open jacket wraps continuously around back; front panels have a deliberate angular opening.
 jrows=[(.995,.157,.088,.084,.070),(1.004,.158,.089,.085,.071),(1.07,.136,.084,.081,.065),
 (1.16,.141,.086,.083,.057),(1.25,.166,.091,.086,.049),(1.333,.177,.087,.077,.042),
@@ -148,54 +112,6 @@ for s in [-1,1]:
     # Soft fold ridges use cobalt, not drawn black lines.
     line('Elbow fold',[(s*.249,-.041,1.155),(s*.274,-.058,1.139),(s*.293,-.041,1.131)],.0025,blueedge)
     line('Jacket pocket welt',[(s*.090,-.060,1.08),(s*.128,-.039,1.091)],.002,blueedge)
-    # Palm with relaxed finger fan. Separate articulated volumes are intentional at blockout stage.
-    sections('Hand palm',[(.830,s*.386,-.018,.023,.013,.016),(.846,s*.382,-.018,.026,.016,.018),
-        (.883,s*.374,-.018,.025,.018,.019),(.908,s*.363,-.017,.017,.017,.018),(.93,s*.358,-.016,.016,.017,.017)],skin,n=16,sub=1)
-    for j,(offset,length) in enumerate([(-.017,.057),(-.005,.067),(.007,.063),(.018,.050)]):
-        x=s*(.387+offset)
-        tube('Finger '+str(j+1),[(x,-.019,.847),(x+s*.003,-.024,.828),
-             (x+s*.006,-.033,.847-length*.70),(x+s*.003,-.037,.847-length),(x+s*.003,-.036,.844-length)],
-             [.0068,.0067,.0057,.0046,.0018],skin,n=8,sub=1)
-    tube('Thumb',[(s*.358,-.021,.883),(s*.346,-.032,.862),(s*.345,-.039,.840),(s*.350,-.043,.830)], [.010,.010,.007,.003],skin,n=10,sub=1)
-# Continuous trouser topology: two leg tubes joined through a crotch saddle to one waist.
-v=[]; f=[]; n=20; tops=[]
-for side in [1,-1]:
-    rows=[(.085,.207,.010,.048,.051,.048),(.105,.206,.012,.052,.055,.050),
-          (.145,.200,.010,.048,.052,.051),(.25,.18,.006,.046,.052,.054),
-          (.36,.148,-.006,.048,.055,.057),(.423,.132,-.019,.054,.055,.054),
-          (.450,.128,-.012,.051,.056,.055),(.48,.125,-.006,.054,.058,.058),
-          (.58,.11,.008,.060,.068,.071),(.69,.096,.010,.065,.072,.077),
-          (.81,.079,.011,.075,.075,.080)]
-    off=len(v)
-    for k,(z,x,y,w,df,db) in enumerate(rows):
-        for j in range(n):
-            a=j*2*pi/n; ss=sin(a); cc=cos(a)
-            zz=z
-            if k==len(rows)-1: zz+=.03*max(0,side*ss)-.020*max(0,-side*ss)+.052*abs(cc)
-            v.append((side*x+w*ss,y-cc*(df if cc>=0 else db),zz))
-    for k in range(len(rows)-1):
-        for j in range(n):
-            a=off+k*n+j;b=off+k*n+(j+1)%n;f.append((a,b,b+n,a+n))
-    f.append(tuple(reversed([off+j for j in range(n)])))
-    tops.append([off+(len(rows)-1)*n+j for j in range(n)])
-r,l=tops
-# The inner half of each top leg ring is the underside of the crotch.
-for j in range(10):
-    f.append((r[(11+j)%n],l[(9-j)%n],l[(10-j)%n],r[(10+j)%n]))
-perimeter=r[:11]+l[10:]+[l[0]]
-# Angle-following upper rings preserve the flat front and the seat.
-prev=perimeter
-for z,width,df,db in [(.895,.140,.081,.089),(.918,.133,.078,.084),(.928,.132,.077,.083)]:
-    nxt=[]
-    for idx in perimeter:
-        x,y,_=v[idx]; a=math.atan2(x,(.011-y)*1.8); c=cos(a)
-        nxt.append(len(v));v.append((width*sin(a),.01-c*(df if c>=0 else db),z))
-    for j in range(len(prev)):f.append((prev[j],prev[(j+1)%len(prev)],nxt[(j+1)%len(prev)],nxt[j]))
-    prev=nxt
-f.append(tuple(prev))
-mesh('Trousers • continuous base',v,f,pants,sub=2)
-for side in [-1,1]:
-    line('Front pocket',[(side*.119,-.032,.906),(side*.111,-.051,.878),(side*.084,-.066,.855)],.0008,shirt)
 # Shoes use flattened oval perimeter sections in z, longer toward the toes.
 for s in [-1,1]:
     x=s*.207
@@ -276,12 +192,6 @@ for i,(p,w) in enumerate([
 ([(.0,.022,1.65),(.016,.029,1.676),(.046,.04,1.682)],[.021,.015,.0004]),
 ([(-.013,.033,1.648),(-.052,.039,1.666),(-.084,.049,1.67)],[.022,.015,.0004]),
 ([(.028,.04,1.638),(.074,.055,1.655),(.106,.056,1.641)],[.022,.015,.0004])]):lock('Crown %02d'%i,p,w,.009,hair)
-# Lower the shirt neckline into a scoop instead of a straight band across the throat.
-ob=bpy.data.objects['Charcoal shirt']
-for vv in ob.data.vertices:
-    if vv.co.z>1.349:
-        front=max(0, min(1, (.009-vv.co.y)/.04))
-        vv.co.z-=.024*front
 # Match wrist and fingertip heights to the front reference while retaining the A-pose.
 for ob in model.objects:
     if any(ob.name.startswith(n) for n in ['Jacket sleeve','Ivory cuff','Elbow fold','Hand palm','Finger','Thumb']):
@@ -304,21 +214,23 @@ for ob in model.objects:
         for co in coords:
             center=.207 if co.x>0 else -.207
             co.x=center+(co.x-center)*1.22; co.y=.01+(co.y-.01)*1.40
+# Director revision: complete underlying body, corrected anatomy and fitted outfit.
+exec(compile((SOURCE/'anatomy.py').read_text(), str(SOURCE/'anatomy.py'), 'exec'))
 # Recalculate winding consistently on all authored mesh islands.
 import bmesh
-for ob in model.objects:
+for ob in model.all_objects:
     if ob.type=='MESH':
         bm=bmesh.new(); bm.from_mesh(ob.data); bmesh.ops.recalc_face_normals(bm,faces=list(bm.faces)); bm.to_mesh(ob.data); bm.free()
 # Set lowest sole to zero and exact full height to 1.70 m, uniformly across all model parts.
 dg=bpy.context.evaluated_depsgraph_get(); zvalues=[]
-for ob in model.objects:
+for ob in model.all_objects:
     ev=ob.evaluated_get(dg); mm=ev.to_mesh(); zvalues.extend([(ev.matrix_world@vv.co).z for vv in mm.vertices]); ev.to_mesh_clear()
 zmin,zmax=min(zvalues),max(zvalues); factor=1.70/(zmax-zmin)
 from mathutils import Matrix
 normalization=Matrix.Scale(factor,4)@Matrix.Translation((0,0,-zmin))
-for ob in model.objects:ob.matrix_world=normalization@ob.matrix_world
+for ob in model.all_objects:ob.matrix_world=normalization@ob.matrix_world
 # Collect metadata before adding studio objects.
-for ob in model.objects:ob['stage']='99: proportion / silhouette base; unrigged'
+for ob in model.all_objects:ob['stage']='99: proportion / silhouette base; unrigged'
 # Blender -Y maps to Godot +Z; rotate to meet Godot -Z facing contract.
 # Authoring front is -Y, so rotate mesh objects 180 degrees for Godot export only below.
 scene.world.color=(.3,.3,.3)
@@ -340,27 +252,67 @@ def aim(loc,target=(0,0,.85)):
 aim((0,-5,.85))
 # Save a clean selectable modelling scene with review setup.
 bpy.ops.object.select_all(action='DESELECT')
-for ob in model.objects:ob.select_set(True)
-bpy.context.view_layer.objects.active=bpy.data.objects['Head']
+for ob in model.all_objects:ob.select_set(True)
+bpy.context.view_layer.objects.active=bpy.data.objects['Body_A_complete']
 bpy.ops.wm.save_as_mainfile(filepath=str(SOURCE/'character_a_base.blend'))
 # Export evaluated meshes only, excluding studio; apply facing change temporarily.
-original={ob:ob.matrix_world.copy() for ob in model.objects}
+original={ob:ob.matrix_world.copy() for ob in model.all_objects}
 from mathutils import Matrix
 rot=Matrix.Rotation(pi,4,'Z')
-for ob in model.objects:ob.matrix_world=rot@ob.matrix_world
+for ob in model.all_objects:ob.matrix_world=rot@ob.matrix_world
 bpy.ops.export_scene.gltf(filepath=str(EXPORT),export_format='GLB',use_selection=True,export_apply=True,export_animations=False,export_cameras=False,export_lights=False)
 for ob,matrix in original.items():ob.matrix_world=matrix
-stats={'objects':len(model.objects),'triangles_evaluated':0,'height_m':None,'stage':'unrigged base, approval pending','blender':bpy.app.version_string}
+stats={'objects':len(model.all_objects),'triangles_evaluated':0,'height_m':None,'stage':'unrigged base, approval pending','blender':bpy.app.version_string}
 dg=bpy.context.evaluated_depsgraph_get(); coords=[]
-for ob in model.objects:
+for ob in model.all_objects:
     ev=ob.evaluated_get(dg); me=ev.to_mesh(); me.calc_loop_triangles(); stats['triangles_evaluated']+=len(me.loop_triangles)
     coords.extend([ev.matrix_world@vv.co for vv in me.vertices]); ev.to_mesh_clear()
 stats['height_m']=round(max(p.z for p in coords)-min(p.z for p in coords),4)
 stats['bounds_m']=[[round(min(p[i] for p in coords),4),round(max(p[i] for p in coords),4)] for i in range(3)]
+# Geometry integrity of the skin surface, independent of garment visibility.
+bm=bmesh.new();bm.from_mesh(body.data)
+seen=set();components=[]
+for vertex in bm.verts:
+    if vertex in seen:continue
+    pending=[vertex];seen.add(vertex);count=0
+    while pending:
+        current=pending.pop();count+=1
+        for edge in current.link_edges:
+            neighbour=edge.other_vert(current)
+            if neighbour not in seen:seen.add(neighbour);pending.append(neighbour)
+    components.append(count)
+stats['body_topology']={'components':len(components),'component_vertices':sorted(components,reverse=True),'boundary_edges':sum(e.is_boundary for e in bm.edges),'nonmanifold_edges':sum(not e.is_manifold for e in bm.edges)}
+bm.free()
+assert stats['body_topology']['components']==1 and stats['body_topology']['nonmanifold_edges']==0, stats['body_topology']
+stats['collections']={col.name:len(col.objects) for col in model.children}
 (SOURCE/'metrics.json').write_text(json.dumps(stats,indent=2)+'\n')
-for name,loc in [('front',(0,-5,.85)),('side',(5,0,.85)),('three-quarter',(3,-5,.85)),('back',(0,5,.85))]:
-    aim(loc); scene.render.filepath=str(EVIDENCE/(name+'.png')); bpy.ops.render.render(write_still=True)
-# Face close-up supplements full-height comparisons.
-camera.data.ortho_scale=.34; aim((.30,-2,1.552),(0,0,1.552)); scene.render.resolution_x=1000; scene.render.resolution_y=1000
-scene.render.filepath=str(EVIDENCE/'head.png'); bpy.ops.render.render(write_still=True)
+if '--anatomy-preview' not in sys.argv:
+    for name,loc in [('front',(0,-5,.85)),('side',(5,0,.85)),('three-quarter',(3,-5,.85)),('back',(0,5,.85))]:
+        aim(loc); scene.render.filepath=str(EVIDENCE/(name+'.png')); bpy.ops.render.render(write_still=True)
+    # Face close-up supplements full-height comparisons.
+    camera.data.ortho_scale=.34; aim((.30,-2,1.552),(0,0,1.552)); scene.render.resolution_x=1000; scene.render.resolution_y=1000
+    scene.render.filepath=str(EVIDENCE/'head.png'); bpy.ops.render.render(write_still=True)
+# Body-only evidence: garment visibility must not remove any skin geometry.
+for ob in outfit_collection.objects:ob.hide_render=True
+clay=mat('Inspection clay',(.20,.22,.24))
+body.data.materials[0]=clay
+camera.data.ortho_scale=1.86;scene.render.resolution_x=800;scene.render.resolution_y=1000
+for name,loc in [('body-front',(0,-5,.85)),('body-side',(5,0,.85)),('body-back',(0,5,.85)),('body-three-quarter',(3,-5,.85))]:
+    aim(loc);scene.render.filepath=str(EVIDENCE/(name+'.png'));bpy.ops.render.render(write_still=True)
+camera.data.ortho_scale=.23;scene.render.resolution_x=1000;scene.render.resolution_y=1000
+# Anatomical hand evidence from dorsal and palmar sides.
+for name,loc in [('hand-palm',(.45, -1.5,.835)),('hand-back',(.45,1.5,.835))]:
+    aim(loc,(.39,-.015,.825));scene.render.filepath=str(EVIDENCE/(name+'.png'));bpy.ops.render.render(write_still=True)
+# Pelvis evidence exposes lumbar-to-glute and thigh transitions directly.
+camera.data.ortho_scale=.48
+for name,loc in [('pelvis-back',(0,3,.845)),('pelvis-side',(3,0,.845))]:
+    aim(loc,(0,0,.845));scene.render.filepath=str(EVIDENCE/(name+'.png'));bpy.ops.render.render(write_still=True)
+body.data.materials[0]=skin
+# Export the complete unclothed body and hair separately for inspection/outfit fitting.
+bpy.ops.object.select_all(action='DESELECT')
+for ob in list(body_collection.objects)+list(hair_collection.objects):
+    ob.select_set(True);ob.matrix_world=rot@ob.matrix_world
+bpy.ops.export_scene.gltf(filepath=str(EXPORT.with_name('character_a_body_only.glb')),export_format='GLB',use_selection=True,export_apply=True,export_animations=False,export_cameras=False,export_lights=False)
+for ob in list(body_collection.objects)+list(hair_collection.objects):ob.matrix_world=original[ob]
+for ob in outfit_collection.objects:ob.hide_render=False
 print('CHARACTER99_DONE',json.dumps(stats))

@@ -1,18 +1,38 @@
 {
-  "material_surfaces": 112,
-  "meshes": 112,
-  "position": [
-    -0.429765105247498,
-    0.0,
-    -0.201345548033714
-  ],
-  "size": [
-    0.859530210494995,
-    1.69999992847443,
-    0.332756191492081
-  ],
-  "triangles": 97418,
+  "character_a_base": {
+    "body_hash": 2466095182,
+    "material_surfaces": 91,
+    "meshes": 91,
+    "position": [
+      -0.429413259029388,
+      0.0,
+      -0.200623765587807
+    ],
+    "size": [
+      0.858825445175171,
+      1.69999992847443,
+      0.357240676879883
+    ],
+    "triangles": 482850
+  },
+  "character_a_body_only": {
+    "body_hash": 2466095182,
+    "material_surfaces": 55,
+    "meshes": 55,
+    "position": [
+      -0.429413259029388,
+      0.0,
+      -0.165950566530228
+    ],
+    "size": [
+      0.858825445175171,
+      1.69999992847443,
+      0.310695856809616
+    ],
+    "triangles": 368476
+  },
+  "same_body_with_outfit_hidden": true,
   "engine": "Godot 4.7.2 .NET",
-  "renderer": "Vulkan Mobile / NVIDIA RTX 3070",
-  "scope": "isolated import and facing check; no gameplay or rig test"
+  "body_comparison": "Direct equality of imported surface arrays",
+  "scope": "Isolated import, height, ground contact and body-geometry identity; no rig or gameplay acceptance"
 }

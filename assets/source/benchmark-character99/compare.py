@@ -27,3 +27,17 @@ draw.text((24,866),'1.70 m • unrigged A-pose • neutral materials • #100 re
 draw.text((24,891),'Sheet views are illustrative, not calibrated orthographics. Side reference has relaxed arms; model retains its A-pose.',font=small,fill='#c2cedb')
 canvas.save(OUT / 'comparison.png')
 print(OUT / 'comparison.png')
+# Body-only inspection and close-ups are the primary evidence for the revision.
+for filename,views in [('body-review',['body-front','body-side','body-back','body-three-quarter']),
+                       ('anatomy-details',['hand-palm','hand-back','pelvis-back','pelvis-side'])]:
+    panel_width=600
+    sheet=Image.new('RGB',(panel_width*len(views),860),'#202833')
+    draw=ImageDraw.Draw(sheet)
+    title='COMPLETE BODY / removable outfit hidden' if filename=='body-review' else 'ANATOMY DETAIL / palm, back of hand, pelvis'
+    draw.text((20,14),title,font=font,fill='#f1eee5')
+    for i,view in enumerate(views):
+        pic=Image.open(OUT/(view+'.png')).convert('RGB')
+        pic.thumbnail((600,740),Image.LANCZOS)
+        sheet.paste(pic,(i*600+(600-pic.width)//2,60+(740-pic.height)//2))
+        draw.text((i*600+20,810),view.upper(),font=small,fill='#f1eee5')
+    sheet.save(OUT/(filename+'.png'))
