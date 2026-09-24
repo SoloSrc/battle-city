@@ -57,6 +57,19 @@ Boot → MainMenu → AvatarCreator → Overworld ⇄ Interior
 `Game.Mode` is a small state machine. Only Overworld and Interior allow
 movement. Duel freezes all overworld actors but does not unload the scene.
 
+Menu (issue #168) is entered when the first screen is pushed onto
+`Game.Menus` (`MenuStack`, a `CanvasLayer` child of `Game`) and left when
+the last one is popped, restoring the previous mode. While open, the stack
+locks player input (lock reason `menu`) and stops the whole `World` subtree
+(`Game.PauseWorld`), so actors, cones and the camera freeze while the UI
+layers and the autoload keep processing. The stack refuses to open unless
+the mode is Overworld or Interior with no transition, encounter or message
+running (`MenuStack.CanOpen`). The gamepad, keyboard and mouse rules live in
+one place, the stack: `move_*` moves the cursor with wrap-around, `interact`
+presses, `cancel` pops (the top screen can consume it), and hovering moves
+the cursor. Screens extend `MenuScreen` and register their focusable
+controls; the screen below the top one is hidden but keeps its cursor.
+
 ---
 
 ## 3. Entity model
