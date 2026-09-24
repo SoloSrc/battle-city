@@ -1,0 +1,18 @@
+{
+  "material_surfaces": 112,
+  "meshes": 112,
+  "position": [
+    -0.429765105247498,
+    0.0,
+    -0.201345548033714
+  ],
+  "size": [
+    0.859530210494995,
+    1.69999992847443,
+    0.332756191492081
+  ],
+  "triangles": 97418,
+  "engine": "Godot 4.7.2 .NET",
+  "renderer": "Vulkan Mobile / NVIDIA RTX 3070",
+  "scope": "isolated import and facing check; no gameplay or rig test"
+}

@@ -1,0 +1,21 @@
+{
+  "objects": 112,
+  "triangles_evaluated": 97418,
+  "height_m": 1.7,
+  "stage": "unrigged base, approval pending",
+  "blender": "5.2.2 LTS",
+  "bounds_m": [
+    [
+      -0.4298,
+      0.4298
+    ],
+    [
+      -0.2013,
+      0.1314
+    ],
+    [
+      0.0,
+      1.7
+    ]
+  ]
+}
