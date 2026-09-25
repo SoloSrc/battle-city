@@ -423,8 +423,9 @@ uses cannot be sold.
 
 ### 5.4 The coin curve
 
-Targets, verified against the real pool by simulation (2026-09-22) and
-owned by #195/#196:
+Targets, verified against the real pool by simulation (tier weights
+2026-09-22; re-run under the rarity weights on 2026-09-24 by
+`tools/economy_sim.py`, systems §8.3) and owned by #195/#196:
 
 - **One pack per rematch win.** Rematch rewards average ~330 coins plus the
   reward boosters themselves.
@@ -433,7 +434,10 @@ owned by #195/#196:
 - **A competitive second deck in 20–30 duels**, finished through themed
   packs, singles and sell-back — never through packs alone: completing a
   40-card deck from Street Packs takes a median ~150 packs, which is the
-  reason singles, sell-back and the display case exist.
+  reason singles, sell-back and the display case exist. The 2026-09-24
+  rerun puts Warrior Toolbox at a median 106 duels while only the Street
+  Pack exists in data, so the themed packs (#189) and the #196 tuning
+  pass carry this target; systems §8.3 has the numbers.
 - **The full collection is a long tail**, not a slice goal.
 
 ---

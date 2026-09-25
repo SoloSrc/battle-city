@@ -33,6 +33,10 @@ jobs:
         run: dotnet run --project tools/duel_sim --no-build --configuration Debug -- --games 2
       - name: Validate game data
         run: python3 tools/validate_data.py --root data
+      - name: Economy simulation smoke
+        run: |
+          python3 -m unittest discover -s tools -p "test_economy_sim.py" -v
+          python3 tools/economy_sim.py --root data --seeds 20
       - name: Validator catches bad data
         run: |
           set +e

@@ -1065,6 +1065,56 @@ singles existed only on the secondary market — our display case.
   locks the numbers, since the 2026-09-22 medians were computed on tier
   weights.
 
+### 8.3 Economy simulation report (issue #195, 2026-09-24)
+
+`tools/economy_sim.py` plays seeded playthroughs under the §8.2 rules
+(the design constants sit at the top of the script, the one place #196
+edits) and reports duels to complete each reference deck. The player
+model: starts with the starter deck and 500 coins, wins every duel (d1,
+d2, d3, then rematches d3), opens every reward booster, sells copies no
+kept deck uses, buys needed singles from open stock, buys the display
+case when it shows a needed card, and spends coins above a reserve (the
+priciest still-needed case-only card) on extra Street Packs while packs
+can still help. Reward packs fall back to the Street Pack until #189
+lands the themed pools; `pool` on a booster and `pack`/`card` on a
+reward are honoured once the data carries them.
+
+Result of `python3 tools/economy_sim.py --root data --seeds 1000
+--markdown` on the present data:
+
+| Deck | Copies missing | Case-only copies | Duels (median) | p10 | p90 |
+| --- | --- | --- | --- | --- | --- |
+| Beatdown | 0 | 0 | 1 | 1 | 1 |
+| Goat Control | 30 | 2 | 57 | 31 | 117 |
+| Rookie Beatdown | 15 | 0 | 3 | 2 | 3 |
+| Warrior Toolbox | 28 | 5 | 106 | 63 | 173 |
+
+Street Pack expected sell-back is 274 of the 300-coin price, so
+arbitrage never profits, but the 9 % margin is thin — #196 should keep
+an eye on it. What the medians say:
+
+- The starter already contains every Beatdown card, so Beatdown is not a
+  second deck at all; the "competitive second deck in 20–30 duels"
+  target is measured on Warrior Toolbox (`TARGET_SECOND_DECK` in the
+  tool).
+- Warrior Toolbox misses the target at a median 106 duels, and the tail
+  is the display case: it needs five case-only copies (Blade Knight ×2,
+  Command Knight ×2, Ring of Destruction — all secret-priced by their
+  earliest printing), each waiting on a uniform 1-in-35 case roll and
+  7 500 coins. Goat Control, all 1-ofs, finishes in a median 57 despite
+  needing Black Luster Soldier. Levers for #189/#196, in rising order of
+  design impact: themed packs (the GDD already promises ~3× faster
+  targeted opening), a duelist `reward_first` promo card carrying one of
+  the doubled Secrets, or per-card rarity overrides for the promo-Secret
+  staples (the Gemini Elf nuance flagged on #212).
+- Rookie Beatdown (all open stock) takes 3 duels and Goat Control 57,
+  bracketing the ladder as intended: stock decks are cheap, the ending
+  deck is a campaign.
+
+CI runs the tool's unit tests (`tools/test_economy_sim.py`) and a
+20-seed smoke without `--check`; the target checks become blocking when
+#196 tunes the numbers.
+
 ---
 
 ## 9. Save data
