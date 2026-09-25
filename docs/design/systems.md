@@ -955,7 +955,9 @@ does reach the score, which is accepted for the slice.
 
 Booster draw: weighted random by tier (T1 40 %, T2 35 %, T3 20 %, T4 5 %)
 with at most `limitedMax` Limited cards, from the seeded RNG so drops are
-reproducible from the save's seed counter.
+reproducible from the save's seed counter. This is the implemented state;
+the Game loop milestone re-keys the weights by rarity (§8.2), and the tier
+keys go away with it.
 
 Rewards: `data/duelists.json` carries `reward_first`, `reward_rematch`
 (coins, boosters).
@@ -1003,6 +1005,65 @@ before the class exists; the loader accepts these stubs, the validator checks
 that tier 1 and tier 2 ids are implemented (`IMPLEMENTED_EFFECTS` in
 `tools/validate_data.py`), and `DuelEngine.Start` rejects a deck whose
 effects are missing from the `EffectRegistry`.
+
+### 8.2 Economy rules (issue #165, GDD §5)
+
+Decided with #165; built by the Game loop milestone (#175 to #196). The
+value axis is the card's `rarity` from the data pipeline (#217, §5.3), not
+its implementation `tier`; the tier stays a build-order label. The channel
+split mirrors the real 2004–05 game: sealed product and promos were the
+only official sources of Ultra and Secret Rares (Secrets were not even in
+main boosters between Ancient Sanctuary and Strike of Neos), and specific
+singles existed only on the secondary market — our display case.
+
+- **Base prices by rarity.** common 100, rare 250, super_rare 500,
+  ultra_rare 1000, secret_rare and prismatic_secret_rare 2500. Every
+  derived number (sell-back, display case) starts from this ladder; #196
+  tunes the values, the ladder's shape is the decision.
+- **Stock.** The shop's open stock carries only common, rare and
+  super_rare cards with `limit ≥ 2`, at the base price. Ultra and Secret
+  Rares are never open stock, whatever their limit; the validator enforces
+  both rules (replacing the Limited-only rule).
+- **Sell-back.** `SellPrice(card) = floor(0.25 × single price)`; a card
+  without a stock entry uses its rarity's base price. Selling refuses when
+  the remaining owned copies would drop below the copies any saved deck
+  slot uses.
+- **Deck slots.** `Collection` grows from one deck to three named slots plus
+  an `ActiveDeck` index (issues #176, #179). `DeckRules` validates a slot on
+  save; only a valid slot can become active. The save schema adds
+  `decks: [{name, main, fusion}]` and `active_deck`, replacing `deck`/
+  `fusionDeck`; the loader migrates a version-1 save into slot 0.
+- **Packs.** Booster `weights` are re-keyed by rarity name (the tier keys
+  1–4 go away with the build). The Street Pack draws with
+  `{ "common": 55, "rare": 30, "super_rare": 12, "ultra_rare": 3 }` —
+  about one Ultra per seven 5-card packs, the compressed feel of the real
+  1:12–1:24 pull — and no Secret Rare weight: Secrets never come out of
+  packs, as in the era. A pack may still gain an optional
+  `"pool": ["card_id", ...]` (themed packs): draws pick a rarity by the
+  pack's weights restricted to rarities the pool contains (weights
+  renormalised), then a uniform pool card of that rarity; `limited_max`
+  unchanged. The validator checks pool ids exist, are not tokens and have
+  `limit > 0`. No pool means the whole subset (the Street Pack).
+- **Display case.** One single at `3 × rarity price`, rerolled uniformly
+  after every duel (seeded RNG, like booster draws) from every card
+  without a stock entry — the Limited cards plus the Ultra and Secret
+  Rares. It is the secondary-market counter: the only place a specific
+  chase card can be bought, at a price that makes it a milestone (an
+  Ultra costs about one full first-win arc). The save carries
+  `display_case: "card_id"`. Buying leaves the case empty until the next
+  duel.
+- **Duelist reward boosters and promo cards.** `reward_first` and
+  `reward_rematch` in `data/duelists.json` gain `"pack": "street_pack"`
+  (missing `pack` means Street Pack, so present data stays valid), and
+  `reward_first` may also name a `"card": "card_id"` granted once with
+  the victory — the prize-card channel, the era's source of promo
+  Secrets. The validator checks the card exists and is not a token.
+- **Targets** for the simulation tool (#195) and tuning (#196): one pack per
+  rematch win; a competitive second deck in 20–30 duels; pack expected
+  sell-back value stays below pack price (arbitrage never profits). #195
+  re-runs its completion medians under the rarity weights before #196
+  locks the numbers, since the 2026-09-22 medians were computed on tier
+  weights.
 
 ---
 

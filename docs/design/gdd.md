@@ -364,29 +364,77 @@ section of the pitch.
 
 ## 5. Cards, currency and the shop
 
+Approved by the director with issue #165; the numbers are targets for the
+economy simulation tool (#195) and the tuning pass (#196) to verify.
+
 ### 5.1 Currency
 
-**Coins**, earned from duels (§3.6). Starting balance 500.
+**Coins**, earned from duels (§3.6) and from selling cards back to the shop.
+Nothing else creates or destroys them. Starting balance 500: one Street Pack
+and change, or a few cheap singles.
 
 ### 5.2 Card shop
 
-One shop on Market Street. Two ways to get cards:
+One shop on Market Street. Ways to move cards:
 
 | Item | Price | Contents |
 | --- | --- | --- |
-| Single card | 100–600 by tier and rarity | Any card in the stock table |
-| Booster "Street Pack" | 300 | 5 random cards from the subset, weighted by rarity, at most one Limited card. Duel rewards are boosters, so progression is intentionally not deterministic |
+| Single card | 100 / 250 / 500 by rarity (common / rare / super) | Any card in the stock table |
+| Display case | 3× the rarity price | One out-of-stock card (Limited, Ultra or Secret), restocked with a new random one after each duel |
+| Booster pack | 300–400 | 5 random cards from the pack's pool, weighted by rarity (no Secrets), at most one Limited card |
+| Sell-back | 25 % of the single price, rounded down | Any owned copy no saved deck uses |
 
-Stock: every card in the subset except Limited cards, which appear only in
-boosters or as duel rewards. The player's collection has no cap.
+Stock: every common, rare and super-rare card of the subset that is not
+Limited. Ultra Rares (base price 1000) and Secret Rares (2500) are never
+sold as open stock — as in the real 2004–05 game, where sealed product,
+promos and prize cards were the only official sources and specific singles
+came from the secondary market. Here those channels are boosters, duel
+rewards and the display case, so the chase stays exciting but bounded: the
+case caps the wait for the last copy a deck needs. A card without a stock
+entry sells at 25 % of its rarity's base price. Buying a Street Pack and
+selling all five cards returns clearly less than the 300 paid: duplicates
+have value, arbitrage does not pay. The player's collection has no cap.
+
+The pack line-up:
+
+| Pack | Price | Pool |
+| --- | --- | --- |
+| Street Pack | 300 | the whole subset |
+| Warrior Pack | 400 | Warriors, their support and battle traps (the §4.3 archetype) |
+| Arcane Pack | 400 | Spellcasters, flips and control staples (the §4.4 archetype) |
+
+Themed packs draw from about a third of the subset, so they open a targeted
+deck about three times faster; the exact pools are data (`data/shop.json`),
+not design. Duel rewards stay boosters — Nico drops Street Packs, Mara
+Warrior Packs, the Arcade Owner Arcane Packs — so beating a duelist pulls
+the collection toward that duelist's style. A duelist's first win may also
+carry one named promo card, the era's prize-card channel and the main
+source of Secret Rares.
 
 ### 5.3 Deck editor
 
-From the pause menu. Shows the collection on the left and the current deck
+From the pause menu. Shows the collection on the left and the edited deck
 on the right, with counts, the Forbidden and Limited indicator per card,
 and a validity check: 40–60 cards, copies within limits, Fusion deck
-separate. Only one deck in the slice. An invalid deck cannot leave the
-editor for a duel.
+separate. **Three named deck slots**, one of them active; a duel always
+plays the active deck. An invalid deck can be saved but cannot be made
+active, and the active deck cannot be left invalid. Copies a saved deck
+uses cannot be sold.
+
+### 5.4 The coin curve
+
+Targets, verified against the real pool by simulation (2026-09-22) and
+owned by #195/#196:
+
+- **One pack per rematch win.** Rematch rewards average ~330 coins plus the
+  reward boosters themselves.
+- **First wins fund the next step.** 600 / 900 / 1500 first-win rewards
+  roughly pay for preparing against the next duelist.
+- **A competitive second deck in 20–30 duels**, finished through themed
+  packs, singles and sell-back — never through packs alone: completing a
+  40-card deck from Street Packs takes a median ~150 packs, which is the
+  reason singles, sell-back and the display case exist.
+- **The full collection is a long tail**, not a slice goal.
 
 ---
 
@@ -431,7 +479,7 @@ The systems document defines schemas. The GDD commits to these data sets:
 
 | File | Contents |
 | --- | --- |
-| `data/cards/*.json` | One file per card in §4.5: id, name, type, attribute, level, ATK, DEF, text, limit, tier, effect script id |
+| `data/cards/*.json` | One file per card in §4.5: id, name, type, attribute, level, ATK, DEF, text, limit, tier, effect script id, plus the pipeline fields rarity, db_id and i18n (#217) |
 | `data/decks/*.json` | The three duelist decks and the starting deck |
 | `data/duelists.json` | §3.6 table with dialogue lines and profile |
 | `data/shop.json` | Stock and prices |
