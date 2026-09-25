@@ -379,18 +379,21 @@ One shop on Market Street. Ways to move cards:
 
 | Item | Price | Contents |
 | --- | --- | --- |
-| Single card | 100 / 200 / 400 / 600 by tier | Any card in the stock table |
-| Display case | 3× the tier price | One Limited card, restocked with a new random one after each duel |
-| Booster pack | 300–400 | 5 random cards from the pack's pool, weighted by tier, at most one Limited card |
+| Single card | 100 / 250 / 500 by rarity (common / rare / super) | Any card in the stock table |
+| Display case | 3× the rarity price | One out-of-stock card (Limited, Ultra or Secret), restocked with a new random one after each duel |
+| Booster pack | 300–400 | 5 random cards from the pack's pool, weighted by rarity (no Secrets), at most one Limited card |
 | Sell-back | 25 % of the single price, rounded down | Any owned copy no saved deck uses |
 
-Stock: every non-Limited card of the subset. Limited cards appear only in
-boosters, duel rewards and the display case, so the chase stays exciting but
-bounded: the case caps the wait for the last copy a deck needs. A card
-without a stock entry sells at 25 % of its tier price. Buying a Street Pack
-and selling all five cards returns about 275 coins against the 300 paid:
-duplicates have value, arbitrage does not pay. The player's collection has
-no cap.
+Stock: every common, rare and super-rare card of the subset that is not
+Limited. Ultra Rares (base price 1000) and Secret Rares (2500) are never
+sold as open stock — as in the real 2004–05 game, where sealed product,
+promos and prize cards were the only official sources and specific singles
+came from the secondary market. Here those channels are boosters, duel
+rewards and the display case, so the chase stays exciting but bounded: the
+case caps the wait for the last copy a deck needs. A card without a stock
+entry sells at 25 % of its rarity's base price. Buying a Street Pack and
+selling all five cards returns clearly less than the 300 paid: duplicates
+have value, arbitrage does not pay. The player's collection has no cap.
 
 The pack line-up:
 
@@ -404,7 +407,9 @@ Themed packs draw from about a third of the subset, so they open a targeted
 deck about three times faster; the exact pools are data (`data/shop.json`),
 not design. Duel rewards stay boosters — Nico drops Street Packs, Mara
 Warrior Packs, the Arcade Owner Arcane Packs — so beating a duelist pulls
-the collection toward that duelist's style.
+the collection toward that duelist's style. A duelist's first win may also
+carry one named promo card, the era's prize-card channel and the main
+source of Secret Rares.
 
 ### 5.3 Deck editor
 
@@ -474,7 +479,7 @@ The systems document defines schemas. The GDD commits to these data sets:
 
 | File | Contents |
 | --- | --- |
-| `data/cards/*.json` | One file per card in §4.5: id, name, type, attribute, level, ATK, DEF, text, limit, tier, effect script id |
+| `data/cards/*.json` | One file per card in §4.5: id, name, type, attribute, level, ATK, DEF, text, limit, tier, effect script id, plus the pipeline fields rarity, db_id and i18n (#217) |
 | `data/decks/*.json` | The three duelist decks and the starting deck |
 | `data/duelists.json` | §3.6 table with dialogue lines and profile |
 | `data/shop.json` | Stock and prices |
