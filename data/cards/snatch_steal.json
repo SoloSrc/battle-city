@@ -7,11 +7,31 @@
     "subtype": "equip"
   },
   "trap": null,
-  "text": "Take control of an opponent's face-up monster. The opponent gains 1000 Life Points during each of their Standby Phases.",
+  "text": "Equip only to a monster your opponent controls. Take control of the equipped monster. During each of your opponent's Standby Phases: They gain 1000 Life Points.",
   "limit": 1,
   "tier": 3,
   "effects": [
     "snatch_steal",
     "snatch_steal_upkeep"
-  ]
+  ],
+  "db_id": 45986603,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Schnappstahl",
+      "text": "Rüste nur ein Monster, das dein Gegner kontrolliert, mit dieser Karte aus. Übernimm die Kontrolle über das ausgerüstete Monster. Während jeder Standby Phase deines Gegners: Er erhält 1000 Life Points."
+    },
+    "fr": {
+      "name": "Vol à l'Arraché",
+      "text": "Équipable uniquement à un monstre contrôlé par votre adversaire. Prenez le contrôle du monstre équipé. Durant chacune des Standby Phases de votre adversaire : il gagne 1000 Life Points."
+    },
+    "it": {
+      "name": "Strappa Possesso",
+      "text": "Equipaggia solo ad un mostro controllato dal tuo avversario. Prendi il controllo del mostro equipaggiato. Durante ogni Standby Phase del tuo avversario: il tuo avversario guadagna 1000 Life Point."
+    },
+    "pt": {
+      "name": "Roubo Precipitado",
+      "text": "Controle um monstro do seu adversário que esteja equipado com este card. Aumente os Life Points do seu adversário em 1000 pontos durante cada uma das Standby Phases do seu adversário."
+    }
+  }
 }

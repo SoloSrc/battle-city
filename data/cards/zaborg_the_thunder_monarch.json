@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "When Tribute Summoned: destroy 1 monster on the field.",
+  "text": "If this card is Tribute Summoned: Target 1 monster on the field; destroy that target.",
   "limit": 3,
   "tier": 2,
   "effects": [
     "zaborg_the_thunder_monarch"
-  ]
+  ],
+  "db_id": 51945556,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Zaborg, Monarch des Donners",
+      "text": "Falls diese Karte als Tributbeschwörung beschworen wird: Wähle 1 Monster auf dem Spielfeld; zerstöre das gewählte Ziel."
+    },
+    "fr": {
+      "name": "Zaborg, Le Monarque du Tonnerre",
+      "text": "Si cette carte est Invoquée par Sacrifice : ciblez 1 monstre sur le Terrain ; détruisez la cible."
+    },
+    "it": {
+      "name": "Zaborg il Monarca del Tuono",
+      "text": "Se questa carta viene Evocata tramite Tributo: scegli come bersaglio 1 mostro sul Terreno; distruggi quel bersaglio."
+    },
+    "pt": {
+      "name": "Zaborg o Trovão Monarca",
+      "text": "Se este card for Invocado por Invocação-Tributo: escolha 1 monstro no campo; destrua o alvo."
+    }
+  }
 }

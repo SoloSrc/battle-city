@@ -12,8 +12,28 @@
   },
   "spell": null,
   "trap": null,
-  "text": "A vicious bat-winged dragon with a poisonous bite.",
+  "text": "A vicious, fire-breathing dragon whose wicked flame corrupts the souls of its victims.",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 67724379,
+  "rarity": "common",
+  "i18n": {
+    "de": {
+      "name": "Koumori-Drache",
+      "text": "Ein bösartiges, Feuer speiendes Biest, dessen schreckliche Flamme die Seelen seiner Opfer zerstört."
+    },
+    "fr": {
+      "name": "Dragon Koumori",
+      "text": "Dragon haineux dont les flammes diaboliques pervertissent les âmes de leurs victimes."
+    },
+    "it": {
+      "name": "Drago Koumori",
+      "text": "Un perfido drago sputafuoco le cui malvagie fiamme distruggono le anime delle sue vittime."
+    },
+    "pt": {
+      "name": "Dragão Koumori",
+      "text": "Um dragão malígno que cospe fogo. As suas chamas maléficas corrompem as almas de suas vítimas."
+    }
+  }
 }

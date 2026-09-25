@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "Beast, Beast-Warrior and Winged Beast monsters you control inflict piercing battle damage.",
+  "text": "If a Beast, Beast-Warrior, or Winged Beast-Type monster you control attacks a Defense Position monster, inflict piercing battle damage to your opponent.",
   "limit": 3,
   "tier": 3,
   "effects": [
     "enraged_battle_ox"
-  ]
+  ],
+  "db_id": 76909279,
+  "rarity": "rare",
+  "i18n": {
+    "de": {
+      "name": "Wütender Kampfochse",
+      "text": "Falls dein Ungeheuer-, Ungeheuer-Krieger- oder Geflügeltes Ungeheuer-Monster ein Monster in Verteidigungsposition angreift, füge durchschlagenden Kampfschaden zu."
+    },
+    "fr": {
+      "name": "Bœuf de Combat Enragé",
+      "text": "Si votre monstre Bête, Bête-Guerrier ou Bête Ailée attaque un monstre en Position de Défense, infligez des dommages de combat perçants."
+    },
+    "it": {
+      "name": "Ascia da Guerra Infuriata",
+      "text": "Se un tuo mostro Bestia, Guerriero-Bestia o Bestia Alata attacca un mostro in Posizione di Difesa, infliggi danno da combattimento perforante."
+    },
+    "pt": {
+      "name": "Touro Guerreiro Enfurecido",
+      "text": "Se um monstro do Tipo Besta, Besta Alada ou Besta-Guerreira que você controla atacar um monstro em Posição de Defesa, ele causa dano de batalha perfurante ao seu oponente."
+    }
+  }
 }

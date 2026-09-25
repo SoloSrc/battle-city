@@ -7,10 +7,30 @@
     "subtype": "normal"
   },
   "trap": null,
-  "text": "Return 1 Warrior monster from your Graveyard to the hand.",
+  "text": "Target 1 Warrior-Type monster in your Graveyard; add that target to your hand.",
   "limit": 3,
   "tier": 2,
   "effects": [
     "the_warrior_returning_alive"
-  ]
+  ],
+  "db_id": 95281259,
+  "rarity": "rare",
+  "i18n": {
+    "de": {
+      "name": "Der lebendig heimkehrende Krieger",
+      "text": "Wähle 1 Krieger-Monster in deinem Friedhof; füge das gewählte Ziel deiner Hand hinzu."
+    },
+    "fr": {
+      "name": "Le Guerrier Réincarné",
+      "text": "Ciblez 1 monstre Guerrier dans votre Cimetière ; ajoutez la cible à votre main."
+    },
+    "it": {
+      "name": "Il Guerriero Sopravvissuto",
+      "text": "Scegli come bersaglio 1 mostro Guerriero nel tuo Cimitero; aggiungi quel bersaglio alla tua mano."
+    },
+    "pt": {
+      "name": "O Regresso do Guerreiro Vivo",
+      "text": "Escolha 1 monstro Guerreiro no seu Cemitério; adicione o alvo à sua mão."
+    }
+  }
 }

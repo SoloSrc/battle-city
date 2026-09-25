@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "Inflicts piercing battle damage. When it inflicts battle damage: draw 1 card.",
+  "text": "If this card attacks a Defense Position monster, inflict piercing battle damage. If this card inflicts battle damage to your opponent: Draw 1 card.",
   "limit": 3,
   "tier": 3,
   "effects": [
     "airknight_parshath"
-  ]
+  ],
+  "db_id": 18036057,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Parshath, der Luftritter",
+      "text": "Falls diese Karte ein Monster in Verteidigungsposition angreift, füge durchschlagenden Kampfschaden zu. Falls diese Karte deinem Gegner Kampfschaden zufügt: Ziehe 1 Karte."
+    },
+    "fr": {
+      "name": "Parshath le Chevalier du Ciel",
+      "text": "Si cette carte attaque un monstre en Position de Défense, infligez des dommages de combat perçants. Si cette carte inflige des dommages de combat à votre adversaire : piochez 1 carte."
+    },
+    "it": {
+      "name": "Parshath Cavaliere Volante",
+      "text": "Se questa carta attacca un mostro in Posizione di Difesa, infliggi danno da combattimento perforante. Se questa carta infligge danno da combattimento al tuo avversario: pesca 1 carta."
+    },
+    "pt": {
+      "name": "Cavaleiro Celeste Parshath",
+      "text": "Se este card atacar um monstro em Posição de Defesa, cause dano de batalha perfurante. Se este card causar dano de batalha ao seu oponente: compre 1 card."
+    }
+  }
 }

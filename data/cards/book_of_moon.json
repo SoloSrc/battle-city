@@ -7,10 +7,30 @@
     "subtype": "quick"
   },
   "trap": null,
-  "text": "Flip 1 face-up monster on the field into face-down Defense Position.",
+  "text": "Target 1 face-up monster on the field; change that target to face-down Defense Position.",
   "limit": 3,
   "tier": 2,
   "effects": [
     "book_of_moon"
-  ]
+  ],
+  "db_id": 14087893,
+  "rarity": "rare",
+  "i18n": {
+    "de": {
+      "name": "Buch des Mondes",
+      "text": "Wähle 1 offenes Monster auf dem Spielfeld; ändere das gewählte Ziel in die verdeckte Verteidigungsposition."
+    },
+    "fr": {
+      "name": "Le Livre de la Lune",
+      "text": "Ciblez 1 monstre face recto sur le Terrain ; changez la cible en Position de Défense face verso."
+    },
+    "it": {
+      "name": "Libro della Luna",
+      "text": "Scegli come bersaglio 1 mostro scoperto sul Terreno; metti quel bersaglio coperto in Posizione di Difesa."
+    },
+    "pt": {
+      "name": "Livro da Lua",
+      "text": "Escolha 1 monstro com a face para cima no campo; coloque o alvo com a face para baixo em Posição de Defesa."
+    }
+  }
 }

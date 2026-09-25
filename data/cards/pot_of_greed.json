@@ -12,5 +12,25 @@
   "tier": 1,
   "effects": [
     "pot_of_greed"
-  ]
+  ],
+  "db_id": 55144522,
+  "rarity": "rare",
+  "i18n": {
+    "de": {
+      "name": "Topf der Gier",
+      "text": "Ziehe 2 Karten."
+    },
+    "fr": {
+      "name": "Pot de Cupidité",
+      "text": "Piochez 2 cartes."
+    },
+    "it": {
+      "name": "Anfora dell'Avidità",
+      "text": "Pesca 2 carte."
+    },
+    "pt": {
+      "name": "Pote da Ganância",
+      "text": "Compre 2 cards."
+    }
+  }
 }

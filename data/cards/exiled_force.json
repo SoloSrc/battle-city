@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "Tribute this card: destroy 1 monster on the field.",
+  "text": "You can Tribute this card to target 1 monster on the field; destroy that target.",
   "limit": 1,
   "tier": 2,
   "effects": [
     "exiled_force"
-  ]
+  ],
+  "db_id": 74131780,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Truppen im Exil",
+      "text": "Du kannst diese Karte als Tribut anbieten und dann 1 Monster auf dem Spielfeld wählen; zerstöre das gewählte Ziel."
+    },
+    "fr": {
+      "name": "La Troupe Exilée",
+      "text": "Vous pouvez Sacrifier cette carte, puis ciblez 1 monstre sur le Terrain ; détruisez la cible."
+    },
+    "it": {
+      "name": "Forza Esiliata",
+      "text": "Puoi offrire come Tributo questa carta, poi scegliere come bersaglio 1 mostro sul Terreno; distruggi quel bersaglio."
+    },
+    "pt": {
+      "name": "Força Exilada",
+      "text": "Você pode oferecer este card como Tributo para escolher 1 monstro no campo; destrua o alvo."
+    }
+  }
 }

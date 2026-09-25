@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "When Normal Summoned: Special Summon 1 Level 4 or lower monster from the hand. The opponent cannot attack other Warriors you control.",
+  "text": "Your opponent cannot target Warrior monsters for attacks, except this one. When this card is Normal Summoned: You can Special Summon 1 Level 4 or lower monster from your hand.",
   "limit": 2,
   "tier": 3,
   "effects": [
     "marauding_captain"
-  ]
+  ],
+  "db_id": 2460565,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Plündernder Hauptmann",
+      "text": "Dein Gegner kann keine Krieger-Monster als Angriffsziel wählen, außer diesem. Wenn diese Karte als Normalbeschwörung beschworen wird: Du kannst 1 Monster der Stufe 4 oder niedriger als Spezialbeschwörung von deiner Hand beschwören."
+    },
+    "fr": {
+      "name": "Capitaine en Maraude",
+      "text": "Votre adversaire ne peut pas cibler de monstres Guerrier (celui-ci exclu) avec une attaque. Lorsque cette carte est Invoquée Normalement : vous pouvez Invoquer Spécialement 1 monstre de max. Niveau 4 depuis votre main."
+    },
+    "it": {
+      "name": "Capitano Saccheggiatore",
+      "text": "Il tuo avversario non può scegliere mostri Guerriero come bersaglio per gli attacchi, eccetto questo. Quando questa carta viene Evocata Normalmente: puoi Evocare Specialmente 1 mostro di Livello 4 o inferiore dalla tua mano."
+    },
+    "pt": {
+      "name": "Capitão Saqueador",
+      "text": "Seu oponente não pode escolher atacar monstros Guerreiro, exceto este. Quando este card for Invocado por Invocação-Normal: você pode Invocar por Invocação-Especial 1 monstro de Nível 4 ou menos da sua mão."
+    }
+  }
 }

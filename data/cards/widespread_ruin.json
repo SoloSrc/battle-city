@@ -7,10 +7,30 @@
   "trap": {
     "subtype": "normal"
   },
-  "text": "When an opponent's monster declares an attack: destroy the Attack Position monster the opponent controls with the highest ATK.",
+  "text": "When an opponent's monster declares an attack: Destroy the Attack Position monster your opponent controls with the highest ATK (your choice, if tied).",
   "limit": 3,
   "tier": 2,
   "effects": [
     "widespread_ruin"
-  ]
+  ],
+  "db_id": 77754944,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Umfassende Verwüstung",
+      "text": "Wenn ein Monster eines Gegners einen Angriff deklariert: Zerstöre das 1 Monster in Angriffsposition mit den höchsten ATK, das dein Gegner kontrolliert (bei Gleichstand bestimmst du)."
+    },
+    "fr": {
+      "name": "Ruines Étendues",
+      "text": "Lorsqu'un monstre de l'adversaire déclare une attaque : détruisez le monstre en Position d'Attaque contrôlé par votre adversaire avec la plus haute ATK (en cas d'égalité, vous choisissez)."
+    },
+    "it": {
+      "name": "Rovine Diffuse",
+      "text": "Quando un mostro dell'avversario dichiara un attacco: distruggi 1 mostro in Posizione di Attacco controllato dal tuo avversario con l'ATK maggiore (in caso di parità, scegli tu)."
+    },
+    "pt": {
+      "name": "Ruína Generalizada",
+      "text": "Quando um monstro do oponente declarar um ataque: destrua o monstro em Posição de Ataque que seu oponente controla com o maior ATK (em caso de empate, você escolhe)."
+    }
+  }
 }

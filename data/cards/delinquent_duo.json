@@ -7,10 +7,30 @@
     "subtype": "normal"
   },
   "trap": null,
-  "text": "Pay 1000 Life Points: the opponent discards 1 random card, then 1 card of their choice.",
+  "text": "Pay 1000 LP; your opponent discards 1 random card, and if they have any other cards in their hand, discard 1 more card of their choice.",
   "limit": 1,
   "tier": 3,
   "effects": [
     "delinquent_duo"
-  ]
+  ],
+  "db_id": 44763025,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Verbrecher-Duo",
+      "text": "Zahle 1000 LP; dein Gegner wirft 1 zufällige Karte ab und falls er andere Karten in seiner Hand hat, wirft er 1 weitere Karte ab, die er bestimmt."
+    },
+    "fr": {
+      "name": "Duo de Délinquants",
+      "text": "Payez 1000 LP ; votre adversaire défausse 1 carte au hasard, et s'il a d'autres cartes dans sa main, il défausse 1 carte supplémentaire de son choix."
+    },
+    "it": {
+      "name": "Due di Meno",
+      "text": "Paga 1000 LP; il tuo avversario scarta 1 carta a caso e, se ha altre carte nella sua mano, scarta 1 altra carta a sua scelta."
+    },
+    "pt": {
+      "name": "Duo Delinquente",
+      "text": "Pague 1000 PV; seu oponente descarta 1 card aleatório e, se ele tiver qualquer outro card na mão dele, ele descarta mais 1 card à escolha dele."
+    }
+  }
 }

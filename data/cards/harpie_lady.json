@@ -12,8 +12,28 @@
   },
   "spell": null,
   "trap": null,
-  "text": "A winged humanoid whose feathers and claws make her a dangerous flier.",
+  "text": "This human-shaped animal with wings is beautiful to watch but deadly in battle.",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 76812113,
+  "rarity": "common",
+  "i18n": {
+    "de": {
+      "name": "Harpyie",
+      "text": "Dieses geflügelte Tier in Menschengestalt ist wunderschön anzusehen, aber ein tödlicher Gegner im Kampf."
+    },
+    "fr": {
+      "name": "Dame Harpie",
+      "text": "Cet animal ailé de forme humaine est magnifique à regarder, mais terrible au combat."
+    },
+    "it": {
+      "name": "Lady Arpia",
+      "text": "Quest'animale alato dalle sembianze umane è tanto bello da vedere quanto letale in battaglia."
+    },
+    "pt": {
+      "name": "Lady Harpia",
+      "text": "Este animal alado com forma humana, embora agrade aos olhos, é absolutamente letal em batalha."
+    }
+  }
 }

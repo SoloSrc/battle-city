@@ -7,10 +7,30 @@
   "trap": {
     "subtype": "normal"
   },
-  "text": "When monsters with 1500 or more ATK are Summoned: destroy and banish them.",
+  "text": "When your opponent Summons a monster(s) with 1500 or more ATK: Destroy that monster(s) with 1500 or more ATK, and if you do, banish it.",
   "limit": 3,
   "tier": 3,
   "effects": [
     "bottomless_trap_hole"
-  ]
+  ],
+  "db_id": 29401950,
+  "rarity": "rare",
+  "i18n": {
+    "de": {
+      "name": "Bodenlose Fallgrube",
+      "text": "Wenn dein Gegner ein oder mehr Monster mit 1500 oder mehr ATK beschwört: Zerstöre die Monster mit 1500 oder mehr ATK und falls du dies tust, verbanne sie."
+    },
+    "fr": {
+      "name": "Trappe sans Fond",
+      "text": "Lorsque votre adversaire Invoque un ou plusieurs monstres avec min. 1500 ATK : détruisez ces monstres avec min. 1500 ATK, et si vous le faites, bannissez-les."
+    },
+    "it": {
+      "name": "Buco Trappola Senza Fine",
+      "text": "Quando il tuo avversario Evoca uno o più mostri con ATK di 1500 o superiore: distruggi quei mostri con ATK di 1500 o superiore e, se lo fai, bandiscili."
+    },
+    "pt": {
+      "name": "Buraco Armadilha Sem Fundo",
+      "text": "Quando seu oponente Invocar um ou mais monstros com 1500 ou mais de ATK: destrua esse(s) monstro(s) com 1500 ou mais de ATK e, se isso acontecer, bana-o(s)."
+    }
+  }
 }

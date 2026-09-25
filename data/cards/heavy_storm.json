@@ -12,5 +12,25 @@
   "tier": 2,
   "effects": [
     "heavy_storm"
-  ]
+  ],
+  "db_id": 19613556,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Schwerer Sturm",
+      "text": "Zerstöre alle Zauber- und Fallenkarten auf dem Spielfeld."
+    },
+    "fr": {
+      "name": "Violent Orage",
+      "text": "Détruisez toutes les Cartes Magie/Piège sur le Terrain."
+    },
+    "it": {
+      "name": "Tempesta Potente",
+      "text": "Distruggi tutte le Carte Magia e Trappola sul Terreno."
+    },
+    "pt": {
+      "name": "Tempestade Pesada",
+      "text": "Destrua todos os Cards de Magia e Armadilha no campo."
+    }
+  }
 }

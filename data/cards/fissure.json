@@ -7,10 +7,30 @@
     "subtype": "normal"
   },
   "trap": null,
-  "text": "Destroy the face-up monster the opponent controls with the lowest ATK.",
+  "text": "Destroy the 1 face-up monster your opponent controls that has the lowest ATK (your choice, if tied).",
   "limit": 3,
   "tier": 2,
   "effects": [
     "fissure"
-  ]
+  ],
+  "db_id": 66788016,
+  "rarity": "rare",
+  "i18n": {
+    "de": {
+      "name": "Spalt",
+      "text": "Zerstöre das 1 offene Monster mit den niedrigsten ATK, das dein Gegner kontrolliert (bei Gleichstand bestimmst du eins)."
+    },
+    "fr": {
+      "name": "Fissure",
+      "text": "Détruisez le monstre face recto contrôlé par votre adversaire avec la plus faible ATK (en cas d'égalité, vous choisissez)."
+    },
+    "it": {
+      "name": "Spaccatura",
+      "text": "Distruggi 1 mostro scoperto controllato dal tuo avversario con l'ATK minore (in caso di parità, scegli tu)."
+    },
+    "pt": {
+      "name": "Fissura",
+      "text": "Destrua o 1 monstro com a face para cima que seu oponente controla com o menor ATK (em caso de empate, você escolhe)."
+    }
+  }
 }

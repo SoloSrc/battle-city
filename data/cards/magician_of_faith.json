@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "FLIP: return 1 Spell Card from your Graveyard to the hand.",
+  "text": "FLIP: Target 1 Spell in your GY; add that target to your hand.",
   "limit": 3,
   "tier": 2,
   "effects": [
     "magician_of_faith"
-  ]
+  ],
+  "db_id": 31560081,
+  "rarity": "rare",
+  "i18n": {
+    "de": {
+      "name": "Magier des Glaubens",
+      "text": "FLIPP: Wähle 1 Zauber in deinem Friedhof; füge das gewählte Ziel deiner Hand hinzu."
+    },
+    "fr": {
+      "name": "Magicien de la Foi",
+      "text": "FLIP : Ciblez 1 Magie dans votre Cimetière ; ajoutez la cible à votre main."
+    },
+    "it": {
+      "name": "Mago della Fede",
+      "text": "SCOPRI: Scegli come bersaglio 1 Magia nel tuo Cimitero; aggiungi quel bersaglio alla tua mano."
+    },
+    "pt": {
+      "name": "Maga da Fé",
+      "text": "VIRE: Escolha 1 Magia no seu Cemitério; adicione o alvo à sua mão."
+    }
+  }
 }

@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "FLIP: both players discard their hands and draw 5 cards.",
+  "text": "FLIP: Both players discard as many cards as possible from their hands, then each player draws 5 cards.",
   "limit": 1,
   "tier": 2,
   "effects": [
     "morphing_jar"
-  ]
+  ],
+  "db_id": 33508719,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Verwandlungskrug",
+      "text": "FLIPP: Beide Spieler werfen so viele Karten wie möglich von ihren Händen ab, dann zieht jeder Spieler 5 Karten."
+    },
+    "fr": {
+      "name": "Morphojarre",
+      "text": "FLIP : Chaque joueur défausse autant de cartes que possible depuis sa main, puis chaque joueur pioche 5 cartes."
+    },
+    "it": {
+      "name": "Giara Trasformante",
+      "text": "SCOPRI: Entrambi i giocatori scartano tante carte quante possibile dalla loro mano, poi ogni giocatore pesca 5 carte."
+    },
+    "pt": {
+      "name": "Jarro Metamórfico",
+      "text": "VIRE: Os dois duelistas descartam tantos cards quanto possível de suas mãos e, depois, cada duelista compra 5 cards."
+    }
+  }
 }
