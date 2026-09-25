@@ -248,6 +248,20 @@ production HUD hand and raised duel camera. Run with `-- --capture /tmp/duel-lay
 to save a screenshot after settling; omit to inspect interactively. Generated
 art is forced. The staged board is a diagnostic fixture, not a legal replay.
 
+## MenuStackTest.tscn (issue #168)
+
+Runs New Game through the real `Game` autoload, then exercises the menu
+screen stack (`src/Ui/MenuStack.cs`): the open guards (no menu over a
+message, during a duel or during a transition), mode switch to `Menu`, the
+input lock and world pause while open, stacking and popping screens, and the
+focus rules (`move_*` moves the cursor with wrap-around, `interact` presses,
+`cancel` pops) driven by simulated action presses. `MenuStackTest FAIL`
+lines fail CI.
+
+```bash
+godot --headless --path . res://tests/scenes/MenuStackTest.tscn --fixed-fps 60 --quit-after 1200
+```
+
 ## LookDev.tscn (issue #97)
 
 The district with two cameras matched to the two approved concept paintings

@@ -88,6 +88,9 @@ public partial class Game : Node
 
     public InteractionPrompt Prompt { get; private set; } = null!;
 
+    /// <summary>The stack of full-screen menus (issue #168); opening it pauses the world.</summary>
+    public MenuStack Menus { get; private set; } = null!;
+
     public ScreenFade Fade { get; private set; } = null!;
 
     /// <summary>True while a fade-out, load and fade-in are in progress.</summary>
@@ -123,6 +126,8 @@ public partial class Game : Node
         AddChild(Messages);
         Prompt = new InteractionPrompt { Name = "Prompt" };
         AddChild(Prompt);
+        Menus = new MenuStack { Name = "Menus" };
+        AddChild(Menus);
         Encounters = new EncounterSystem { Name = "Encounters" };
         AddChild(Encounters);
     }
@@ -268,6 +273,15 @@ public partial class Game : Node
 
         Mode = mode;
         EmitSignal(SignalName.ModeChanged, (int)mode);
+    }
+
+    /// <summary>Stops or resumes the whole world subtree (menu stack); the UI layers and this autoload keep processing.</summary>
+    public void PauseWorld(bool paused)
+    {
+        if (_world is not null)
+        {
+            _world.ProcessMode = paused ? ProcessModeEnum.Disabled : ProcessModeEnum.Inherit;
+        }
     }
 
     public void LockInput(string reason)

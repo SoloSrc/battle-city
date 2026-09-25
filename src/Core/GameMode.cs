@@ -7,4 +7,5 @@ public enum GameMode
     Overworld,
     Interior,
     Duel,
+    Menu,
 }
