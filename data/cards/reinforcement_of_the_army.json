@@ -7,10 +7,30 @@
     "subtype": "normal"
   },
   "trap": null,
-  "text": "Add 1 Level 4 or lower Warrior monster from your Deck to the hand.",
+  "text": "Add 1 Level 4 or lower Warrior monster from your Deck to your hand.",
   "limit": 2,
   "tier": 2,
   "effects": [
     "reinforcement_of_the_army"
-  ]
+  ],
+  "db_id": 32807846,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Verstärkung für die Armee",
+      "text": "Füge deiner Hand 1 Krieger-Monster der Stufe 4 oder niedriger von deinem Deck hinzu."
+    },
+    "fr": {
+      "name": "Renfort de l'Armée",
+      "text": "Ajoutez 1 monstre Guerrier de max. Niveau 4 depuis votre Deck à votre main."
+    },
+    "it": {
+      "name": "Rinforzi dell'Esercito",
+      "text": "Aggiungi 1 mostro Guerriero di Livello 4 o inferiore dal tuo Deck alla tua mano."
+    },
+    "pt": {
+      "name": "Reforço do Exército",
+      "text": "Adicione 1 monstro Guerreiro de Nível 4 ou menos do seu Deck à sua mão."
+    }
+  }
 }

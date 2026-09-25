@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "Trap Cards cannot be activated and their effects are negated.",
+  "text": "Trap Cards, and their effects on the field, cannot be activated. Negate all Trap effects on the field.",
   "limit": 1,
   "tier": 3,
   "effects": [
     "jinzo"
-  ]
+  ],
+  "db_id": 77585513,
+  "rarity": "secret_rare",
+  "i18n": {
+    "de": {
+      "name": "Jinzo",
+      "text": "Fallenkarten und ihre Effekte auf dem Spielfeld können nicht aktiviert werden. Annulliere alle Falleneffekte auf dem Spielfeld."
+    },
+    "fr": {
+      "name": "Jinzo",
+      "text": "Les Cartes Piège, et leurs effets sur le Terrain, ne peuvent pas être activés. Annulez tous les effets de Piège sur le Terrain."
+    },
+    "it": {
+      "name": "Jinzo",
+      "text": "Le Carte Trappola, e i loro effetti sul Terreno, non possono essere attivati. Annulla gli effetti di tutte le Trappole sul Terreno."
+    },
+    "pt": {
+      "name": "Jinzo",
+      "text": "Os Cards de Armadilha, bem como seus efeitos no campo, não podem ser ativados. Negue todos os efeitos de Armadilha no campo."
+    }
+  }
 }

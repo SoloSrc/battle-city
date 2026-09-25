@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "When Tribute Summoned: destroy up to 2 Spell or Trap Cards on the field.",
+  "text": "When this card is Tribute Summoned: You can target up to 2 Spell/Trap Cards on the field; destroy those targets.",
   "limit": 3,
   "tier": 2,
   "effects": [
     "mobius_the_frost_monarch"
-  ]
+  ],
+  "db_id": 4929256,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Möbius der Frostmonarch",
+      "text": "Wenn diese Karte als Tributbeschwörung beschworen wird: Du kannst bis zu 2 Zauber-/Fallenkarten auf dem Spielfeld wählen; zerstöre die gewählten Ziele."
+    },
+    "fr": {
+      "name": "Mobius le Monarque de Glace",
+      "text": "Lorsque cette carte est Invoquée par Sacrifice : vous pouvez cibler max. 2 Cartes Magie/Piège sur le Terrain ; détruisez les cibles."
+    },
+    "it": {
+      "name": "Mobius il Monarca Glaciale",
+      "text": "Quando questa carta viene Evocata tramite Tributo: puoi scegliere come bersaglio fino a 2 Carte Magia/Trappola sul Terreno; distruggi quei bersagli."
+    },
+    "pt": {
+      "name": "Mebius, o Monarca Frio como o Gelo",
+      "text": "Quando este card for Invocado por Invocação-Tributo: você pode escolher até 2 Cards de Magia/Armadilha no campo; destrua os alvos."
+    }
+  }
 }

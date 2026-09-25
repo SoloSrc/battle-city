@@ -12,8 +12,28 @@
   },
   "spell": null,
   "trap": null,
-  "text": "A skilled fiend warrior of the Archfiend forces.",
+  "text": "An expert at battle who belongs to a crack diabolical unit. He's famous because he always gets the job done.",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 49881766,
+  "rarity": "rare",
+  "i18n": {
+    "de": {
+      "name": "Soldat der Erzunterweltler",
+      "text": "Ein Kampfspezialist, der zu einer Eliteeinheit der Unterwelt gehört. Er ist berühmt, da er jeden Auftrag erfolgreich abschließt."
+    },
+    "fr": {
+      "name": "Archdémon Soldat",
+      "text": "Expert en combat qui appartient à une unité d'élite diabolique, il est réputé pour toujours mener à bien les missions qui lui sont confiées."
+    },
+    "it": {
+      "name": "Arcidemone Soldato",
+      "text": "Un esperto in battaglia che appartiene ad una unità diabolica di prim'ordine. È famoso per portare sempre a termine il suo lavoro."
+    },
+    "pt": {
+      "name": "Soldado Archfiend",
+      "text": "Um perito em batalha que pertence a uma unidade diabólica. Ele é famoso porque faz sempre o seu trabalho.\n\n(Este card deve ser sempre considerado como um card \"Arquidemônio\".)"
+    }
+  }
 }

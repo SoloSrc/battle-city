@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "Gains 400 ATK while you have 1 or fewer cards in hand. Negates the Flip Effects of monsters it destroys while it is your only monster.",
+  "text": "Gains 400 ATK while you have 1 or less cards in your hand. If you control no other monsters, the effects of Flip monsters destroyed by battle with this card are negated.",
   "limit": 3,
   "tier": 3,
   "effects": [
     "blade_knight"
-  ]
+  ],
+  "db_id": 39507162,
+  "rarity": "secret_rare",
+  "i18n": {
+    "de": {
+      "name": "Klingenritter",
+      "text": "Erhält 400 ATK, solange du 1 oder weniger Karten in deiner Hand hast. Falls du keine anderen Monster kontrollierst, werden die Effekte von Flippmonstern, die durch Kampf mit dieser Karte zerstört werden, annulliert."
+    },
+    "fr": {
+      "name": "Chevalier Épée",
+      "text": "Gagne 400 ATK tant que vous avez max. 1 carte dans votre main. Si vous ne contrôlez aucun autre monstre, les effets des monstres Flip détruits au combat avec cette carte sont annulés."
+    },
+    "it": {
+      "name": "Cavaliere Lama",
+      "text": "Guadagna 400 ATK mentre hai 1 carta o meno nella tua mano. Se non controlli nessun altro mostro, gli effetti dei mostri Scoperta distrutti in battaglia con questa carta sono annullati."
+    },
+    "pt": {
+      "name": "Cavaleiro da Lâmina",
+      "text": "Ganha 400 de ATK enquanto você tiver 1 ou menos cards na sua mão. Se você não controlar nenhum outro monstro, os efeitos dos monstros de Virar destruídos em batalha com este card são negados."
+    }
+  }
 }

@@ -7,10 +7,30 @@
   "trap": {
     "subtype": "normal"
   },
-  "text": "When a monster is Summoned: destroy all monsters on the field.",
+  "text": "When a monster(s) is Summoned: Destroy all monsters on the field.",
   "limit": 1,
   "tier": 2,
   "effects": [
     "torrential_tribute"
-  ]
+  ],
+  "db_id": 53582587,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Reißender Tribut",
+      "text": "Wenn ein oder mehr Monster beschworen werden: Zerstöre alle Monster auf dem Spielfeld."
+    },
+    "fr": {
+      "name": "Hommage Torrentiel",
+      "text": "Lorsqu'un ou plusieurs monstres sont Invoqués : détruisez tous les monstres sur le Terrain."
+    },
+    "it": {
+      "name": "Tributo Torrenziale",
+      "text": "Quando vengono Evocati uno o più mostri: distruggi tutti i mostri sul Terreno."
+    },
+    "pt": {
+      "name": "Tributo Torrencial",
+      "text": "Quando um ou mais monstros forem Invocados: destrua todos os monstros no campo."
+    }
+  }
 }

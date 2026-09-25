@@ -12,7 +12,7 @@
   },
   "spell": null,
   "trap": null,
-  "text": "Fusion only. Can attack directly. Cannot be destroyed by battle. Destroyed when targeted by a card effect. When it inflicts battle damage by a direct attack: discard 1 random card from the opponent's hand.",
+  "text": "\"Spirit Reaper\" + \"Nightmare Horse\"\nThis card is not destroyed as a result of battle. Destroy this card when it is targeted by the effect of a Spell, Trap, or Effect Monster. This card can attack your opponent's Life Points directly even if there is a monster on your opponent's side of the field. If this card successfully attacks your opponent's Life Points directly, your opponent discards 1 card randomly from his/her hand.",
   "limit": 3,
   "tier": 3,
   "effects": [
@@ -21,5 +21,25 @@
   "materials": [
     "spirit_reaper",
     "nightmare_horse"
-  ]
+  ],
+  "db_id": 85684223,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Schnitter auf dem Nachtmahr",
+      "text": "„Geister-Sensenmann“ + „Nachtmahr“\nDieses Monster kann nicht als Ergebnis eines Kampfes zerstört werden. Wenn diese Karte als Ziel eines Effekts einer Zauber-, Fallen- oder Effektmonsterkarte bestimmt wird, zerstöre diese Karte. Dieses Monster kann die Life Points deines Gegners direkt angreifen, selbst wenn sich Monster auf der Spielfeldseite deines Gegners befinden. Wenn diese Karte erfolgreich direkt angreift, wirft dein Gegner 1 zufällige Karte aus seiner Hand ab."
+    },
+    "fr": {
+      "name": "Moissonneur Cauchemardesque",
+      "text": "\"Moissonneur d'Esprit\" + \"Cheval de Cauchemar\"\nCette carte n'est pas détruite à l'issue d'un combat. Détruisez cette carte lorsqu'elle est désignée comme cible d'un effet d'une Carte Magie, Piège ou Monstre à Effet. Cette carte peut attaquer directement les Life Points de votre adversaire, même s'il y a un monstre sur le Terrain de votre adversaire. Si cette carte attaque directement avec succès les Life Points de votre adversaire, il se défausse d'1 carte au hasard de sa main."
+    },
+    "it": {
+      "name": "Mietitore dell'Incubo",
+      "text": "\"Spirito Mietitore\" + \"Cavallo Incubo\"\nQuesta carta non viene distrutta in seguito ad una battaglia.Distruggi questa carta quando viene designata come bersaglio dell'effetto di un Carta Magia, Trappola o Mostro con Effetto. Questa carta può attaccare direttamente i Life Points del tuo avversario anche se c'è un mostro sul Terreno del tuo avversario. Quando questa carta attacca direttamente i Life Points del tuo avversario con successo, il tuo avversario scarta 1 carta a caso dalla sua mano."
+    },
+    "pt": {
+      "name": "Ceifeiro no Pesadelo",
+      "text": "\"Ceifeiro de Espíritos\" + \"Cavalo Pesadelo\"\nEste monstro não é destruído como resultado de um combate. Quando este card é designado como alvo de um efeito de um Card de Magia, Armadilha, ou Monstro de Efeito, destrúa este card. Este monstro pode atacar diretamente os Life Points do seu adversário mesmo que exista um monstro no Campo do seu adversário. Quando este card ataca diretamente os Life Points do seu adversário, com sucesso, o seu adversário descarta 1 card da sua própria mão aleatóriamente."
+    }
+  }
 }

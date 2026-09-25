@@ -7,10 +7,30 @@
     "subtype": "quick"
   },
   "trap": null,
-  "text": "Either change the battle position of 1 face-up monster the opponent controls, or tribute 1 monster to take control of 1 face-up monster the opponent controls until the End Phase.",
+  "text": "Activate 1 of these effects.\n● Target 1 face-up monster your opponent controls; change that target's battle position.\n● Tribute 1 monster, then target 1 face-up monster your opponent controls; take control of that target until the End Phase.",
   "limit": 3,
   "tier": 3,
   "effects": [
     "enemy_controller"
-  ]
+  ],
+  "db_id": 98045062,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Feindkontrolle",
+      "text": "Aktiviere 1 dieser Effekte.\n●Wähle 1 offenes Monster, das dein Gegner kontrolliert; ändere die Kampfposition des gewählten Ziels.\n●Biete 1 Monster als Tribut an und wähle dann 1 offenes Monster, das dein Gegner kontrolliert; übernimm bis zur End Phase die Kontrolle über das gewählte Ziel."
+    },
+    "fr": {
+      "name": "Contrôleur d'Ennemi",
+      "text": "Activez 1 de ces effets.\n●Ciblez 1 monstre face recto contrôlé par votre adversaire ; changez la position de combat de la cible.\n●Sacrifiez 1 monstre, puis ciblez 1 monstre face recto contrôlé par votre adversaire ; jusqu'à la End Phase, prenez le contrôle de la cible."
+    },
+    "it": {
+      "name": "Controlla-Avversario",
+      "text": "Attiva 1 di questi effetti.\n●Scegli come bersaglio 1 mostro scoperto controllato dal tuo avversario; cambia la posizione di quel bersaglio.\n●Offri come Tributo 1 mostro, poi scegli come bersaglio 1 mostro scoperto controllato dal tuo avversario; prendi il controllo di quel bersaglio fino alla End Phase."
+    },
+    "pt": {
+      "name": "Controlador de Inimigos",
+      "text": "Ative 1 desses efeitos.\n●Escolha 1 monstro com a face para cima que seu oponente controla; mude a posição de batalha do alvo.\n●Ofereça 1 monstro como Tributo e, depois, escolha 1 monstro com a face para cima que seu oponente controla; tome o controle do alvo até a Fase Final."
+    }
+  }
 }

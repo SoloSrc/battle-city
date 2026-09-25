@@ -12,7 +12,7 @@
   },
   "spell": null,
   "trap": null,
-  "text": "Other monsters cannot attack or change position. Once per turn: equip 1 monster on the field to this card; it gains that monster's ATK and DEF and can be destroyed in its place.",
+  "text": "\"Relinquished\" + \"Thousand-Eyes Idol\"\r\nOther monsters on the field cannot change their battle positions or attack. Once per turn: You can target 1 monster your opponent controls; equip that target to this card (max. 1). This card's ATK/DEF become equal to that equipped monster's. If this card would be destroyed by battle, destroy that equipped monster instead.",
   "limit": 3,
   "tier": 4,
   "effects": [
@@ -22,5 +22,25 @@
   "materials": [
     "relinquished",
     "thousand_eyes_idol"
-  ]
+  ],
+  "db_id": 63519819,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Tausendäugiges Opfer",
+      "text": "„Aufgegeben“ + „Tausendäugiger Abgott“\nAndere Monster auf dem Spielfeld können weder ihre Kampfposition ändern noch angreifen. Einmal pro Spielzug: Du kannst 1 Monster wählen, das dein Gegner kontrolliert; rüste diese Karte mit dem gewählten Ziel aus (max. 1). Die ATK/DEF dieser Karte werden dieselben wie die des ausrüstenden Monsters. Falls diese Karte durch Kampf zerstört würde, zerstöre stattdessen das ausrüstende Monster."
+    },
+    "fr": {
+      "name": "Le Renoncé aux Milles Yeux",
+      "text": "\"Le Renoncé\" + \"Idole aux Milles Yeux\"\nLes autres monstres sur le Terrain ne peuvent ni changer de position de combat ni attaquer. Une fois par tour : vous pouvez cibler 1 monstre contrôlé par votre adversaire ; équipez la cible à cette carte (max. 1). L'ATK/DEF de cette carte deviennent égales à celles du monstre équipé. Si cette carte va être détruite au combat, détruisez le monstre équipé à la place."
+    },
+    "it": {
+      "name": "Limite dei 1000 Occhi",
+      "text": "\"Abbandono\" + \"Idolo dai 1000 Occhi\"\nGli altri mostri sul Terreno non possono cambiare posizione o attaccare. Una volta per turno: puoi scegliere come bersaglio 1 mostro controllato dal tuo avversario; equipaggia quel bersaglio a questa carta (massimo 1). L'ATK/DEF di questa carta diventano pari a quelli di quel mostro equipaggiato. Se questa carta sta per essere distrutta in battaglia, distruggi invece quel mostro equipaggiato."
+    },
+    "pt": {
+      "name": "Restrição dos Mil Olhos",
+      "text": "\"Renunciado\" + \"Ídolo dos Mil Olhos\"\nOutros monstros no campo não podem mudar suas posições de batalha ou atacar. Uma vez por turno: você pode escolher 1 monstro que seu oponente controla; equipe o alvo a este card (máx. 1). O ATK/DEF deste card se tornam iguais ao do monstro equipado. Se este card seria destruído em batalha, em vez disso, destrua o monstro equipado."
+    }
+  }
 }

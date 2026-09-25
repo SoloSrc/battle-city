@@ -23,6 +23,12 @@ CATEGORIES = {"normal", "effect", "fusion", "ritual", "flip", "spirit", "toon", 
 ATTRIBUTES = {"DARK", "LIGHT", "EARTH", "WATER", "FIRE", "WIND", "DIVINE"}
 SPELL_SUBTYPES = {"normal", "quick", "equip", "continuous", "field", "ritual"}
 TRAP_SUBTYPES = {"normal", "continuous", "counter"}
+# Earliest-printing rarities seen in Goat-era sets (tools/fetch_card_data.py, issue #217).
+RARITIES = {
+    "common", "short_print", "super_short_print", "rare", "super_rare",
+    "ultra_rare", "ultimate_rare", "secret_rare", "prismatic_secret_rare",
+}
+I18N_LANGS = {"de", "fr", "it", "pt"}
 # Effects implemented in Duel.Core's EffectRegistry (tiers 1–4, the whole pool): every effect id a card names must be here.
 IMPLEMENTED_EFFECTS = {
     "pot_of_greed",
@@ -133,6 +139,15 @@ def validate_card(report: Report, path: str, doc) -> dict | None:
     trap = doc.get("trap")
     if isinstance(trap, dict):
         report.check(trap.get("subtype") in TRAP_SUBTYPES, path, f"'trap.subtype' must be one of {sorted(TRAP_SUBTYPES)}")
+    # Fields written by tools/fetch_card_data.py (issue #217).
+    report.check(is_int(doc.get("db_id"), 1), path, "'db_id' must be a positive integer (run tools/fetch_card_data.py)")
+    report.check(doc.get("rarity") in RARITIES, path, f"'rarity' must be one of {sorted(RARITIES)}")
+    i18n = doc.get("i18n")
+    if report.check(isinstance(i18n, dict), path, "'i18n' must map language codes to translations (run tools/fetch_card_data.py)"):
+        for lang, entry in i18n.items():
+            report.check(lang in I18N_LANGS, path, f"'i18n' language {lang!r} is not one of {sorted(I18N_LANGS)}")
+            ok_entry = isinstance(entry, dict) and isinstance(entry.get("name"), str) and entry["name"].strip() != "" and isinstance(entry.get("text"), str)
+            report.check(ok_entry, path, f"'i18n.{lang}' needs a non-empty 'name' and a 'text'")
     return doc if ok else None
 
 
@@ -154,6 +169,13 @@ def validate_cards(report: Report, root: str) -> dict:
             if card["id"] in cards:
                 report.fail(path, f"duplicate card id '{card['id']}'")
             cards[card["id"]] = card
+    db_ids: dict = {}
+    for card in cards.values():
+        db_id = card.get("db_id")
+        if is_int(db_id, 1):
+            if db_id in db_ids:
+                report.fail(directory, f"cards '{db_ids[db_id]}' and '{card['id']}' share db_id {db_id}")
+            db_ids[db_id] = card["id"]
     report.check(len(cards) > 0, directory, "no card files")
     return cards
 

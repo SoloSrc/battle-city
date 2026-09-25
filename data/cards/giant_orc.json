@@ -4,7 +4,7 @@
   "kind": "monster",
   "monster": {
     "type": "Fiend",
-    "attribute": "EARTH",
+    "attribute": "DARK",
     "level": 4,
     "atk": 2200,
     "def": 0,
@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "After it attacks it switches to Defense Position and cannot change position until the end of your next turn.",
+  "text": "If this card attacks, it is changed to Defense Position at the end of the Battle Phase. You cannot change this battle position until the end of your next turn.",
   "limit": 3,
   "tier": 2,
   "effects": [
     "giant_orc"
-  ]
+  ],
+  "db_id": 73698349,
+  "rarity": "common",
+  "i18n": {
+    "de": {
+      "name": "Riesenork",
+      "text": "Wenn diese Karte angreift, bringe sie am Ende der Battle Phase in die Verteidigungsposition. Diese Position kann bis zum Ende deines nächsten Spielzugs nicht geändert werden."
+    },
+    "fr": {
+      "name": "Orc Gigantesque",
+      "text": "Si cette carte attaque, elle est changée en Position de Défense à la fin de la Battle Phase. Cette position ne peut pas être changée jusqu'à la fin de votre prochain tour."
+    },
+    "it": {
+      "name": "Orco Gigante",
+      "text": "Quando questa carta attacca, viene messa in Posizione di Difesa alla fine della Battle Phase. Questa posizione non può essere cambiata fino alla fine del tuo prossimo turno."
+    },
+    "pt": {
+      "name": "Orc Gigante",
+      "text": "Quando este card ataca, é mudado para Posição de Defesa no final da Battle Phase. Esta posição não pode ser mudada até ao final do seu próximo turno."
+    }
+  }
 }

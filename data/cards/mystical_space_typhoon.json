@@ -7,10 +7,30 @@
     "subtype": "quick"
   },
   "trap": null,
-  "text": "Destroy 1 Spell or Trap Card on the field.",
+  "text": "Target 1 Spell/Trap on the field; destroy that target.",
   "limit": 1,
   "tier": 2,
   "effects": [
     "mystical_space_typhoon"
-  ]
+  ],
+  "db_id": 5318639,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Mystischer Raum-Taifun",
+      "text": "Wähle 1 Zauber/Falle auf dem Spielfeld; zerstöre das gewählte Ziel."
+    },
+    "fr": {
+      "name": "Typhon d'Espace Mystique",
+      "text": "Ciblez 1 Magie/Piège sur le Terrain ; détruisez la cible."
+    },
+    "it": {
+      "name": "Tifone Spaziale Mistico",
+      "text": "Scegli come bersaglio 1 Magia/Trappola sul Terreno; distruggi quel bersaglio."
+    },
+    "pt": {
+      "name": "Tufão Espacial Místico",
+      "text": "Escolha 1 Magia/Armadilha no campo; destrua o alvo."
+    }
+  }
 }

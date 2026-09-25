@@ -12,12 +12,32 @@
   },
   "spell": null,
   "trap": null,
-  "text": "Cannot be Normal Summoned or Set. Special Summon by banishing 1 LIGHT and 1 DARK monster from your Graveyard. Once per turn: banish 1 monster, or attack twice after destroying a monster by battle.",
+  "text": "Cannot be Normal Summoned/Set. Must first be Special Summoned (from your hand) by banishing 1 LIGHT and 1 DARK monster from your GY. Once per turn, you can activate 1 of these effects.\r\n● Target 1 monster on the field; banish it. This card cannot attack the turn this effect is activated.\r\n● If this attacking card destroys an opponent's monster by battle: It can make a second attack in a row.",
   "limit": 1,
   "tier": 4,
   "effects": [
     "black_luster_soldier_envoy_of_the_beginning",
     "black_luster_soldier_envoy_of_the_beginning_banish",
     "black_luster_soldier_envoy_of_the_beginning_double_attack"
-  ]
+  ],
+  "db_id": 72989439,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Schwarz Glänzender Soldat - Gesandter des Anfangs",
+      "text": "Kann nicht als Normalbeschwörung beschworen/gesetzt werden. Muss erst als Spezialbeschwörung (von deiner Hand) beschworen werden, indem du 1 LICHT und 1 FINSTERNIS Monster von deinem Friedhof verbannst. Einmal pro Spielzug kannst du 1 dieser Effekte aktivieren.\n●Wähle 1 Monster auf dem Spielfeld; verbanne es. Diese Karte kann in dem Spielzug, in dem dieser Effekt aktiviert wird, nicht angreifen.\n●Falls diese angreifende Karte ein Monster eines Gegners durch Kampf zerstört: Sie kann sofort einen zweiten Angriff durchführen."
+    },
+    "fr": {
+      "name": "Soldat du Lustre Noir - Émissaire du Commencement",
+      "text": "Ni Invocable Normalement ni Posable Normalement. Doit d'abord être Invoquée Spécialement (depuis votre main) en bannissant 1 monstre LUMIÈRE et 1 monstre TÉNÈBRES depuis votre Cimetière. Une fois par tour, vous pouvez activer 1 de ces effets.\n●Ciblez 1 monstre sur le Terrain ; bannissez-le. Cette carte ne peut pas attaquer le tour où cet effet est activé.\n●Si cette carte attaquante détruit un monstre de l'adversaire au combat : elle peut faire une seconde attaque à la suite."
+    },
+    "it": {
+      "name": "Glorioso Soldato Nero - Emissario dell'Inizio",
+      "text": "Non può essere Evocato Normalmente/Posizionato. Deve prima essere Evocato Specialmente (dalla tua mano) bandendo 1 mostro LUCE e 1 mostro OSCURITÀ dal tuo Cimitero. Una volta per turno, puoi attivare 1 di questi effetti.\n●Scegli come bersaglio 1 mostro sul Terreno; bandiscilo. Questa carta non può attaccare nel turno in cui questo effetto viene attivato.\n●Se questa carta attaccante distrugge un mostro dell'avversario in battaglia: essa può effettuare un secondo attacco di seguito."
+    },
+    "pt": {
+      "name": "Soldado do Lustro Negro - Enviado do Princípio",
+      "text": "Não pode ser Invocado por Invocação-Normal/Baixado. Primeiro deve ser Invocado por Invocação-Especial (da sua mão) ao banir 1 monstro de LUZ e 1 de TREVAS do seu Cemitério. Uma vez por turno, você pode ativar 1 desses efeitos.\n●Escolha 1 monstro no campo; bana-o. Este card não pode atacar no turno em que este efeito for ativado.\n●Se este card que estiver atacando destruir um monstro do oponente em batalha: ele pode realizar um segundo ataque em seguida."
+    }
+  }
 }

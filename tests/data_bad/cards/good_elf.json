@@ -15,5 +15,10 @@
   "text": "",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 1,
+  "rarity": "common",
+  "i18n": {
+    "pt": { "name": "Elfo Bom", "text": "" }
+  }
 }

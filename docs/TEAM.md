@@ -162,6 +162,11 @@ be checked again, not assumed:
 - Whether Blender can export glTF. On the director's Mac (macOS 13, Blender
   5.2.1) it could not, because the bundled NumPy targets a newer macOS. On
   the Linux machine (Blender 5.2.2, 2026-09-22) headless export works.
+- **Git LFS**, installed before anything else (`git lfs install`, then
+  `git lfs pull` in every worktree). Without it every LFS-tracked binary
+  (`*.wav`, `*.blend`, `*.psd` — see `.gitattributes`) checks out as a
+  pointer file: sounds don't play and Godot logs "Not a WAV file" on
+  import. Found the hard way on the Linux machine, 2026-09-22.
 - Downloaded card art is per checkout and ignored by git; run
   `python3 tools/download_card_art.py` again if wanted.
 - Agent memory and chat history do not move. Anything a collaborator must

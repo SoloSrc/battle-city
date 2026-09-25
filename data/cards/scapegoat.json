@@ -7,10 +7,30 @@
     "subtype": "quick"
   },
   "trap": null,
-  "text": "Special Summon 4 Sheep Tokens (0/0) in Defense Position. They cannot be tributed for a Tribute Summon. You cannot Summon other monsters this turn.",
+  "text": "Special Summon 4 \"Sheep Tokens\" (Beast/EARTH/Level 1/ATK 0/DEF 0) in Defense Position. They cannot be Tributed for a Tribute Summon. You cannot Summon other monsters the turn you activate this card (but you can Normal Set).",
   "limit": 3,
   "tier": 3,
   "effects": [
     "scapegoat"
-  ]
+  ],
+  "db_id": 73915051,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Sündenbock",
+      "text": "Beschwöre 4 „Schaf-Spielmarken“ (Ungeheuer/ERDE/Stufe 1/ATK 0/DEF 0) als Spezialbeschwörung in die Verteidigungsposition. Sie können nicht als Tribut für eine Tributbeschwörung angeboten werden. Du kannst in dem Spielzug, in dem du diese Karte aktivierst, keine anderen Monster beschwören (aber du kannst Normal setzen)."
+    },
+    "fr": {
+      "name": "Bouc Émissaire",
+      "text": "Invoquez Spécialement 4 \"Jeton Mouton\" (Bête/TERRE/Niveau 1/ATK 0/DEF 0) en Position de Défense. Ils ne peuvent pas être Sacrifiés pour une Invocation Sacrifice. Vous ne pouvez pas Invoquer d'autres monstres le tour où vous activez cette carte (mais vous pouvez Poser Normalement)."
+    },
+    "it": {
+      "name": "Capro Espiatorio",
+      "text": "Evoca Specialmente 4 \"Segna-Montone\" (Bestia/TERRA/Livello 1/ATK 0/DEF 0) in Posizione di Difesa. Non possono essere offerti come Tributo per un'Evocazione tramite Tributo. Non puoi Evocare altri mostri nel turno in cui attivi questa carta (ma puoi Posizionare Normalmente)."
+    },
+    "pt": {
+      "name": "Bode Expiatório",
+      "text": "Invoque por Invocação-Especial 4 \"Ficha de Ovelha\" (Besta/TERRA/Nível 1/ATK 0/DEF 0) em Posição de Defesa. Elas não podem ser oferecidas como Tributo para uma Invocação-Tributo. Você não pode Invocar outros monstros no turno em que ativar este card (mas pode Baixá-los Normalmente)."
+    }
+  }
 }

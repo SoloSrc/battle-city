@@ -12,8 +12,28 @@
   },
   "spell": null,
   "trap": null,
-  "text": "A delicate elf whose prayers raise a wall no attacker gets through.",
+  "text": "A delicate elf that lacks offense, but has a terrific defense backed by mystical power.",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 15025844,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Mystische Elfe",
+      "text": "Eine zerbrechliche Elfe, die nicht sehr angriffsstark ist, dafür aber dank mystischer Kräfte über sehr gute Verteidigungsmöglichkeiten verfügt."
+    },
+    "fr": {
+      "name": "Elfe Mystique",
+      "text": "Une délicate elfe qui manque d'offensive, mais dont la fantastique défense est renforcée par un pouvoir mystique."
+    },
+    "it": {
+      "name": "Elfo Mistico",
+      "text": "Un elfo minuto che non dispone di grandi capacità offensive ma ha un'ottima difesa supportata da poteri magici."
+    },
+    "pt": {
+      "name": "Elfa Mística",
+      "text": "Uma elfa delicada com pouco poder de ataque, mas com uma incrível defesa proveniente de poderes místicos."
+    }
+  }
 }

@@ -57,6 +57,19 @@ Boot → MainMenu → AvatarCreator → Overworld ⇄ Interior
 `Game.Mode` is a small state machine. Only Overworld and Interior allow
 movement. Duel freezes all overworld actors but does not unload the scene.
 
+Menu (issue #168) is entered when the first screen is pushed onto
+`Game.Menus` (`MenuStack`, a `CanvasLayer` child of `Game`) and left when
+the last one is popped, restoring the previous mode. While open, the stack
+locks player input (lock reason `menu`) and stops the whole `World` subtree
+(`Game.PauseWorld`), so actors, cones and the camera freeze while the UI
+layers and the autoload keep processing. The stack refuses to open unless
+the mode is Overworld or Interior with no transition, encounter or message
+running (`MenuStack.CanOpen`). The gamepad, keyboard and mouse rules live in
+one place, the stack: `move_*` moves the cursor with wrap-around, `interact`
+presses, `cancel` pops (the top screen can consume it), and hovering moves
+the cursor. Screens extend `MenuScreen` and register their focusable
+controls; the screen below the top one is hidden but keeps its cursor.
+
 ---
 
 ## 3. Entity model
@@ -322,10 +335,14 @@ so they never appear in a hand, Deck, Graveyard or Banished pile.
                "atk": 1900, "def": 900, "category": "normal" },
   "spell": null,
   "trap": null,
-  "text": "Gemini elf twin sisters who alternate their attacks.",
+  "text": "Elf twins that alternate their attacks.",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 69140098,
+  "rarity": "secret_rare",
+  "i18n": { "de": { "name": "Elfenzwillinge", "text": "…" },
+            "fr": { "…": "…" }, "it": { "…": "…" }, "pt": { "…": "…" } }
 }
 ```
 
@@ -336,6 +353,19 @@ toon, union. `effects` is a list of effect ids; each maps to a C# class
 registered in `EffectRegistry`. Fusion monsters carry `"materials"`.
 
 Names and text are stored as needed to implement the rules; no card art.
+
+The last three fields come from the data pipeline, not by hand (issue
+#217): `tools/fetch_card_data.py` resolves every card against the
+YGOPRODeck API and writes `db_id` (the card passcode, the stable key for
+re-runs), `rarity` (the earliest dated TCG printing's rarity, snake_case),
+the official English `text` and `i18n` (de/fr/it/pt name and text). The
+gameplay fields — stats, `limit`, `tier`, `effects` — stay hand-authored;
+the script cross-checks stats against the database and fails on a
+mismatch instead of overwriting. `validate_data.py` requires the pipeline
+fields on every card, so run the script after adding one. The C# loaders
+ignore them for now; rarity is display and economy material (GDD §5),
+never a rules input. Card data © Konami, fetched through the free
+YGOPRODeck API; no card images are stored.
 
 ### 5.4 Effect model
 

@@ -12,8 +12,28 @@
   },
   "spell": null,
   "trap": null,
-  "text": "A giant of living stone whose thick body shrugs off attacks.",
+  "text": "A giant warrior made of stone. A punch from this creature has earth-shaking results.",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 13039848,
+  "rarity": "rare",
+  "i18n": {
+    "de": {
+      "name": "Riesen-Steinsoldat",
+      "text": "Ein Riesenkrieger aus Stein. Ein Schlag von dieser Kreatur erschüttert die Erde."
+    },
+    "fr": {
+      "name": "Soldat Géant de Pierre",
+      "text": "Guerrier géant en pierre. Un coup de poing de cette créature est capable de faire trembler la terre."
+    },
+    "it": {
+      "name": "Soldato di Pietra",
+      "text": "Un guerriero gigante fatto di pietra. Il pugno di questa creatura ha effetti devastanti."
+    },
+    "pt": {
+      "name": "Soldado de Pedra Gigante",
+      "text": "Um guerreiro gigante feito de pedra. Um soco desta criatura faz com que a terra estremeça."
+    }
+  }
 }
