@@ -12,8 +12,28 @@
   },
   "spell": null,
   "trap": null,
-  "text": "A hound consumed by darkness that attacks on sight.",
+  "text": "He used to be a normal dog who played around in a park, but was corrupted by the powers of darkness.",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 79182538,
+  "rarity": "rare",
+  "i18n": {
+    "de": {
+      "name": "Verrückter Hund der Finsternis",
+      "text": "Einst war er ein normaler Hund, der gern im Park spielte, bevor die Mächte der Finsternis ihn verdarben."
+    },
+    "fr": {
+      "name": "Chien Enragé des Ténèbres",
+      "text": "C'était un chien ordinaire qui jouait dans un parc, mais il a été corrompu par la puissance des ténèbres."
+    },
+    "it": {
+      "name": "Folle Cane dell'Oscurità",
+      "text": "Era un cane normale che giocava in un parco, ma fu corrotto dal potere dell'oscurità."
+    },
+    "pt": {
+      "name": "Cão Doido das Trevas",
+      "text": "Ele costumava ser um cão normal que brincava num parque, mas foi corrompido pelo poder das trevas."
+    }
+  }
 }

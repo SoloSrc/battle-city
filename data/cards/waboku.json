@@ -7,10 +7,30 @@
   "trap": {
     "subtype": "normal"
   },
-  "text": "You take no battle damage this turn and your monsters cannot be destroyed by battle.",
+  "text": "You take no battle damage from your opponent's monsters this turn. Your monsters cannot be destroyed by battle this turn.",
   "limit": 3,
   "tier": 3,
   "effects": [
     "waboku"
-  ]
+  ],
+  "db_id": 12607053,
+  "rarity": "common",
+  "i18n": {
+    "de": {
+      "name": "Waboku",
+      "text": "Du erhältst in diesem Spielzug keinen Kampfschaden. Deine Monster können in diesem Spielzug nicht durch Kampf zerstört werden."
+    },
+    "fr": {
+      "name": "Waboku",
+      "text": "Ce tour, vous ne recevez aucun dommage de combat. Ce tour, vos monstres ne peuvent pas être détruits au combat."
+    },
+    "it": {
+      "name": "Waboku",
+      "text": "Non subisci danno da combattimento in questo turno. I tuoi mostri non possono essere distrutti in battaglia in questo turno."
+    },
+    "pt": {
+      "name": "Waboku",
+      "text": "Você não sofre dano de batalha neste turno. Seus monstros não podem ser destruídos em batalha neste turno."
+    }
+  }
 }

@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "Warriors you control gain 400 ATK. The opponent cannot attack this card while you control another monster.",
+  "text": "All Warrior monsters you control gain 400 ATK. If you control another monster, monsters your opponent controls cannot target this card for attacks.",
   "limit": 3,
   "tier": 3,
   "effects": [
     "command_knight"
-  ]
+  ],
+  "db_id": 10375182,
+  "rarity": "secret_rare",
+  "i18n": {
+    "de": {
+      "name": "Gebieterischer Ritter",
+      "text": "Alle Krieger-Monster, die du kontrollierst, erhalten 400 ATK. Falls du ein anderes Monster kontrollierst, können Monster, die dein Gegner kontrolliert, diese Karte nicht als Ziel für einen Angriff wählen."
+    },
+    "fr": {
+      "name": "Chevalier Commandeur",
+      "text": "Tous les monstres Guerrier que vous contrôlez gagnent 400 ATK. Si vous contrôlez un autre monstre, les monstres contrôlés par votre adversaire ne peuvent pas cibler cette carte avec une attaque."
+    },
+    "it": {
+      "name": "Cavaliere Comandante",
+      "text": "Tutti i mostri Guerriero che controlli guadagnano 400 ATK. Se controlli un altro mostro, i mostri controllati dal tuo avversario non possono scegliere questa carta come bersaglio per gli attacchi."
+    },
+    "pt": {
+      "name": "Cavaleiro Comando",
+      "text": "Todos os monstros Guerreiro que você controla ganham 400 de ATK. Se você controlar outro monstro, os monstros que seu oponente controla não podem escolher este card como alvo de ataques."
+    }
+  }
 }

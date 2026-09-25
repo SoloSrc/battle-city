@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "When destroyed by battle: banish it and the monster that destroyed it.",
+  "text": "After damage calculation, when this card is destroyed by battle with an opponent's monster: Banish that monster, also banish this card.",
   "limit": 3,
   "tier": 3,
   "effects": [
     "dd_assailant"
-  ]
+  ],
+  "db_id": 70074904,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "D.D. Angreifer",
+      "text": "Nach der Schadensberechnung, wenn diese Karte durch Kampf mit einem Monster deines Gegners zerstört wird: Verbanne das Monster, zusätzlich verbanne diese Karte."
+    },
+    "fr": {
+      "name": "Assaillant D.D.",
+      "text": "Après le calcul des dommages, lorsque cette carte est détruite au combat avec un monstre de votre adversaire : bannissez le monstre, et bannissez aussi cette carte."
+    },
+    "it": {
+      "name": "Assalitore D.D.",
+      "text": "Dopo il calcolo dei danni, quando questa carta viene distrutta in battaglia con un mostro dell'avversario: bandisci quel mostro, e inoltre bandisci questa carta."
+    },
+    "pt": {
+      "name": "Assaltante D.D.",
+      "text": "Depois do cálculo de dano, quando este card for destruído em uma batalha com um monstro do oponente: bana esse monstro e, além disso, bana este card."
+    }
+  }
 }

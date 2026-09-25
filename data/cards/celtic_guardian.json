@@ -12,8 +12,28 @@
   },
   "spell": null,
   "trap": null,
-  "text": "An elf swordsman who trained in the forest and strikes with quick slashes.",
+  "text": "An elf who learned to wield a sword, he baffles enemies with lightning-swift attacks.",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 91152256,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Keltischer Wächter",
+      "text": "Ein Elf, der gelernt hat, ein Schwert zu führen, und seine Gegner mit blitzschnellen Angriffen verblüfft."
+    },
+    "fr": {
+      "name": "Gardien Celte",
+      "text": "Cet elfe qui a appris à manier l'épée déroute l'ennemi par des attaques éclair."
+    },
+    "it": {
+      "name": "Guardiano Celtico",
+      "text": "Questo elfo ha imparato a usare la spada, che utilizza per attacchi veloci come il fulmine per sgominare i nemici."
+    },
+    "pt": {
+      "name": "Guardião Celta",
+      "text": "Um elfo que aprendeu a empunhar uma espada e confunde os inimigos com ataques relâmpagos."
+    }
+  }
 }

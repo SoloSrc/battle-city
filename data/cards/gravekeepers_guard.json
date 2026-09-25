@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "FLIP: return 1 monster the opponent controls to the hand.",
+  "text": "FLIP: Target 1 monster your opponent controls; return that target to the hand.",
   "limit": 3,
   "tier": 2,
   "effects": [
     "gravekeepers_guard"
-  ]
+  ],
+  "db_id": 37101832,
+  "rarity": "common",
+  "i18n": {
+    "de": {
+      "name": "Grabwächters Wache",
+      "text": "FLIPP: Wähle 1 Monster, das dein Gegner kontrolliert; gib das gewählte Ziel auf die Hand zurück."
+    },
+    "fr": {
+      "name": "Garde des Protecteurs du Tombeau",
+      "text": "FLIP : Ciblez 1 monstre contrôlé par votre adversaire ; renvoyez la cible à la main."
+    },
+    "it": {
+      "name": "Guardia - Custode di Tombe",
+      "text": "SCOPRI: Scegli come bersaglio 1 mostro controllato dal tuo avversario; fai ritornare quel bersaglio nella mano."
+    },
+    "pt": {
+      "name": "Guarda do Coveiro",
+      "text": "VIRE: Devolva 1 monstro no Campo do seu adversário para a mão do seu dono."
+    }
+  }
 }

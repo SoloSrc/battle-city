@@ -7,10 +7,30 @@
     "subtype": "equip"
   },
   "trap": null,
-  "text": "Pay 800 Life Points: Special Summon 1 monster from your Graveyard in Attack Position and equip it with this card. When this card leaves the field, destroy the monster.",
+  "text": "Activate this card by paying 800 LP, then target 1 monster in your Graveyard; Special Summon that target in Attack Position and equip it with this card. When this card is destroyed, destroy the equipped monster.",
   "limit": 1,
   "tier": 3,
   "effects": [
     "premature_burial"
-  ]
+  ],
+  "db_id": 70828912,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Voreiliges Begräbnis",
+      "text": "Aktiviere diese Karte, indem du 800 LP zahlst, und wähle dann 1 Monster in deinem Friedhof; beschwöre das gewählte Ziel als Spezialbeschwörung in die Angriffsposition und rüste es mit dieser Karte aus. Wenn diese Karte zerstört wird, zerstöre das ausgerüstete Monster."
+    },
+    "fr": {
+      "name": "Enterrement Prématuré",
+      "text": "Activez cette carte en payant 800 LP, puis ciblez 1 monstre dans votre Cimetière ; Invoquez Spécialement la cible en Position d'Attaque et équipez-la avec cette carte. Lorsque cette carte est détruite, détruisez le monstre équipé."
+    },
+    "it": {
+      "name": "Sepoltura Prematura",
+      "text": "Attiva questa carta pagando 800 LP, poi scegli come bersaglio 1 mostro nel tuo Cimitero; Evoca Specialmente quel bersaglio in Posizione di Attacco ed equipaggialo con questa carta. Quando questa carta viene distrutta, distruggi il mostro equipaggiato."
+    },
+    "pt": {
+      "name": "Enterro Precoce",
+      "text": "Ative este card ao pagar 800 PV e, depois, escolha 1 monstro no seu Cemitério; Invoque o alvo por Invocação-Especial em Posição de Ataque e equipe-o com este card. Quando este card for destruído, destrua o monstro equipado."
+    }
+  }
 }

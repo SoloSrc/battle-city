@@ -7,10 +7,30 @@
     "subtype": "normal"
   },
   "trap": null,
-  "text": "Destroy the face-up monster the opponent controls with the highest DEF.",
+  "text": "Destroy the 1 face-up monster your opponent controls that has the highest DEF (your choice, if tied).",
   "limit": 3,
   "tier": 2,
   "effects": [
     "smashing_ground"
-  ]
+  ],
+  "db_id": 97169186,
+  "rarity": "common",
+  "i18n": {
+    "de": {
+      "name": "Aufschlagen",
+      "text": "Zerstöre das 1 offene Monster mit den höchsten DEF, das dein Gegner kontrolliert (bei Gleichstand bestimmst du eins)."
+    },
+    "fr": {
+      "name": "Destruction Terrestre",
+      "text": "Détruisez le monstre face recto contrôlé par votre adversaire avec la plus haute DEF (en cas d'égalité, vous choisissez)."
+    },
+    "it": {
+      "name": "Schiacciare",
+      "text": "Distruggi 1 mostro scoperto controllato dal tuo avversario con il DEF più alto (in caso di parità, scegli tu)."
+    },
+    "pt": {
+      "name": "Esmagando o Chão",
+      "text": "Destrua o 1 monstro com a face para cima que seu oponente controla com a maior DEF (em caso de empate, você seleciona)."
+    }
+  }
 }

@@ -40,7 +40,7 @@ jobs:
           status=${PIPESTATUS[0]}
           set -e
           if [ "$status" -ne 1 ]; then echo "expected exit 1 on tests/data_bad, got $status"; exit 1; fi
-          for pattern in "does not match the file name" "copies, limit" "is not a known deck" "is Limited and only comes from boosters" "is not a #rrggbb colour" "tier 1 effect 'not_yet' is not implemented" "'player.walk_speed' must be positive" "'encounter.cone_angle' must be between 0 and 180"; do
+          for pattern in "does not match the file name" "copies, limit" "is not a known deck" "is Limited and only comes from boosters" "is not a #rrggbb colour" "tier 1 effect 'not_yet' is not implemented" "'player.walk_speed' must be positive" "'encounter.cone_angle' must be between 0 and 180" "'rarity' must be one of" "'i18n' language 'xx' is not one of"; do
             grep -F "$pattern" bad.log > /dev/null || { echo "missing expected failure: $pattern"; exit 1; }
           done
       - name: Upload test results

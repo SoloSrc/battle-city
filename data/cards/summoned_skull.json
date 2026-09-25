@@ -12,8 +12,28 @@
   },
   "spell": null,
   "trap": null,
-  "text": "A fiend that strikes with lightning.",
+  "text": "A fiend with dark powers for confusing the enemy. Among the Fiend-Type monsters, this monster boasts considerable force.\n\n(This card is always treated as an \"Archfiend\" card.)",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 70781052,
+  "rarity": "common",
+  "i18n": {
+    "de": {
+      "name": "Herbeigerufener Totenkopf",
+      "text": "Ein Unterweltler, der seine Gegner mit dunklen Kräften verwirrt. Er ist einer der mächtigsten Unterweltler.\n\n(Diese Karte wird immer als „Erzunterweltler“-Karte behandelt.)"
+    },
+    "fr": {
+      "name": "Crâne Invoqué",
+      "text": "Démon dont les pouvoirs diaboliques désorientent l'ennemi. Parmi les monstres de Type Démon, ce monstre a une force considérable.\n\n(Cette carte est toujours traitée comme une carte \"Archdémon\".)"
+    },
+    "it": {
+      "name": "Teschio Evocato",
+      "text": "Un demone che confonde i nemici con i suoi poteri oscuri. Tra tutti i mostri di Tipo Demone, questo vanta una forza considerevole.\n\n(Questa carta è sempre considerata come una carta \"Arcidemone\".)"
+    },
+    "pt": {
+      "name": "Caveira Invocada",
+      "text": "Um demônio com poderes das trevas para confundir o inimigo. Entre os monstros do tipo demônio, é dos mais fortes.\n\n(Este card é tratado como um card \"Arquidemônio\".)"
+    }
+  }
 }

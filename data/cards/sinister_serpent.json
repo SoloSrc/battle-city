@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "During your Standby Phase, if it is in the Graveyard: return it to the hand.",
+  "text": "During your Standby Phase, if this card is in your GY: You can add it to your hand, also banish 1 \"Sinister Serpent\" from your GY during your opponent's next End Phase. You can only use this effect of \"Sinister Serpent\" once per turn.",
   "limit": 1,
   "tier": 3,
   "effects": [
     "sinister_serpent"
-  ]
+  ],
+  "db_id": 8131171,
+  "rarity": "prismatic_secret_rare",
+  "i18n": {
+    "de": {
+      "name": "Unheil verkündende Schlange",
+      "text": "Während deiner Standby Phase, falls sich diese Karte in deinem Friedhof befindet: Du kannst sie deiner Hand hinzufügen, zusätzlich verbanne während der nächsten End Phase deines Gegners 1 „Unheil verkündende Schlange“ von deinem Friedhof. Du kannst diesen Effekt von „Unheil verkündende Schlange“ nur einmal pro Spielzug verwenden."
+    },
+    "fr": {
+      "name": "Serpent Sinistre",
+      "text": "Durant votre Standby Phase, si cette carte est dans votre Cimetière : vous pouvez l'ajouter à votre main, et aussi, bannissez 1 \"Serpent Sinistre\" depuis votre Cimetière durant la prochaine End Phase de votre adversaire. Vous ne pouvez utiliser cet effet de \"Serpent Sinistre\" qu'une fois par tour."
+    },
+    "it": {
+      "name": "Serpente Sinistro",
+      "text": "Durante la tua Standby Phase, se questa carta è nel tuo Cimitero: puoi aggiungerla alla tua mano, inoltre bandisci 1 \"Serpente Sinistro\" dal tuo Cimitero durante la prossima End Phase del tuo avversario. Puoi utilizzare questo effetto di \"Serpente Sinistro\" una sola volta per turno."
+    },
+    "pt": {
+      "name": "Serpente Sinistra",
+      "text": "Durante sua Fase de Apoio, se este card estiver no seu Cemitério: você pode adicioná-lo à sua mão e, além disso, banir 1 \"Serpente Sinistra\" do seu Cemitério durante a próxima Fase Final do seu oponente. Você só pode usar este efeito de \"Serpente Sinistra\" uma vez por turno."
+    }
+  }
 }

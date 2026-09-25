@@ -7,10 +7,30 @@
     "subtype": "normal"
   },
   "trap": null,
-  "text": "Banish 1 face-down monster on the field. If it was a Flip monster, both players banish every copy from their Decks.",
+  "text": "Target 1 face-down monster on the field; destroy that target, and if you do, banish it, then, if it was a Flip monster, each player reveals their Main Deck, then banishes all cards from it with that monster's name.",
   "limit": 2,
   "tier": 3,
   "effects": [
     "nobleman_of_crossout"
-  ]
+  ],
+  "db_id": 71044499,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Adliger der Auslöschung",
+      "text": "Wähle 1 verdecktes Monster auf dem Spielfeld; zerstöre jenes gewählte Ziel und falls du dies tust, verbanne es, dann, falls es ein Flippmonster war, zeigt jeder Spieler sein Main Deck vor, dann verbannt er alle Karten mit dem Namen jenes Monsters daraus."
+    },
+    "fr": {
+      "name": "Seigneur de la Suppression",
+      "text": "Ciblez 1 monstre face verso sur le Terrain ; détruisez la cible, et si vous le faites, bannissez-le, puis, si c'était un monstre Flip, chaque joueur révèle son Main Deck, puis en bannit toutes les cartes du nom du monstre."
+    },
+    "it": {
+      "name": "Nobiluomo dello Scambio",
+      "text": "Scegli come bersaglio 1 mostro coperto sul Terreno; distruggi quel bersaglio e, se lo fai, bandiscilo, poi, se era un mostro Scoperta, ogni giocatore rivela il suo Main Deck, poi bandisce da esso tutte le carte con il nome di quel mostro."
+    },
+    "pt": {
+      "name": "O Nobre de Crossout",
+      "text": "Escolha 1 monstro com a face para baixo no campo; destrua o alvo e, se isso acontecer, bana-o e, depois, se ele era um monstro de Virar, cada duelista revela o seu Deck Principal e, depois, bane dele todos os cards com aquele nome de monstro."
+    }
+  }
 }

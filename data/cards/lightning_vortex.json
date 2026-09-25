@@ -7,10 +7,30 @@
     "subtype": "normal"
   },
   "trap": null,
-  "text": "Discard 1 card: destroy all face-up monsters the opponent controls.",
+  "text": "Discard 1 card; destroy all face-up monsters your opponent controls.",
   "limit": 1,
   "tier": 2,
   "effects": [
     "lightning_vortex"
-  ]
+  ],
+  "db_id": 69162969,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Blitzeinschlag",
+      "text": "Wirf 1 Karte ab; zerstöre alle offenen Monster, die dein Gegner kontrolliert."
+    },
+    "fr": {
+      "name": "Vortex Foudroyant",
+      "text": "Défaussez 1 carte ; détruisez tous les monstres face recto contrôlés par votre adversaire."
+    },
+    "it": {
+      "name": "Fulmine Boltex",
+      "text": "Scarta 1 carta; distruggi tutti i mostri scoperti controllati dal tuo avversario."
+    },
+    "pt": {
+      "name": "Turbilhão de Relâmpagos",
+      "text": "Descarte 1 card; destrua todos os monstros com a face para cima que seu oponente controla."
+    }
+  }
 }

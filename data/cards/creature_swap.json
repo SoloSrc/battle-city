@@ -7,10 +7,30 @@
     "subtype": "normal"
   },
   "trap": null,
-  "text": "Each player chooses 1 monster they control and switches control of them. They cannot change position this turn.",
+  "text": "Each player chooses 1 monster they control and switches control of those monsters with each other. Those monsters cannot change their battle positions for the rest of this turn.",
   "limit": 2,
   "tier": 3,
   "effects": [
     "creature_swap"
-  ]
+  ],
+  "db_id": 31036355,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Kreaturentausch",
+      "text": "Jeder Spieler bestimmt 1 Monster, das er kontrolliert, und ihr tauscht die Kontrolle über jene Monster. Jene Monster können für den Rest dieses Spielzugs ihre Kampfpositionen nicht ändern."
+    },
+    "fr": {
+      "name": "Permutation de Créature",
+      "text": "Chaque joueur choisit 1 monstre qu'il contrôle et échange son contrôle avec celui choisi par l'adversaire. Le reste de ce tour, ces monstres ne peuvent pas changer de position de combat."
+    },
+    "it": {
+      "name": "Scambio-Creature",
+      "text": "Ogni giocatore seleziona 1 mostro che controlla e scambia il controllo di quel mostro con quello selezionato dall'avversario. Quei mostri non possono cambiare posizione per il resto di questo turno."
+    },
+    "pt": {
+      "name": "Troca de Criaturas",
+      "text": "Cada duelista seleciona 1 monstro que ele controla e eles trocam o controle desses monstros um com o outro. Esses monstros não podem mudar suas posições de batalha pelo resto deste turno."
+    }
+  }
 }

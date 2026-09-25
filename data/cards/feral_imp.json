@@ -12,8 +12,28 @@
   },
   "spell": null,
   "trap": null,
-  "text": "A playful little fiend that lurks in the dark and casts spells.",
+  "text": "A playful little fiend that lurks in the dark, waiting to attack an unwary enemy.",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 41392891,
+  "rarity": "common",
+  "i18n": {
+    "de": {
+      "name": "Wilder Kobold",
+      "text": "Ein verspielter kleiner Unterweltler, der in der Dunkelheit lauert, um einen ahnungslosen Feind anzugreifen."
+    },
+    "fr": {
+      "name": "Lutin Sauvage",
+      "text": "Petit démon joueur qui se tapit dans la pénombre, attendant d'attaquer un ennemi imprudent."
+    },
+    "it": {
+      "name": "Demone Selvaggio",
+      "text": "Vivace demonietto che si nasconde nell'oscurità, pronto ad attaccare nemici ignari."
+    },
+    "pt": {
+      "name": "Diabrete Selvagem",
+      "text": "Um pequeno demônio brincalhão que se esconde na escuridão, esperando para atacar um inimigo descuidado."
+    }
+  }
 }

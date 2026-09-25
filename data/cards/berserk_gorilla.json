@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "Must attack if able. Destroyed if it is switched to Defense Position.",
+  "text": "If this card is in face-up Defense Position, destroy this card. This card must attack if able.",
   "limit": 3,
   "tier": 2,
   "effects": [
     "berserk_gorilla"
-  ]
+  ],
+  "db_id": 39168895,
+  "rarity": "rare",
+  "i18n": {
+    "de": {
+      "name": "Rasender Gorilla",
+      "text": "Falls sich diese Karte in offener Verteidigungsposition befindet, zerstöre sie. Diese Karte muss angreifen, falls möglich."
+    },
+    "fr": {
+      "name": "Gorille Enragé",
+      "text": "Si cette carte est en Position de Défense face recto, détruisez cette carte. Cette carte doit attaquer, si possible."
+    },
+    "it": {
+      "name": "Gorilla Berserk",
+      "text": "Se questa carta è scoperta in Posizione di Difesa, distruggi questa carta. Questa carta deve attaccare se può farlo."
+    },
+    "pt": {
+      "name": "Gorila Enraivecido",
+      "text": "Se este card estiver com a face para cima em Posição de Defesa, destrua este card. Este card deve atacar se estiver apto."
+    }
+  }
 }

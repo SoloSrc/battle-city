@@ -7,10 +7,30 @@
   "trap": {
     "subtype": "normal"
   },
-  "text": "When an opponent's monster declares an attack: destroy all Attack Position monsters the opponent controls.",
+  "text": "When an opponent's monster declares an attack: Destroy all your opponent's Attack Position monsters.",
   "limit": 1,
   "tier": 2,
   "effects": [
     "mirror_force"
-  ]
+  ],
+  "db_id": 44095762,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Spiegelkraft",
+      "text": "Wenn ein Monster eines Gegners einen Angriff deklariert: Zerstöre alle Monster deines Gegners in Angriffsposition."
+    },
+    "fr": {
+      "name": "Force de Miroir",
+      "text": "Lorsqu'un monstre de l'adversaire déclare une attaque : détruisez tous les monstres en Position d'Attaque de votre adversaire."
+    },
+    "it": {
+      "name": "Forza Riflessa",
+      "text": "Quando un mostro dell'avversario dichiara un attacco: distruggi tutti i mostri in Posizione di Attacco del tuo avversario."
+    },
+    "pt": {
+      "name": "Força do Espelho",
+      "text": "Quando um monstro do oponente declarar um ataque: destrua todos os monstros em Posição de Ataque do seu oponente."
+    }
+  }
 }

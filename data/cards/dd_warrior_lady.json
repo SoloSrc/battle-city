@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "When it battles a monster: after damage calculation, banish both.",
+  "text": "After damage calculation, when this card battles an opponent's monster: You can banish that monster, also banish this card.",
   "limit": 1,
   "tier": 3,
   "effects": [
     "dd_warrior_lady"
-  ]
+  ],
+  "db_id": 7572887,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "D.D. Kriegerin",
+      "text": "Nach der Schadensberechnung, wenn diese Karte gegen ein Monster eines Gegners kämpft: Du kannst das Monster verbannen, zusätzlich verbanne diese Karte."
+    },
+    "fr": {
+      "name": "Dame Guerrière D.D.",
+      "text": "Après le calcul des dommages, lorsque cette carte combat un monstre de l'adversaire : vous pouvez bannir le monstre, et aussi, bannissez cette carte."
+    },
+    "it": {
+      "name": "Signora Guerriera D.D.",
+      "text": "Dopo il calcolo dei danni, quando questa carta combatte con un mostro dell'avversario: puoi bandire quel mostro, inoltre bandisci questa carta."
+    },
+    "pt": {
+      "name": "D.D. Lady Guerreira",
+      "text": "Depois do cálculo de dano, quando este card batalhar um monstro do oponente: você pode banir esse monstro e, além disso, bana este card."
+    }
+  }
 }

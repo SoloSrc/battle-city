@@ -7,10 +7,30 @@
     "subtype": "normal"
   },
   "trap": null,
-  "text": "Flip all the opponent's monsters face-up. Their monsters cannot attack for 3 of their turns.",
+  "text": "After this card's activation, it remains on the field, but you must destroy it during the End Phase of your opponent's 3rd turn. When this card is activated: If your opponent controls a face-down monster, flip all monsters they control face-up. While this card is face-up on the field, your opponent's monsters cannot declare an attack.",
   "limit": 1,
   "tier": 3,
   "effects": [
     "swords_of_revealing_light"
-  ]
+  ],
+  "db_id": 72302403,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Verräterische Schwerter",
+      "text": "Nach der Aktivierung dieser Karte verbleibt sie auf dem Spielfeld, aber du musst sie während der End Phase des 3. Spielzugs deines Gegners zerstören. Wenn diese Karte aktiviert wird: Falls dein Gegner ein verdecktes Monster kontrolliert, decke alle Monster auf, die er kontrolliert. Solange diese Karte offen auf dem Spielfeld liegt, können Monster deines Gegners keinen Angriff deklarieren."
+    },
+    "fr": {
+      "name": "Épées de Révélation de la Lumière",
+      "text": "Après activation de cette carte, elle reste sur le Terrain, mais vous devez la détruire durant la End Phase du 3e tour de votre adversaire. Lorsque cette carte est activée : si votre adversaire contrôle un monstre face verso, retournez face recto tous les monstres qu'il contrôle. Tant que cette carte est face recto sur le Terrain, les monstres de votre adversaire ne peuvent pas déclarer d'attaque."
+    },
+    "it": {
+      "name": "Spada Rivelatrice",
+      "text": "Dopo l'attivazione di questa carta, essa rimane sul Terreno, ma devi distruggerla durante la End Phase del 3º turno del tuo avversario. Quando questa carta viene attivata: se il tuo avversario controlla un mostro coperto, scopri tutti i mostri che controlla. Mentre questa carta è scoperta sul Terreno, i mostri del tuo avversario non possono dichiarare un attacco."
+    },
+    "pt": {
+      "name": "Espadas da Luz Reveladora",
+      "text": "Depois da ativação deste card, ele permanece no campo, mas você deve destruí-lo durante a Fase Final do 3º turno do seu oponente. Quando este card for ativado: se seu oponente controlar um monstro com a face para baixo, vire com a face para cima todos os monstros que ele controla. Enquanto este card estiver com a face para cima no campo, os monstros do seu oponente não podem declarar um ataque."
+    }
+  }
 }

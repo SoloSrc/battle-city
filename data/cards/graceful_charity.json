@@ -12,5 +12,25 @@
   "tier": 2,
   "effects": [
     "graceful_charity"
-  ]
+  ],
+  "db_id": 79571449,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Elegante Wohltäterin",
+      "text": "Ziehe 3 Karten, dann wirf dann 2 Karten ab."
+    },
+    "fr": {
+      "name": "Charité Gracieuse",
+      "text": "Piochez 3 cartes, puis défaussez 2 cartes."
+    },
+    "it": {
+      "name": "Carità Graziosa",
+      "text": "Pesca 3 carte, poi scarta 2 carte."
+    },
+    "pt": {
+      "name": "Caridade Graciosa",
+      "text": "Compre 3 cards e, depois, descarte 2 cards."
+    }
+  }
 }

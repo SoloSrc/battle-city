@@ -7,10 +7,30 @@
   "trap": {
     "subtype": "normal"
   },
-  "text": "Destroy 1 Spell or Trap Card the opponent controls, then you may Set 1 Spell or Trap Card from the hand.",
+  "text": "Target 1 Spell/Trap your opponent controls; destroy that target, then you can Set 1 Spell/Trap from your hand.",
   "limit": 3,
   "tier": 2,
   "effects": [
     "dust_tornado"
-  ]
+  ],
+  "db_id": 60082869,
+  "rarity": "super_rare",
+  "i18n": {
+    "de": {
+      "name": "Staubtornado",
+      "text": "Wähle 1 Zauber/Falle, den oder die dein Gegner kontrolliert; zerstöre das gewählte Ziel, dann kannst du 1 Zauber/Falle von deiner Hand setzen."
+    },
+    "fr": {
+      "name": "Tornade de Poussière",
+      "text": "Ciblez 1 Magie/Piège contrôlé par votre adversaire ; détruisez la cible, puis vous pouvez Poser 1 Magie/Piège depuis votre main."
+    },
+    "it": {
+      "name": "Tornado di Polvere",
+      "text": "Scegli come bersaglio 1 Magia/Trappola controllata dal tuo avversario; distruggi quel bersaglio, poi puoi Posizionare 1 Magia/Trappola dalla tua mano."
+    },
+    "pt": {
+      "name": "Tornado de Pó",
+      "text": "Escolha 1 Magia/Armadilha que seu oponente controla; destrua o alvo e, depois, você pode Baixar 1 Magia/Armadilha da sua mão."
+    }
+  }
 }

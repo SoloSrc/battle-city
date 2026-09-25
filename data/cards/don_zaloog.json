@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "When it inflicts battle damage: either discard 1 random card from the opponent's hand or send the top 2 cards of their Deck to the Graveyard.",
+  "text": "When this card inflicts battle damage to your opponent: You can activate 1 of these effects;\r\n● Discard 1 random card from their hand.\r\n● Send the top 2 cards of their Deck to the GY.",
   "limit": 3,
   "tier": 3,
   "effects": [
     "don_zaloog"
-  ]
+  ],
+  "db_id": 76922029,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Don Zaloog",
+      "text": "Wenn diese Karte deinem Gegner Kampfschaden zufügt: Du kannst 1 dieser Effekte aktivieren;\n●Wirf 1 zufällige Karte von seiner Hand ab.\n●Lege die obersten 2 Karten seines Decks auf den Friedhof."
+    },
+    "fr": {
+      "name": "Don Zaloog",
+      "text": "Lorsque cette carte inflige des dommages de combat à votre adversaire : vous pouvez activer 1 de ces effets ;\n●Défaussez-lui 1 carte au hasard.\n●Envoyez les 2 cartes du dessus de son Deck au Cimetière."
+    },
+    "it": {
+      "name": "Don Zaloog",
+      "text": "Quando questa carta infligge danno da combattimento al tuo avversario: puoi attivare 1 di questi effetti;\n●Scarta 1 carta a caso dalla sua mano.\n●Manda le prime 2 carte del suo Deck al Cimitero."
+    },
+    "pt": {
+      "name": "Dom Zaloog",
+      "text": "Quando este card causar dano de batalha ao seu oponente: você pode ativar 1 desses efeitos;\n●Descarte 1 card aleatório da mão dele.\n●Envie os 2 cards do topo do Deck dele para o Cemitério."
+    }
+  }
 }

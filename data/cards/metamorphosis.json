@@ -7,10 +7,30 @@
     "subtype": "normal"
   },
   "trap": null,
-  "text": "Tribute 1 monster: Special Summon 1 Fusion Monster of the same Level from your Fusion Deck.",
+  "text": "Tribute 1 monster. Special Summon 1 Fusion Monster from your Extra Deck with the same Level as the Tributed monster.",
   "limit": 3,
   "tier": 3,
   "effects": [
     "metamorphosis"
-  ]
+  ],
+  "db_id": 46411259,
+  "rarity": "common",
+  "i18n": {
+    "de": {
+      "name": "Metamorphose",
+      "text": "Biete 1 Monster auf deiner Spielfeldseite als Tribut an, um 1 Fusionsmonster der gleichen Stufe als Spezialbeschwörung aus deinem Extra Deck zu beschwören."
+    },
+    "fr": {
+      "name": "Métamorphose",
+      "text": "Sacrifiez 1 monstre sur votre Terrain. Faites l'Invocation Spéciale de votre Extra Deck, d'1 Monstre de Fusion de même Niveau que celui du monstre Sacrifié."
+    },
+    "it": {
+      "name": "Metamorfosi",
+      "text": "Offri 1 mostro sul tuo Terreno come Tributo. Evoca tramite Evocazione Speciale 1 Mostro Fusione dello stesso Livello dal tuo Extra Deck."
+    },
+    "pt": {
+      "name": "Metamorfose",
+      "text": "Ofereça 1 monstro no seu Campo como Tributo para Invocar, por Invocação-Especial, 1 Monstro-Fusão com o mesmo Nível do seu Deck de Fusão."
+    }
+  }
 }

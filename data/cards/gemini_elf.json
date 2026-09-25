@@ -12,8 +12,28 @@
   },
   "spell": null,
   "trap": null,
-  "text": "Twin elf sisters who take turns attacking.",
+  "text": "Elf twins that alternate their attacks.",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 69140098,
+  "rarity": "secret_rare",
+  "i18n": {
+    "de": {
+      "name": "Elfenzwillinge",
+      "text": "Elfische Zwillinge, die abwechselnd angreifen."
+    },
+    "fr": {
+      "name": "Gemini Elf",
+      "text": "Ces elfes jumeaux attaquent tour à tour."
+    },
+    "it": {
+      "name": "Elfi Gemelli",
+      "text": "Elfi gemelli che alternano i loro attacchi."
+    },
+    "pt": {
+      "name": "Elfos Gêmeos",
+      "text": "Elfos gêmeos que alternam os seus ataques."
+    }
+  }
 }

@@ -1,13 +1,13 @@
 {
-  "id": "good_elf",
-  "name": "Good Elf",
+  "id": "bad_rarity",
+  "name": "Bad Rarity",
   "kind": "monster",
   "monster": {
     "type": "Spellcaster",
     "attribute": "EARTH",
     "level": 4,
-    "atk": 1900,
-    "def": 900,
+    "atk": 1000,
+    "def": 1000,
     "category": "normal"
   },
   "spell": null,
@@ -16,9 +16,9 @@
   "limit": 3,
   "tier": 1,
   "effects": [],
-  "db_id": 1,
-  "rarity": "common",
+  "db_id": "not_a_number",
+  "rarity": "legendary",
   "i18n": {
-    "pt": { "name": "Elfo Bom", "text": "" }
+    "xx": { "name": "", "text": "" }
   }
 }

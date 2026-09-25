@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "After it attacks it switches to Defense Position and cannot change position until the end of your next turn.",
+  "text": "If this card attacks, it is changed to Defense Position at the end of the Battle Phase, and its battle position cannot be changed until the End Phase of your next turn.",
   "limit": 3,
   "tier": 2,
   "effects": [
     "goblin_attack_force"
-  ]
+  ],
+  "db_id": 78658564,
+  "rarity": "ultra_rare",
+  "i18n": {
+    "de": {
+      "name": "Goblin Angriffstrupp",
+      "text": "Falls diese Karte angreift, wird sie am Ende der Battle Phase in die Verteidigungsposition geändert und ihre Kampfposition kann bis zur End Phase deines nächsten Spielzugs nicht geändert werden."
+    },
+    "fr": {
+      "name": "Troupe d'Assaut Gobeline",
+      "text": "Si cette carte attaque, elle est changée en Position de Défense à la fin de la Battle Phase, et jusqu'à la End Phase de votre prochain tour, sa position de combat ne peut pas être changée."
+    },
+    "it": {
+      "name": "Forza d'Attacco Goblin",
+      "text": "Se questa carta attacca, essa viene messa in Posizione di Difesa alla fine della Battle Phase, e la sua posizione non può essere cambiata fino alla End Phase del tuo prossimo turno."
+    },
+    "pt": {
+      "name": "Força de Ataque dos Goblins",
+      "text": "Se este card atacar, ele é colocado em Posição de Defesa no final da Fase de Batalha e sua posição de batalha não pode ser mudada até a Fase Final do seu próximo turno."
+    }
+  }
 }

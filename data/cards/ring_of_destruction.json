@@ -7,10 +7,30 @@
   "trap": {
     "subtype": "normal"
   },
-  "text": "Destroy 1 face-up monster; both players take damage equal to its ATK.",
+  "text": "During your opponent's turn: Target 1 face-up monster your opponent controls whose ATK is less than or equal to their LP; destroy that face-up monster, and if you do, take damage equal to its original ATK, then inflict damage to your opponent, equal to the damage you took. You can only activate 1 \"Ring of Destruction\" per turn.",
   "limit": 1,
   "tier": 3,
   "effects": [
     "ring_of_destruction"
-  ]
+  ],
+  "db_id": 83555666,
+  "rarity": "secret_rare",
+  "i18n": {
+    "de": {
+      "name": "Ring der Zerstörung",
+      "text": "Während des Spielzugs deines Gegners: Wähle 1 offenes Monster, das dein Gegner kontrolliert und dessen ATK kleiner oder gleich seinen LP sind; zerstöre das offene Monster und falls du dies tust, erhältst du Schaden in Höhe seiner Grund-ATK, dann füge deinem Gegner Schaden in Höhe des Schadens zu, den du erhalten hast. Du kannst nur 1 „Ring der Zerstörung“ pro Spielzug aktivieren."
+    },
+    "fr": {
+      "name": "Anneau de Destruction",
+      "text": "Durant le tour de votre adversaire : ciblez 1 monstre face recto contrôlé par votre adversaire dont l'ATK est inférieure ou égale à ses LP ; détruisez le monstre face recto, et si vous le faites, recevez des dommages égaux à son ATK d'origine, puis infligez des dommages à votre adversaire égaux aux dommages que vous avez reçus. Vous ne pouvez activer qu'1 \"Anneau de Destruction\" par tour."
+    },
+    "it": {
+      "name": "Anello della Distruzione",
+      "text": "Durante il turno del tuo avversario: scegli come bersaglio 1 mostro scoperto controllato dal tuo avversario con ATK pari o inferiore ai suoi LP; distruggi quel mostro scoperto e, se lo fai, subisci danno pari al suo ATK originale, poi infliggi al tuo avversario danno pari al danno che hai subito tu. Puoi attivare solo 1 \"Anello della Distruzione\" per turno."
+    },
+    "pt": {
+      "name": "Anel da Destruição",
+      "text": "Durante o turno do seu oponente: escolha 1 monstro com a face para cima que seu oponente controla cujo ATK seja menor ou igual que os PV dele; destrua esse monstro com a face para cima e, se isso acontecer, sofra dano igual ao ATK original dele e, depois, cause dano ao seu oponente igual ao dano que você sofreu. Você só pode ativar 1 \"Anel da Destruição\" por turno."
+    }
+  }
 }

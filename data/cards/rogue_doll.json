@@ -12,8 +12,28 @@
   },
   "spell": null,
   "trap": null,
-  "text": "A doll possessed by a rogue spirit, wielding a sword blessed by the light.",
+  "text": "A deadly doll gifted with mystical power, it is particularly powerful when attacking against dark forces.",
   "limit": 3,
   "tier": 1,
-  "effects": []
+  "effects": [],
+  "db_id": 91939608,
+  "rarity": "common",
+  "i18n": {
+    "de": {
+      "name": "Höllenwesenpuppe",
+      "text": "Eine tödliche Puppe mit mystischer Macht; sie ist besonders stark, wenn sie gegen Mächte der Finsternis kämpft."
+    },
+    "fr": {
+      "name": "Poupée Brigande",
+      "text": "Poupée meurtrière dotée de pouvoirs mystérieux. Elle est tout particulièrement puissante lorsqu'elle s'attaque aux forces du mal."
+    },
+    "it": {
+      "name": "Bambola Mortale",
+      "text": "Bambola mortale dai poteri magici, questa creatura si dimostra particolarmente potente quando attacca le forze oscure."
+    },
+    "pt": {
+      "name": "Boneca Marota",
+      "text": "Uma boneca letal dotada de poderes místicos. É especialmente poderosa ao atacar as forças das trevas."
+    }
+  }
 }

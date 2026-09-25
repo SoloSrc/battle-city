@@ -12,10 +12,30 @@
   },
   "spell": null,
   "trap": null,
-  "text": "FLIP: destroy all monsters on the field, then each player reveals the top 5 cards of their Deck, Special Summons the Level 4 or lower monsters and adds the rest to the hand.",
+  "text": "FLIP: Destroy all monsters on the field, then both players reveal the top 5 cards from their Decks, then Special Summon all revealed Level 4 or lower monsters in face-up Attack Position or face-down Defense Position, also add any remaining cards to their hand. (If either player has less than 5 cards in their Deck, reveal as many as possible.)",
   "limit": 1,
   "tier": 4,
   "effects": [
     "cyber_jar"
-  ]
+  ],
+  "db_id": 34124316,
+  "rarity": "rare",
+  "i18n": {
+    "de": {
+      "name": "Cyberdose",
+      "text": "FLIPP: Zerstöre alle Monster auf dem Spielfeld, dann zeigen beide Spieler die obersten 5 Karten ihrer Decks vor, dann beschwören sie alle vorgezeigten Monster der Stufe 4 oder niedriger als Spezialbeschwörung in die offene Angriffsposition oder die verdeckte Verteidigungsposition, zusätzlich fügen sie die restlichen Karten ihrer Hand hinzu. (Falls ein Spieler weniger als 5 Karten in seinem Deck hat, zeigt er möglichst viele vor.)"
+    },
+    "fr": {
+      "name": "Cyberjarre",
+      "text": "FLIP : Détruisez tous les monstres sur le Terrain, puis les deux joueurs révèlent les 5 cartes du dessus de leur Deck, puis Invoquent Spécialement tous les monstres de max. Niveau 4 révélés en Position d'Attaque face recto ou en Position de Défense face verso, et aussi, ajoutent les cartes restantes à leur main. (Si un joueur a moins de 5 cartes dans son Deck, il en révèle autant que possible.)"
+    },
+    "it": {
+      "name": "Cyber Giara",
+      "text": "SCOPRI: Distruggi tutti i mostri sul Terreno, poi entrambi i giocatori rivelano le prime 5 carte del loro Deck, poi Evocano Specialmente, scoperti in Posizione di Attacco o coperti in Posizione di Difesa, tutti i mostri di Livello 4 o inferiore rivelati e inoltre aggiungono le carte rimanenti alla loro mano. (Se un giocatore ha meno di 5 carte nel suo Deck, rivela quelle rimaste.)"
+    },
+    "pt": {
+      "name": "Jarro Cibernético",
+      "text": "VIRE: Destrua todos os monstros no campo e, depois, os dois duelistas revelam os 5 cards do topo dos seus Decks e, depois, Invocam por Invocação-Especial, com a face para cima em Posição de Ataque ou com a face para baixo em Posição de Defesa, todos os monstros revelados de Nível 4 ou menos e, além disso, adicionam quaisquer cards restantes às suas mãos. (Se algum dos duelistas tiver menos de 5 cards em seu Deck, ele revela tantos quanto possível.)"
+    }
+  }
 }
